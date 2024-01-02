@@ -1,4 +1,4 @@
-import SignIn from '../page/signIn'
+import SignIn from '../pages/signIn'
 
 export const routers = [
     {
