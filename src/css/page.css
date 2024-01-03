@@ -5,8 +5,25 @@
 .signInPage fieldset{width: 340px; padding: 80px 40px; background-color: white; box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.10); box-sizing: border-box;}
 .signInPage fieldset h2{font-size: 20px; line-height: 24px; font-weight: 700; text-align: center; margin-bottom: 30px;}
 .signInPage fieldset ul{margin-bottom: 30px;}
-.signInPage fieldset ul li{}
 .signInPage fieldset ul li:not(:last-child){margin-bottom: 10px;}
-.signInPage fieldset ul li input{}
 .signInPage fieldset input[type="submit"]{width: 100%; height: 40px; color: white; background-color: var(--color-point01);}
-.signInPage p{font-size: 12px; line-height: 14px; font-weight: 400; color: var(--color-button); margin-top: 20px;}
+.signInPage p{max-width: 100%; font-size: 12px; line-height: 14px; font-weight: 400; color: var(--color-button); margin-top: 20px;}
+
+
+/* 메인 페이지 */
+.mainPage{}
+.mainPage > a{min-width: 100px; height: 40px; display: flex; align-items: center; padding-inline: 20px; background-color: var(--color-division); border-radius: 4px; margin-bottom: 60px;}
+.mainPage > a::before{content: attr(title); font-size: 13px; font-weight: 700; margin-right: 40px;}
+.mainPage > a::after{content: ''; order: -1; width: 16px; aspect-ratio: 1; background: url(../images/icon-notice.png) no-repeat center / cover; margin-right: 10px;}
+.mainPage > a time{font-size: 12px; font-weight: 400; color: var(--color-font03); margin-right: 10px;}
+.mainPage > a p{font-size: 13px; font-weight: 400;}
+.mainPage > div{}
+.mainPage > div:not(:last-of-type){margin-bottom: 60px;}
+/* 텝 */
+.mainPage > div > ul{display: flex; padding-bottom: 20px; border-bottom: 1px solid var(--color-line); margin-bottom: 20px;}
+.mainPage > div > ul li:not(:first-of-type){display: flex; align-items: center;}
+.mainPage > div > ul li:not(:first-of-type)::before{content: ''; width: 1px; height: 16px; background-color: var(--color-line); margin-inline: 12px;}
+.mainPage > div > ul li button{font-size: 20px; line-height: 24px; font-weight: 700; color: var(--color-button);}
+.mainPage > div > ul li button.active{color: var(--color-font01);}
+/* 셀렉트 */
+.mainPage .selectArea{display: flex; gap: 10px; margin-bottom: 20px;}
