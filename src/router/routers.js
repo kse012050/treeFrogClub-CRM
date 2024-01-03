@@ -1,5 +1,5 @@
 import SignIn from '../pages/signIn'
-import Main from '../pages/Main'
+import Main from '../pages/main/Main'
 import Root from '../pages/Root'
 
 export const routers = [

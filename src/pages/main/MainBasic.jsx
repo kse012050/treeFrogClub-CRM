@@ -1,18 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Select from '../components/Select';
+import Select from '../../components/Select';
 
-export default function Main() {
+export default function MainBasic() {
     return (
-        <>
-            <Link to="" title="공지알림">
-                <time>2023/11/15 11:00</time>
-                <p>
-                    <span>사업지원팀 공통 공지사항입니다~! 사업지원팀 공통 공지사항입니다~! </span>
-                </p>
-            </Link>
-
-            <div>
+        <div className='basicPage'>
+             <div>
                 <ul>
                     <li><button className='active'>부서별 매출</button></li>
                     <li><button>사용자별 매출</button></li>
@@ -187,7 +179,7 @@ export default function Main() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 
