@@ -1,6 +1,8 @@
 import SignIn from '../pages/signIn'
-import Main from '../pages/main/Main'
 import Root from '../pages/Root'
+import Main from '../pages/main/Main'
+import CustomerList from '../pages/customer/List'
+import Test from '../pages/customer/Test';
 
 export const routers = [
     {
@@ -14,5 +16,20 @@ export const routers = [
             { index: true, element: <Main />}
         ]
     },
+    {
+        path: "/customer",
+        element: <Root />,
+        children: [
+            { 
+                path: 'list', element: <CustomerList />,
+                /* children : [{
+                    path: 'test', element: <Test />
+                }] */
+            },
+            {
+                path: 'list/:id', element: <Test />,
+            }
+        ]
+    }
 ];
 

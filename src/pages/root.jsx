@@ -3,13 +3,13 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import Memu from '../components/Memu';
 
 export default function Root() {
-    const pageName = useLocation().pathname.slice(1);
+    const pageName = useLocation().pathname.slice(1).split('/');
     console.log(pageName);
     return (
         <>
             <header>
                 <h1>
-                    <Link to={''}>
+                    <Link to={'/main'}>
                         <img src={require('../images/logo-header.png')} alt="개인투자자를 위한 주식정보회사 청개구리 투자클럽" />
                     </Link>
                     고객 DB 관리 시스템
@@ -20,7 +20,7 @@ export default function Root() {
             </header>
             <div className={`subPage`}>
                 <Memu />
-                <div className={`${pageName}Page`}>
+                <div className={`${pageName[0]}Page ${pageName[1] ? pageName[1] + 'Page' : ''}`}>
                     <Outlet />
                 </div>
             </div>

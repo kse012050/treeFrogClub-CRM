@@ -16,7 +16,8 @@
 .mainPage > a::before{content: attr(title); font-size: 13px; font-weight: 700; margin-right: 40px;}
 .mainPage > a::after{content: ''; order: -1; width: 16px; aspect-ratio: 1; background: url(../images/icon-notice.png) no-repeat center / cover; margin-right: 10px;}
 .mainPage > a time{font-size: 12px; font-weight: 400; color: var(--color-font03); margin-right: 10px;}
-.mainPage > a p{font-size: 13px; font-weight: 400;}
+.mainPage > a p{font-size: 13px; font-weight: 400; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.mainPage > a p span{white-space: nowrap; overflow: hidden;}
 /* 메인 페이지 - 기본 페이지 */
 /* .mainPage .basicPage > div:not(:last-of-type){margin-bottom: 60px;} */
 /* 메인 페이지 - 기본 페이지 - 텝 */

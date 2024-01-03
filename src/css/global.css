@@ -1,3 +1,5 @@
+#root{min-width: 1280px;}
+
 
 /* input 공통 */
 input{width: 100%; font-size: 13px; font-weight: 400; border-radius: 4px;}
@@ -24,11 +26,23 @@ input[type="submit"]{border: none;}
 .boardBox :is(.board-top, .board-center li, .board-bottom){display: flex; align-items: center; gap: 10px; height: 56px; padding-inline: 10px;}
 .boardBox :is(.board-top, .board-bottom){background-color: var(--color-face);}
 .boardBox :is(.board-top, .board-bottom) *{font-weight: 700;}
-.boardBox :is(.board-top *, .board-center li > *, .board-bottom *){}
+/* .boardBox :is(.board-top *, .board-center li > *, .board-bottom *){} */
 .boardBox .board-top > *:not(:last-child){display: flex; justify-content: space-between; align-items: center;}
 .boardBox .board-top > *:not(:last-child)::after{content: ''; width: 1px; height: 16px; background-color: var(--color-line);}
 .boardBox .board-center li{border-bottom: 1px solid var(--color-division);}
 .boardBox .board-center li > *{font-weight: 400;}
+
+
+/* 검색 */
+.searchBox{padding: 20px; border: 1px solid var(--color-line);}
+.searchBox > button{width: 100%; text-align: 15px; line-height: 18px; font-weight: 700; text-align: left;}
+.searchBox form{margin-top: 30px; font-size: 13px; line-height: 16px;}
+.searchBox form fieldset:not(:last-of-type){padding-bottom: 30px; border-bottom: 1px solid var(--color-line); margin-bottom: 30px;}
+.searchBox form fieldset ul{display: flex; flex-wrap: wrap; gap: 30px 40px;}
+.searchBox form fieldset ul li{width: calc((100% - 80px) / 3);}
+.searchBox form fieldset ul li > label:first-child{font-weight: 700; display: block; margin-bottom: 10px;}
+.searchBox form fieldset ul li div:has([type="checkbox"]){display: flex; flex-wrap: wrap; gap: 15px 30px;}
+.searchBox form fieldset ul li div:has([type="checkbox"]) label{/* width: 130px; */ flex: 1; white-space: nowrap ;}
 
 
 /* 서브 페이지 */
@@ -40,6 +54,7 @@ input[type="submit"]{border: none;}
 .subPage nav strong:not(:first-of-type){padding-top: 25px; margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1);}
 .subPage nav ul li:not(:last-child){margin-bottom: 15px;}
 .subPage nav ul li a{display: block; font-size: 13px; line-height: 16px; font-weight: 400; color: rgba(255, 255, 255, 0.7);}
+.subPage nav ul li a.active{color: var(--color-point01);}
 .subPage nav b + ul{margin-bottom: 30px;}
 .subPage nav b + ul li a{padding-inline: 10px;}
 .subPage nav p{font-size: 11px; line-height: 13px; color: rgba(255, 255, 255, 0.5); font-weight: 400; text-align: center; margin-top: 40px;}

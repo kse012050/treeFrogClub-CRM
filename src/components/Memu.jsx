@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Memu() {
     return (
         <nav>
             <strong>고객 DB 관리</strong>
             <ul>
-                <li><Link to={''}>통합 고객 목록</Link></li>
+                <li><NavLink to={'/customer/list'}>통합 고객 목록</NavLink></li>
                 <li><Link to={''}>고객 등록</Link></li>
             </ul>
             <strong>결제 관리</strong>
