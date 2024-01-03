@@ -30,13 +30,12 @@ export default function Memu() {
                 <li><Link to={''}>고객목록 설정</Link></li>
                 <li><Link to={''}>속성값 설정</Link></li>
             </ul>
-            <strong>권한 설정</strong>
+            <b>권한 설정</b>
             <ul>
                 <li><Link to={''}>역할 관리</Link></li>
                 <li><Link to={''}>역할 권한 관리</Link></li>
             </ul>
-            <strong>회원사 관리</strong>
-            <b></b>
+            <b>회원사 관리</b>
             <ul>
                 <li><Link to={''}>사용자접속이력</Link></li>
                 <li><Link to={''}>고객삭제이력</Link></li>
