@@ -17,7 +17,8 @@
 .mainPage > a::after{content: ''; order: -1; width: 16px; aspect-ratio: 1; background: url(../images/icon-notice.png) no-repeat center / cover; margin-right: 10px;}
 .mainPage > a time{font-size: 12px; font-weight: 400; color: var(--color-font03); margin-right: 10px;}
 .mainPage > a p{font-size: 13px; font-weight: 400; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-.mainPage > a p span{white-space: nowrap; overflow: hidden;}
+.mainPage > a[data-new] p{padding-right: 15px; position: relative;}
+.mainPage > a[data-new] p::after{content: ''; position: absolute; right: 0; top: 0; width: 7px; aspect-ratio: 1; background: url(../images/icon-new.png) no-repeat center / cover;}
 /* 메인 페이지 - 기본 페이지 */
 /* .mainPage .basicPage > div:not(:last-of-type){margin-bottom: 60px;} */
 /* 메인 페이지 - 기본 페이지 - 텝 */

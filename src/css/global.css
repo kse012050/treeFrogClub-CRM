@@ -46,8 +46,8 @@ input[type="submit"]{border: none;}
 
 
 /* 서브 페이지 */
-.subPage{display: flex;}
-.subPage nav{width: 200px; flex-shrink: 0; min-height: calc(100vh - var(--headerHeight)); padding: 25px 20px; box-sizing: border-box; background-color: #333;}
+.subPage{display: flex; --navWidth: 200px;}
+.subPage nav{width: var(--navWidth); flex-shrink: 0; min-height: calc(100vh - var(--headerHeight)); padding: 25px 20px; box-sizing: border-box; background-color: #333;}
 .subPage nav :is(strong, b){color: white; font-weight: 700; display: block; margin-bottom: 15px;}
 .subPage nav strong{font-size: 15px; line-height: 18px;}
 .subPage nav b{font-size: 13px; line-height: 16px;}
@@ -58,7 +58,7 @@ input[type="submit"]{border: none;}
 .subPage nav b + ul{margin-bottom: 30px;}
 .subPage nav b + ul li a{padding-inline: 10px;}
 .subPage nav p{font-size: 11px; line-height: 13px; color: rgba(255, 255, 255, 0.5); font-weight: 400; text-align: center; margin-top: 40px;}
-.subPage > [class*="Page"]{flex: 1; padding: 30px 40px 60px;}
+.subPage > [class*="Page"]{width: calc(100% - var(--navWidth)); padding: 30px 40px 60px; box-sizing: border-box;}
 .subPage > [class*="Page"] > [class*="Page"] > div:not(:last-of-type){margin-bottom: 60px;}
 
 
