@@ -18,9 +18,11 @@ export default function Root() {
                 <Link to="">정보변경</Link>
                 <button>로그아웃</button>
             </header>
-            <div className={`${pageName}Page subPage`}>
+            <div className={`subPage`}>
                 <Memu />
-                <Outlet />
+                <div className={`${pageName}Page`}>
+                    <Outlet />
+                </div>
             </div>
         </>
     );
