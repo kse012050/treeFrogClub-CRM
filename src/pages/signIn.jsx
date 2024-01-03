@@ -4,7 +4,7 @@ export default function signIn() {
     return (
         <div className='signInPage'>
             <h1>
-                <img src={require('../images/logo-signIn.png')} alt="" />
+                <img src={require('../images/logo-signIn.png')} alt="개인투자자를 위한 주식정보회사 청개구리 투자클럽" />
             </h1>
             <form>
                 <fieldset>

@@ -1,4 +1,6 @@
 import SignIn from '../pages/signIn'
+import Main from '../pages/Main'
+import Root from '../pages/Root'
 
 export const routers = [
     {
@@ -6,8 +8,11 @@ export const routers = [
         element: <SignIn />,
     },
     {
-        path: "/test",
-        element: <div>test</div>,
+        path: "/main",
+        element: <Root />,
+        children: [
+            { index: true, element: <Main />}
+        ]
     },
 ];
 
