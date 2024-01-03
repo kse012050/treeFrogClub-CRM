@@ -19,6 +19,18 @@ input[type="submit"]{border: none;}
 .selectBox-month button::after{content: '월';}
 
 
+/* 게시판 */
+.boardBox{font-size: 13px; line-height: 16px;}
+.boardBox :is(.board-top, .board-center li, .board-bottom){display: flex; align-items: center; gap: 10px; height: 56px; padding-inline: 10px;}
+.boardBox :is(.board-top, .board-bottom){background-color: var(--color-face);}
+.boardBox :is(.board-top, .board-bottom) *{font-weight: 700;}
+.boardBox :is(.board-top *, .board-center li > *, .board-bottom *){}
+.boardBox .board-top > *:not(:last-child){display: flex; justify-content: space-between; align-items: center;}
+.boardBox .board-top > *:not(:last-child)::after{content: ''; width: 1px; height: 16px; background-color: var(--color-line);}
+.boardBox .board-center li{border-bottom: 1px solid var(--color-division);}
+.boardBox .board-center li > *{font-weight: 400;}
+
+
 /* 서브 페이지 */
 .subPage{display: flex;}
 .subPage nav{width: 200px; flex-shrink: 0; min-height: calc(100vh - var(--headerHeight)); padding: 25px 20px; box-sizing: border-box; background-color: #333;}

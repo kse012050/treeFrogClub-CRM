@@ -27,3 +27,47 @@
 .mainPage > div > ul li button.active{color: var(--color-font01);}
 /* 셀렉트 */
 .mainPage .selectArea{display: flex; gap: 10px; margin-bottom: 20px;}
+/* 정보 */
+.mainPage .infoArea{display: flex; gap: 13px;}
+.mainPage .infoArea .graphArea{flex: 1; padding-block: 20px;}
+.mainPage .infoArea .graphArea div{width: 280px; aspect-ratio: 1; 
+    border: 2px solid var(--color-point01); box-sizing: border-box; border-radius: 100%; margin-inline: auto;
+}
+.mainPage .infoArea .graphArea ul{max-width: 287px; margin-inline: auto; margin-top: 40px; display: flex; flex-wrap: wrap; row-gap: 12px;}
+.mainPage .infoArea .graphArea ul li{display: flex; align-items: center; font-size: 12px; font-weight: 400;}
+.mainPage .infoArea .graphArea ul li::before{content: ''; width: 16px; aspect-ratio: 1; margin-right: 4px; border-radius: 100%;}
+.mainPage .infoArea .graphArea ul li:nth-child(3n + 1){width: 32%;}
+.mainPage .infoArea .graphArea ul li:nth-child(3n + 2){width: 42.85%;}
+.mainPage .infoArea .graphArea ul li:nth-child(3n + 3){width: 25.15%;}
+.mainPage .infoArea .graphArea ul li:nth-child(1)::before{background-color: #FEA89B;;}
+.mainPage .infoArea .graphArea ul li:nth-child(2)::before{background-color: #FDBF6C;}
+.mainPage .infoArea .graphArea ul li:nth-child(3)::before{background-color: #FCD665;}
+.mainPage .infoArea .graphArea ul li:nth-child(4)::before{background-color: #7DDB83;}
+.mainPage .infoArea .graphArea ul li:nth-child(5)::before{background-color: #74CBCA;}
+.mainPage .infoArea .graphArea ul li:nth-child(6)::before{background-color: #79C0FC;}
+.mainPage .infoArea .graphArea ul li:nth-child(7)::before{background-color: #BF9DFC;}
+.mainPage .infoArea .graphArea ul li:nth-child(8)::before{background-color: #FFA6D7;}
+.mainPage .infoArea .graphArea ul li:nth-child(9)::before{background-color: #B78F8F;}
+.mainPage .infoArea .boardBox{width: 520px; flex-shrink: 0;}
+.mainPage .infoArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 50;}
+.mainPage .infoArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 120;}
+.mainPage .infoArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 110;}
+.mainPage .infoArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 110;}
+.mainPage .infoArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 70;}
+.mainPage .infoArea .boardBox .board-center{max-height: 336px; overflow: auto;}
+.mainPage .infoArea .boardBox .board-center::-webkit-scrollbar{ 
+    /* scrollbar 전체 설정 */
+    width: 6px;    
+    /* 세로 스크롤의 가로 크기 */
+    /* 가로 스크롤의 세로 크기 */
+}
+.mainPage .infoArea .boardBox .board-center::-webkit-scrollbar-track{width: 5px;}
+.mainPage .infoArea .boardBox .board-center::-webkit-scrollbar-thumb{
+    width: 6px;
+    background-color: rgba(99, 99, 99, 0.5);
+    border-radius: 5px;
+    /* 드래스할 수 있는 스크롤 손잡이 (scrollbar) */
+}
+
+
+
