@@ -55,7 +55,7 @@ export default function List() {
                                 <label htmlFor="">고객구분</label>
                                 <Select name={'customer'} />
                             </li>
-                            <li>
+                            <li className='fill-two'>
                                 <label htmlFor="">고객 상세구분</label>
                                 <div>
                                     <input type="checkbox" />
@@ -96,10 +96,10 @@ export default function List() {
                     </fieldset>
                     <fieldset>
                         <ul>
-                            <li>
+                            <li className='fill-three'>
                                 <label htmlFor="">상담상태</label>
                                 <div>
-                                    <input type="checkbox" />
+                                    <input type="checkbox"/>
                                     <label htmlFor="">분배(신규)</label>
                                     <input type="checkbox" />
                                     <label htmlFor="">분배(재신청)</label>
@@ -149,24 +149,25 @@ export default function List() {
                                 <label htmlFor="">유료 기간</label>
                                 <div>
                                     <input type="radio" />
-                                    <label htmlFor=""></label>
+                                    <label htmlFor="">시작일 검색</label>
                                     <input type="radio" />
-                                    <label htmlFor=""></label>
+                                    <label htmlFor="">종료일 검색</label>
+                                    <div></div>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">무료체험 기간</label>
                                 <div>
                                     <input type="radio" />
-                                    <label htmlFor=""></label>
+                                    <label htmlFor="">시작일 검색</label>
                                     <input type="radio" />
-                                    <label htmlFor=""></label>
+                                    <label htmlFor="">종료일 검색</label>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">최초 등록일</label>
                                 <div>
-
+                                    <div></div>
                                 </div>
                             </li>
                         </ul>
