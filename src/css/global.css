@@ -8,34 +8,67 @@ input:not([type="submit"])::placeholder{color: var(--color-button);}
 input[type="submit"]{border: none;}
 
 
+/* 버튼 */
+[class|='btn']{font-size: 13px; line-height: 32px; font-weight: 400; border-radius: 4px;}
+.btn-gray{padding-inline: 15px; background-color: var(--color-division);}
+
+
 /* 셀렉트 박스 */
 [class*="selectBox"]{width: 100%; position: relative;}
 [class*="selectBox"] button{font-size: 13px; height: 32px; text-align: left; width: 100%; padding-inline: 10px; border-radius: 4px; box-sizing: border-box;}
 [class*="selectBox"] > button{font-weight: 400; border: 1px solid var(--color-line); position: relative;}
-[class*="selectBox"] > button::before{content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center top / 100%; }
+[class*="selectBox"] > button::before{content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center bottom / 100%; }
 [class*="selectBox"] div{position: absolute; left: 0; top: calc(100% + 3px); width: 100%; padding: 5px; background-color: white; border-radius: 4px; box-sizing: border-box; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); z-index: 1;}
 [class*="selectBox"] div button:hover{background-color: var(--color-point02); font-weight: 700;}
 .selectBox-year{max-width: 90px;}
 .selectBox-year button::after{content: '년';}
 .selectBox-month{max-width: 70px;}
 .selectBox-month button::after{content: '월';}
+.selectBox-pageCount{max-width: 80px; position: absolute; left: 55px; top: 0;}
+.selectBox-pageCount::before{content: '노출개수'; position: absolute; left: 0; top: 50%; translate: calc(-100% - 10px) -50%;}
+.selectBox-pageCount button{}
 
 
 /* 게시판 */
-.boardBox{font-size: 13px; line-height: 16px;}
+.boardBox > strong{margin-right: auto;}
+.boardBox{display: flex; align-items: center; flex-wrap: wrap; font-size: 13px; line-height: 16px;}
+.boardBox :is(.board-top, .board-center, .board-bottom){width: 100%;}
 .boardBox :is(.board-top, .board-center li, .board-bottom){display: flex; align-items: center; gap: 10px; height: 56px; padding-inline: 10px;}
 .boardBox :is(.board-top, .board-bottom){background-color: var(--color-face);}
 .boardBox :is(.board-top, .board-bottom) *{font-weight: 700;}
-/* .boardBox :is(.board-top *, .board-center li > *, .board-bottom *){} */
 .boardBox .board-top > *:not(:last-child){display: flex; justify-content: space-between; align-items: center;}
 .boardBox .board-top > *:not(:last-child)::after{content: ''; width: 1px; height: 16px; background-color: var(--color-line);}
+.boardBox .board-top button{text-align: left; position: relative;}
+.boardBox .board-top button::before{content: ''; width: 10px; aspect-ratio: 10 / 18; background: url(../images/icon-sort.png) no-repeat center / cover; position: absolute; right: 10px; top: 50%; translate: 0 -50%;}
 .boardBox .board-center li{border-bottom: 1px solid var(--color-division);}
-.boardBox .board-center li > *{font-weight: 400;}
+.boardBox .board-center li > *{text-align: left; font-weight: 400;}
+.boardBox .board-center li button{display: flex; align-items: center;}
+.boardBox .board-center li button::after{content: ''; width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center top / 100%; margin-left: 6px;}
+.boardBox .board-center li a{color: var(--color-point01); text-decoration: underline; text-underline-offset: 2px;}
+.boardBox .board-pagination{width: 100%; display: flex; justify-content: center; gap: 10px; margin-top: 20px;}
+.boardBox .board-pagination:has(.selectBox-pageCount){position: relative;}
+.boardBox .board-pagination > a{width: 24px; aspect-ratio: 24 / 32; background: url(../images/icon-pagination.png) no-repeat center top calc(100% / (var(--styleTotal) - 1) * var(--styleIdx)) / 100%; text-indent: -9999px;}
+.boardBox .board-pagination ol{display: flex;}
+.boardBox .board-pagination ol li{display: flex;}
+.boardBox .board-pagination ol li a{display: flex; align-items: center; font-size: 13px; font-weight: 700; color: var(--color-button); padding-inline: 10px;}
+.boardBox .board-pagination ol li.active a{color: var(--color-point01); text-decoration: underline; text-underline-offset: 2px;}
+/* .boardBox :is(.board-top *, .board-center li > *, .board-bottom *){} */
+.total{font-size: 15px; font-weight: 700;}
+.total::before{content: '총';}
+.total::after{content: '건';}
+.page{font-weight: 400; color: var(--color-font03); margin-left: 0.4em; margin-right: auto;}
+.page::before{content: '(';}
+.page::after{content: 'page)';}
+.choice{font-weight: 700; margin-right: 10px;}
+.choice::before{content: '선택 ';}
+.choice::after{content: '건';}
 
 
 /* 검색 */
 .searchBox{padding: 20px; border: 1px solid var(--color-line);}
-.searchBox > button{width: 100%; text-align: 15px; line-height: 18px; font-weight: 700; text-align: left;}
+.searchBox > button{width: 100%; font-size: 15px; line-height: 18px; font-weight: 700; text-align: left; position: relative;}
+.searchBox > button::after{content: ''; position: absolute; right: 0; top: 50%; translate: 0 -50%; width: 26px; aspect-ratio: 1; background: url(../images/icon-arrow.png) no-repeat center / cover;}
+.searchBox > button.active::after{rotate: 180deg;}
 .searchBox form{margin-top: 30px; font-size: 13px; line-height: 16px;}
 .searchBox form fieldset:not(:last-of-type){padding-bottom: 30px; border-bottom: 1px solid var(--color-line); margin-bottom: 30px;}
 .searchBox form fieldset ul{display: flex; flex-wrap: wrap; gap: 30px 40px;}
@@ -43,14 +76,21 @@ input[type="submit"]{border: none;}
 .searchBox form fieldset ul li.fill-two{width: calc((100% - 40px) / 3 * 2);}
 .searchBox form fieldset ul li.fill-three{width: 100%;}
 .searchBox form fieldset ul li > label:first-child{font-weight: 700; display: block; margin-bottom: 10px;}
-.searchBox form fieldset ul li div:has([type="checkbox"]){display: flex; flex-wrap: wrap; gap: 15px 30px;}
-.searchBox form fieldset ul li div:has([type="checkbox"]) [type="checkbox"] + label{width: 145px; /* flex: 1;  */white-space: nowrap; display: flex; align-items: center; cursor: pointer;}
-.searchBox form fieldset ul li div:has([type="checkbox"]) [type="checkbox"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-checkbox.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
-.searchBox form fieldset ul li div:has([type="checkbox"]) [type="checkbox"]:checked + label::before{--styleIdx: 1;}
-.searchBox form fieldset ul li div:has([type="radio"]){display: flex; flex-wrap: wrap; column-gap: 20px;}
-.searchBox form fieldset ul li div:has([type="radio"]) [type="radio"] + label{white-space: nowrap; display: flex; align-items: center; cursor: pointer;}
-.searchBox form fieldset ul li div:has([type="radio"]) [type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
-.searchBox form fieldset ul li div:has([type="radio"]) [type="radio"]:checked + label::before{--styleIdx: 1;}
+.searchBox form fieldset ul li > div:has([type="checkbox"]){display: flex; flex-wrap: wrap; gap: 15px 30px;}
+.searchBox form fieldset ul li > div:has([type="checkbox"]) [type="checkbox"] + label{width: 145px; /* flex: 1;  */ white-space: nowrap;}
+[type="checkbox"] + label{display: flex; align-items: center; cursor: pointer;}
+[type="checkbox"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-checkbox.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
+[type="checkbox"]:checked + label::before{--styleIdx: 1;}
+.searchBox form fieldset ul li > div:has([type="radio"]){display: flex; flex-wrap: wrap; column-gap: 20px;}
+.searchBox form fieldset ul li > div:has([type="radio"]) [type="radio"] + label{white-space: nowrap; display: flex; align-items: center; cursor: pointer;}
+.searchBox form fieldset ul li > div:has([type="radio"]) [type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
+.searchBox form fieldset ul li > div:has([type="radio"]) [type="radio"]:checked + label::before{--styleIdx: 1;}
+.searchBox form fieldset ul li > div > div{width: 100%; display: flex; align-items: center;}
+.searchBox form fieldset ul li > div > div span{margin-inline: 5px;}
+.searchBox form fieldset ul li > div > div .ant-picker{max-width: 122px; font-size: 13px;}
+.searchBox form fieldset ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
+.searchBox form fieldset ul li > div:has([type="radio"]) > div{margin-top: 15px;}
+.searchBox form fieldset ul li > div:not(:has([type="radio"])) > div{padding-top: 31px;}
 
 
 /* 서브 페이지 */
@@ -68,6 +108,8 @@ input[type="submit"]{border: none;}
 .subPage nav p{font-size: 11px; line-height: 13px; color: rgba(255, 255, 255, 0.5); font-weight: 400; text-align: center; margin-top: 40px;}
 .subPage > [class*="Page"]{width: calc(100% - var(--navWidth)); padding: 30px 40px 60px; box-sizing: border-box;}
 .subPage > [class*="Page"] > [class*="Page"] > div:not(:last-of-type){margin-bottom: 60px;}
+.subPage h2{font-size: 27px; line-height: 32px; margin-bottom: 40px; font-weight: 700;}
+.subPage strong{font-size: 20px; line-height: 24px; font-weight: 700;}
 
 
 /* 해더 */

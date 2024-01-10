@@ -94,15 +94,45 @@
 .mainPage .salesPage .salesArea > div .amountArea dl dd{flex: 1;}
 .mainPage .salesPage .salesArea > div .amountArea mark{font-size: 13px; line-height: 16px; font-weight: 700; text-align: center; color: var(--color-point01); display: block; margin-top: 12px;}
 /* 메인 페이지 - 영업사원 - 현황 */
-.mainPage .salesPage .boardArea{display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 15px 10px;}
-.mainPage .salesPage .boardArea strong{margin-right: auto;}
-.mainPage .salesPage .boardArea .boardBox{width: 100%;}
-.mainPage .salesPage .boardArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 140;}
-.mainPage .salesPage .boardArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
-.mainPage .salesPage .boardArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 120;}
-.mainPage .salesPage .boardArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 140;}
-.mainPage .salesPage .boardArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 150;}
-.mainPage .salesPage .boardArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 100;}
-.mainPage .salesPage .boardArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 100;}
-.mainPage .salesPage .boardArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 80;}
+.mainPage .salesPage .boardBox{gap: 15px 10px;}
+.mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 140;}
+.mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
+.mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 120;}
+.mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 140;}
+.mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 150;}
+.mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 100;}
+.mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 100;}
+.mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 80;}
 
+
+/* 통합 고객 목록 */
+.customerPage.listPage{}
+.customerPage.listPage .searchBox{margin-bottom: 60px;}
+.customerPage.listPage .boardBox ul{width: 100%; display: flex; align-items: center; gap: 30px; padding-top: 20px; margin-block: 15px 30px; border-top: 1px solid var(--color-line);}
+.customerPage.listPage .boardBox ul li{display: flex; align-items: center;}
+.customerPage.listPage .boardBox ul li::before{content: ''; width: 14px; aspect-ratio: 1; border-radius: 100%; margin-right: 6px;}
+.customerPage.listPage .boardBox ul li:nth-child(1):before{background-color: #FEA89B;}
+.customerPage.listPage .boardBox ul li:nth-child(2):before{background-color: #FDBF6C;}
+.customerPage.listPage .boardBox ul li:nth-child(3):before{background-color: #FCD665;}
+.customerPage.listPage .boardBox ul li:nth-child(4):before{background-color: #7DDB83;}
+.customerPage.listPage .boardBox ul li:nth-child(5):before{background-color: #74CBCA;}
+.customerPage.listPage .boardBox ul li:nth-child(6):before{background-color: #79C0FC;}
+.customerPage.listPage .boardBox ul li:nth-child(7):before{background-color: #BF9DFC;}
+.customerPage.listPage .boardBox .btn-gray{margin-left: 7px;}
+.customerPage.listPage .boardBox .selectBox{max-width: 130px;}
+.customerPage.listPage .boardBox .selectBox:has(+ .selectBox){margin-right: 7px;}
+.customerPage.listPage .boardBox .selectBox + .btn-gray{margin-right: 30px; position: relative;}
+.customerPage.listPage .boardBox .selectBox + .btn-gray::after{content: ''; width: 1px; height: 50%; background-color: var(--color-line); position: absolute; right: -15px; top: 50%; translate: 0 -50%;}
+.customerPage.listPage .boardBox .board-top{margin-top: 13px;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 56;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 101;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 56;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 80;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 81;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 131;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 79;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 79;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 79;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 79;}
+.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 23;}

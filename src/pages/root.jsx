@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Memu from '../components/Memu';
+import {styleIdx} from '../js/style.js';
 
 export default function Root() {
     const pageName = useLocation().pathname.slice(1).split('/');
-    console.log(pageName);
+    // console.log(pageName);
+    useEffect(()=>{
+        return(
+            styleIdx()
+        )
+    },[])
     return (
         <>
             <header>

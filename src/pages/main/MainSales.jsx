@@ -36,22 +36,21 @@ export default function MainSales() {
                 </div>
             </div>
             
-            <div className='boardArea'>
+            <div className='boardBox'>
                 <strong>나의 투자/매출현황</strong>
                 <Select name="year"/>
                 <Select name="month"/>
-                <div className='boardBox'>
-                    <div className="board-top">
-                        <b>분배일</b>
-                        <b>DB 개수</b>
-                        <b>DB 단가</b>
-                        <b>일 투자금액</b>
-                        <b>매출금액</b>
-                        <b>결제회원 수</b>
-                        <b>결제율</b>
-                        <b>ROAS</b>
-                    </div>
-                    <ol className="board-center">
+                <div className="board-top">
+                    <b>분배일</b>
+                    <b>DB 개수</b>
+                    <b>DB 단가</b>
+                    <b>일 투자금액</b>
+                    <b>매출금액</b>
+                    <b>결제회원 수</b>
+                    <b>결제율</b>
+                    <b>ROAS</b>
+                </div>
+                <ol className="board-center">
                         <li>
                             <span>2023/10/01 09:00</span>
                             <span>20</span>
@@ -102,17 +101,16 @@ export default function MainSales() {
                             <span>5%</span>
                             <span>300%</span>
                         </li>
-                    </ol>
-                    <div className="board-bottom">
-                        <b>합계(평균)</b>
-                        <b>678</b>
-                        <b>-</b>
-                        <b>874,198,132</b>
-                        <b>874,198,132</b>
-                        <b>123</b>
-                        <b>-</b>
-                        <b>(150%)</b>
-                    </div>
+                </ol>
+                <div className="board-bottom">
+                    <b>합계(평균)</b>
+                    <b>678</b>
+                    <b>-</b>
+                    <b>874,198,132</b>
+                    <b>874,198,132</b>
+                    <b>123</b>
+                    <b>-</b>
+                    <b>(150%)</b>
                 </div>
             </div>
         </div>

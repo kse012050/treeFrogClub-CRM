@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { DatePicker } from 'antd';
 import Select from '../../components/Select';
+import { Link } from 'react-router-dom';
+
+const onChange = (date, dateString) => {
+    console.log(date, dateString);
+};
 
 export default function List() {
+    const [search, setSearch] = useState(false)
     return (
         <>
             <h2>통합 고객 목록</h2>
 
             <div className='searchBox'>
-                <button>검색 항목</button>
+                <button onClick={()=>setSearch((value)=>!value)} className={search ? 'active': ''}>검색 항목</button>
+                {search &&
                 <form onClick={(e)=>e.preventDefault()}>
                     <fieldset>
                         <ul>
@@ -152,7 +160,11 @@ export default function List() {
                                     <label htmlFor="">시작일 검색</label>
                                     <input type="radio" />
                                     <label htmlFor="">종료일 검색</label>
-                                    <div></div>
+                                    <div>
+                                        <DatePicker onChange={onChange} />
+                                        <span>-</span>
+                                        <DatePicker onChange={onChange} />
+                                    </div>
                                 </div>
                             </li>
                             <li>
@@ -162,12 +174,21 @@ export default function List() {
                                     <label htmlFor="">시작일 검색</label>
                                     <input type="radio" />
                                     <label htmlFor="">종료일 검색</label>
+                                    <div>
+                                        <DatePicker onChange={onChange} />
+                                        <span>-</span>
+                                        <DatePicker onChange={onChange} />
+                                    </div>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">최초 등록일</label>
                                 <div>
-                                    <div></div>
+                                    <div>
+                                        <DatePicker onChange={onChange} />
+                                        <span>-</span>
+                                        <DatePicker onChange={onChange} />
+                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -180,15 +201,101 @@ export default function List() {
                             </li>
                             <li>
                                 <label htmlFor="">상품명</label>
-                                <Select name={''} />
+                                <Select name={'customer'} />
                             </li>
                             <li>
                                 <label htmlFor="">SMS 거부 요청</label>
-                                <Select name={''} />
+                                <Select name={'customer'} />
                             </li>
                         </ul>
                     </fieldset>
                 </form>
+                }
+
+            </div>
+            <div className='boardBox'>
+                <strong>목록</strong>
+                <button className='btn-gray'>엑셀 다운로드</button>
+                <button className='btn-gray'>중복고객 삭제</button>
+                <button className='btn-gray'>검색고객 삭제</button>
+                <button className='btn-gray'>검색고객 수신거부</button>
+                <button className='btn-gray'>대량고객수정</button>
+                <ul>
+                    <li>무료회원</li>
+                    <li>VIP회원</li>
+                    <li>VVIP회원</li>
+                    <li>소액투자반</li>
+                    <li>교육</li>
+                    <li>S클럽</li>
+                    <li>환불방어매출</li>
+                </ul>
+                <b className='total'>123</b>
+                <span className='page'>1/10</span>
+                <b className='choice'>1</b>
+                <Select />
+                <Select />
+                <button className='btn-gray'>선택 변경</button>
+                <span></span>
+                <button className='btn-gray'>선택 삭제</button>
+                <button className='btn-gray'>선택 수신거부</button>
+                <div className="board-top">
+                    <div>
+                        <input type="checkbox" />
+                        <label htmlFor=""></label>
+                    </div>
+                    <button>No.</button>
+                    <button>휴대폰</button>
+                    <button>이름</button>
+                    <button>담당자</button>
+                    <button>고객구분</button>
+                    <button>상담상태</button>
+                    <button>무료체험<br/>시작일</button>
+                    <button>무료체험<br/>종료일</button>
+                    <button>유료<br/>시작일</button>
+                    <button>유료<br/>종료일</button>
+                    <span>보기</span>
+                </div>
+                
+                <ol className="board-center">
+                    <li>
+                        <div>
+                            <input type="checkbox" />
+                            <label htmlFor=""></label>
+                        </div>
+                        <span>123456</span>
+                        <span>01055558888</span>
+                        <span>홍길동</span>
+                        <button>청개구리</button>
+                        <span>환불방어매출</span>
+                        <button>불량(신청한적없음)</button>
+                        <time>2023/09/01</time>
+                        <time>2023/09/01</time>
+                        <time>2023/09/01</time>
+                        <time>2023/09/01</time>
+                        <Link to={''}>보기</Link>
+                    </li>
+                </ol>
+
+                <div className='board-pagination' data-styleidx='a'>
+                    
+                    <Select name="pageCount"/>
+                    <Link to={''}>첫 페이지</Link>
+                    <Link to={''}>이전 페이지</Link>
+                    <ol>
+                        <li className='active'><Link to={''}>1</Link></li>
+                        <li><Link to={''}>2</Link></li>
+                        <li><Link to={''}>3</Link></li>
+                        <li><Link to={''}>4</Link></li>
+                        <li><Link to={''}>5</Link></li>
+                        <li><Link to={''}>6</Link></li>
+                        <li><Link to={''}>7</Link></li>
+                        <li><Link to={''}>8</Link></li>
+                        <li><Link to={''}>9</Link></li>
+                        <li><Link to={''}>10</Link></li>
+                    </ol>
+                    <Link to={''}>다음 페이지</Link>
+                    <Link to={''}>마지막 페이지</Link>
+                </div>
             </div>
         </>
     );
