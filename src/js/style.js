@@ -1,5 +1,6 @@
 // css용 index
 export function styleIdx(){
+    console.log(1);
     document.querySelectorAll('[data-styleidx]').forEach((parents)=>{
         let children = []
         parents.getAttribute('data-styleIdx') !== 'true' ?

@@ -3,6 +3,7 @@ import Root from '../pages/Root'
 import Main from '../pages/main/Main'
 import CustomerList from '../pages/customer/List'
 import Test from '../pages/customer/Test';
+import Modify from '../pages/customer/Modify';
 
 export const routers = [
     {
@@ -22,12 +23,15 @@ export const routers = [
         children: [
             { 
                 path: 'list', element: <CustomerList />,
-                /* children : [{
+                children : [{
                     path: 'test', element: <Test />
-                }] */
+                }]
+                // children : [{
+                //     path: '/modify', element: <Modify />
+                // }]
             },
             {
-                path: 'list/:id', element: <Test />,
+                path: 'list/modify', element: <Modify />
             }
         ]
     }

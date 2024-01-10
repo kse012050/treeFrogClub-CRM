@@ -8,9 +8,9 @@ export default function Root() {
     // console.log(pageName);
     useEffect(()=>{
         return(
-            styleIdx()
+            document.querySelectorAll('[data-styleidx]').length ? styleIdx() : undefined
         )
-    },[])
+    },[pageName])
     return (
         <>
             <header>
@@ -26,7 +26,7 @@ export default function Root() {
             </header>
             <div className={`subPage`}>
                 <Memu />
-                <div className={`${pageName[0]}Page ${pageName[1] ? pageName[1] + 'Page' : ''}`}>
+                <div className={`${pageName[0]}Page ${pageName.length > 1 ? pageName.at(-1) + 'Page' : ''}`}>
                     <Outlet />
                 </div>
             </div>

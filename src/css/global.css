@@ -1,21 +1,25 @@
 #root{min-width: 1280px;}
 
 
+mark{color: var(--color-point01);}
+
+
 /* input 공통 */
-input{width: 100%; font-size: 13px; font-weight: 400; border-radius: 4px;}
-input:not([type="submit"]){width: 100%; height: 40px; padding-inline: 10px; border: 1px solid var(--color-line); box-sizing: border-box;}
+input{width: 100%; font-weight: 400; border-radius: 4px;}
+:where(input:not([type="submit"])){width: 100%; height: 40px; padding-inline: 10px; border: 1px solid var(--color-line); box-sizing: border-box;}
 input:not([type="submit"])::placeholder{color: var(--color-button);}
 input[type="submit"]{border: none;}
 
 
 /* 버튼 */
-[class|='btn']{font-size: 13px; line-height: 32px; font-weight: 400; border-radius: 4px;}
+[class|='btn']{line-height: 32px; font-weight: 400; border-radius: 4px; white-space: nowrap; cursor: pointer;}
 .btn-gray{padding-inline: 15px; background-color: var(--color-division);}
+.btn-point{padding-inline: 30px; background-color: var(--color-point01); color: white;}
 
 
 /* 셀렉트 박스 */
 [class*="selectBox"]{width: 100%; position: relative;}
-[class*="selectBox"] button{font-size: 13px; height: 32px; text-align: left; width: 100%; padding-inline: 10px; border-radius: 4px; box-sizing: border-box;}
+[class*="selectBox"] button{height: 32px; text-align: left; width: 100%; padding-inline: 10px; border-radius: 4px; box-sizing: border-box;}
 [class*="selectBox"] > button{font-weight: 400; border: 1px solid var(--color-line); position: relative;}
 [class*="selectBox"] > button::before{content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center bottom / 100%; }
 [class*="selectBox"] div{position: absolute; left: 0; top: calc(100% + 3px); width: 100%; padding: 5px; background-color: white; border-radius: 4px; box-sizing: border-box; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); z-index: 1;}
@@ -31,7 +35,7 @@ input[type="submit"]{border: none;}
 
 /* 게시판 */
 .boardBox > strong{margin-right: auto;}
-.boardBox{display: flex; align-items: center; flex-wrap: wrap; font-size: 13px; line-height: 16px;}
+.boardBox{display: flex; align-items: center; flex-wrap: wrap;}
 .boardBox :is(.board-top, .board-center, .board-bottom){width: 100%;}
 .boardBox :is(.board-top, .board-center li, .board-bottom){display: flex; align-items: center; gap: 10px; height: 56px; padding-inline: 10px;}
 .boardBox :is(.board-top, .board-bottom){background-color: var(--color-face);}
@@ -50,18 +54,18 @@ input[type="submit"]{border: none;}
 .boardBox .board-pagination > a{width: 24px; aspect-ratio: 24 / 32; background: url(../images/icon-pagination.png) no-repeat center top calc(100% / (var(--styleTotal) - 1) * var(--styleIdx)) / 100%; text-indent: -9999px;}
 .boardBox .board-pagination ol{display: flex;}
 .boardBox .board-pagination ol li{display: flex;}
-.boardBox .board-pagination ol li a{display: flex; align-items: center; font-size: 13px; font-weight: 700; color: var(--color-button); padding-inline: 10px;}
+.boardBox .board-pagination ol li a{display: flex; align-items: center; font-weight: 700; color: var(--color-button); padding-inline: 10px;}
 .boardBox .board-pagination ol li.active a{color: var(--color-point01); text-decoration: underline; text-underline-offset: 2px;}
 /* .boardBox :is(.board-top *, .board-center li > *, .board-bottom *){} */
-.total{font-size: 15px; font-weight: 700;}
-.total::before{content: '총';}
-.total::after{content: '건';}
-.page{font-weight: 400; color: var(--color-font03); margin-left: 0.4em; margin-right: auto;}
-.page::before{content: '(';}
-.page::after{content: 'page)';}
-.choice{font-weight: 700; margin-right: 10px;}
-.choice::before{content: '선택 ';}
-.choice::after{content: '건';}
+.boardBox .total{font-size: 15px; font-weight: 700;}
+.boardBox .total::before{content: '총';}
+.boardBox .total::after{content: '건';}
+.boardBox .page{font-weight: 400; color: var(--color-font03); margin-left: 0.4em; margin-right: auto;}
+.boardBox .page::before{content: '(';}
+.boardBox .page::after{content: 'page)';}
+.boardBox .choice{font-weight: 700; margin-right: 10px;}
+.boardBox .choice::before{content: '선택 ';}
+.boardBox .choice::after{content: '건';}
 
 
 /* 검색 */
@@ -69,7 +73,7 @@ input[type="submit"]{border: none;}
 .searchBox > button{width: 100%; font-size: 15px; line-height: 18px; font-weight: 700; text-align: left; position: relative;}
 .searchBox > button::after{content: ''; position: absolute; right: 0; top: 50%; translate: 0 -50%; width: 26px; aspect-ratio: 1; background: url(../images/icon-arrow.png) no-repeat center / cover;}
 .searchBox > button.active::after{rotate: 180deg;}
-.searchBox form{margin-top: 30px; font-size: 13px; line-height: 16px;}
+.searchBox form{margin-top: 30px;}
 .searchBox form fieldset:not(:last-of-type){padding-bottom: 30px; border-bottom: 1px solid var(--color-line); margin-bottom: 30px;}
 .searchBox form fieldset ul{display: flex; flex-wrap: wrap; gap: 30px 40px;}
 .searchBox form fieldset ul li:not([class]){width: calc((100% - 80px) / 3);}
@@ -87,7 +91,7 @@ input[type="submit"]{border: none;}
 .searchBox form fieldset ul li > div:has([type="radio"]) [type="radio"]:checked + label::before{--styleIdx: 1;}
 .searchBox form fieldset ul li > div > div{width: 100%; display: flex; align-items: center;}
 .searchBox form fieldset ul li > div > div span{margin-inline: 5px;}
-.searchBox form fieldset ul li > div > div .ant-picker{max-width: 122px; font-size: 13px;}
+.searchBox form fieldset ul li > div > div .ant-picker{max-width: 122px;}
 .searchBox form fieldset ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
 .searchBox form fieldset ul li > div:has([type="radio"]) > div{margin-top: 15px;}
 .searchBox form fieldset ul li > div:not(:has([type="radio"])) > div{padding-top: 31px;}
@@ -98,10 +102,9 @@ input[type="submit"]{border: none;}
 .subPage nav{width: var(--navWidth); flex-shrink: 0; min-height: calc(100vh - var(--headerHeight)); padding: 25px 20px; box-sizing: border-box; background-color: #333;}
 .subPage nav :is(strong, b){color: white; font-weight: 700; display: block; margin-bottom: 15px;}
 .subPage nav strong{font-size: 15px; line-height: 18px;}
-.subPage nav b{font-size: 13px; line-height: 16px;}
 .subPage nav strong:not(:first-of-type){padding-top: 25px; margin-top: 25px; border-top: 1px solid rgba(255, 255, 255, 0.1);}
 .subPage nav ul li:not(:last-child){margin-bottom: 15px;}
-.subPage nav ul li a{display: block; font-size: 13px; line-height: 16px; font-weight: 400; color: rgba(255, 255, 255, 0.7);}
+.subPage nav ul li a{display: block; font-weight: 400; color: rgba(255, 255, 255, 0.7);}
 .subPage nav ul li a.active{color: var(--color-point01);}
 .subPage nav b + ul{margin-bottom: 30px;}
 .subPage nav b + ul li a{padding-inline: 10px;}
@@ -117,7 +120,7 @@ header{position: sticky; top: 0; left: 0; width: 100%; height: var(--headerHeigh
 header h1{font-size: 15px; font-weight: 700; display: flex; align-items: center;}
 header h1 a{max-width: 154px; margin-right: 30px;}
 header h1 a img{width: 100%;}
-header strong{margin-left: auto; font-size: 13px; font-weight: 700; line-height: 16px; margin-right: 30px;}
+header strong{margin-left: auto; font-weight: 700; margin-right: 30px;}
 header > :is(a, button){font-size: 12px; font-weight: 400; color: var(--color-font03); height: 100%; display: flex; align-items: center;}
 header > a{padding-right: 15px;}
 header > button{padding-left: 15px; position: relative;}

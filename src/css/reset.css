@@ -28,6 +28,8 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	font-family: 'Pretendard';
+	font-size: 13px;
+	line-height: 1.2307;
 }
 ol, ul {
 	list-style: none;

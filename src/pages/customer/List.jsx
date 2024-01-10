@@ -219,7 +219,7 @@ export default function List() {
                 <button className='btn-gray'>중복고객 삭제</button>
                 <button className='btn-gray'>검색고객 삭제</button>
                 <button className='btn-gray'>검색고객 수신거부</button>
-                <button className='btn-gray'>대량고객수정</button>
+                <Link to={'modify'} className='btn-gray'>대량고객수정</Link>
                 <ul>
                     <li>무료회원</li>
                     <li>VIP회원</li>
