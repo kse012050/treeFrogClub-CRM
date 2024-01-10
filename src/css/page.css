@@ -107,7 +107,8 @@
 
 /* 통합 DB 관리 - 통합 고객 목록 */
 .customerPage.listPage{}
-.customerPage.listPage .searchBox{margin-bottom: 60px;}
+.customerPage.listPage .dropBox{margin-bottom: 60px;}
+.customerPage.listPage .dropBox form fieldset ul li > div:not(:has([type="radio"])) > div{padding-top: 31px;}
 .customerPage.listPage .boardBox ul{width: 100%; display: flex; align-items: center; gap: 30px; padding-top: 20px; margin-block: 15px 30px; border-top: 1px solid var(--color-line);}
 .customerPage.listPage .boardBox ul li{display: flex; align-items: center;}
 .customerPage.listPage .boardBox ul li::before{content: ''; width: 14px; aspect-ratio: 1; border-radius: 100%; margin-right: 6px;}
@@ -118,11 +119,13 @@
 .customerPage.listPage .boardBox ul li:nth-child(5):before{background-color: #74CBCA;}
 .customerPage.listPage .boardBox ul li:nth-child(6):before{background-color: #79C0FC;}
 .customerPage.listPage .boardBox ul li:nth-child(7):before{background-color: #BF9DFC;}
-.customerPage.listPage .boardBox .btn-gray{margin-left: 7px;}
+.customerPage.listPage .boardBox .btn-gray-black{margin-left: 7px;}
 .customerPage.listPage .boardBox .selectBox{max-width: 130px;}
 .customerPage.listPage .boardBox .selectBox:has(+ .selectBox){margin-right: 7px;}
-.customerPage.listPage .boardBox .selectBox + .btn-gray{margin-right: 30px; position: relative;}
-.customerPage.listPage .boardBox .selectBox + .btn-gray::after{content: ''; width: 1px; height: 50%; background-color: var(--color-line); position: absolute; right: -15px; top: 50%; translate: 0 -50%;}
+.customerPage.listPage .boardBox .selectBox + .btn-gray-black{margin-right: 30px; position: relative;}
+.customerPage.listPage .boardBox .selectBox + .btn-gray-black::after{content: ''; width: 1px; height: 50%; background-color: var(--color-line); position: absolute; right: -15px; top: 50%; translate: 0 -50%;}
+.customerPage.listPage .boardBox .total{font-size: 15px;}
+.customerPage.listPage .boardBox .page{margin-right: auto;}
 .customerPage.listPage .boardBox .board-top{margin-top: 13px;}
 .customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
 .customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 56;}
@@ -164,3 +167,48 @@
 .customerPage.modifyPage ol > li:nth-child(3) > div ul li:not(:first-child):before{content: ', ';}
 /* 나중에 삭제 */
 .customerPage.modifyPage ol > li:nth-child(3) > div:not(:last-child){margin-bottom: 20px;}
+
+
+/* 통합 DB 관리 - 고객 등록 */
+.customerPage.registrationPage > div:not(:last-of-type){margin-bottom: 20px;}
+.customerPage.registrationPage .boardBox{}
+.customerPage.registrationPage .boardBox > button{color: var(--color-font03); font-weight: 700;}
+.customerPage.registrationPage .boardBox > button:not(:last-of-type){margin-right: 20px;}
+.customerPage.registrationPage .boardBox > button::after{content: ' (' attr(data-count) ')';}
+.customerPage.registrationPage .boardBox > button.active{color: var(--color-point01); position: relative;}
+.customerPage.registrationPage .boardBox > button.active::before{content: ''; width: 100%; height: 2px; position: absolute; left: 0; bottom: -15px; background-color: var(--color-point01);}
+.customerPage.registrationPage .boardBox .total{margin-left: auto;}
+.customerPage.registrationPage .boardBox [class*="board-scroll"]{margin-top: 15px; overflow: auto;}
+.customerPage.registrationPage .boardBox [class*="board-scroll"]::-webkit-scrollbar{height: 6px;}
+.customerPage.registrationPage .boardBox [class*="board-scroll"]::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 80;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 70;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 90;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 90;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 80;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 90;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 80;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 120;}
+.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 60;}
+.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 120;}
+.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 180;}
+.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 160;}
+.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 180;}
+.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 130;}
+.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 110;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){min-width: 80px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){min-width: 90px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){min-width: 90px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){min-width: 90px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){min-width: 80px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){min-width: 90px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){min-width: 80px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){min-width: 90px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){min-width: 120px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){min-width: 90px;}
+.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){min-width: 70px;}
+.customerPage.registrationPage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 120;}
+.customerPage.registrationPage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 540;}
+.customerPage.registrationPage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 130;}
+.customerPage.registrationPage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 120;}

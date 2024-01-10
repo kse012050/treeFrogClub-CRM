@@ -7,7 +7,7 @@ export default function Memu() {
             <strong>고객 DB 관리</strong>
             <ul>
                 <li><NavLink to={'/customer/list'}>통합 고객 목록</NavLink></li>
-                <li><Link to={''}>고객 등록</Link></li>
+                <li><NavLink to={'/customer/registration'}>고객 등록</NavLink></li>
             </ul>
             <strong>결제 관리</strong>
             <ul>

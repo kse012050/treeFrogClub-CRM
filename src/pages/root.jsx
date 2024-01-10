@@ -7,6 +7,7 @@ export default function Root() {
     const pageName = useLocation().pathname.slice(1).split('/');
     // console.log(pageName);
     useEffect(()=>{
+        console.log(document.querySelectorAll('[data-styleidx]'));
         return(
             document.querySelectorAll('[data-styleidx]').length ? styleIdx() : undefined
         )

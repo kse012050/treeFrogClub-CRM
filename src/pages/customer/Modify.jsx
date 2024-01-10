@@ -26,7 +26,7 @@ export default function Modify() {
                         <div>
                             <input type="text" />
                             <input type="file" />
-                            <label htmlFor="" className='btn-gray'>파일 선택</label>
+                            <label htmlFor="" className='btn-gray-black'>파일 선택</label>
                         </div>
                         <button className='btn-point'>데이터 투입</button>
                     </div>

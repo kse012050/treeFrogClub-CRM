@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DatePicker } from 'antd';
 import Select from '../../components/Select';
 import { Link } from 'react-router-dom';
+import DropBox from '../../components/DropBox';
 
 const onChange = (date, dateString) => {
     console.log(date, dateString);
 };
 
 export default function List() {
-    const [search, setSearch] = useState(false)
     return (
         <>
-            <h2>통합 고객 목록</h2>
+            <h2>
+                통합 고객 목록
+                <Link to={''} className='btn-point'>추가</Link>
+            </h2>
 
-            <div className='searchBox'>
-                <button onClick={()=>setSearch((value)=>!value)} className={search ? 'active': ''}>검색 항목</button>
-                {search &&
+            <DropBox title="검색 항목" arrow>
                 <form onClick={(e)=>e.preventDefault()}>
                     <fieldset>
                         <ul>
@@ -209,17 +210,20 @@ export default function List() {
                             </li>
                         </ul>
                     </fieldset>
+                    <div>
+                        <input type="reset" value="초기화" className='btn-gray-white'/>
+                        <input type="submit" value="검색" className='btn-point'/>
+                    </div>
                 </form>
-                }
+            </DropBox>
 
-            </div>
             <div className='boardBox'>
                 <strong>목록</strong>
-                <button className='btn-gray'>엑셀 다운로드</button>
-                <button className='btn-gray'>중복고객 삭제</button>
-                <button className='btn-gray'>검색고객 삭제</button>
-                <button className='btn-gray'>검색고객 수신거부</button>
-                <Link to={'modify'} className='btn-gray'>대량고객수정</Link>
+                <button className='btn-gray-black'>엑셀 다운로드</button>
+                <button className='btn-gray-black'>중복고객 삭제</button>
+                <button className='btn-gray-black'>검색고객 삭제</button>
+                <button className='btn-gray-black'>검색고객 수신거부</button>
+                <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
                 <ul>
                     <li>무료회원</li>
                     <li>VIP회원</li>
@@ -234,10 +238,10 @@ export default function List() {
                 <b className='choice'>1</b>
                 <Select />
                 <Select />
-                <button className='btn-gray'>선택 변경</button>
+                <button className='btn-gray-black'>선택 변경</button>
                 <span></span>
-                <button className='btn-gray'>선택 삭제</button>
-                <button className='btn-gray'>선택 수신거부</button>
+                <button className='btn-gray-black'>선택 삭제</button>
+                <button className='btn-gray-black'>선택 수신거부</button>
                 <div className="board-top">
                     <div>
                         <input type="checkbox" />
@@ -265,9 +269,9 @@ export default function List() {
                         <span>123456</span>
                         <span>01055558888</span>
                         <span>홍길동</span>
-                        <button>청개구리</button>
+                        <button className='select'>청개구리</button>
                         <span>환불방어매출</span>
-                        <button>불량(신청한적없음)</button>
+                        <button className='select'>불량(신청한적없음)</button>
                         <time>2023/09/01</time>
                         <time>2023/09/01</time>
                         <time>2023/09/01</time>
@@ -277,7 +281,6 @@ export default function List() {
                 </ol>
 
                 <div className='board-pagination' data-styleidx='a'>
-                    
                     <Select name="pageCount"/>
                     <Link to={''}>첫 페이지</Link>
                     <Link to={''}>이전 페이지</Link>
