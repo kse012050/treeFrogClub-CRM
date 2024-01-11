@@ -2,6 +2,8 @@
 
 
 mark{color: var(--color-point01);}
+hr{width: 100%; border: none; border-top: 1px solid var(--color-line); background-color: blue;}
+hr.case01{margin-block: 15px 20px;}
 
 
 /* input 공통 */
@@ -35,15 +37,21 @@ input[type="submit"]{border: none;}
 
 
 /* 게시판 */
+[class*="Page"] > .boardBox{margin-top: 60px;}
 .boardBox > strong{margin-right: auto;}
 .boardBox{display: flex; align-items: center; flex-wrap: wrap;}
-.boardBox :is(.board-top, .board-center, .board-bottom){width: 100%;}
+.boardBox :is(.board-top, .board-center, .board-bottom){min-width: 100%;}
 .boardBox div:has(:is(.board-top, .board-center, .board-bottom)){width: 100%;}
-.boardBox :is(.board-top, .board-center li, .board-bottom){display: flex; align-items: center; gap: 10px; height: 56px; padding-inline: 10px; box-sizing: border-box;}
+.boardBox :is(.board-top, .board-center li, .board-bottom){min-width: 100%; display: inline-flex; align-items: center; gap: 10px; height: 56px; padding-inline: 10px; box-sizing: border-box;}
+.boardBox :is(.board-top, .board-center li, .board-bottom) > div{display: flex; column-gap: 10px;}
+.boardBox :is(.board-top, .board-center li, .board-bottom) > div > *{flex: 1;}
+.boardBox :is(.board-top, .board-center li, .board-bottom) > div[title]{flex-wrap: wrap;}
+.boardBox :is(.board-top, .board-center li, .board-bottom) > div[title]::before{content: attr(title); width: 100%; font-size: 12px; line-height: 14px; color: var(--color-font03); text-align: center; margin-bottom: 6px;}
 .boardBox :is(.board-top, .board-bottom){background-color: var(--color-face);}
 .boardBox :is(.board-top, .board-bottom) *{font-weight: 700;}
-.boardBox .board-top > *:not(:last-child){display: flex; justify-content: space-between; align-items: center;}
-.boardBox .board-top > *:not(:last-child)::after{content: ''; width: 1px; height: 16px; background-color: var(--color-line);}
+.boardBox .board-top *:not(:last-child){display: flex; justify-content: space-between; align-items: center; position: relative;}
+.boardBox .board-top *:not(:last-child)::after{content: ''; width: 1px; height: 16px; background-color: var(--color-line); position: absolute; right: 0; top: 50%; translate: 0 -50%;}
+.boardBox .board-top:has([title]) > *:not(:last-child)::after{height: 32px;}
 .boardBox .board-top button{text-align: left; position: relative;}
 .boardBox .board-top button::before{content: ''; width: 10px; aspect-ratio: 10 / 18; background: url(../images/icon-sort.png) no-repeat center / cover; position: absolute; right: 10px; top: 50%; translate: 0 -50%;}
 .boardBox .board-center li{border-bottom: 1px solid var(--color-division);}
@@ -60,7 +68,7 @@ input[type="submit"]{border: none;}
 .boardBox .board-pagination ol li a{display: flex; align-items: center; font-weight: 700; color: var(--color-button); padding-inline: 10px;}
 .boardBox .board-pagination ol li.active a{color: var(--color-point01); text-decoration: underline; text-underline-offset: 2px;}
 /* .boardBox :is(.board-top *, .board-center li > *, .board-bottom *){} */
-.boardBox .total{font-weight: 700;}
+.boardBox .total{font-size: 15px; font-weight: 700;}
 .boardBox .total::before{content: '총';}
 .boardBox .total::after{content: '건';}
 .boardBox .page{font-weight: 400; color: var(--color-font03); margin-left: 0.4em;}
@@ -69,10 +77,21 @@ input[type="submit"]{border: none;}
 .boardBox .choice{font-weight: 700; margin-right: 10px;}
 .boardBox .choice::before{content: '선택 ';}
 .boardBox .choice::after{content: '건';}
+.boardBox [class*="board-scroll"]{margin-top: 15px; overflow: auto;}
+.boardBox [class*="board-scroll"]::-webkit-scrollbar{height: 6px;}
+.boardBox [class*="board-scroll"]::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
+.boardBox .board-table{width: 100%; margin-bottom: 30px; border-width: 1px 0; border-style: solid; border-color: var(--color-division);}
+.boardBox .board-table :is(th, b, mark){font-weight: 700;}
+.boardBox .board-table tr{height: 40px;}
+.boardBox .board-table tr > *{line-height: 40px;}
+.boardBox .board-table tr > *:not(:last-child){border-right: 1px solid var(--color-division);}
+.boardBox .board-table > *:not(:last-child){border-bottom: 1px solid var(--color-division);}
+.boardBox .board-table thead tr{background-color: var(--color-face);}
+.boardBox .board-table tbody tr td{text-align: center;}
 
 
 /* 검색 */
-[type="checkbox"] + label{display: flex; align-items: center; cursor: pointer;}
+[type="checkbox"] + label{display: flex; align-items: flex-start; cursor: pointer;}
 [type="checkbox"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-checkbox.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
 [type="checkbox"]:checked + label::before{--styleIdx: 1;}
 .dropBox{--padding: 20px; border: 1px solid var(--color-line);}
@@ -87,19 +106,21 @@ input[type="submit"]{border: none;}
 .dropBox form fieldset ul li:not([class]){width: calc((100% - 80px) / 3);}
 .dropBox form fieldset ul li.fill-two{width: calc((100% - 40px) / 3 * 2);}
 .dropBox form fieldset ul li.fill-three{width: 100%;}
-.dropBox form fieldset ul li > label:first-child{font-weight: 700; display: block; margin-bottom: 10px;}
+.dropBox form fieldset ul li > label:first-child{font-weight: 700; display: block;}
+.dropBox form fieldset ul li > label:first-child:has( + div :is([type="radio"], [type="checkbox"])){margin-bottom: 18px;}
+.dropBox form fieldset ul li > label:first-child:not(:has( + div :is([type="radio"], [type="checkbox"]))){margin-bottom: 10px;}
 .dropBox form fieldset ul li > div:has([type="checkbox"]){display: flex; flex-wrap: wrap; gap: 15px 30px;}
 .dropBox form fieldset ul li > div:has([type="checkbox"]) [type="checkbox"] + label{width: 145px; /* flex: 1;  */ white-space: nowrap;}
 .dropBox form fieldset ul li > div:has([type="radio"]){display: flex; flex-wrap: wrap; gap: 15px 20px;}
 .dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"] + label{white-space: nowrap; display: flex; align-items: center; cursor: pointer;}
 .dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
 .dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"]:checked + label::before{--styleIdx: 1;}
+.dropBox form fieldset:has([type="radio"]) ul li > div:not(:has([type="radio"])) > div{padding-top: 39px;}
 .dropBox form fieldset ul li > div > div{width: 100%; display: flex; align-items: center;}
 .dropBox form fieldset ul li > div > div span{margin-inline: 5px;}
-/* .dropBox form fieldset ul li > div > div .ant-picker{max-width: 122px;} */
 .dropBox form fieldset ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
-/* .dropBox form fieldset ul li > div:has([type="radio"]) > div{margin-top: 15px;} */
 .dropBox form > div{display: flex; justify-content: flex-end; gap: 10px; margin-top: 60px;}
+
 
 
 /* 서브 페이지 */

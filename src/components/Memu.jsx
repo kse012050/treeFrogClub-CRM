@@ -11,8 +11,8 @@ export default function Memu() {
             </ul>
             <strong>결제 관리</strong>
             <ul>
-                <li><Link to={''}>결제 목록</Link></li>
-                <li><Link to={''}>상품 목록</Link></li>
+                <li><NavLink to={'/payment/list'}>결제 목록</NavLink></li>
+                <li><NavLink to={'/payment/productList'}>상품 목록</NavLink></li>
             </ul>
             <strong>통계</strong>
             <ul>
