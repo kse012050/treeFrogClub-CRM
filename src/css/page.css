@@ -122,8 +122,7 @@
 .customerPage.listPage .boardBox .selectBox:has(+ .selectBox){margin-right: 7px;}
 .customerPage.listPage .boardBox .selectBox + .btn-gray-black{margin-right: 30px; position: relative;}
 .customerPage.listPage .boardBox .selectBox + .btn-gray-black::after{content: ''; width: 1px; height: 50%; background-color: var(--color-line); position: absolute; right: -15px; top: 50%; translate: 0 -50%;}
-.customerPage.listPage .boardBox .page{margin-right: auto;}
-.customerPage.listPage .boardBox .board-top{margin-top: 12px;}
+/* .customerPage.listPage .boardBox .board-top{margin-top: 12px;} */
 .customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
 .customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 56;}
 .customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 101;}
@@ -196,3 +195,13 @@
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(14){flex: 80; min-width: 80px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(15){flex: 190; min-width: 190px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(16){flex: 190; min-width: 190px;}
+
+
+/* 결제 관리 - 상품 목록 */
+.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
+.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
+.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 300;}
+.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 140;}
+.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 140;}
+.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 164;}
+.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 50;}
