@@ -34,7 +34,6 @@ input[type="submit"]{border: none;}
 .selectBox-month button::after{content: '월';}
 .selectBox-pageCount{max-width: 80px; position: absolute; left: 55px; top: 0;}
 .selectBox-pageCount::before{content: '노출개수'; position: absolute; left: 0; top: 50%; translate: calc(-100% - 10px) -50%;}
-.selectBox-pageCount button{}
 
 
 /* 게시판 */
@@ -98,11 +97,13 @@ input[type="submit"]{border: none;}
 [type="checkbox"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-checkbox.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
 [type="checkbox"]:checked + label::before{--styleIdx: 1;}
 .dropBox{--padding: 20px; border: 1px solid var(--color-line);}
-.dropBox > button{width: 100%; padding: var(--padding); font-size: 15px; line-height: 18px; font-weight: 700; text-align: left;}
+.dropBox > :is(button, b){padding: var(--padding); font-size: 15px; line-height: 18px; font-weight: 700; text-align: left;}
+.dropBox > button{width: 100%;}
+.dropBox > b{display: block;}
 .dropBox > button.arrow{position: relative;}
 .dropBox > button.arrow::after{content: ''; position: absolute; right: var(--padding); top: 50%; translate: 0 -50%; width: 26px; aspect-ratio: 1; background: url(../images/icon-arrow.png) no-repeat center / cover;}
 .dropBox > button.arrow.active::after{rotate: 180deg;}
-.dropBox > button + *{margin-top: 10px; padding: 0 var(--padding) var(--padding);}
+.dropBox > :is(button, b) + *{margin-top: 10px; padding: 0 var(--padding) var(--padding);}
 .dropBox form fieldset:not(:last-of-type){padding-bottom: 30px; border-bottom: 1px solid var(--color-division); margin-bottom: 30px;}
 .dropBox form fieldset:not(:has(input[type="checkbox"])){padding-right: 100px;}
 .dropBox form fieldset ul{display: flex; flex-wrap: wrap; gap: 30px 40px;}
@@ -119,6 +120,7 @@ input[type="submit"]{border: none;}
 .dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
 .dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"]:checked + label::before{--styleIdx: 1;}
 .dropBox form fieldset:has([type="radio"]) ul li > div:not(:has([type="radio"])) > div{padding-top: 39px;}
+.dropBox form fieldset ul li > div:has(.btn-gray-black){display: flex; gap: 10px;}
 .dropBox form fieldset ul li > div > div{width: 100%; display: flex; align-items: center;}
 .dropBox form fieldset ul li > div > div span{margin-inline: 5px;}
 .dropBox form fieldset ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}

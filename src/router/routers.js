@@ -8,6 +8,7 @@ import CustomerBulkRegistration from '../pages/customer/BulkRegistration';
 import PaymentList from '../pages/payment/List';
 import PaymentBulkRegistration from '../pages/payment/BulkRegistration';
 import PaymentProductList from '../pages/payment/ProductList';
+import PaymentProductRegistration from '../pages/payment/ProductRegistration';
 // import Test from '../pages/customer/Test';
 
 export const routers = [
@@ -53,6 +54,9 @@ export const routers = [
             },
             {
                 path: 'productList', element: <PaymentProductList />
+            },
+            {
+                path: 'productList/registration', element: <PaymentProductRegistration />
             }
         ]
     }

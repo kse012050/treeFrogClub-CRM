@@ -8,7 +8,7 @@ export default function ProductList() {
         <>
             <h2>
                 상품 목록
-                <Link to="" className='btn-point'>추가</Link>
+                <Link to="registration" className='btn-point'>추가</Link>
             </h2>
 
             
