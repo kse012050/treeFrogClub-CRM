@@ -14,10 +14,11 @@ input[type="submit"]{border: none;}
 
 
 /* 버튼 */
-[class|='btn']{line-height: 32px; font-weight: 400; border-radius: 4px; border: none; white-space: nowrap; cursor: pointer;}
+[class|='btn']{padding-block: 8px; border-radius: 4px; border: none; white-space: nowrap; cursor: pointer;}
+[class|='btn']:not(.btn-point){font-weight: 400;}
 .btn-gray-black{padding-inline: 15px; background-color: var(--color-division);}
-.btn-point{padding-inline: 30px; background-color: var(--color-point01); color: white;}
-.btn-gray-white{padding-inline: 30px; background-color: var(--color-button); color: white;}
+.btn-point{padding-inline: 30px; font-weight: 700; color: white; text-align: center; background-color: var(--color-point01);}
+.btn-gray-white{padding-inline: 30px; color: white; background-color: var(--color-button);}
 
 
 /* 셀렉트 박스 */
@@ -139,7 +140,7 @@ input[type="submit"]{border: none;}
 .subPage > [class*="Page"] > [class*="Page"] > div:not(:last-of-type){margin-bottom: 60px;}
 .subPage h2{font-size: 27px; line-height: 32px; margin-bottom: 40px; font-weight: 700;}
 .subPage h2:has(.btn-point){display: flex; align-items: center; justify-content: space-between;}
-.subPage h2 .btn-point{font-size: 13px;}
+.subPage h2 .btn-point{font-size: 13px; line-height: 16px;}
 .subPage strong{font-size: 20px; line-height: 24px; font-weight: 700;}
 
 
@@ -151,9 +152,12 @@ ol.bulkBox > li > b{display: block; font-size: 15px; line-height: var(--numbWidt
 ol.bulkBox > li > div{padding-inline: 30px; border: 1px dashed var(--color-line); border-radius: 10px;}
 ol.bulkBox > li:nth-child(-n + 2) > div{padding-block: 30px;}
 ol.bulkBox > li:nth-child(3) > div{padding-block: 60px;}
-ol.bulkBox > li:not(:nth-child(3)) > div{display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;}
+ol.bulkBox > li:not(:nth-child(3)) > div{display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: 10px;}
 ol.bulkBox > li:not(:nth-child(3)) > div :is(p, b, ol){line-height: 20px; color: var(--color-font02);}
 ol.bulkBox > li:not(:nth-child(3)) > div :is(p, b, ol)[title]::before{content: attr(title); font-weight: 700; display: block;}
+ol.bulkBox > li:nth-child(1) > div .btn-point[title]{display: flex; flex-direction: column; align-items: center;}
+ol.bulkBox > li:nth-child(1) > div .btn-point[title]::after{content: '(' attr(title) ')'; width: 100%; font-weight: 400;}
+ol.bulkBox > li:nth-child(1) > div .btn-point:has(+ .btn-point){margin-left: auto;}
 ol.bulkBox > li:nth-child(2) > div > *:nth-child(n + 3){width: 100%; margin-top: 20px;}
 ol.bulkBox > li:nth-child(2) > div div:has(input){display: flex; gap: 7px;}
 ol.bulkBox > li:nth-child(2) > div div:has(input) input{width: 400px; height: 32px;}
