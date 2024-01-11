@@ -3,15 +3,14 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import Memu from '../components/Memu';
 import {styleIdx} from '../js/style.js';
 
-export default function Root() {
+export default function Root({ children }) {
     const pageName = useLocation().pathname.slice(1).split('/');
     // console.log(pageName);
     useEffect(()=>{
-        console.log(document.querySelectorAll('[data-styleidx]'));
         return(
             document.querySelectorAll('[data-styleidx]').length ? styleIdx() : undefined
         )
-    },[pageName])
+    },[pageName, children])
     return (
         <>
             <header>

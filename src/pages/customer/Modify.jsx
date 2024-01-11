@@ -5,18 +5,18 @@ export default function Modify() {
     return (
         <>
             <h2>대량 고객 수정</h2>
-            <ol>
+            <ol className='bulkBox'>
                 <li>
                     <b>투입양식 작성</b>
                     <div>
-                        <div>
+                        <p>
                             양식을 다운받아서 변경이 필요한 내용을 수정해주세요.<br/>
                             검색 순서대로 최대 5만건까지 수정이 가능합니다.<br/>
                             양식과 고객아이디는 변경하시면 안됩니다.<br/>
                             휴대폰번호는 변경되지 않습니다.<br/>
                             신규등록은 불가능하며 기존에 등록된 정보만 변경 가능합니다.<br/>
                             괄호 선택값이 존재할 경우, 괄호에 없는 값을 입력하면 해당 값은 수정되지 않습니다.
-                        </div>
+                        </p>
                         <Link to={''} className='btn-point'>양식 다운로드</Link>
                     </div>
                 </li>

@@ -14,7 +14,7 @@ export default function Registration() {
         <>
             <h2>
                 고객 등록
-                <Link to={''} className='btn-point'>대량 고객 등록</Link>
+                <Link to={'bulk'} className='btn-point'>대량 고객 등록</Link>
             </h2>
 
             <DropBox title="기본 정보">

@@ -4,6 +4,7 @@ import Main from '../pages/main/Main'
 import CustomerList from '../pages/customer/List'
 import Modify from '../pages/customer/Modify';
 import Registration from '../pages/customer/Registration';
+import RegistrationBulk from '../pages/customer/RegistrationBulk';
 // import Test from '../pages/customer/Test';
 
 export const routers = [
@@ -30,6 +31,9 @@ export const routers = [
             },
             {
                 path: 'registration', element: <Registration />
+            },
+            {
+                path: 'registration/bulk', element: <RegistrationBulk />
             },
             
         ]

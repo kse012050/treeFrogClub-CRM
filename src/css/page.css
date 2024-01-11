@@ -141,37 +141,8 @@
 .customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 23;}
 
 
-/* 통합 DB 관리 - 통합 고객 목록 - 대량 고객 수정 */
-.customerPage.modifyPage{}
-.customerPage.modifyPage ol{}
-.customerPage.modifyPage ol > li{--numbWidth: 32px; padding-left: calc(var(--numbWidth) + 15px); padding-bottom: 35px; margin-bottom: 5px; counter-increment: customerModify; position: relative;}
-.customerPage.modifyPage ol > li::before{content: counter(customerModify); position: absolute; left: 0; top: 0; width: var(--numbWidth); aspect-ratio: 1; font-size: 15px; color: var(--color-point01); font-weight: 700; display: flex; justify-content: center; align-items: center; background-color: var(--color-point02); border-radius: 100%; border-width: 0 0 5px 0; border-style: solid; border-color: white; z-index: 1;}
-.customerPage.modifyPage ol > li:not(:last-child):after{content: ''; width: 1px; height: 100%; position: absolute; left: calc(var(--numbWidth) / 2); bottom: 0; background-color: var(--color-point01);}
-.customerPage.modifyPage ol > li b{display: block; font-size: 15px; line-height: var(--numbWidth); font-weight: 700; margin-bottom: 8px;}
-.customerPage.modifyPage ol > li > div{padding: 60px 30px; border: 1px dashed var(--color-line); border-radius: 10px;}
-.customerPage.modifyPage ol > li > div:has(div){display: flex; align-items: center; justify-content: space-between;}
-.customerPage.modifyPage ol > li:nth-child(1) > div div{line-height: 20px; color: var(--color-font02);}
-.customerPage.modifyPage ol > li:nth-child(2) > div div{display: flex; gap: 7px;}
-.customerPage.modifyPage ol > li:nth-child(2) > div div input{width: 400px; height: 32px;}
-.customerPage.modifyPage ol > li:nth-child(3) > div{text-align: center;}
-.customerPage.modifyPage ol > li:nth-child(3) > div p{font-size: 20px; line-height: 24px; font-weight: 400; margin-bottom: 10px;}
-.customerPage.modifyPage ol > li:nth-child(3) > div > mark{font-weight: 700;}
-.customerPage.modifyPage ol > li:nth-child(3) > div > mark::before{content: '('; color: var(--color-font03);}
-.customerPage.modifyPage ol > li:nth-child(3) > div > mark::after{content: '총' attr(data-total) '건)'; color: var(--color-font03);}
-.customerPage.modifyPage ol > li:nth-child(3) > div dl{display: flex; justify-content: center; align-items: center;}
-.customerPage.modifyPage ol > li:nth-child(3) > div dl dt{display: flex; align-items: center;}
-.customerPage.modifyPage ol > li:nth-child(3) > div dl dt::after{content: ':'; margin-inline: 0.4em;}
-.customerPage.modifyPage ol > li:nth-child(3) > div p + dl{font-weight: 400; color: var(--color-font02);}
-.customerPage.modifyPage ol > li:nth-child(3) > div mark + dl{font-weight: 700; margin-top: 30px;}
-.customerPage.modifyPage ol > li:nth-child(3) > div ul{display: flex; flex-wrap: wrap; justify-content: center; color: var(--color-font02); margin-top: 7px;}
-.customerPage.modifyPage ol > li:nth-child(3) > div ul li:not(:first-child):before{content: ', ';}
-/* 나중에 삭제 */
-.customerPage.modifyPage ol > li:nth-child(3) > div:not(:last-child){margin-bottom: 20px;}
-
-
 /* 통합 DB 관리 - 고객 등록 */
 .customerPage.registrationPage > div:not(:last-of-type){margin-bottom: 20px;}
-.customerPage.registrationPage .boardBox{}
 .customerPage.registrationPage .boardBox > button{color: var(--color-font03); font-weight: 700;}
 .customerPage.registrationPage .boardBox > button:not(:last-of-type){margin-right: 20px;}
 .customerPage.registrationPage .boardBox > button::after{content: ' (' attr(data-count) ')';}
