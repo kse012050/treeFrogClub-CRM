@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function RegistrationBulk() {
+export default function BulkRegistration() {
     return (
         <>
             <h2>대량 고객 등록</h2>

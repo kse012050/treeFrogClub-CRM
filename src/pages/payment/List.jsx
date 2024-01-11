@@ -13,7 +13,7 @@ export default function List() {
         <>
             <h2>
                 결제 목록
-                <Link to="" className='btn-point'>대량결제 등록</Link>
+                <Link to="registration" className='btn-point'>대량결제 등록</Link>
             </h2>
             <DropBox title="검색 항목" arrow>
                 <form onClick={(e)=>e.preventDefault()}>

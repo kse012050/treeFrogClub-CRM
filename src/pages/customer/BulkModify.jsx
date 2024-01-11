@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Modify() {
+export default function BulkModify() {
     return (
         <>
             <h2>대량 고객 수정</h2>
