@@ -67,7 +67,7 @@ export default function Account() {
                 <ol className="board-center">
                     <li>
                         <span>123456</span>
-                        <Link to="">청개구리투자그룹</Link>
+                        <Link to="by">청개구리투자그룹</Link>
                         <span>5</span>
                         <span>35</span>
                         <span>12%</span>

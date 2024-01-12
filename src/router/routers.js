@@ -72,7 +72,7 @@ export const routers = [
                 path: 'Account', element: <StatisticsAccount />
             },
             {
-                path: 'By', element: <StatisticsBy />
+                path: 'Account/By', element: <StatisticsBy />
             },
             {
                 path: 'Campaign', element: <StatisticsCampaign />

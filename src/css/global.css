@@ -41,6 +41,7 @@ input[type="submit"]{border: none;}
 [class*="Page"] > .boardBox{margin-top: 60px;}
 .boardBox > strong{margin-right: auto;}
 .boardBox{display: flex; align-items: center; flex-wrap: wrap;}
+.boardBox > [class*="selectBox"] + [class*="selectBox"]{margin-left: 10px;}
 .boardBox :is(.board-top, .board-center, .board-bottom){min-width: 100%;}
 .boardBox div:has(:is(.board-top, .board-center, .board-bottom)){width: 100%;}
 .boardBox :is(.board-top, .board-center li, .board-bottom){min-width: 100%; display: inline-flex; align-items: center; gap: 10px; height: 56px; padding-inline: 10px; box-sizing: border-box;}

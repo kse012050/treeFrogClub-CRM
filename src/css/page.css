@@ -222,3 +222,23 @@
 .statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 50;}
 .statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 45;}
 .statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(14){flex: 61;}
+
+
+/* 통계 - 그룹/계정별 유효성 - 그룹별, 계정별 */
+.statisticsPage.byPage .boardBox{margin-top: 0;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 40;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 50;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 50;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 54;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 50;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 50;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 60;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 50;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 70;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 50;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 55;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 70;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(14){flex: 50;}
+.statisticsPage.byPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(15){flex: 50;}
+.statisticsPage.byPage .boardBox .btn-gray-white{margin-left: auto; margin-top: 20px;}
