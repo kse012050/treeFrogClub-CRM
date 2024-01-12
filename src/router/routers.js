@@ -9,6 +9,10 @@ import PaymentList from '../pages/payment/List';
 import PaymentBulkRegistration from '../pages/payment/BulkRegistration';
 import PaymentProductList from '../pages/payment/ProductList';
 import PaymentProductRegistration from '../pages/payment/ProductRegistration';
+import StatisticsAccount from '../pages/statistics/Account';
+import StatisticsBy from '../pages/statistics/By';
+import StatisticsCampaign from '../pages/statistics/Campaign';
+import StatisticsSales from '../pages/statistics/Sales';
 // import Test from '../pages/customer/Test';
 
 export const routers = [
@@ -57,6 +61,24 @@ export const routers = [
             },
             {
                 path: 'productList/registration', element: <PaymentProductRegistration />
+            }
+        ]
+    },
+    {
+        path: "/statistics",
+        element: <Root />,
+        children: [
+            {
+                path: 'Account', element: <StatisticsAccount />
+            },
+            {
+                path: 'By', element: <StatisticsBy />
+            },
+            {
+                path: 'Campaign', element: <StatisticsCampaign />
+            },
+            {
+                path: 'Sales', element: <StatisticsSales />
             }
         ]
     }

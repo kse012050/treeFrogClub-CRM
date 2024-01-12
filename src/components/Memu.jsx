@@ -16,9 +16,9 @@ export default function Memu() {
             </ul>
             <strong>통계</strong>
             <ul>
-                <li><Link to={''}>그룹/계정별 유효율</Link></li>
-                <li><Link to={''}>캠페인별 유효율</Link></li>
-                <li><Link to={''}>매출현황</Link></li>
+                <li><NavLink to={'/statistics/Account'}>그룹/계정별 유효율</NavLink></li>
+                <li><NavLink to={'/statistics/Campaign'}>캠페인별 유효율</NavLink></li>
+                <li><NavLink to={'/statistics/Sales'}>매출현황</NavLink></li>
             </ul>
             <strong>시스템 관리</strong>
             <b>기본 설정</b>

@@ -4,6 +4,7 @@
 mark{color: var(--color-point01);}
 hr{width: 100%; border: none; border-top: 1px solid var(--color-line); background-color: blue;}
 hr.case01{margin-block: 15px 20px;}
+hr.case02{margin-block: 20px 30px;}
 
 
 /* input 공통 */
@@ -120,7 +121,7 @@ input[type="submit"]{border: none;}
 .dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
 .dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"]:checked + label::before{--styleIdx: 1;}
 .dropBox form fieldset:has([type="radio"]) ul li > div:not(:has([type="radio"])) > div{padding-top: 39px;}
-.dropBox form fieldset ul li > div:has(.btn-gray-black){display: flex; gap: 10px;}
+.dropBox form fieldset ul li > div:has(.btn-gray-black, [class*="selectBox"]){display: flex; gap: 10px;}
 .dropBox form fieldset ul li > div > div{width: 100%; display: flex; align-items: center;}
 .dropBox form fieldset ul li > div > div span{margin-inline: 5px;}
 .dropBox form fieldset ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
