@@ -280,3 +280,36 @@
 .systemPage.customerPage .dropBox .autoArea > div ul li > label:first-child{font-weight: 700;}
 .systemPage.customerPage .dropBox .autoArea > div ul li div{height: 32px; display: flex; align-items: center; gap: 20px; margin-top: 10px;}
 .systemPage.customerPage .dropBox .autoArea > div ul li:has([type="search"]){width: 260px;}
+
+
+/* 시스템 관리 - 기본 설정 - 속성값 설정 - 구분값 설정 */
+.systemPage.propertyPage .divisionArea > div:first-child{width: 230px; min-height: 300px; padding-block: 10px; border: 1px solid var(--color-line);}
+.systemPage.propertyPage .divisionArea > div:first-child button{width: 100%; height: 36px; font-size: 13px; font-weight: 400; text-align: left; padding-inline: 20px;}
+.systemPage.propertyPage .divisionArea > div:first-child button.active{color: var(--color-point01); font-weight: 700; display: flex; align-items: center;}
+.systemPage.propertyPage .divisionArea > div:first-child button.active::after{content: ''; width: 16px; aspect-ratio: 1; background: url(../images/icon-check.png) no-repeat center / 100%; margin-left: 6px;}
+.systemPage.propertyPage .divisionArea > .boardBox{column-gap: 7px;}
+.systemPage.propertyPage .divisionArea > .boardBox b{font-size: 15px; font-weight: 700; margin-right: auto;}
+.systemPage.propertyPage .divisionArea > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 36;}
+.systemPage.propertyPage .divisionArea > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 439;}
+.systemPage.propertyPage .divisionArea > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 215;}
+
+/* 시스템 관리 - 기본 설정 - 속성값 설정 - 투자금액/목표량 설정 */
+.systemPage.propertyPage .moneyArea > b{font-size: 16px; line-height: 19px; font-weight: 700;}
+.systemPage.propertyPage .moneyArea .horizontalTwo{margin-top: 30px;}
+/* 달력 나중에 다시 작업 삭제 */
+.systemPage.propertyPage .moneyArea .horizontalTwo > div:first-child{width: 230px; height: 240px; border: 1px solid var(--color-line); display: flex; justify-content: center; align-items: center;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset{}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul{display: flex; gap: 40px;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(1){flex: 358;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(2){flex: 338;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li > label:first-child{font-size: 15px; line-height: 18px; font-weight: 700;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li > div{display: flex; align-items: center;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li > div:first-of-type{margin-top: 22px;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li > div:not(:first-of-type){margin-top: 10px;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li > div input[type="radio"] + label{font-weight: 700; margin-right: auto;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li > div p{margin-right: 10px;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li > div input[type="radio"] ~ p{color: var(--color-button);}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li > div input[type="radio"]:checked ~ p{color: var(--color-font01);}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(1) > div div{width: 150px;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(2) > div div{width: 100px;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset > input[type="submit"]{display: block; margin-left: auto; margin-top: 94px;}

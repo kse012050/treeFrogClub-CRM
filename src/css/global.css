@@ -19,6 +19,9 @@ div:has( > [type="search"]){position: relative;}
 div:has( > [type="search"]) [type="search"]{padding-right: 30px;}
 div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; translate: 0 -50%; width: 22px; aspect-ratio: 1; background: url(../images/icon-search.png) no-repeat center / cover; text-indent: -9999px;}
 .ant-color-picker-trigger + input{padding-left: 35px;}
+[data-unit]{position: relative;}
+[data-unit]::after{content: attr(data-unit); position: absolute; right: 10px; top: 50%; translate: 0 -50%;}
+[data-unit] input{padding-right: 25px;}
 
 
 /* 버튼 */
@@ -101,11 +104,6 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .boardBox .choice::before{content: '선택 ';}
 .boardBox .choice::after{content: '건';}
 .boardBox .page:has(+ .choice){margin-right: auto;}
-.boardBox .board-tab{display: flex; gap: 24px;}
-.boardBox .board-tab button{font-size: 20px; line-height: 24px; font-weight: 700; color: var(--color-button);}
-.boardBox .board-tab button.active{color: var(--color-font01);}
-.boardBox .board-tab button:not(:first-child){position: relative;}
-.boardBox .board-tab button:not(:first-child)::before{content: ''; position: absolute; left: -12px; top: 50%; translate: 0 -50%; width: 1px; height: 16px; background-color: var(--color-line);}
 .boardBox .board-table{width: 100%; margin-bottom: 30px; border-width: 1px 0; border-style: solid; border-color: var(--color-division);}
 .boardBox .board-table :is(th, b, mark){font-weight: 700;}
 .boardBox .board-table tr{height: 40px;}
@@ -115,6 +113,14 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .boardBox .board-table thead tr{background-color: var(--color-face);}
 .boardBox .board-table tbody tr td{text-align: center;}
 .boardBox .btn-gray-white:last-child{margin-left: auto; margin-top: 20px;}
+
+
+/* 탭 */
+.tabBox{display: flex; gap: 24px;}
+.tabBox button{font-size: 20px; line-height: 24px; font-weight: 700; color: var(--color-button);}
+.tabBox button.active{color: var(--color-font01);}
+.tabBox button:not(:first-child){position: relative;}
+.tabBox button:not(:first-child)::before{content: ''; position: absolute; left: -12px; top: 50%; translate: 0 -50%; width: 1px; height: 16px; background-color: var(--color-line);}
 
 
 /* 검색 */
@@ -155,6 +161,11 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .dropBox form > div{display: flex; justify-content: flex-end; gap: 10px; margin-top: 60px;}
 .dropBox form > div .btn-point:first-child:not(:only-child){margin-right: auto;}
 
+
+/* 가로 2단 배치 */
+.horizontalTwo{display: flex; align-items: flex-start; gap: 40px;}
+.horizontalTwo > div:first-child{flex-shrink: 0;}
+.horizontalTwo > :last-child{flex: 1;}
 
 
 /* 서브 페이지 */

@@ -7,7 +7,7 @@ export default function Sales() {
             <h2>매출현황</h2>
 
             <div className='boardBox'>
-                <div className="board-tab">
+                <div className="tabBox">
                     <button className='active'>캠페인별 매출현황</button>
                     <button>사용자별 매출현황</button>
                 </div>
