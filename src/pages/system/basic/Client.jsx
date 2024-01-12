@@ -8,7 +8,7 @@ export default function Client() {
         <>
             <h2>
                 고객 구분 관리
-                <Link to="" className='btn-point'>추가</Link>
+                <Link to="registration" className='btn-point'>추가</Link>
             </h2>
             <div className='boardBox'>
                 <strong>목록</strong>

@@ -14,17 +14,21 @@ textarea{padding-block: 10px; height: 96px;}
 input:not([type="submit"])::placeholder{color: var(--color-button);}
 input[type="submit"]{border: none;}
 input[readOnly]{color: var(--color-font02); background-color: var(--color-division);}
+input[disabled]{background-color: white; color: inherit;}
 div:has( > [type="search"]){position: relative;}
 div:has( > [type="search"]) [type="search"]{padding-right: 30px;}
 div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; translate: 0 -50%; width: 22px; aspect-ratio: 1; background: url(../images/icon-search.png) no-repeat center / cover; text-indent: -9999px;}
+.ant-color-picker-trigger + input{padding-left: 35px;}
 
 
 /* 버튼 */
-[class|='btn']{padding-block: 8px; border-radius: 4px; border: none; white-space: nowrap; cursor: pointer;}
-[class|='btn']:not(.btn-point){font-weight: 400;}
-.btn-gray-black{padding-inline: 15px; background-color: var(--color-division);}
+[class*='btn']{padding-block: 8px; border-radius: 4px; border: none; white-space: nowrap; cursor: pointer;}
+[class*='btn']:not(.btn-point){font-weight: 400;}
 .btn-point{padding-inline: 30px; font-weight: 700; color: white; text-align: center; background-color: var(--color-point01);}
 .btn-gray-white{padding-inline: 30px; color: white; background-color: var(--color-button);}
+.btn-gray-black{padding-inline: 15px; background-color: var(--color-division);}
+.btn-gray-black.ant-btn{font-size: 13px; line-height: 16px; font-family: 'Pretendard'; color: var(--color-font01);}
+.btn-gray-black.ant-btn-default:is(:hover, :active) span{color: var(--color-font01);}
 
 
 /* 셀렉트 박스 */
@@ -40,6 +44,10 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .selectBox-month button::after{content: '월';}
 .selectBox-pageCount{max-width: 80px; position: absolute; left: 55px; top: 0;}
 .selectBox-pageCount::before{content: '노출개수'; position: absolute; left: 0; top: 50%; translate: calc(-100% - 10px) -50%;}
+
+
+/* 색상 플러그인 */
+
 
 
 /* 게시판 */
@@ -74,6 +82,7 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .boardBox .board-center li div:has(.popup){display: flex; gap: 10px;}
 .boardBox .board-center li div .ant-color-picker-trigger{border: none; justify-content: flex-start;}
 .boardBox .board-center li div .ant-color-picker-trigger .ant-color-picker-color-block{padding: 2px; border: 1px solid var(--color-line); background-image: none;}
+.boardBox .board-center li div .ant-color-picker-trigger .ant-color-picker-trigger-text{margin-inline-start: 6px;}
 .boardBox .board-pagination{width: 100%; display: flex; justify-content: center; gap: 10px; margin-top: 20px;}
 .boardBox .board-pagination:has(.selectBox-pageCount){position: relative;}
 .boardBox .board-pagination > a{width: 24px; aspect-ratio: 24 / 32; background: url(../images/icon-pagination.png) no-repeat center top calc(100% / (var(--styleTotal) - 1) * var(--styleIdx)) / 100%; text-indent: -9999px;}
@@ -140,6 +149,9 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .dropBox form fieldset ul li > div > div{width: 100%; display: flex; align-items: center;}
 .dropBox form fieldset ul li > div > div span{margin-inline: 5px;}
 .dropBox form fieldset ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
+.dropBox form fieldset ul li > div:has(.ant-color-picker-trigger){position: relative;}
+.dropBox form fieldset ul li > div .ant-color-picker-trigger{position: absolute; left: 7px; top: 50%; translate: 0 -50%; width: auto; background-color: transparent; min-width: auto; height: auto; padding: 0;}
+.dropBox form fieldset ul li > div .ant-color-picker-trigger .ant-color-picker-color-block{width: 18px; height: 18px;}
 .dropBox form > div{display: flex; justify-content: flex-end; gap: 10px; margin-top: 60px;}
 .dropBox form > div .btn-point:first-child{margin-right: auto;}
 
