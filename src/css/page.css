@@ -269,3 +269,14 @@
 .systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 90;}
 .systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 90;}
 .systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 60;}
+
+
+/* 시스템 관리 - 기본 설정 - 고객목록 설정 */
+.systemPage.customerPage .dropBox .autoArea > b{display: block; font-size: 15px; line-height: 18px; font-weight: 700; margin-bottom: 30px;}
+.systemPage.customerPage .dropBox .autoArea > label{font-weight: 700;}
+.systemPage.customerPage .dropBox .autoArea > label:not(:first-of-type){margin-top: 20px;}
+.systemPage.customerPage .dropBox .autoArea > div{display: inline-block; margin-left: 22px; margin-top: 10px; padding: 20px; background-color: var(--color-face);}
+.systemPage.customerPage .dropBox .autoArea > div ul{display: flex; gap: 40px;}
+.systemPage.customerPage .dropBox .autoArea > div ul li > label:first-child{font-weight: 700;}
+.systemPage.customerPage .dropBox .autoArea > div ul li div{height: 32px; display: flex; align-items: center; gap: 20px; margin-top: 10px;}
+.systemPage.customerPage .dropBox .autoArea > div ul li:has([type="search"]){width: 260px;}

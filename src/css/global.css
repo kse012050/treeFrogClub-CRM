@@ -121,6 +121,9 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 [type="checkbox"] + label{display: flex; align-items: flex-start; cursor: pointer;}
 [type="checkbox"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-checkbox.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
 [type="checkbox"]:checked + label::before{--styleIdx: 1;}
+[type="radio"] + label{white-space: nowrap; display: flex; align-items: center; cursor: pointer;}
+[type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
+[type="radio"]:checked + label::before{--styleIdx: 1;}
 .dropBox{--padding: 20px; border: 1px solid var(--color-line);}
 .dropBox > :is(button, b){padding: var(--padding); font-size: 15px; line-height: 18px; font-weight: 700; text-align: left;}
 .dropBox > button{width: 100%;}
@@ -131,29 +134,26 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .dropBox > :is(button, b) + *{margin-top: 10px; padding: 0 var(--padding) var(--padding);}
 .dropBox form fieldset:not(:last-of-type){padding-bottom: 30px; border-bottom: 1px solid var(--color-division); margin-bottom: 30px;}
 .dropBox form fieldset:not(:has(input[type="checkbox"])){padding-right: 100px;}
-.dropBox form fieldset ul{display: flex; flex-wrap: wrap; gap: 30px 40px;}
-.dropBox form fieldset ul li:not([class]){width: calc((100% - 80px) / 3);}
-.dropBox form fieldset ul li.fill-two{width: calc((100% - 80px) / 3 * 2 + 40px);}
-.dropBox form fieldset ul li.fill-three{width: 100%;}
-.dropBox form fieldset ul li > label:first-child{font-weight: 700; display: block;}
-.dropBox form fieldset ul li > label:first-child:has( + div :is([type="radio"], [type="checkbox"])){margin-bottom: 18px;}
-.dropBox form fieldset ul li > label:first-child:not(:has( + div :is([type="radio"], [type="checkbox"]))){margin-bottom: 10px;}
-.dropBox form fieldset ul li > div:has([type="checkbox"]){display: flex; flex-wrap: wrap; gap: 15px 30px;}
-.dropBox form fieldset ul li > div:has([type="checkbox"]) [type="checkbox"] + label{width: 145px; /* flex: 1;  */ white-space: nowrap;}
-.dropBox form fieldset ul li > div:has([type="radio"]){display: flex; flex-wrap: wrap; gap: 15px 20px;}
-.dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"] + label{white-space: nowrap; display: flex; align-items: center; cursor: pointer;}
-.dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
-.dropBox form fieldset ul li > div:has([type="radio"]) [type="radio"]:checked + label::before{--styleIdx: 1;}
-.dropBox form fieldset:has([type="radio"]) ul li > div:not(:has([type="radio"])) > div{padding-top: 39px;}
-.dropBox form fieldset ul li > div:has(.btn-gray-black, [class*="selectBox"]){display: flex; gap: 10px;}
-.dropBox form fieldset ul li > div > div{width: 100%; display: flex; align-items: center;}
-.dropBox form fieldset ul li > div > div span{margin-inline: 5px;}
-.dropBox form fieldset ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
-.dropBox form fieldset ul li > div:has(.ant-color-picker-trigger){position: relative;}
-.dropBox form fieldset ul li > div .ant-color-picker-trigger{position: absolute; left: 7px; top: 50%; translate: 0 -50%; width: auto; background-color: transparent; min-width: auto; height: auto; padding: 0;}
-.dropBox form fieldset ul li > div .ant-color-picker-trigger .ant-color-picker-color-block{width: 18px; height: 18px;}
+.dropBox form fieldset > ul{display: flex; flex-wrap: wrap; gap: 30px 40px;}
+.dropBox form fieldset > ul li:not([class]){width: calc((100% - 80px) / 3);}
+.dropBox form fieldset > ul li.fill-two{width: calc((100% - 80px) / 3 * 2 + 40px);}
+.dropBox form fieldset > ul li.fill-three{width: 100%;}
+.dropBox form fieldset > ul li > label:first-child{font-weight: 700; display: block;}
+.dropBox form fieldset > ul li > label:first-child:has( + div :is([type="radio"], [type="checkbox"])){margin-bottom: 18px;}
+.dropBox form fieldset > ul li > label:first-child:not(:has( + div :is([type="radio"], [type="checkbox"]))){margin-bottom: 10px;}
+.dropBox form fieldset > ul li > div:has([type="checkbox"]){display: flex; flex-wrap: wrap; gap: 15px 30px;}
+.dropBox form fieldset > ul li > div:has([type="checkbox"]) [type="checkbox"] + label{width: 145px; /* flex: 1;  */ white-space: nowrap;}
+.dropBox form fieldset > ul li > div:has([type="radio"]){display: flex; flex-wrap: wrap; gap: 15px 20px;}
+.dropBox form fieldset:has([type="radio"]):has(.ant-picker) > ul li > div:not(:has([type="radio"])) > div{padding-top: 39px;}
+.dropBox form fieldset > ul li > div:has(.btn-gray-black, [class*="selectBox"]){display: flex; gap: 10px;}
+.dropBox form fieldset > ul li > div > div{width: 100%; display: flex; align-items: center;}
+.dropBox form fieldset > ul li > div > div span{margin-inline: 5px;}
+.dropBox form fieldset > ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
+.dropBox form fieldset > ul li > div:has(.ant-color-picker-trigger){position: relative;}
+.dropBox form fieldset > ul li > div .ant-color-picker-trigger{position: absolute; left: 7px; top: 50%; translate: 0 -50%; width: auto; background-color: transparent; min-width: auto; height: auto; padding: 0;}
+.dropBox form fieldset > ul li > div .ant-color-picker-trigger .ant-color-picker-color-block{width: 18px; height: 18px;}
 .dropBox form > div{display: flex; justify-content: flex-end; gap: 10px; margin-top: 60px;}
-.dropBox form > div .btn-point:first-child{margin-right: auto;}
+.dropBox form > div .btn-point:first-child:not(:only-child){margin-right: auto;}
 
 
 
