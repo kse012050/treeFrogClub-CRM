@@ -256,3 +256,16 @@
 .statisticsPage.salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 90;}
 .statisticsPage.salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 90;}
 .statisticsPage.salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 80;}
+
+
+/* 시스템 관리 - 기본 설정 - 고객 구분 관리 */
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 104;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 110;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 70;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 100;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 120;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 120;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 90;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 90;}
+.systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 60;}
