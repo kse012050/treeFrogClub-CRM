@@ -13,6 +13,12 @@ import StatisticsAccount from '../pages/statistics/Account';
 import StatisticsByType from '../pages/statistics/ByType';
 import StatisticsCampaign from '../pages/statistics/Campaign';
 import StatisticsSales from '../pages/statistics/Sales';
+import SystemBasicAnUserList from '../pages/system/basic/AnUserList';
+import SystemBasicBureau from '../pages/system/basic/Bureau';
+import SystemBasicClient from '../pages/system/basic/Client';
+import SystemBasicCommon from '../pages/system/basic/Common';
+import SystemBasicCustomer from '../pages/system/basic/Customer';
+import SystemBasicProperty from '../pages/system/basic/Property';
 // import Test from '../pages/customer/Test';
 
 export const routers = [
@@ -83,6 +89,30 @@ export const routers = [
             {
                 path: 'sales', element: <StatisticsSales />
             }
+        ]
+    },
+    {
+        path: "/system",
+        element: <Root />,
+        children: [
+            {
+                path: 'basic/anUserList', element: <SystemBasicAnUserList />
+            },
+            {
+                path: 'basic/bureau', element: <SystemBasicBureau />
+            },
+            {
+                path: 'basic/client', element: <SystemBasicClient />
+            },
+            {
+                path: 'basic/common', element: <SystemBasicCommon />
+            },
+            {
+                path: 'basic/customer', element: <SystemBasicCustomer />
+            },
+            {
+                path: 'basic/property', element: <SystemBasicProperty />
+            },
         ]
     }
 ];

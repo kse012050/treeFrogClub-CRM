@@ -23,12 +23,12 @@ export default function Memu() {
             <strong>시스템 관리</strong>
             <b>기본 설정</b>
             <ul>
-                <li><Link to={''}>사용자 목록</Link></li>
-                <li><Link to={''}>부서 관리</Link></li>
-                <li><Link to={''}>고객 구분 관리</Link></li>
-                <li><Link to={''}>공통 코드 관리</Link></li>
-                <li><Link to={''}>고객목록 설정</Link></li>
-                <li><Link to={''}>속성값 설정</Link></li>
+                <li><NavLink to={'/system/basic/anUserList'}>사용자 목록</NavLink></li>
+                <li><NavLink to={'/system/basic/bureau'}>부서 관리</NavLink></li>
+                <li><NavLink to={'/system/basic/client'}>고객 구분 관리</NavLink></li>
+                <li><NavLink to={'/system/basic/common'}>공통 코드 관리</NavLink></li>
+                <li><NavLink to={'/system/basic/customer'}>고객목록 설정</NavLink></li>
+                <li><NavLink to={'/system/basic/property'}>속성값 설정</NavLink></li>
             </ul>
             <b>권한 설정</b>
             <ul>
