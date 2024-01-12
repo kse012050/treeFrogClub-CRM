@@ -16,7 +16,7 @@ export default function ProductRegistration() {
                                 <label htmlFor="">상품코드</label>
                                 <div>
                                     <input type="text" />
-                                    <button className='btn-gray-black'>중복확인</button>
+                                    <button className='btn-gray-black'>중복 확인</button>
                                 </div>
                             </li>
                             <li>

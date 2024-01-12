@@ -245,7 +245,7 @@
 /* 통계 - 매출현황 */
 .statisticsPage.salesPage .boardBox > b:not([class]){font-size: 16px; line-height: 19px; font-weight: 700;}
 .statisticsPage.salesPage .boardBox > .total{width: 100%; margin-top: 30px;}
-.statisticsPage.salesPage .boardBox > .board-search{margin-left: auto;}
+.statisticsPage.salesPage .boardBox > .board-search{margin-left: auto; width: 260px;}
 .statisticsPage.salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 70;}
 .statisticsPage.salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90;}
 .statisticsPage.salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 70;}
