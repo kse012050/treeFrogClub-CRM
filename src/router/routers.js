@@ -10,7 +10,7 @@ import PaymentBulkRegistration from '../pages/payment/BulkRegistration';
 import PaymentProductList from '../pages/payment/ProductList';
 import PaymentProductRegistration from '../pages/payment/ProductRegistration';
 import StatisticsAccount from '../pages/statistics/Account';
-import StatisticsBy from '../pages/statistics/By';
+import StatisticsByType from '../pages/statistics/ByType';
 import StatisticsCampaign from '../pages/statistics/Campaign';
 import StatisticsSales from '../pages/statistics/Sales';
 // import Test from '../pages/customer/Test';
@@ -69,16 +69,19 @@ export const routers = [
         element: <Root />,
         children: [
             {
-                path: 'Account', element: <StatisticsAccount />
+                path: 'account', element: <StatisticsAccount />
             },
             {
-                path: 'Account/By', element: <StatisticsBy />
+                path: 'account/by', element: <StatisticsByType />
             },
             {
-                path: 'Campaign', element: <StatisticsCampaign />
+                path: 'campaign', element: <StatisticsCampaign />
             },
             {
-                path: 'Sales', element: <StatisticsSales />
+                path: 'campaign/by', element: <StatisticsByType />
+            },
+            {
+                path: 'sales', element: <StatisticsSales />
             }
         ]
     }

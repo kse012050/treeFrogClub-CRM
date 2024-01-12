@@ -208,20 +208,20 @@
 
 
 /* 통계 - 그룹/계정별 유효성 */
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 70;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 130;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 50;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 50;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 50;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 54;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 50;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 50;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 60;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 50;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 70;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 50;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 45;}
-.statisticsPage.AccountPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(14){flex: 61;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 70;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 130;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 50;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 50;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 50;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 54;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 50;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 50;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 60;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 50;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 70;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 50;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 45;}
+.statisticsPage:is(.accountPage, .campaignPage) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(14){flex: 61;}
 
 
 /* 통계 - 그룹/계정별 유효성 - 그룹별, 계정별 */

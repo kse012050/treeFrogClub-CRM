@@ -2,7 +2,7 @@ import React from 'react';
 import Select from '../../components/Select';
 import { Link } from 'react-router-dom';
 
-export default function By() {
+export default function ByType() {
     return (
         <div className='boardBox'>
             <strong>청개구리투자그룹 &gt; 계정별 유효율</strong>
