@@ -49,7 +49,7 @@ export default function Sales() {
                     </li>
                 </ol>
                 {/* 검색 결과 */}
-                <button class="btn-gray-white">목록</button>
+                <button className="btn-gray-white">목록</button>
             </div>
         </>
     );
