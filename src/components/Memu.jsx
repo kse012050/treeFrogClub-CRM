@@ -32,8 +32,8 @@ export default function Memu() {
             </ul>
             <b>권한 설정</b>
             <ul>
-                <li><Link to={''}>역할 관리</Link></li>
-                <li><Link to={''}>역할 권한 관리</Link></li>
+                <li><NavLink to={'/system/grant/management'}>역할 관리</NavLink></li>
+                <li><NavLink to={'/system/grant/permissions'}>역할 권한 관리</NavLink></li>
             </ul>
             <b>회원사 관리</b>
             <ul>

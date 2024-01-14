@@ -272,8 +272,7 @@
 
 
 /* 시스템 관리 - 기본 설정 - 고객목록 설정 */
-.systemPage.customerPage .dropBox .autoArea > b{display: block; font-size: 15px; line-height: 18px; font-weight: 700; margin-bottom: 30px;}
-.systemPage.customerPage .dropBox .autoArea > label{font-weight: 700;}
+/* .systemPage.customerPage .dropBox .autoArea > b{display: block; font-size: 15px; line-height: 18px; font-weight: 700; margin-bottom: 30px;} */
 .systemPage.customerPage .dropBox .autoArea > label:not(:first-of-type){margin-top: 20px;}
 .systemPage.customerPage .dropBox .autoArea > div{display: inline-block; margin-left: 22px; margin-top: 10px; padding: 20px; background-color: var(--color-face);}
 .systemPage.customerPage .dropBox .autoArea > div ul{display: flex; gap: 40px;}
@@ -313,3 +312,18 @@
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(1) > div div{width: 150px;}
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(2) > div div{width: 100px;}
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset > input[type="submit"]{display: block; margin-left: auto; margin-top: 94px;}
+
+
+/* 시스템 관리 - 제한 설정 - 역할 관리 */
+.systemPage.managementPage .dropBox .limitArea > label{margin-bottom: 15px;}
+.systemPage.managementPage .dropBox .limitArea > div:not(:last-of-type){margin-bottom: 30px;}
+.systemPage.managementPage .dropBox .limitArea .timeArea{display: flex; align-items: center; gap: 5px;}
+.systemPage.managementPage .dropBox .limitArea .ipArea{display: flex; align-items: flex-start;}
+.systemPage.managementPage .dropBox .limitArea .ipArea input{width: 200px;}
+.systemPage.managementPage .dropBox .limitArea .ipArea .btn-gray-black{margin-left: 7px;}
+.systemPage.managementPage .dropBox .limitArea .ipArea ul{width: 260px; height: 96px; padding: 12px 20px; box-sizing: border-box; overflow: auto; background-color: var(--color-division); margin-left: 20px;}
+.systemPage.managementPage .dropBox .limitArea .ipArea ul::-webkit-scrollbar{width: 6px;}
+.systemPage.managementPage .dropBox .limitArea .ipArea ul::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
+.systemPage.managementPage .dropBox .limitArea .ipArea ul li{display: flex; align-items: center;}
+.systemPage.managementPage .dropBox .limitArea .ipArea ul li:not(:last-child){margin-bottom: 12px;}
+.systemPage.managementPage .dropBox .limitArea .ipArea ul li button{width: 16px; aspect-ratio: 1; background: url(../images/icon-delete.png) no-repeat center / cover; text-indent: -9999px; margin-left: 6px;}

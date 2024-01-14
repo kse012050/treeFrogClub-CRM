@@ -47,6 +47,7 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .selectBox-month button::after{content: '월';}
 .selectBox-pageCount{max-width: 80px; position: absolute; left: 55px; top: 0;}
 .selectBox-pageCount::before{content: '노출개수'; position: absolute; left: 0; top: 50%; translate: calc(-100% - 10px) -50%;}
+.selectBox-time{width: 80px;}
 
 
 /* 색상 플러그인 */
@@ -138,8 +139,12 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .dropBox > button.arrow::after{content: ''; position: absolute; right: var(--padding); top: 50%; translate: 0 -50%; width: 26px; aspect-ratio: 1; background: url(../images/icon-arrow.png) no-repeat center / cover;}
 .dropBox > button.arrow.active::after{rotate: 180deg;}
 .dropBox > :is(button, b) + *{margin-top: 10px; padding: 0 var(--padding) var(--padding);}
-.dropBox form fieldset:not(:last-of-type){padding-bottom: 30px; border-bottom: 1px solid var(--color-division); margin-bottom: 30px;}
+.dropBox form fieldset:not(:last-of-type){padding-bottom: 30px; border-bottom: 1px solid var(--color-division);}
+.dropBox form fieldset:not(:last-of-type):has( + [class]){margin-bottom: 20px;}
+.dropBox form fieldset:not(:last-of-type):has( + :not([class])){margin-bottom: 30px;}
 .dropBox form fieldset:not(:has(input[type="checkbox"])){padding-right: 100px;}
+.dropBox form fieldset[class] > b{display: block; font-size: 15px; line-height: 18px; font-weight: 700; margin-bottom: 30px;}
+.dropBox form fieldset[class] > label{font-weight: 700;}
 .dropBox form fieldset > ul{display: flex; flex-wrap: wrap; gap: 30px 40px;}
 .dropBox form fieldset > ul li:not([class]){width: calc((100% - 80px) / 3);}
 .dropBox form fieldset > ul li.fill-two{width: calc((100% - 80px) / 3 * 2 + 40px);}

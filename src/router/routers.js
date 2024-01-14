@@ -20,6 +20,8 @@ import SystemBasicClientRegistration from '../pages/system/basic/ClientRegistrat
 import SystemBasicCommon from '../pages/system/basic/Common';
 import SystemBasicCustomer from '../pages/system/basic/Customer';
 import SystemBasicProperty from '../pages/system/basic/Property';
+import SystemGrantManagement from '../pages/system/grant/Management';
+import SystemGrantPermissions from '../pages/system/grant/Permissions';
 // import Test from '../pages/customer/Test';
 
 export const routers = [
@@ -117,6 +119,12 @@ export const routers = [
             {
                 path: 'basic/property', element: <SystemBasicProperty />
             },
+            {
+                path: 'grant/management', element: <SystemGrantManagement />
+            },
+            {
+                path: 'grant/permissions', element: <SystemGrantPermissions />
+            }
         ]
     }
 ];
