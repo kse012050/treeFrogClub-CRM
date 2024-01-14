@@ -1,5 +1,6 @@
 #root{min-width: 1280px;}
 
+body *::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
 
 mark{color: var(--color-point01);}
 hr{width: 100%; border: none; border-top: 1px solid var(--color-line); background-color: blue;}
@@ -95,6 +96,8 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .boardBox .board-pagination ol li a{display: flex; align-items: center; font-weight: 700; color: var(--color-button); padding-inline: 10px;}
 .boardBox .board-pagination ol li.active a{color: var(--color-point01); text-decoration: underline; text-underline-offset: 2px;}
 /* .boardBox :is(.board-top *, .board-center li > *, .board-bottom *){} */
+.boardBox .btn-gray-black.boundary{margin-right: 30px; position: relative;}
+.boardBox .btn-gray-black.boundary::after{content: ''; width: 1px; height: 50%; background-color: var(--color-line); position: absolute; right: -15px; top: 50%; translate: 0 -50%;}
 .boardBox .total{font-size: 15px; font-weight: 700;}
 .boardBox .total::before{content: '총';}
 .boardBox .total::after{content: '건';}
@@ -171,6 +174,18 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .horizontalTwo{display: flex; align-items: flex-start; gap: 40px;}
 .horizontalTwo > div:first-child{flex-shrink: 0;}
 .horizontalTwo > :last-child{flex: 1;}
+/* 역할명 */
+.horizontalTwo .roleName{width: 200px; border: 1px solid var(--color-line);}
+.horizontalTwo .roleName > b{display: block; font-weight: 700; text-align: center; padding-block: 15px; border-bottom: 1px solid var(--color-line);}
+.horizontalTwo .roleName > ul{height: 414px; overflow: auto;}
+.horizontalTwo .roleName > ul::-webkit-scrollbar{width: 6px;}
+.horizontalTwo .roleName > ul li:first-child{padding-top: 7.5px;}
+.horizontalTwo .roleName > ul li:last-child{padding-bottom: 7.5px;}
+.horizontalTwo .roleName > ul li button{width: 100%; padding-inline: 20px; text-align: left; line-height: 31px;}
+.horizontalTwo .roleName > ul li button.active{color: var(--color-point01); font-weight: 700; display: flex; align-items: center;}
+.horizontalTwo .roleName > ul li button.active::after{content: ''; width: 16px; aspect-ratio: 1; background: url(../images/icon-check.png) no-repeat center / cover; margin-left: 6px;}
+
+
 
 
 /* 서브 페이지 */
@@ -188,8 +203,10 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .subPage > [class*="Page"]{width: calc(100% - var(--navWidth)); padding: 30px 40px 60px; box-sizing: border-box;}
 .subPage > [class*="Page"] > [class*="Page"] > div:not(:last-of-type){margin-bottom: 60px;}
 .subPage h2{font-size: 27px; line-height: 32px; margin-bottom: 40px; font-weight: 700;}
-.subPage h2:has(.btn-point){display: flex; align-items: center; justify-content: space-between;}
+.subPage h2:has(.btn-point, input[type="search"]){display: flex; align-items: center; justify-content: space-between;}
 .subPage h2 .btn-point{font-size: 13px; line-height: 16px;}
+.subPage h2:has(input[type="search"]) > div{width: 260px; line-height: 16px;}
+.subPage h2:has(input[type="search"]) > div input[type="search"]{font-size: 13px;}
 .subPage strong{font-size: 20px; line-height: 24px; font-weight: 700;}
 
 
