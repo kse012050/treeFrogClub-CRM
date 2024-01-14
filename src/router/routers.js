@@ -22,6 +22,7 @@ import SystemBasicCustomer from '../pages/system/basic/Customer';
 import SystemBasicProperty from '../pages/system/basic/Property';
 import SystemGrantManagement from '../pages/system/grant/Management';
 import SystemGrantPermissions from '../pages/system/grant/Permissions';
+import SystemNoticeAnnouncement from '../pages/notice/Announcement';
 // import Test from '../pages/customer/Test';
 
 export const routers = [
@@ -125,6 +126,15 @@ export const routers = [
             {
                 path: 'grant/permissions', element: <SystemGrantPermissions />
             }
+        ]
+    },
+    {
+        path: "/notice",
+        element: <Root />,
+        children: [
+            {
+                path: 'announcement', element: <SystemNoticeAnnouncement />
+            },
         ]
     }
 ];

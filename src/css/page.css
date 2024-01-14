@@ -346,3 +346,8 @@
 .systemPage.permissionsPage .horizontalTwo .searchResultArea b{font-size: 15px; font-weight: 700;}
 .systemPage.permissionsPage .horizontalTwo .searchResultArea ul li{display: flex; align-items: center; gap: 10px;}
 .systemPage.permissionsPage .horizontalTwo .searchResultArea ul li:not(:last-child){margin-bottom: 15px;}
+
+
+
+/* 공지사항 등록 */
+.noticePage.announcementPage .dropBox form fieldset > ul li:first-child > div label:first-of-type{margin-right: 20px;}

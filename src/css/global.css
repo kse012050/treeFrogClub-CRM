@@ -132,7 +132,8 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 [type="checkbox"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-checkbox.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
 [type="checkbox"]:checked + label::before{--styleIdx: 1;}
 [type="radio"] + label{white-space: nowrap; display: flex; align-items: center; cursor: pointer;}
-[type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
+[type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%;}
+[type="radio"] + label:not(:has( + label)):before{margin-right: 6px;}
 [type="radio"]:checked + label::before{--styleIdx: 1;}
 .dropBox{--padding: 20px; border: 1px solid var(--color-line);}
 .dropBox > :is(button, b){padding: var(--padding); font-size: 15px; line-height: 18px; font-weight: 700; text-align: left;}
