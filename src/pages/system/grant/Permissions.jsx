@@ -1,8 +1,8 @@
 import React from 'react';
-import Select from '../../../components/Select';
+// import Select from '../../../components/Select';
 // import GrantUser from '../../../components/system/grant/GrantUser';
 import SearchResults from '../../../components/system/grant/SearchResults';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 export default function Permissions() {
     return (

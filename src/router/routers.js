@@ -27,7 +27,7 @@ import SystemNoticeAnnouncement from '../pages/notice/Announcement';
 
 export const routers = [
     {
-        path: "/",
+        path: "/login",
         element: <SignIn />,
     },
     {

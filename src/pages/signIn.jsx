@@ -1,6 +1,8 @@
 import React from 'react';
+import * as api from '../api/api'
 
 export default function signIn() {
+    api.login();
     return (
         <div className='signInPage'>
             <h1>
