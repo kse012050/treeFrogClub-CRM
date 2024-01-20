@@ -11,6 +11,7 @@ hr.case03{margin-block: 20px 20px;}
 
 /* input 공통 */
 input:not([type="reset"], [type="submit"]), textarea{width: 100%; height: 32px; padding-inline: 10px; font-weight: 400; border: 1px solid var(--color-line); border-radius: 4px; box-sizing: border-box;}
+:is(input:not([type="reset"], [type="submit"]), textarea):focus{outline: 1px solid var(--color-point01);}
 textarea{padding-block: 10px; height: 96px;}
 input:not([type="submit"])::placeholder{color: var(--color-button);}
 input[type="submit"]{border: none;}
