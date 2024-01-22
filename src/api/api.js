@@ -28,7 +28,6 @@ function common(type, data){
     type && (data = {...data, 'func_type': type});
     
     data = {...data, 'ip': '12.133.12.145', 'user-agent': ''};
-    console.log(data);
     data = JSON.stringify(data)
 
     return {
@@ -59,10 +58,8 @@ export function api(url, type, data){
 
 export function apiAwait(url, type, dataName, data){
     return Promise.all(data.map((id)=>api(url, type, {[dataName] : id})))
-            .then((result)=> {
-                return true;
-            })
-            .catch(error => console.log('error', error));;
+            .then(()=> true)
+            .catch(error => console.log('error', error));
     // const options = common(type, data);
     // console.log(type);
     // console.log(data);

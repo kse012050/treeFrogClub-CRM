@@ -3,7 +3,6 @@ import PopupProperty from './PopupProperty';
 import PopupFunc from './PopupFunc';
 
 function Popup({ popup, setPopup, func }) {
-    console.log('팝업 1');
     const close = () =>{
         setPopup('');
     }
