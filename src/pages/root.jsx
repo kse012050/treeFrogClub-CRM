@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Memu from '../components/Memu';
 import {styleIdx} from '../js/style.js';
 
 export default function Root({ children }) {
     const pageName = useLocation().pathname.slice(1).split('/');
+    const navigate = useNavigate();
     // console.log(pageName);
     useEffect(()=>{
+        console.log('?');
+        console.log(sessionStorage.getItem('authorization'));
+        sessionStorage.getItem('authorization') || navigate('/');
         return(
             document.querySelectorAll('[data-styleidx]').length ? styleIdx() : undefined
         )
-    },[pageName, children])
+    },[pageName, children, navigate])
     return (
         <>
             <header>
