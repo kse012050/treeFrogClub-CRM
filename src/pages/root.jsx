@@ -8,8 +8,6 @@ export default function Root({ children }) {
     const navigate = useNavigate();
     // console.log(pageName);
     useEffect(()=>{
-        console.log('?');
-        console.log(sessionStorage.getItem('authorization'));
         sessionStorage.getItem('authorization') || navigate('/');
         return(
             document.querySelectorAll('[data-styleidx]').length ? styleIdx() : undefined

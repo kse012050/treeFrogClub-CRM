@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { api } from '../../../api/api'
+
 
 export default function PropertyDivision() {
+    const [list, setList] = useState([])
+    const [listActive, setListActive] = useState()
+    useEffect(()=>{
+        api('properties', 'classification_list')
+            .then(({result, list}) => {
+                if(result){
+                    setList(list);
+                    setListActive(list[0].classification_id)
+                }
+            })
+    },[])
+
     return (
         <div className='divisionArea horizontalTwo'>
             <div>
-                <button className='active'>결제 구분 (6)</button>
-                <button>매출 구분 (0)</button>
-                <button>환불 구분 (0)</button>
+                {list.map(({classification_id, name, properties_count})=>
+                    <button key={classification_id} className={classification_id === listActive ? 'active' : ''} onClick={()=>setListActive(classification_id)}>
+                        {name} ({properties_count})
+                    </button>
+                )}
             </div>
             <div className='boardBox'>
                 <b>결제 구분 (6)</b>
