@@ -294,7 +294,15 @@
 .systemPage.propertyPage .moneyArea > b{font-size: 16px; line-height: 19px; font-weight: 700;}
 .systemPage.propertyPage .moneyArea .horizontalTwo{margin-top: 30px;}
 /* 달력 나중에 다시 작업 삭제 */
-.systemPage.propertyPage .moneyArea .horizontalTwo > div:first-child{width: 230px; height: 240px; border: 1px solid var(--color-line); display: flex; justify-content: center; align-items: center;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar{width: 230px; height: 240px; border: 1px solid var(--color-line); display: flex; flex-direction: column;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .yearArea{height: 46px; display: flex; justify-content: space-between; align-items: center; padding-inline: 7px; border-bottom: 1px solid var(--color-line);}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .yearArea span{font-weight: 700;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .yearArea button{width: 24px; aspect-ratio: 24 / 32; background: url(../images/icon-pagination.png) no-repeat center top calc(33.33% * var(--styleIdx)) / 100%; text-indent: -9999px;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .yearArea button:nth-of-type(1){--styleIdx: 1;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .yearArea button:nth-of-type(2){--styleIdx: 3;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .monthArea{flex: 1; display: flex; flex-wrap: wrap; padding: 5px 10px;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .monthArea li{width: calc(100% / 3); padding: 15px 20px; text-align: center; box-sizing: border-box; cursor: pointer;}
+.systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .monthArea li.active{font-weight: 700; color: var(--color-point01);}
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset{}
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul{display: flex; gap: 40px;}
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(1){flex: 358;}

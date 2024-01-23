@@ -3,7 +3,7 @@ import PropertyDivision from './PropertyDivision';
 import PropertyMoney from './PropertyMoney';
 
 export default function PropertyContent() {
-    const [active, setActive] = useState(1)
+    const [active, setActive] = useState(2)
     return (
         <>
             <div className="tabBox">

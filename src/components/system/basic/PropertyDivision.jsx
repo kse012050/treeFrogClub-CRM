@@ -7,8 +7,8 @@ export default function PropertyDivision() {
     const [classificationActive, setClassificationctive] = useState()
     const [classificationList, setClassificationList] = useState([])
     const [propertiesList, setPropertiesist] = useState()
-    const [deleteList, setDeleteList] = useState([]);
-    const [popup, setPopup] = useState('');
+    const [deleteList, setDeleteList] = useState([])
+    const [popup, setPopup] = useState('')
 
     
     useEffect(()=>{

@@ -30,6 +30,7 @@ body {
 	font-family: 'Pretendard';
 	font-size: 13px;
 	line-height: 1.2308;
+	color: var(--color-font01);
 }
 ol, ul {
 	list-style: none;

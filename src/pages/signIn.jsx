@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as api from '../api/api'
-import { formeta } from '../api/validation'
+import { isFormet } from '../api/validation'
 import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
@@ -13,7 +13,7 @@ export default function SignIn() {
 
     const inputChange = (e) => {
         const { value, name, dataset: { formet } } = e.target;
-        if(formet && value && !formeta(formet, value)){
+        if(formet && value && !isFormet(formet, value)){
             e.target.value = value.slice(0, -1)
         }
         setInputs((input)=> ({...input, [name]: value}))
