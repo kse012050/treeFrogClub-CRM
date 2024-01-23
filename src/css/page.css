@@ -279,6 +279,17 @@
 .systemPage.customerPage .dropBox .autoArea > div ul li:has([type="search"]){width: 260px;}
 
 
+/* 시스템 관리 - 기본 설정 - 공통 코드 관리 */
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 130;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 130;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 130;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 130;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 130;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 130;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 60;}
+
+
 /* 시스템 관리 - 기본 설정 - 속성값 설정 - 구분값 설정 */
 .systemPage.propertyPage .divisionArea > div:first-child{width: 230px; min-height: 300px; padding-block: 10px; border: 1px solid var(--color-line);}
 .systemPage.propertyPage .divisionArea > div:first-child button{width: 100%; height: 36px; font-size: 13px; font-weight: 400; text-align: left; padding-inline: 20px;}
@@ -293,7 +304,6 @@
 /* 시스템 관리 - 기본 설정 - 속성값 설정 - 투자금액/목표량 설정 */
 .systemPage.propertyPage .moneyArea > b{font-size: 16px; line-height: 19px; font-weight: 700;}
 .systemPage.propertyPage .moneyArea .horizontalTwo{margin-top: 30px;}
-/* 달력 나중에 다시 작업 삭제 */
 .systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar{width: 230px; height: 240px; border: 1px solid var(--color-line); display: flex; flex-direction: column;}
 .systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .yearArea{height: 46px; display: flex; justify-content: space-between; align-items: center; padding-inline: 7px; border-bottom: 1px solid var(--color-line);}
 .systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .yearArea span{font-weight: 700;}
@@ -303,7 +313,6 @@
 .systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .monthArea{flex: 1; display: flex; flex-wrap: wrap; padding: 5px 10px;}
 .systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .monthArea li{width: calc(100% / 3); padding: 15px 20px; text-align: center; box-sizing: border-box; cursor: pointer;}
 .systemPage.propertyPage .moneyArea .horizontalTwo > div.calendar .monthArea li.active{font-weight: 700; color: var(--color-point01);}
-.systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset{}
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul{display: flex; gap: 40px;}
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(1){flex: 358;}
 .systemPage.propertyPage .moneyArea .horizontalTwo > form fieldset ul li:nth-child(2){flex: 338;}
