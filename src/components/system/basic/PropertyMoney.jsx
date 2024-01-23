@@ -11,7 +11,6 @@ export default function PropertyMoney() {
     const [inputs, setInputs] = useState({})
     const [popup, setPopup] = useState('')
     
-    // console.log('테스트');
     useEffect(()=>{
         api('calendar', 'calculation_year_list')
             .then(({result, list})=>{
@@ -67,12 +66,11 @@ export default function PropertyMoney() {
 
     const inputChange = (e) => {
         const { value, name, dataset: { formet } } = e.target;
-        if(formet && !!value){
+        if(formet && !!value && !isFormet(formet, value)['is']){
+            console.log('?');
             const cur = e.target.selectionStart - 1;
             e.target.value = isFormet(formet, value)['value'];
-            if(!isFormet(formet, value)['is']){
-                e.target.setSelectionRange(cur, cur);
-            }
+            e.target.setSelectionRange(cur, cur);
         }
         setInputs((input)=> ({...input, [name]: e.target.value}))
         if(name === 'calculation_way'){

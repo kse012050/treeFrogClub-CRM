@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import * as api from '../api/api'
+import { api } from '../api/api'
 import { isFormet } from '../api/validation'
 import { useNavigate } from 'react-router-dom';
 
@@ -13,20 +13,23 @@ export default function SignIn() {
 
     const inputChange = (e) => {
         const { value, name, dataset: { formet } } = e.target;
-        if(formet && value && !isFormet(formet, value)){
-            e.target.value = value.slice(0, -1)
+        if(formet && value && !isFormet(formet, value)['is']){
+            const cur = e.target.selectionStart - 1;
+            e.target.value = isFormet(formet, value)['value'];
+            e.target.setSelectionRange(cur, cur);
         }
         setInputs((input)=> ({...input, [name]: value}))
     }
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        api.login(inputs).then(({result, data : { token }})=>{
-            if(result){
-                sessionStorage.setItem('authorization', token)
-                navigate('/main')
-            }
-        })
+        api('login', false, inputs)
+            .then(({result, data: { token }})=>{
+                if(result){
+                    sessionStorage.setItem('authorization', token)
+                    navigate('/main')
+                }
+            })
     }
 
     return (
