@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { api, apiAwait } from '../../../api/api'
 import Popup from '../../popup/Popup';
+import BoardChk from '../../boardChk/BoardChk';
+import BoardChkAll from '../../boardChk/BoardChkAll';
 
 
 export default function PropertyDivision() {
@@ -34,24 +36,24 @@ export default function PropertyDivision() {
         }
     },[classificationActive, popup])
 
-    const allChecked = (e) => {
-        const { checked } = e.target;
-        if(checked){
-            setDeleteList(propertiesList.map(({properties_id})=>properties_id))
-        }else{
-            setDeleteList([]);
-        }
-    }
+    // const allChecked = (e) => {
+    //     const { checked } = e.target;
+    //     if(checked){
+    //         setDeleteList(propertiesList.map(({properties_id})=>properties_id))
+    //     }else{
+    //         setDeleteList([]);
+    //     }
+    // }
 
-    const lisChecked = (e) =>{
-        const { checked, id } = e.target;
-        setDeleteList((list)=>{
-            checked ? 
-                (list = [...list, id]) :
-                (list = list.filter((listId)=> listId !== id));
-            return list
-        })
-    }
+    // const lisChecked = (e) =>{
+    //     const { checked, id } = e.target;
+    //     setDeleteList((list)=>{
+    //         checked ? 
+    //             (list = [...list, id]) :
+    //             (list = list.filter((listId)=> listId !== id));
+    //         return list
+    //     })
+    // }
 
     const popupFunc = async () =>{
         if(deleteList.length){
@@ -87,20 +89,22 @@ export default function PropertyDivision() {
                         disabled={!deleteList.length}>선택 삭제</button>
 
                     <div className='board-top'>
-                        <div>
+                        {/* <div>
                             <input type="checkbox" id='allChecked' onChange={allChecked}/>
                             <label htmlFor="allChecked"></label>
-                        </div>
+                        </div> */}
+                        <BoardChkAll deleteList={setDeleteList} list={propertiesList.map(({properties_id})=>properties_id)} />
                         <span>구분값</span>
                         <span>수정</span>
                     </div>
                     <ol className="board-center">
                         {propertiesList.map(({properties_id, name})=>(
                             <li key={properties_id}>
-                                <div>
+                                {/* <div>
                                     <input type="checkbox" id={`${properties_id}`} onChange={lisChecked} checked={deleteList.includes(properties_id)}/>
                                     <label htmlFor={`${properties_id}`}></label>
-                                </div>
+                                </div> */}
+                                <BoardChk id={properties_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ name }</span>
                                 <button className="popup" onClick={()=>setPopup({'type': `properties_properties_${properties_id}`})}>수정</button>
                             </li>
