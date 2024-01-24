@@ -2,14 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Select from '../../../components/Select';
 import { ColorPicker } from 'antd';
+import SubTitle from '../../../components/SubTitle';
 
 export default function Client() {
     return (
         <>
-            <h2>
+            {/* <h2>
                 고객 구분 관리
                 <Link to="registration" className='btn-point'>추가</Link>
-            </h2>
+            </h2> */}
+            <SubTitle text="고객 구분 관리" link="registration" />
             <div className='boardBox'>
                 <strong>목록</strong>
                 <hr className='case03'/>

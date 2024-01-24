@@ -12,6 +12,13 @@ const formetMap = {
             is: regex.test(value),
             value: Number(value.replace(/\D/g, ''))
         };
+    },
+    color(value){
+        const regex = /^#[0-9a-f]+$/i;
+        return {
+            is: regex.test(value),
+            value: value.replace(/^[^#]|[^0-9a-f]/gi, '')
+        }
     }
 }
 
@@ -23,7 +30,6 @@ export function isFormet(type, value){
 export const inputChange = (e, setInputs) => {
     const { value, name, dataset: { formet } } = e.target;
     if(formet && !!value && !isFormet(formet, value)['is']){
-        console.log('?');
         const cur = e.target.selectionStart - 1;
         e.target.value = isFormet(formet, value)['value'];
         e.target.setSelectionRange(cur, cur);

@@ -40,7 +40,7 @@ export default function CommonRegistration() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">분류유형명</label>
+                                <label htmlFor="">분류 유형명</label>
                                 <div>
                                     <input type="text" disabled value={'api 없음'} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>

@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 
-function Select({name, current, currentChange, setInputs, changeName}) {
+function Select({name, current, /* currentChange, */ setInputs, changeName}) {
     // console.log('셀릭트 박스');
     const [active, setActive] = useState(false)
     const [testDate, setTestData] = useState([])
@@ -10,6 +10,7 @@ function Select({name, current, currentChange, setInputs, changeName}) {
         name === 'pagerCount' && setTestData(['10', '20', '30', '50', '100', '300', '500']);
         name === 'pageCount' && setTestData(['1', '2', '3']);
         name === 'yn' && setTestData(['Y', 'N']);
+        name === 'clientRating' && setTestData(['무료', '유료']);
         document.querySelector('body').addEventListener('click',bodyClick)
         return () => {
             // console.log('select 바디 클릭 종료');
@@ -35,7 +36,7 @@ function Select({name, current, currentChange, setInputs, changeName}) {
     }
     return (
         <div className={`selectBox${name ? `-${name}`: ''}`}>
-            <button onClick={selectOpen}>{ current }</button>
+            <button onClick={selectOpen}>{ current || '선택' }</button>
             {
                 active && 
                     <div>

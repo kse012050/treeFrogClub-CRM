@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLoaderData, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { api } from '../../../api/api'
 import { inputChange } from '../../../api/validation'
 import SubTitle from '../../../components/SubTitle';
@@ -18,7 +18,7 @@ export default function CommonUpdate() {
                     setInputs(data);
                 }
             })
-    },[])
+    },[id])
 
     const onSubmit = (e) =>{
         e.preventDefault();
@@ -50,7 +50,7 @@ export default function CommonUpdate() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">분류유형명</label>
+                                <label htmlFor="">분류 유형명</label>
                                 <div>
                                     <input type="text" disabled value={inputs?.name || ''}/>
                                 </div>

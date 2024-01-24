@@ -69,7 +69,7 @@ function Board({ boardList, setBoardList }){
                     }
                 })
         }
-    },[pager, deleteList])
+    },[pager, deleteList, setBoardList])
 
     return (
         <>
