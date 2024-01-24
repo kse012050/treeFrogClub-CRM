@@ -25,6 +25,10 @@ function common(type, data){
 
 export function api(url, type, data){
     const options = common(type, data);
+    // console.log(url);
+    // console.log(type);
+    // console.log(data);
+    // console.log(options);
     return fetch(`${apiUrl}${url}`, options)
             .then(response => response.json())
             .catch(error => console.log('error', error));
@@ -32,6 +36,16 @@ export function api(url, type, data){
 
 export function apiAwait(url, type, dataName, data){
     return Promise.all(data.map((id)=>api(url, type, {[dataName] : id})))
-            .then(()=> true)
+            .then((result)=> result)
             .catch(error => console.log('error', error));
+}
+
+
+export function apiAwaitArray(url, type, dataName, data){
+    return api(url, type, {[dataName] : data})
+            .then((result)=> result)
+            .catch(error => console.log('error', error));
+    // return Promise.all(data.map((id)=>api(url, type, {[dataName] : id})))
+    //         .then((result)=> result)
+    //         .catch(error => console.log('error', error));
 }

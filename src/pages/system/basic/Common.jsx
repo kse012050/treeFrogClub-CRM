@@ -5,28 +5,11 @@ import Select from '../../../components/Select';
 import { api } from '../../../api/api';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
-import Popup from '../../../components/popup/Popup';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 
 export default function Common() {
-    const [pager, setPager] = useState(10);
-    const [pagerInfo, setPagerInfo] = useState()
+    console.log('common 랜더링');
     const [boardList, setBoardList] = useState()
-    const [deleteList, setDeleteList] = useState([])
-    const [popup, setPopup] = useState('')
-
-    useEffect(()=>{
-        if(pager){
-            api('commoncode', 'properties_list', { 'limit': pager})
-                .then(({result, data, list})=>{
-                    if(result){
-                        setPagerInfo(data)
-                        setBoardList(list)
-                    }
-                })
-        }
-    },[pager])
-
     return (
         <>
             <h2>
@@ -65,20 +48,40 @@ export default function Common() {
                 </form>
             </DropBox>
 
+            <Board boardList={boardList} setBoardList={setBoardList}/>
+        </>
+    );
+}
+
+
+function Board({ boardList, setBoardList }){
+    const [pager, setPager] = useState(10);
+    const [pagerInfo, setPagerInfo] = useState()
+    const [deleteList, setDeleteList] = useState([])
+
+    useEffect(()=>{
+        if(pager || !deleteList.length){
+            api('commoncode', 'properties_list', { 'limit': pager})
+                .then(({result, data, list})=>{
+                    if(result){
+                        setPagerInfo(data)
+                        setBoardList(list)
+                    }
+                })
+        }
+    },[pager, deleteList])
+
+    return (
+        <>
             <div className='boardBox'>
                 <strong>목록</strong>
                 <hr className='case01'/>
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete setPopup={setPopup} deleteList={deleteList}/>
-
+                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
                 
                 <div className="board-top">
-                    {/* <div>
-                        <input type="checkbox" />
-                        <label htmlFor=""></label>
-                    </div> */}
                     <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
                     <button>분류유형코드</button>
                     <button>분류유형명</button>
@@ -93,10 +96,6 @@ export default function Common() {
                     <ol className="board-center">
                         { boardList.map((data)=>(
                             <li key={ data.properties_id }>
-                                {/* <div>
-                                    <input type="checkbox" />
-                                    <label htmlFor=""></label>
-                                </div> */}
                                 <BoardChk id={data.properties_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ data.classification_code }</span>
                                 <span>{ data.classification_name }</span>
@@ -131,10 +130,7 @@ export default function Common() {
                 </div>
             </div>
 
-            {popup && (
-                <Popup popup={popup} setPopup={setPopup} /* func={popupFunc} */ />
-            )}
+            
         </>
-    );
+    )
 }
-
