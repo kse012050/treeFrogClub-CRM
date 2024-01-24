@@ -8,7 +8,7 @@ import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 
 export default function Common() {
-    console.log('common 랜더링');
+    // console.log('common 랜더링');
     const [boardList, setBoardList] = useState()
     return (
         <>
@@ -103,7 +103,7 @@ function Board({ boardList, setBoardList }){
                                 <span>{ data.name }</span>
                                 <span>{ data.order_number }</span>
                                 <span>{ data.useable_yn }</span>
-                                <button className="popup">수정</button>
+                                <Link to={`update/${data.properties_id}`}>수정</Link>
                             </li>
                         ))}
                     </ol>

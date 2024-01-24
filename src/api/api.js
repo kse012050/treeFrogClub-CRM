@@ -45,7 +45,4 @@ export function apiAwaitArray(url, type, dataName, data){
     return api(url, type, {[dataName] : data})
             .then((result)=> result)
             .catch(error => console.log('error', error));
-    // return Promise.all(data.map((id)=>api(url, type, {[dataName] : id})))
-    //         .then((result)=> result)
-    //         .catch(error => console.log('error', error));
 }
