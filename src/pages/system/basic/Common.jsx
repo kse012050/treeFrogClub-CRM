@@ -3,11 +3,17 @@ import { Link } from 'react-router-dom';
 import DropBox from '../../../components/DropBox';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
+import BoardChkAll from '../../../components/boardChk/BoardChkAll';
+import BoardChk from '../../../components/boardChk/BoardChk';
+import Popup from '../../../components/popup/Popup';
+import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 
 export default function Common() {
     const [pager, setPager] = useState(10);
-    const [pagerInfo, setPagerInfo] = useState();
-    const [boardList, setBoardList] = useState();
+    const [pagerInfo, setPagerInfo] = useState()
+    const [boardList, setBoardList] = useState()
+    const [deleteList, setDeleteList] = useState([])
+    const [popup, setPopup] = useState('')
 
     useEffect(()=>{
         if(pager){
@@ -25,7 +31,7 @@ export default function Common() {
         <>
             <h2>
                 공통 코드 관리
-                <Link to="" className='btn-point'>추가</Link>
+                <Link to="registration" className='btn-point'>추가</Link>
             </h2>
 
             <DropBox title="검색 항목" arrow>
@@ -64,15 +70,16 @@ export default function Common() {
                 <hr className='case01'/>
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
-                <b className='choice'>1</b>
-                <button className='btn-gray-black'>선택 삭제</button>
+                <b className='choice'>{ deleteList.length }</b>
+                <BoardChkDelete setPopup={setPopup} deleteList={deleteList}/>
 
                 
                 <div className="board-top">
-                    <div>
+                    {/* <div>
                         <input type="checkbox" />
                         <label htmlFor=""></label>
-                    </div>
+                    </div> */}
+                    <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
                     <button>분류유형코드</button>
                     <button>분류유형명</button>
                     <button>코드</button>
@@ -86,10 +93,11 @@ export default function Common() {
                     <ol className="board-center">
                         { boardList.map((data)=>(
                             <li key={ data.properties_id }>
-                                <div>
+                                {/* <div>
                                     <input type="checkbox" />
                                     <label htmlFor=""></label>
-                                </div>
+                                </div> */}
+                                <BoardChk id={data.properties_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ data.classification_code }</span>
                                 <span>{ data.classification_name }</span>
                                 <span>{ data.code }</span>
@@ -122,6 +130,10 @@ export default function Common() {
                     <Link to={''}>마지막 페이지</Link>
                 </div>
             </div>
+
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} /* func={popupFunc} */ />
+            )}
         </>
     );
 }

@@ -18,6 +18,7 @@ import SystemBasicBureau from '../pages/system/basic/Bureau';
 import SystemBasicClient from '../pages/system/basic/Client';
 import SystemBasicClientRegistration from '../pages/system/basic/ClientRegistration';
 import SystemBasicCommon from '../pages/system/basic/Common';
+import SystemBasicCommonRegistration from '../pages/system/basic/CommonRegistration';
 import SystemBasicCustomer from '../pages/system/basic/Customer';
 import SystemBasicProperty from '../pages/system/basic/Property';
 import SystemGrantManagement from '../pages/system/grant/Management';
@@ -113,6 +114,9 @@ export const routers = [
             },
             {
                 path: 'basic/common', element: <SystemBasicCommon />
+            },
+            {
+                path: 'basic/common/registration', element: <SystemBasicCommonRegistration />
             },
             {
                 path: 'basic/customer', element: <SystemBasicCustomer />

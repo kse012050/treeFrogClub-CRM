@@ -3,6 +3,7 @@ import { api, apiAwait } from '../../../api/api'
 import Popup from '../../popup/Popup';
 import BoardChk from '../../boardChk/BoardChk';
 import BoardChkAll from '../../boardChk/BoardChkAll';
+import BoardChkDelete from '../../boardChk/BoardChkDelete';
 
 
 export default function PropertyDivision() {
@@ -55,11 +56,12 @@ export default function PropertyDivision() {
     //     })
     // }
 
-    const popupFunc = async () =>{
+    const popupFunc = () =>{
         if(deleteList.length){
             apiAwait('properties', 'delete', 'properties_id', deleteList).then((result)=>{
                 if(result){
                     setPopup('');
+                    setDeleteList([])
                 }
             })
         }
@@ -80,13 +82,14 @@ export default function PropertyDivision() {
                 <div className='boardBox'>
                     <b>결제 구분 ({ propertiesList.length })</b>
                     <button className='btn-gray-black' onClick={()=>setPopup({'type': `properties_classification_${classificationActive}`})}>추가</button>
-                    <button className='btn-gray-black' 
+                    {/* <button className='btn-gray-black' 
                         onClick={()=>setPopup({
                             'type': 'finFunc',
                             'title': '선택 삭제',
                             'description': `선택 항목을 삭제하시겠습니까?`
                         })}
-                        disabled={!deleteList.length}>선택 삭제</button>
+                        disabled={!deleteList.length}>선택 삭제</button> */}
+                    <BoardChkDelete setPopup={setPopup} deleteList={deleteList}/>
 
                     <div className='board-top'>
                         {/* <div>
