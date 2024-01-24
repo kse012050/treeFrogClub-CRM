@@ -4,6 +4,7 @@ import { api } from '../../../api/api'
 import { inputChange } from '../../../api/validation'
 import Select from '../../../components/Select';
 import Popup from '../../../components/popup/Popup';
+import SubTitle from '../../../components/SubTitle';
 
 export default function CommonRegistration() {
     const [inputs, setInputs] = useState({'classification_id': '2', 'useable_yn': 'Y'})
@@ -31,7 +32,7 @@ export default function CommonRegistration() {
 
     return (
         <>
-            <h2>공통 코드 등록</h2>
+            <SubTitle text='공통 코드 등록'/>
 
             <div className='dropBox'>
                 <b>공통 코드</b>

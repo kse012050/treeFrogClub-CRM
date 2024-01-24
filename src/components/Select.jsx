@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
-export default function Select({name, current, currentChange, setInputs, changeName}) {
+function Select({name, current, currentChange, setInputs, changeName}) {
+    // console.log('셀릭트 박스');
     const [active, setActive] = useState(false)
     const [testDate, setTestData] = useState([])
     useEffect(()=>{
@@ -9,13 +10,17 @@ export default function Select({name, current, currentChange, setInputs, changeN
         name === 'pagerCount' && setTestData(['10', '20', '30', '50', '100', '300', '500']);
         name === 'pageCount' && setTestData(['1', '2', '3']);
         name === 'yn' && setTestData(['Y', 'N']);
-        return (
-            document.querySelector('body').addEventListener('click',()=>{
-                // console.log('select 바디 클릭');
-                setActive(false)
-            })
-        )
+        document.querySelector('body').addEventListener('click',bodyClick)
+        return () => {
+            // console.log('select 바디 클릭 종료');
+            document.querySelector('body').removeEventListener('click',bodyClick)
+        }
     },[name])
+    
+    const bodyClick = () =>{
+        // console.log('select 바디 클릭 시작');
+        setActive(false)
+    }
 
     const selectOpen = (e)=>{
         e.preventDefault();
@@ -41,3 +46,4 @@ export default function Select({name, current, currentChange, setInputs, changeN
     );
 }
 
+export default memo(Select)
