@@ -1,7 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
-export default function Pager({ pagerInfo }) {
+export default function Pager({ pagerInfo, setInputs }) {
+    const queryParams = new URLSearchParams(useLocation().search);
+    const page = queryParams.get('page') || '1';
+
+    useEffect(()=>{
+        page !== pagerInfo?.current_page && setInputs((input)=> ({...input, page}));
+    },[page])
+
     const pager = () =>{
         let arr = []
         const base = parseInt(pagerInfo?.current_page / 10) * 10;

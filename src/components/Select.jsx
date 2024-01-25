@@ -1,7 +1,11 @@
 import React, { memo, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Select({name, current, /* currentChange, */ setInputs, changeName, disabled}) {
     // console.log('셀릭트 박스');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { pathname, search } = location;
     const [active, setActive] = useState(false)
     const [testDate, setTestData] = useState([])
     useEffect(()=>{
@@ -37,6 +41,7 @@ function Select({name, current, /* currentChange, */ setInputs, changeName, disa
 
     const listClick = (value) =>{
         // currentChange(value)
+        search && navigate(pathname)
         setInputs((inputs)=>({...inputs, [changeName]: value}))
         setActive((value)=>!value)
     }

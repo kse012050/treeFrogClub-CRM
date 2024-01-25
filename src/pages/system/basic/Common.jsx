@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DropBox from '../../../components/DropBox';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
@@ -56,15 +56,17 @@ export default function Common() {
 
 
 function Board({ boardList, setBoardList }){
-    const queryParams = new URLSearchParams(useLocation().search);
-    const page = queryParams.get('page') || 1;
-    const [inputs, setInputs] = useState({'limit': 10, 'page': page});
+    const [inputs, setInputs] = useState({'limit': 10, 'page': '1'});
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
 
     useEffect(()=>{
         setDeleteList('');
     },[inputs])
+
+    useEffect(()=>{
+        setInputs((input)=>({...input, 'page': '1'}))
+    },[inputs.limit])
     
     useEffect(()=>{
         if(!deleteList){
@@ -118,7 +120,7 @@ function Board({ boardList, setBoardList }){
 
                 <div className='board-pagination' data-styleidx='a'>
                     <Select name="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
-                    <Pager pagerInfo={pagerInfo}/>
+                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>
         </>
