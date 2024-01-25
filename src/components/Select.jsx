@@ -18,10 +18,23 @@ function Select({name, list, current, /* currentChange, */ setInputs, changeName
         name === 'sns' && setTestData(['수신', '거부']);
         name === 'mobileColor' && setTestData(['허용', '안함']);
         name === 'orderBy' && setTestData(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
+        name === 'time-hour' && setTestData(()=>{
+            const arr = []
+            for(let a = 0; a < 24; a++){
+                arr.push(Number(a) < 10 ? `0${a}` : a)
+            }
+            return arr;
+        });
+        name === 'time-minute' && setTestData(()=>{
+            const arr = []
+            for(let a = 0; a < 60; a = a + 10){
+                arr.push(Number(a) < 10 ? `0${a}` : a)
+            }
+            return arr;
+        });
 
 
         name === 'pageCount' && setTestData(['1', '2', '3']);
-        console.log(list);
         list && setTestData(list.map((text)=>text.id))
 
         document.querySelector('body').addEventListener('click',bodyClick)

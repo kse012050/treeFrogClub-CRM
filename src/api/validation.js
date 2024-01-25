@@ -19,6 +19,13 @@ const formetMap = {
             is: regex.test(value),
             value: value.replace(/^[^#]|[^0-9a-f]/gi, '')
         }
+    },
+    ip(value){
+        const regex = /^[0-9.]+$/;
+        return {
+            is: regex.test(value),
+            value: value.replace(/[^0-9.]/g, '')
+        }
     }
 }
 
@@ -28,11 +35,18 @@ export function isFormet(type, value){
 
 
 export const inputChange = (e, setInputs) => {
-    const { value, name, dataset: { formet } } = e.target;
+    const { value, name, checked, type, dataset: { formet } } = e.target;
+    // console.log(isFormet(formet, value)['is']);
+    // console.log(isFormet(formet, value)['value']);
     if(formet && !!value && !isFormet(formet, value)['is']){
         const cur = e.target.selectionStart - 1;
         e.target.value = isFormet(formet, value)['value'];
         e.target.setSelectionRange(cur, cur);
     }
-    setInputs((input)=> ({...input, [name]: e.target.value}))
+    
+    if(type === 'checkbox'){
+        setInputs((input)=> ({...input, [name]: checked ? 'y': 'n'}))
+    }else{
+        setInputs((input)=> ({...input, [name]: e.target.value}))
+    }
 }

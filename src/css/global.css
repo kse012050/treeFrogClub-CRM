@@ -54,7 +54,10 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .board-pagination:has(.selectBox-pagerCount){position: relative;}
 .selectBox-pagerCount{max-width: 80px; position: absolute; left: 55px; top: 0;}
 .selectBox-pagerCount::before{content: '노출개수'; position: absolute; left: 0; top: 50%; translate: calc(-100% - 10px) -50%;}
-.selectBox-time{width: 80px;}
+[class*='selectBox-time']{width: 80px;}
+[class*='selectBox-time'] div{max-height: 250px; overflow: auto;}
+[class*='selectBox-time'] div::-webkit-scrollbar{width: 6px;}
+[class*='selectBox-time'] div::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
 
 
 /* 팝업 */
