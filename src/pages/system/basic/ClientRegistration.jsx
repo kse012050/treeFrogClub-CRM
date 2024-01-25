@@ -5,10 +5,12 @@ import { api } from '../../../api/api'
 import { inputChange, isFormet } from '../../../api/validation'
 import { Button, ColorPicker } from 'antd';
 import SubTitle from '../../../components/SubTitle';
+import Popup from '../../../components/popup/Popup';
 
 export default function ClientRegistration() {
     // order_number 없어야 하는데 api에 있어서 일단 추가
     const [inputs, setInputs] = useState({'classification_id': '1', 'useable_yn': 'Y', 'order_number': '1'})
+    const [popup, setPopup] = useState('')
     const [bgColor, setBgColor] = useState('#000000')
     const [fontColor, setFontColor] = useState('#000000')
     const bgColorRef = useRef();
@@ -55,8 +57,20 @@ export default function ClientRegistration() {
         e.preventDefault()
         console.log(inputs);
         api('clientcode', 'insert', inputs)
-            .then((result)=>{
-                console.log(result);
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        'link': '/system/basic/client'
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
             })
     }
     return (
@@ -130,6 +144,9 @@ export default function ClientRegistration() {
                     </div>
                 </form>
             </div>
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
         </>
     );
 }

@@ -281,12 +281,12 @@
 
 /* 시스템 관리 - 기본 설정 - 공통 코드 관리 */
 .systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
-.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 130;}
-.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 130;}
-.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 130;}
-.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 130;}
-.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 130;}
-.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 130;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 137.3;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 137.3;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 137.3;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 137.3;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 137.3;}
+.systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 137.3;}
 .systemPage.commonPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 60;}
 
 
