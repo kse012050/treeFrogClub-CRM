@@ -24,6 +24,7 @@ import SystemBasicCommonCommonUpdate from '../pages/system/basic/CommonUpdate';
 import SystemBasicCustomer from '../pages/system/basic/Customer';
 import SystemBasicProperty from '../pages/system/basic/Property';
 import SystemGrantManagement from '../pages/system/grant/Management';
+import SystemGrantManagementRegistration from '../pages/system/grant/ManagementRegistration';
 import SystemGrantPermissions from '../pages/system/grant/Permissions';
 import SystemNoticeAnnouncement from '../pages/notice/Announcement';
 // import Test from '../pages/customer/Test';
@@ -140,6 +141,9 @@ export const routers = [
             },
             {
                 path: 'grant/management', element: <SystemGrantManagement />
+            },
+            {
+                path: 'grant/management/registration', element: <SystemGrantManagementRegistration />
             },
             {
                 path: 'grant/permissions', element: <SystemGrantPermissions />

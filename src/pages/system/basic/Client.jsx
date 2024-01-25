@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { api } from '../../../api/api';
+import { Link } from 'react-router-dom';
 import Select from '../../../components/Select';
 import SubTitle from '../../../components/SubTitle';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
+import Pager from '../../../components/Pager';
 
 export default function Client() {
-    const [pager, setPager] = useState({'limit': 10});
+    const [inputs, setInputs] = useState({'limit': 10, 'page': '1'});
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
     const [deleteList, setDeleteList] = useState([])
 
     useEffect(()=>{
-        if(pager || !deleteList.length){
-            api('clientcode', 'properties_list', pager)
+        setDeleteList('');
+    },[inputs])
+
+    useEffect(()=>{
+        setInputs((input)=>({...input, 'page': '1'}))
+    },[inputs.limit])
+
+    useEffect(()=>{
+        if(!deleteList){
+            api('clientcode', 'properties_list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
                         setPagerInfo(data)
@@ -23,7 +32,7 @@ export default function Client() {
                     }
                 })
         }
-    },[pager, deleteList, setBoardList])
+    },[inputs, deleteList, setBoardList])
 
     return (
         <>
@@ -70,23 +79,8 @@ export default function Client() {
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select name="pagerCount"/>
-                    <Link to={''}>첫 페이지</Link>
-                    <Link to={''}>이전 페이지</Link>
-                    <ol>
-                        <li className='active'><Link to={''}>1</Link></li>
-                        <li><Link to={''}>2</Link></li>
-                        <li><Link to={''}>3</Link></li>
-                        <li><Link to={''}>4</Link></li>
-                        <li><Link to={''}>5</Link></li>
-                        <li><Link to={''}>6</Link></li>
-                        <li><Link to={''}>7</Link></li>
-                        <li><Link to={''}>8</Link></li>
-                        <li><Link to={''}>9</Link></li>
-                        <li><Link to={''}>10</Link></li>
-                    </ol>
-                    <Link to={''}>다음 페이지</Link>
-                    <Link to={''}>마지막 페이지</Link>
+                    <Select name="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>
         </>

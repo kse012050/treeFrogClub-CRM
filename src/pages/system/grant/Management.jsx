@@ -1,83 +1,113 @@
-import React from 'react';
-import Select from '../../../components/Select';
+import React, { useEffect, useState } from 'react';
+import { api } from '../../../api/api';
 import { Link } from 'react-router-dom';
+import SubTitle from '../../../components/SubTitle';
+import DropBox from '../../../components/DropBox';
+import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
+import BoardChkAll from '../../../components/boardChk/BoardChkAll';
+import BoardChk from '../../../components/boardChk/BoardChk';
+import Pager from '../../../components/Pager';
+import Select from '../../../components/Select';
 
 export default function Management() {
+    const [boardList, setBoardList] = useState()
+
     return (
         <>
-            <h2>역할 등록</h2>
-            <div className="dropBox">
-                <b>기본 정보</b>
+            <SubTitle text="역할 관리" link="registration" />
+
+            <DropBox title="검색 항목" arrow>
                 <form onClick={(e)=>e.preventDefault()}>
                     <fieldset>
                         <ul>
-                            <li>
-                                <label htmlFor="">구분</label>
-                                <div>
-                                    <Select name={''} />
-                                </div>
-                            </li>
                             <li>
                                 <label htmlFor="">역할명</label>
                                 <div>
                                     <input type="text" />
                                 </div>
                             </li>
-                            <li className='fill-three'>
-                                <label htmlFor="">설명</label>
-                                <div>
-                                    <textarea name="" id=""></textarea>
-                                </div>
-                            </li>
                         </ul>
                     </fieldset>
-                    <fieldset className='limitArea'>
-                        <b>접속제한 (로그인) 정보</b>
-                        <input type="checkbox" />
-                        <label htmlFor="">제한시간 설정 (설정한 시간에만 로그인 허용)</label>
-                        <div className='timeArea'>
-                            <Select name={'time'} />
-                            <Select name={'time'} />
-                            -
-                            <Select name={'time'} />
-                            <Select name={'time'} />
-                        </div>
-                        <input type="checkbox" />
-                        <label htmlFor="">허용IP 설정 (0.0.X.X, 0.0.0.X 로 대역대 설정가능)</label>
-                        <div className='ipArea'>
-                            <input type="text" />
-                            <button className='btn-gray-black'>등록</button>
-                            <ul>
-                                <li>
-                                    211.192.182.113
-                                    <button>IP 삭제</button>
-                                </li>
-                                <li>
-                                    211.192.182.113
-                                    <button>IP 삭제</button>
-                                </li>
-                                <li>
-                                    211.192.182.113
-                                    <button>IP 삭제</button>
-                                </li>
-                                <li>
-                                    211.192.182.113
-                                    <button>IP 삭제</button>
-                                </li>
-                                <li>
-                                    211.192.182.113
-                                    <button>IP 삭제</button>
-                                </li>
-                            </ul>
-                        </div>
-                    </fieldset>
                     <div>
-                        <Link to={''} className='btn-gray-white'>목록</Link>
-                        <input type="submit" value="수정" className='btn-point'/>
+                        <input type="reset" value="초기화" className='btn-gray-white'/>
+                        <input type="submit" value="검색" className='btn-point'/>
                     </div>
                 </form>
-            </div>
+            </DropBox>
+
+            <Board boardList={boardList} setBoardList={setBoardList}/>
         </>
     );
 }
 
+
+function Board({ boardList, setBoardList }){
+    const [inputs, setInputs] = useState({'limit': 10, 'page': '1'});
+    const [pagerInfo, setPagerInfo] = useState()
+    const [deleteList, setDeleteList] = useState('')
+
+    useEffect(()=>{
+        setDeleteList('');
+    },[inputs])
+
+    useEffect(()=>{
+        setInputs((input)=>({...input, 'page': '1'}))
+    },[inputs.limit])
+    
+    useEffect(()=>{
+        if(!deleteList){
+            api('role', 'list', inputs)
+                .then(({result, data, list})=>{
+                    if(result){
+                        setPagerInfo(data)
+                        setBoardList(list)
+                        console.log(list);
+                    }
+                })
+        }
+    },[inputs, deleteList, setBoardList])
+
+    return (
+        <>
+            <div className='boardBox'>
+                <strong>목록</strong>
+                <hr className='case01'/>
+                <b className='total'>{ pagerInfo?.total_count }</b>
+                <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
+                <b className='choice'>{ deleteList.length }</b>
+                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
+                
+                <div className="board-top">
+                    <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
+                    <button>구분</button>
+                    <button>역할</button>
+                    <button>허용IP 설정</button>
+                    <button>사용시간 설정</button>
+                    <span>설명</span>
+                    <span>수정</span>
+                </div>
+                
+                { boardList && 
+                    <ol className="board-center">
+                        { boardList.map((data)=>(
+                            <li key={ data.role_id }>
+                                <BoardChk id={data.role_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
+                                <span>{ data.role_classification }</span>
+                                <span>{ data.role_name }</span>
+                                <span>{ data.ip_limit_yn }</span>
+                                <span>{ data.connect_limit_yn }</span>
+                                <span>{ data.role_explain }</span>
+                                <Link to={`update/${data.role_id}`}>수정</Link>
+                            </li>
+                        ))}
+                    </ol>
+                }
+
+                <div className='board-pagination' data-styleidx='a'>
+                    <Select name="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                </div>
+            </div>
+        </>
+    )
+}

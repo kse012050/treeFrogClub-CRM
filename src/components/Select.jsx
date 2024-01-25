@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-function Select({name, current, /* currentChange, */ setInputs, changeName, disabled}) {
+function Select({name, list, current, /* currentChange, */ setInputs, changeName, disabled}) {
     // console.log('셀릭트 박스');
     const navigate = useNavigate();
     const location = useLocation();
@@ -21,12 +21,15 @@ function Select({name, current, /* currentChange, */ setInputs, changeName, disa
 
 
         name === 'pageCount' && setTestData(['1', '2', '3']);
+        console.log(list);
+        list && setTestData(list.map((text)=>text.id))
+
         document.querySelector('body').addEventListener('click',bodyClick)
         return () => {
             // console.log('select 바디 클릭 종료');
             document.querySelector('body').removeEventListener('click',bodyClick)
         }
-    },[name])
+    },[name, list])
     
     const bodyClick = () =>{
         // console.log('select 바디 클릭 시작');
