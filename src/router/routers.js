@@ -17,6 +17,7 @@ import SystemBasicAnUserList from '../pages/system/basic/AnUserList';
 import SystemBasicBureau from '../pages/system/basic/Bureau';
 import SystemBasicClient from '../pages/system/basic/Client';
 import SystemBasicClientRegistration from '../pages/system/basic/ClientRegistration';
+import SystemBasicClientUpdate from '../pages/system/basic/ClientUpdate';
 import SystemBasicCommon from '../pages/system/basic/Common';
 import SystemBasicCommonRegistration from '../pages/system/basic/CommonRegistration';
 import SystemBasicCommonCommonUpdate from '../pages/system/basic/CommonUpdate';
@@ -112,6 +113,12 @@ export const routers = [
             },
             {
                 path: 'basic/client/registration', element: <SystemBasicClientRegistration />
+            },
+            {
+                path: 'basic/client/update', element: <SystemBasicClientUpdate />
+            },
+            {
+                path: 'basic/client/update/:id', element: <SystemBasicClientUpdate />
             },
             {
                 path: 'basic/common', element: <SystemBasicCommon />

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../../api/api';
-import { ColorPicker } from 'antd';
 import Select from '../../../components/Select';
 import SubTitle from '../../../components/SubTitle';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
@@ -19,7 +18,6 @@ export default function Client() {
             api('clientcode', 'properties_list', pager)
                 .then(({result, data, list})=>{
                     if(result){
-                        console.log(list);
                         setPagerInfo(data)
                         setBoardList(list)
                     }
@@ -62,9 +60,7 @@ export default function Client() {
                                 <span>{ data.name }</span>
                                 <span>{ data.code }</span>
                                 <div style={{'--color': `${data.bg_color}`}}>{ data.bg_color }</div>
-                                <div>
-                                    <ColorPicker showText />
-                                </div>
+                                <div style={{'--color': `${data.font_color}`}}>{ data.font_color }</div>
                                 <span>{ data.order_number }</span>
                                 <span>{ data.useable_yn }</span>
                                 <Link to={`update/${data.properties_id}`}>수정</Link>

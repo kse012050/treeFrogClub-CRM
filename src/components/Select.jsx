@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 
-function Select({name, current, /* currentChange, */ setInputs, changeName}) {
+function Select({name, current, /* currentChange, */ setInputs, changeName, disabled}) {
     // console.log('셀릭트 박스');
     const [active, setActive] = useState(false)
     const [testDate, setTestData] = useState([])
@@ -36,7 +36,7 @@ function Select({name, current, /* currentChange, */ setInputs, changeName}) {
     }
     return (
         <div className={`selectBox${name ? `-${name}`: ''}`}>
-            <button onClick={selectOpen}>{ current || '선택' }</button>
+            <button onClick={selectOpen} disabled={disabled}>{ current || '선택' }</button>
             {
                 active && 
                     <div>

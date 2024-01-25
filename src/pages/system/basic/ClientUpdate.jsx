@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { api } from '../../../api/api'
+import { Link, useParams } from 'react-router-dom';
 import { inputChange, isFormet } from '../../../api/validation'
+import { api } from '../../../api/api'
 import { Button, ColorPicker } from 'antd';
-import Select from '../../../components/Select';
 import SubTitle from '../../../components/SubTitle';
 import Popup from '../../../components/popup/Popup';
+import Select from '../../../components/Select';
 
-export default function ClientRegistration() {
-    // order_number 없어야 하는데 api에 있어서 일단 추가
-    const [inputs, setInputs] = useState({'classification_id': '1', 'useable_yn': 'Y', 'order_number': '1'})
+export default function ClientUpdate() {
+    const [inputs, setInputs] = useState({})
+    const { id } = useParams();
     const [popup, setPopup] = useState('')
     const [bgColor, setBgColor] = useState('#000000')
     const [fontColor, setFontColor] = useState('#000000')
@@ -34,6 +34,18 @@ export default function ClientRegistration() {
         fontColorRef.current.value = fontColorChange;
     },[fontColorChange])
 
+    useEffect(()=>{
+        api('clientcode', 'detail', {'properties_id': id})
+            .then(({result, data})=>{
+                if(result){
+                    console.log(data);
+                    setInputs(data)
+                    setBgColor(data.bg_color)
+                    setFontColor(data.font_color)
+                }
+            })
+    },[])
+
     const colorChange = (e) => {
         const { value, name, dataset: { formet } } = e.target;
         
@@ -56,7 +68,7 @@ export default function ClientRegistration() {
     const onSubmit = (e) =>{
         e.preventDefault()
         console.log(inputs);
-        api('clientcode', 'insert', inputs)
+        api('clientcode', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
@@ -76,7 +88,7 @@ export default function ClientRegistration() {
 
     return (
         <>
-            <SubTitle text='고객 구분 등록' />
+            <SubTitle text='고객 구분 수정'/>
             
             <div className="dropBox">
                 <b>고객 구분</b>
@@ -86,25 +98,25 @@ export default function ClientRegistration() {
                             <li>
                                 <label htmlFor="">분류 유형명</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select name={''} current={inputs.classification_name} disabled />
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="grade">고객등급</label>
                                 <div>
-                                    <Select name={'clientRating'} current={inputs.grade}  setInputs={setInputs} changeName='grade'/>
+                                    <Select name={'clientRating'} current={inputs.grade} disabled  changeName='grade'/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="code">코드(숫자)</label>
                                 <div>
-                                    <input type="text" id='code' name='code' data-formet='numb' onChange={(e)=>inputChange(e, setInputs)} />
+                                    <input type="text" id='code' name='code' data-formet='numb' defaultValue={inputs.code} disabled />
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="name">코드명</label>
                                 <div>
-                                    <input type="text" id='name' name='name' onChange={(e)=>inputChange(e, setInputs)} />
+                                    <input type="text" id='name' name='name' defaultValue={inputs.code} onChange={(e)=>inputChange(e, setInputs)} />
                                 </div>
                             </li>
                             <li>
@@ -140,7 +152,7 @@ export default function ClientRegistration() {
                         </ul>
                     </fieldset>
                     <div>
-                        <Link to={''} className='btn-gray-white'>목록</Link>
+                        <Link to={'/system/basic/client'} className='btn-gray-white'>목록</Link>
                         <input type="submit" value="저장" className='btn-point' onClick={onSubmit}/>
                     </div>
                 </form>

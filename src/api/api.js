@@ -25,7 +25,7 @@ function common(type, data){
 
 export function api(url, type, data){
     const options = common(type, data);
-    console.log(url);
+    // console.log(url);
     // console.log(type);
     // console.log(data);
     // console.log(options);
