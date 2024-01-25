@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import DropBox from '../../../components/DropBox';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
+import Pager from '../../../components/Pager';
 
 export default function Common() {
     // console.log('common 랜더링');
@@ -55,13 +56,19 @@ export default function Common() {
 
 
 function Board({ boardList, setBoardList }){
-    const [pager, setPager] = useState(10);
+    const queryParams = new URLSearchParams(useLocation().search);
+    const page = queryParams.get('page') || 1;
+    const [inputs, setInputs] = useState({'limit': 10, 'page': page});
     const [pagerInfo, setPagerInfo] = useState()
-    const [deleteList, setDeleteList] = useState([])
+    const [deleteList, setDeleteList] = useState('')
 
     useEffect(()=>{
-        if(pager || !deleteList.length){
-            api('commoncode', 'properties_list', { 'limit': pager})
+        setDeleteList('');
+    },[inputs])
+    
+    useEffect(()=>{
+        if(!deleteList){
+            api('commoncode', 'properties_list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
                         setPagerInfo(data)
@@ -69,7 +76,7 @@ function Board({ boardList, setBoardList }){
                     }
                 })
         }
-    },[pager, deleteList, setBoardList])
+    },[inputs, deleteList, setBoardList])
 
     return (
         <>
@@ -110,27 +117,10 @@ function Board({ boardList, setBoardList }){
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select name="pagerCount" current={pager} currentChange={setPager}/>
-                    <Link to={''}>첫 페이지</Link>
-                    <Link to={''}>이전 페이지</Link>
-                    <ol>
-                        <li className='active'><Link to={''}>1</Link></li>
-                        <li><Link to={''}>2</Link></li>
-                        <li><Link to={''}>3</Link></li>
-                        <li><Link to={''}>4</Link></li>
-                        <li><Link to={''}>5</Link></li>
-                        <li><Link to={''}>6</Link></li>
-                        <li><Link to={''}>7</Link></li>
-                        <li><Link to={''}>8</Link></li>
-                        <li><Link to={''}>9</Link></li>
-                        <li><Link to={''}>10</Link></li>
-                    </ol>
-                    <Link to={''}>다음 페이지</Link>
-                    <Link to={''}>마지막 페이지</Link>
+                    <Select name="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Pager pagerInfo={pagerInfo}/>
                 </div>
             </div>
-
-            
         </>
     )
 }

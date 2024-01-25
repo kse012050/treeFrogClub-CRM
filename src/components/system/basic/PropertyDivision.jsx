@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { api, apiAwait } from '../../../api/api'
 import Popup from '../../popup/Popup';
 import BoardChk from '../../boardChk/BoardChk';
@@ -10,24 +10,23 @@ export default function PropertyDivision() {
     const [classificationActive, setClassificationctive] = useState()
     const [classificationList, setClassificationList] = useState([])
     const [propertiesList, setPropertiesist] = useState()
-    const [deleteList, setDeleteList] = useState([])
+    const [deleteList, setDeleteList] = useState('')
     const [popup, setPopup] = useState('')
-
     
     useEffect(()=>{
-        if(!popup){
+        if(!deleteList || !popup){
             api('properties', 'classification_list')
             .then(({result, list}) => {
                 if(result){
                     setClassificationList(list);
-                    setClassificationctive(list[0].classification_id)
+                    setClassificationctive((value)=> value || list[0].classification_id)
                 }
             })
         }
-    },[setClassificationctive, popup])
-    
+    },[setClassificationctive, popup, deleteList])
+
     useEffect(()=>{
-        if(classificationActive && !popup){
+        if(classificationActive || !deleteList || !popup){
             api('properties', 'properties_list', {classification_id: classificationActive})
                 .then(({result, list})=>{
                     if(result){
@@ -35,38 +34,7 @@ export default function PropertyDivision() {
                     }
                 })
         }
-    },[classificationActive, popup])
-
-    // const allChecked = (e) => {
-    //     const { checked } = e.target;
-    //     if(checked){
-    //         setDeleteList(propertiesList.map(({properties_id})=>properties_id))
-    //     }else{
-    //         setDeleteList([]);
-    //     }
-    // }
-
-    // const lisChecked = (e) =>{
-    //     const { checked, id } = e.target;
-    //     setDeleteList((list)=>{
-    //         checked ? 
-    //             (list = [...list, id]) :
-    //             (list = list.filter((listId)=> listId !== id));
-    //         return list
-    //     })
-    // }
-
-    const popupFunc = () =>{
-        if(deleteList.length){
-            apiAwait('properties', 'delete', 'properties_id', deleteList).then((result)=>{
-                if(result){
-                    setPopup('');
-                    setDeleteList([])
-                }
-            })
-        }
-    }
-  
+    },[classificationActive, deleteList, popup])
 
     return (
         <div className='divisionArea horizontalTwo'>
@@ -82,20 +50,9 @@ export default function PropertyDivision() {
                 <div className='boardBox'>
                     <b>결제 구분 ({ propertiesList.length })</b>
                     <button className='btn-gray-black' onClick={()=>setPopup({'type': `properties_classification_${classificationActive}`})}>추가</button>
-                    {/* <button className='btn-gray-black' 
-                        onClick={()=>setPopup({
-                            'type': 'finFunc',
-                            'title': '선택 삭제',
-                            'description': `선택 항목을 삭제하시겠습니까?`
-                        })}
-                        disabled={!deleteList.length}>선택 삭제</button> */}
-                    <BoardChkDelete setPopup={setPopup} deleteList={deleteList}/>
+                    <BoardChkDelete url='properties' idName='properties_id' deleteList={deleteList} setDeleteList={setDeleteList} isAwait/>
 
                     <div className='board-top'>
-                        {/* <div>
-                            <input type="checkbox" id='allChecked' onChange={allChecked}/>
-                            <label htmlFor="allChecked"></label>
-                        </div> */}
                         <BoardChkAll deleteList={setDeleteList} list={propertiesList.map(({properties_id})=>properties_id)} />
                         <span>구분값</span>
                         <span>수정</span>
@@ -103,10 +60,6 @@ export default function PropertyDivision() {
                     <ol className="board-center">
                         {propertiesList.map(({properties_id, name})=>(
                             <li key={properties_id}>
-                                {/* <div>
-                                    <input type="checkbox" id={`${properties_id}`} onChange={lisChecked} checked={deleteList.includes(properties_id)}/>
-                                    <label htmlFor={`${properties_id}`}></label>
-                                </div> */}
                                 <BoardChk id={properties_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ name }</span>
                                 <button className="popup" onClick={()=>setPopup({'type': `properties_properties_${properties_id}`})}>수정</button>
@@ -114,8 +67,8 @@ export default function PropertyDivision() {
                         ))}
                     </ol>
                     {popup && (
-                            <Popup popup={popup} setPopup={setPopup} func={popupFunc} />
-                        )}
+                        <Popup popup={popup} setPopup={setPopup} />
+                    )}
                 </div>
             )}
         </div>

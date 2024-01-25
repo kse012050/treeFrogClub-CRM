@@ -39,10 +39,3 @@ export function apiAwait(url, type, dataName, data){
             .then((result)=> result)
             .catch(error => console.log('error', error));
 }
-
-
-export function apiAwaitArray(url, type, dataName, data){
-    return api(url, type, {[dataName] : data})
-            .then((result)=> result)
-            .catch(error => console.log('error', error));
-}

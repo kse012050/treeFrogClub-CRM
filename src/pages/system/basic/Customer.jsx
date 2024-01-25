@@ -18,7 +18,6 @@ export default function Customer() {
                             data.combine_customer_duplicate_mobile_color_mark_yn = '안함' : 
                             data.combine_customer_duplicate_mobile_color_mark_yn = '허용';
                         data.combine_customer_order_by || (data.combine_customer_order_by = '최신등록일 순');
-                        console.log(data);
                         setInputs(data)
                     }
                 })
@@ -30,8 +29,6 @@ export default function Customer() {
         inputs.combine_customer_duplicate_mobile_color_mark_yn === '허용' ?
             inputs.combine_customer_duplicate_mobile_color_mark_yn = 'y' :
             inputs.combine_customer_duplicate_mobile_color_mark_yn = 'n';
-
-        console.log(inputs);
 
         api('constant', 'combine_customer_setting_info_save', inputs)
             .then(({result, error_message})=>{

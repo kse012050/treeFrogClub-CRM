@@ -5,6 +5,7 @@ export default function BoardChk({ deleteList, setDeleteList, id }) {
     const lisChecked = (e) =>{
         const { checked } = e.target;
         setDeleteList((list)=>{
+            !list && (list = [])
             checked ? 
                 (list = [...list, id]) :
                 (list = list.filter((listId)=> listId !== id));
@@ -13,7 +14,7 @@ export default function BoardChk({ deleteList, setDeleteList, id }) {
     }
     return (
         <div>
-            <input type="checkbox" id={id} onChange={lisChecked} checked={deleteList.includes(id)}/>
+            <input type="checkbox" id={id} onChange={lisChecked} checked={deleteList?.includes(id)}/>
             <label htmlFor={id}></label>
         </div>
     );

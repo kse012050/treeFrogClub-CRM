@@ -13,7 +13,7 @@ function Select({name, current, /* currentChange, */ setInputs, changeName, disa
         name === 'customerCount' && setTestData(['10', '20', '30', '50', '100', '300', '500']);
         name === 'sns' && setTestData(['수신', '거부']);
         name === 'mobileColor' && setTestData(['허용', '안함']);
-        name === 'orderBy' && setTestData(['최신등록일 순', '최종수정일 순', '최종상담일 수']);
+        name === 'orderBy' && setTestData(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
 
 
         name === 'pageCount' && setTestData(['1', '2', '3']);
