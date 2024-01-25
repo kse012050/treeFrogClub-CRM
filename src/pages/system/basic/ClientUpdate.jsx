@@ -38,7 +38,6 @@ export default function ClientUpdate() {
         api('clientcode', 'detail', {'properties_id': id})
             .then(({result, data})=>{
                 if(result){
-                    console.log(data);
                     setInputs(data)
                     setBgColor(data.bg_color)
                     setFontColor(data.font_color)
@@ -67,7 +66,6 @@ export default function ClientUpdate() {
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        console.log(inputs);
         api('clientcode', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

@@ -8,9 +8,15 @@ function Select({name, current, /* currentChange, */ setInputs, changeName, disa
         name === 'year' && setTestData(['2023', '2022', '2021']);
         name === 'month' && setTestData(['10', '11', '12']);
         name === 'pagerCount' && setTestData(['10', '20', '30', '50', '100', '300', '500']);
-        name === 'pageCount' && setTestData(['1', '2', '3']);
         name === 'yn' && setTestData(['Y', 'N']);
         name === 'clientRating' && setTestData(['무료', '유료']);
+        name === 'customerCount' && setTestData(['10', '20', '30', '50', '100', '300', '500']);
+        name === 'sns' && setTestData(['수신', '거부']);
+        name === 'mobileColor' && setTestData(['허용', '안함']);
+        name === 'orderBy' && setTestData(['최신등록일 순', '최종수정일 순', '최종상담일 수']);
+
+
+        name === 'pageCount' && setTestData(['1', '2', '3']);
         document.querySelector('body').addEventListener('click',bodyClick)
         return () => {
             // console.log('select 바디 클릭 종료');
