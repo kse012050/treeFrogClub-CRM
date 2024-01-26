@@ -29,7 +29,7 @@ export default function ManagementRegistration() {
     },[])
 
     const ipAdd = () =>{
-        if(ipRef.current.value.length === 15){
+        if((ipRef.current.value.match(/\./g) || []).length === 3){
             const value = ipRef.current.value;
             setInputs((input)=>({...input, 'allow_ips': [...input.allow_ips, value]}))
             ipRef.current.value = '';

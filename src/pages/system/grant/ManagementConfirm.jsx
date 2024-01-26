@@ -14,10 +14,10 @@ export default function ManagementConfirm() {
             .then(({result, data})=>{
                 if(result){
                     if(data.connect_limit_yn === 'y'){
-                        data.connect_limit_start_time_hour = data.connect_limit_start_time.split(':')[0];
-                        data.connect_limit_start_time_minute = data.connect_limit_start_time.split(':')[1];
-                        data.connect_limit_end_time_hour = data.connect_limit_end_time.split(':')[0];
-                        data.connect_limit_end_time_minute = data.connect_limit_end_time.split(':')[1];
+                        data.connect_limit_start_time_hour = data.connect_limit_start_time ? data.connect_limit_start_time.split(':')[0] : '00';
+                        data.connect_limit_start_time_minute = data.connect_limit_start_time ? data.connect_limit_start_time.split(':')[1] : '00';
+                        data.connect_limit_end_time_hour = data.connect_limit_end_time ? data.connect_limit_end_time.split(':')[0] : '00';
+                        data.connect_limit_end_time_minute = data.connect_limit_end_time ? data.connect_limit_end_time.split(':')[1] : '00';
                     }
                     setInputs(data);
                 }
