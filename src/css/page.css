@@ -340,17 +340,17 @@
 
 
 /* 시스템 관리 - 권한 설정 - 역할 관리 - 추가 */
-.systemPage.registrationPage .dropBox .limitArea > label{margin-bottom: 15px;}
-.systemPage.registrationPage .dropBox .limitArea > div:not(:last-of-type){margin-bottom: 30px;}
-.systemPage.registrationPage .dropBox .limitArea .timeArea{display: flex; align-items: center; gap: 5px;}
-.systemPage.registrationPage .dropBox .limitArea .ipArea{display: flex; align-items: flex-start;}
-.systemPage.registrationPage .dropBox .limitArea .ipArea input{width: 200px;}
-.systemPage.registrationPage .dropBox .limitArea .ipArea .btn-gray-black{margin-left: 7px;}
-.systemPage.registrationPage .dropBox .limitArea .ipArea ul{width: 260px; height: 96px; padding: 12px 20px; box-sizing: border-box; overflow: auto; background-color: var(--color-division); margin-left: 20px;}
-.systemPage.registrationPage .dropBox .limitArea .ipArea ul::-webkit-scrollbar{width: 6px;}
-.systemPage.registrationPage .dropBox .limitArea .ipArea ul li{display: flex; align-items: center;}
-.systemPage.registrationPage .dropBox .limitArea .ipArea ul li:not(:last-child){margin-bottom: 12px;}
-.systemPage.registrationPage .dropBox .limitArea .ipArea ul li button{width: 16px; aspect-ratio: 1; background: url(../images/icon-delete.png) no-repeat center / cover; text-indent: -9999px; margin-left: 6px;}
+.systemPage .dropBox .limitArea > label{margin-bottom: 15px;}
+.systemPage .dropBox .limitArea > div:not(:last-of-type){margin-bottom: 30px;}
+.systemPage .dropBox .limitArea .timeArea{display: flex; align-items: center; gap: 5px;}
+.systemPage .dropBox .limitArea .ipArea{display: flex; align-items: flex-start;}
+.systemPage .dropBox .limitArea .ipArea input{width: 200px;}
+.systemPage .dropBox .limitArea .ipArea .btn-gray-black{margin-left: 7px;}
+.systemPage .dropBox .limitArea .ipArea ul{width: 260px; height: 96px; padding: 12px 20px; box-sizing: border-box; overflow: auto; background-color: var(--color-division); margin-left: 20px;}
+.systemPage .dropBox .limitArea .ipArea ul::-webkit-scrollbar{width: 6px;}
+.systemPage .dropBox .limitArea .ipArea ul li{display: flex; align-items: center;}
+.systemPage .dropBox .limitArea .ipArea ul li:not(:last-child){margin-bottom: 12px;}
+.systemPage .dropBox .limitArea .ipArea ul li button{width: 16px; aspect-ratio: 1; background: url(../images/icon-delete.png) no-repeat center / cover; text-indent: -9999px; margin-left: 6px;}
 
 
 /* 시스템 관리 - 권한 설정 - 역할 권한 관리 */

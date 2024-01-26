@@ -93,8 +93,14 @@ function Board({ boardList, setBoardList }){
                                 <BoardChk id={data.role_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ data.role_classification }</span>
                                 <span>{ data.role_name }</span>
-                                <span>{ data.ip_limit_yn }</span>
-                                <span>{ data.connect_limit_yn }</span>
+                                { data.ip_limit_yn === 'y' ? 
+                                    <Link to={`confirm/${data.role_id}`}>{ data.ip_limit_yn.toUpperCase() }</Link> :
+                                    <span>{ data.ip_limit_yn.toUpperCase() }</span>
+                                }
+                                { data.connect_limit_yn === 'y' ? 
+                                    <Link to={`confirm/${data.role_id}`}>{ data.connect_limit_yn.toUpperCase() }</Link> :
+                                    <span>{ data.connect_limit_yn.toUpperCase() }</span>
+                                }
                                 <span>{ data.role_explain }</span>
                                 <Link to={`update/${data.role_id}`}>수정</Link>
                             </li>

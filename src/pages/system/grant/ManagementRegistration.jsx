@@ -53,7 +53,6 @@ export default function ManagementRegistration() {
         delete inputs.connect_limit_end_time_minute;
 
         
-        console.log(inputs);
         api('role', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -129,7 +128,7 @@ export default function ManagementRegistration() {
                         </div>
                     </fieldset>
                     <div>
-                        <Link to={''} className='btn-gray-white'>목록</Link>
+                        <Link to={'/system/grant/management'} className='btn-gray-white'>목록</Link>
                         <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
                     </div>
                 </form>
