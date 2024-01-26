@@ -61,7 +61,6 @@ function Board({ boardList, setBoardList }){
                     if(result){
                         setPagerInfo(data)
                         setBoardList(list)
-                        console.log(list);
                     }
                 })
         }
@@ -75,7 +74,7 @@ function Board({ boardList, setBoardList }){
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
+                <BoardChkDelete url='role' idName='role_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
