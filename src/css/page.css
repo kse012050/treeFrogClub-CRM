@@ -256,6 +256,20 @@
 .statisticsPage.salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 80;}
 
 
+/* 시스템 관리 - 기본 설정 - 부서 관리 */
+.systemPage.bureauPage .horizontalTwo .bureauBox{width: 300px; padding: 20px 20px 0; border: 1px solid var(--color-line); box-sizing: border-box;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea{display: flex; flex-direction: column;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea b{font-size: 15px; line-height: 18px; font-weight: 700; margin-bottom: 5px;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul{max-height: 350px; padding-block: 2.5px; box-sizing: border-box; overflow: auto;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li button{padding-block: 7.5px; width: 100%; text-align: left;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li > button{padding-inline: 20px;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li details summary{padding-block: 7.5px; padding-inline: 20px; cursor: pointer; list-style-type: none;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li details summary::marker{display: none;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li details button{padding-inline: 40px;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .btnArea{padding-block: 15px; display: flex; gap: 7px; margin-top: 10px; border-top: 1px solid var(--color-line);}
+.systemPage.bureauPage .horizontalTwo .bureauBox .btnArea button{flex: 1;}
+
+
 /* 시스템 관리 - 기본 설정 - 고객 구분 관리 */
 .systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
 .systemPage.clientPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 104;}

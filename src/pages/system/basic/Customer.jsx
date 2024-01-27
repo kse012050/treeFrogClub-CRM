@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { inputChange, isFormet } from '../../../api/validation'
+import { inputChange } from '../../../api/validation'
 import { api } from '../../../api/api'
 import Select from '../../../components/Select';
 import Popup from '../../../components/popup/Popup';
