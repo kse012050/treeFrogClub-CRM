@@ -40,7 +40,7 @@ function PopupProperty({ popup, close }) {
             <form>
                 <fieldset>
                     <input type="text" name='name' onChange={inputChange}/>
-                    <div className='btnArea'>
+                    <div className='btnArea-end'>
                         <button className='btn-gray-white' type="button" onClick={close}>취소</button>
                         <input type="submit" className='btn-point' onClick={onSubmit} value={
                             (type === 'classification' ? '저장' : '수정')

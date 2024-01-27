@@ -257,17 +257,36 @@
 
 
 /* 시스템 관리 - 기본 설정 - 부서 관리 */
-.systemPage.bureauPage .horizontalTwo .bureauBox{width: 300px; padding: 20px 20px 0; border: 1px solid var(--color-line); box-sizing: border-box;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea{display: flex; flex-direction: column;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea b{font-size: 15px; line-height: 18px; font-weight: 700; margin-bottom: 5px;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul{max-height: 350px; padding-block: 2.5px; box-sizing: border-box; overflow: auto;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li button{padding-block: 7.5px; width: 100%; text-align: left;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li > button{padding-inline: 20px;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li details summary{padding-block: 7.5px; padding-inline: 20px; cursor: pointer; list-style-type: none;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li details summary::marker{display: none;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul li details button{padding-inline: 40px;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .btnArea{padding-block: 15px; display: flex; gap: 7px; margin-top: 10px; border-top: 1px solid var(--color-line);}
+.systemPage.bureauPage .bureauBox{width: 300px; padding-top: 20px; border: 1px solid var(--color-line); box-sizing: border-box;}
+.systemPage.bureauPage .bureauBox .listArea{display: flex; flex-direction: column;}
+.systemPage.bureauPage .bureauBox .listArea > *:first-child{font-size: 15px; line-height: 18px; padding-inline: 20px; font-weight: 700; text-align: left; margin-bottom: 5px;}
+.systemPage.bureauPage .bureauBox .listArea ul{padding-inline: 20px; padding-block: 2.5px; box-sizing: border-box; overflow: auto;}
+.systemPage.bureauPage .bureauBox .listArea ul::-webkit-scrollbar{width: 6px;}
+.systemPage.bureauPage .bureauBox .listArea ul::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
+.systemPage.bureauPage .bureauBox .listArea ul li button{padding-block: 7.5px; width: 100%; text-align: left;}
+.systemPage.bureauPage .bureauBox .listArea :is(button, summary).active{color: var(--color-point01); font-weight: 700; display: flex; align-items: center;}
+.systemPage.bureauPage .bureauBox .listArea :is(button, summary).active::after{content: ''; width: 16px; aspect-ratio: 1; background: url(../images/icon-check.png) no-repeat center / cover; margin-left: 6px;}
+.systemPage.bureauPage .bureauBox .listArea ul li > button{padding-inline: 20px;}
+.systemPage.bureauPage .bureauBox .listArea ul li details summary{padding-block: 7.5px; padding-inline: 20px; cursor: pointer; list-style-type: none;}
+.systemPage.bureauPage .bureauBox .listArea ul li details summary::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; left: 4px; top: 50%; translate: 0 -50%; rotate: -90deg;}
+.systemPage.bureauPage .bureauBox .listArea ul li details :is(summary, button){position: relative;}
+.systemPage.bureauPage .bureauBox .listArea ul li details :is(summary, button)::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; top: 50%; translate: 0 -50%; rotate: -90deg;}
+.systemPage.bureauPage .bureauBox .listArea ul li details summary::before{left: 4px;}
+.systemPage.bureauPage .bureauBox .listArea ul li details button::before{left: 26px;}
+.systemPage.bureauPage .bureauBox .listArea ul li details[open] summary::before{rotate: 0deg;}
+.systemPage.bureauPage .bureauBox .listArea ul li details button{padding-inline: 40px;}
+.systemPage.bureauPage .bureauBox .btnArea{margin-inline: 20px;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .btnArea{margin-inline: 20px; padding-block: 15px; display: flex; gap: 7px; margin-top: 10px; border-top: 1px solid var(--color-line);}
 .systemPage.bureauPage .horizontalTwo .bureauBox .btnArea button{flex: 1;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul{max-height: 350px;}
+.systemPage.bureauPage .bureau-add fieldset > strong{font-size: 15px; line-height: 18px; font-weight: 700; display: block; margin-bottom: 30px;}
+.systemPage.bureauPage .bureau-add fieldset > ul > li:not(:last-child){margin-bottom: 20px;}
+.systemPage.bureauPage .bureau-add fieldset > ul > li label{font-weight: 700;}
+.systemPage.bureauPage .bureau-add fieldset > ul > li > div{margin-top: 10px;}
+.systemPage.bureauPage .bureau-add fieldset > ul > li > .bureauBox .listArea ul{max-height: 170px;}
+.systemPage.bureauPage .bureau-add fieldset > ul > li > .bureauBox .btnArea{align-items: center; padding-block: 10px; margin-top: 0; border-top: 1px solid var(--color-line);}
+.systemPage.bureauPage .bureau-add fieldset > ul > li > .bureauBox .btnArea button{margin-left: auto;}
+.systemPage.bureauPage .bureau-add > div{display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px;}
 
 
 /* 시스템 관리 - 기본 설정 - 고객 구분 관리 */
