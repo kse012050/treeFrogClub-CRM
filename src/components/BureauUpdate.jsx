@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/api';
 
-export default function BureauList({ data, inputs, setInputs, changeName }) {
+export default function BureauUpdate({ data, inputs, setInputs, changeName }) {
     const [lowerList, setLowerList] = useState();
     useEffect(()=>{
-        // console.log(data);
         if(data.lower_department_count !== '0'){
             api('department', 'list', {'parent_department_id': data.department_id})
                 .then(({result, list})=>{
@@ -13,7 +12,7 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                     }
                 })
         }
-    },[data, data.lower_department_count, data.department_id])
+    },[data.lower_department_count, data.department_id])
 
     return (
         <>
@@ -21,15 +20,15 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                 { data.lower_department_count === '0' ?
                     <button 
                         type='button' 
-                        onClick={()=>setInputs((input)=>({...input, 'bureauName': data.name, [changeName]: data.department_id}))}
+                        onClick={()=>setInputs((input)=>({...input, [changeName]: data.department_id}))}
                         className={inputs[changeName] === data.department_id ? 'active' : ''}
                         >
                             {data.name} ({data.depth})
                     </button> :
                     <details>
                         <summary
-                            onClick={()=>setInputs((input)=>({...input, 'bureauName': data.name, [changeName]: data.department_id}))}
-                            className={inputs[changeName] === data.department_id ? 'active' : ''}
+                            onClick={()=>setInputs((input)=>({...input, [changeName]: data.department_id}))}
+                            className={(inputs[changeName] === data.department_id) ? 'active' : ''}
                         >
                             {data.name} ({data.depth})
                         </summary>
@@ -38,8 +37,6 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                                 <button 
                                     type='button'
                                     key={lowerData.department_id} 
-                                    onClick={()=>setInputs((input)=>({...input, 'bureauName': data.name, [changeName]: lowerData.department_id}))}
-                                    className={(inputs[changeName] === lowerData.department_id) ? 'active' : ''}
                                 >
                                     { lowerData.name }
                                 </button> )}
