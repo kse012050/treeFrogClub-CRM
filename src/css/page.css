@@ -409,5 +409,12 @@
 
 
 
-/* 공지사항 등록 */
+/* 공지사항 */
+.noticePage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 220;}
+.noticePage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 220;}
+.noticePage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 220;}
+.noticePage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 220;}
+.noticePage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 60;}
+/* 공지사항 - 등록 */
 .noticePage.announcementPage .dropBox form fieldset > ul li:first-child > div label:first-of-type{margin-right: 20px;}
+

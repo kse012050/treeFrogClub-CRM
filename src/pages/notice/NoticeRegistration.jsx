@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Announcement() {
+export default function NoticeRegistration() {
     return (
         <>
             <h2>공지사항 등록</h2>

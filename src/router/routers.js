@@ -28,7 +28,7 @@ import SystemGrantManagementRegistration from '../pages/system/grant/ManagementR
 import SystemGrantManagementConfirm from '../pages/system/grant/ManagementConfirm';
 import SystemGrantManagementUpdate from '../pages/system/grant/ManagementUpdate';
 import SystemGrantPermissions from '../pages/system/grant/Permissions';
-import SystemNoticeAnnouncement from '../pages/notice/Announcement';
+import Notice from '../pages/notice/Notice';
 // import Test from '../pages/customer/Test';
 
 export const routers = [
@@ -175,7 +175,7 @@ export const routers = [
         element: <Root />,
         children: [
             {
-                path: 'announcement', element: <SystemNoticeAnnouncement />
+                path: 'list', element: <Notice />
             },
         ]
     }
