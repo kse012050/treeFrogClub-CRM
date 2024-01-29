@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/api';
 
-export default function BureauList({ data, inputs, setInputs, changeName }) {
+export default function BureauRegistration({ data, inputs, setInputs, changeName }) {
     const [lowerList, setLowerList] = useState();
 
     useEffect(()=>{
@@ -28,8 +28,8 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                     </button> :
                     <details>
                         <summary
-                            // onClick={()=>setInputs(data)}
-                            // className={inputs[changeName] === data.department_id ? 'active' : ''}
+                            onClick={()=>setInputs(data)}
+                            className={inputs[changeName] === data.department_id ? 'active' : ''}
                         >
                             {data.name} ({data.depth})
                         </summary>
@@ -38,8 +38,6 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                                 <button 
                                     type='button'
                                     key={lowerData.department_id} 
-                                    onClick={()=>setInputs(lowerData)}
-                                    className={(inputs[changeName] === lowerData.department_id) ? 'active' : ''}
                                 >
                                     { lowerData.name }
                                 </button> )}
