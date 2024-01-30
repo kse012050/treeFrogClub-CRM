@@ -397,6 +397,6 @@
 /* 공지사항 - 등록 */
 /* .noticePage.announcementPage .dropBox form fieldset > ul li:first-child > div label:first-of-type{margin-right: 20px;} */
 /* .noticePage.registrationPage .dropBox fieldset ul li div{align-items: flex-start;} */
-.noticePage.registrationPage .dropBox fieldset ul li div .bureauList{flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 8px 10px; border: 1px solid var(--color-line); border-radius: 4px;}
-.noticePage.registrationPage .popupBox .childrenArea > b{content: attr(title); font-weight: 700; display: block; margin-block: 20px 10px;}
+.noticePage .dropBox fieldset ul li div .bureauList{flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 8px 10px; border: 1px solid var(--color-line); border-radius: 4px;}
+.noticePage .popupBox .childrenArea > b{content: attr(title); font-weight: 700; display: block; margin-block: 20px 10px;}
 

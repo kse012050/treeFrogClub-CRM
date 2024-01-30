@@ -14,7 +14,7 @@ export default function Notice() {
         api('board', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
-                    console.log(list);
+                    // console.log(list);
                     setPagerInfo(data)
                     setBoardList(list)
                 }
@@ -47,11 +47,12 @@ export default function Notice() {
                     <ol className="board-center">
                         { boardList.map((data)=>(
                             <li key={ data.board_id }>
+                                {data.board_id}
                                 <span>{ data.reg_date }</span>
                                 <span>{ data.title }</span>
                                 <span>{ data.scope_of_access }</span>
                                 <span>{ data.write_name }</span>
-                                <Link to={`update/${data.properties_id}`}>보기</Link>
+                                <Link to={`update/${data.board_id}`}>보기</Link>
                             </li>
                         ))}
                     </ol>

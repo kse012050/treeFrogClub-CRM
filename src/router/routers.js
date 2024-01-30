@@ -30,6 +30,7 @@ import SystemGrantManagementUpdate from '../pages/system/grant/ManagementUpdate'
 import SystemGrantPermissions from '../pages/system/grant/Permissions';
 import Notice from '../pages/notice/Notice';
 import NoticeRegistration from '../pages/notice/NoticeRegistration';
+import NoticeUpdate from '../pages/notice/NoticeUpdate';
 // import Test from '../pages/customer/Test';
 
 export const routers = [
@@ -180,6 +181,12 @@ export const routers = [
             },
             {
                 path: 'registration', element: <NoticeRegistration />
+            },
+            {
+                path: 'update', element: <NoticeUpdate />
+            },
+            {
+                path: 'update/:id', element: <NoticeUpdate />
             },
         ]
     }
