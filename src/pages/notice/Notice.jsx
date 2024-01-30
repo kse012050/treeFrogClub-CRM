@@ -14,11 +14,16 @@ export default function Notice() {
         api('board', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
+                    console.log(list);
                     setPagerInfo(data)
                     setBoardList(list)
                 }
             })
-    },[])
+    },[inputs])
+
+    useEffect(()=>{
+        setInputs((input)=>({...input, 'page': '1'}))
+    },[inputs.limit])
 
     return (
         <>

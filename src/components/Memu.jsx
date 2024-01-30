@@ -42,7 +42,7 @@ export default function Memu() {
             </ul>
             <strong>게시판 관리</strong>
             <ul>
-                <li><NavLink to={'/notice/list'}>공지사항</NavLink></li>
+                <li><NavLink to={'/notice'}>공지사항</NavLink></li>
             </ul>
             <p>© 2023 Team1985</p>
         </nav>

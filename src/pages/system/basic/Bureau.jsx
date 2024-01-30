@@ -45,7 +45,7 @@ export default function Bureau() {
             
             <div className="horizontalTwo">
                 <BureauBox type='list' inputs={inputs} setInputs={setInputs}>
-                    <div className='btnArea'>
+                    <div className='addBtn'>
                         <button className='btn-gray-black' onClick={()=>setBureauRegistrationPopup({type: 'children'})}>부서 추가</button>
                         <button 
                             className='btn-gray-black'
@@ -131,7 +131,7 @@ function BureauRegistration({ bureauRegistrationPopup, setBureauRegistrationPopu
                                 <li>
                                     <label htmlFor="">상위부서 선택</label>
                                     <BureauBox type='registration' inputs={inputs} setInputs={setInputs}>
-                                        <div className="btnArea">
+                                        <div className="addBtn">
                                             <b>부서장 선택</b>
                                             <span>(최대 6명)</span>
                                             <button className='btn-gray-black'>찾기</button>
@@ -140,7 +140,7 @@ function BureauRegistration({ bureauRegistrationPopup, setBureauRegistrationPopu
                                 </li>
                             </ul>
                         </fieldset>
-                        <div>
+                        <div className='btnArea-end'>
                             <button className='btn-gray-white' type='button' onClick={()=>setBureauRegistrationPopup('')}>취소</button>
                             <input type="submit" className='btn-point' value='저장' onClick={onSubmit}/>
                         </div>
@@ -191,7 +191,7 @@ function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, parentsInputs, 
         <>
             { bureauUpdatePopup &&
                 <Popup popup={bureauUpdatePopup} setPopup={setBureauUpdatePopup}>
-                    <form className='bureau-add'>
+                    <form className='bureau-update'>
                         <fieldset>
                             <strong>부서 수정</strong>
                             <ul>
@@ -210,7 +210,7 @@ function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, parentsInputs, 
                                 <li>
                                     <label htmlFor="">부서 선택</label>
                                     <BureauBox type='update' inputs={inputs} setInputs={setInputs}>
-                                        <div className="btnArea">
+                                        <div className="addBtn">
                                             <b>부서장 선택</b>
                                             <span>(최대 6명)</span>
                                             <button className='btn-gray-black'>찾기</button>
@@ -219,7 +219,7 @@ function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, parentsInputs, 
                                 </li>
                             </ul>
                         </fieldset>
-                        <div>
+                        <div className='btnArea-end'>
                             <button className='btn-gray-white' type='button' onClick={()=>setBureauUpdatePopup('')}>취소</button>
                             <input type="submit" className='btn-point' value='저장' onClick={onSubmit}/>
                         </div>

@@ -28,8 +28,8 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 
 
 /* 버튼 */
-[class*='btn']:not(.btnArea){padding-block: 8px; border-radius: 4px; border: none; white-space: nowrap; cursor: pointer;}
-[class*='btn']:not(.btnArea):not(.btn-point){font-weight: 400;}
+[class*='btn']:not([class*="btnArea"]){padding-block: 8px; border-radius: 4px; border: none; white-space: nowrap; cursor: pointer;}
+[class*='btn']:not([class*="btnArea"]):not(.btn-point){font-weight: 400;}
 [class*='btn']:disabled{pointer-events: none;}
 .btn-point{padding-inline: 30px; font-weight: 700; color: white; text-align: center; background-color: var(--color-point01);}
 .btn-gray-white{padding-inline: 30px; color: white; background-color: var(--color-button);}
@@ -37,6 +37,12 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 .btn-gray-black:disabled{color: var(--color-button);}
 .btn-gray-black.ant-btn{font-size: 13px; line-height: 16px; font-family: 'Pretendard'; color: var(--color-font01);}
 .btn-gray-black.ant-btn-default:is(:hover, :active) span{color: var(--color-font01);}
+
+
+/* 스크롤 */
+.scroll-width{overflow: auto;}
+.scroll-width::-webkit-scrollbar{width: 6px;}
+.scroll-width::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
 
 
 /* 셀렉트 박스 */
@@ -63,15 +69,44 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 /* 팝업 */
 body:has(.popupBox){overflow: hidden;}
 .popupBox{position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); z-index: 101;}
-.popupBox > div{width: 320px; padding: 20px; box-sizing: border-box; background-color: white; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); border-radius: 4px;}
-.popupBox > div:has(.bureau-add){width: 340px;}
+.popupBox > div{padding: 20px; box-sizing: border-box; background-color: white; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); border-radius: 4px;}
+.popupBox > div:not(:has([class*="bureau"])){width: 320px;}
+.popupBox > div:has([class*="bureau"]){width: 340px;}
 .popupBox > div strong{display: block; font-size: 15px; line-height: 18px; font-weight: 700; text-align: center; margin-bottom: 30px;}
 .popupBox > div p{text-align: center; white-space: pre-line;}
 .popupBox > div b{font-weight: 700;}
 .popupBox > div b + form{margin-top: 10px;}
 .popupBox > div [class*="btnArea"]{display: flex; gap: 10px; margin-top: 30px;}
 .popupBox > div p + .btnArea{justify-content: center;}
-.popupBox > div form fieldset .btnArea-end{justify-content: flex-end;}
+.popupBox > div .btnArea-end{justify-content: flex-end;}
+.popupBox [class*="choice"]{height: 96px; background-color: var(--color-face); padding: 12px 20px; box-sizing: border-box; display: flex; gap: 12px 20px;}
+li.icon-remove{display: flex; align-items: center;}
+li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/icon-delete.png) no-repeat center / cover; text-indent: -9999px; margin-left: 6px;}
+.popupBox .choice-horizontal{flex-wrap: wrap; align-content: start;}
+.popupBox .choice-vertical{flex-direction: column;}
+
+
+/* 부서 리스트 */
+.bureauBox{width: 300px; padding-top: 20px; border: 1px solid var(--color-line); box-sizing: border-box;}
+.bureauBox:not(:has( + .addBtn)){padding-bottom: 12.5px;}
+.bureauBox .listArea{display: flex; flex-direction: column;}
+.bureauBox .listArea > *:first-child{font-size: 15px; line-height: 18px; padding-inline: 20px; font-weight: 700; text-align: left; margin-bottom: 5px;}
+.bureauBox .listArea ul{padding-inline: 20px; padding-block: 2.5px; box-sizing: border-box; overflow: auto;}
+.bureauBox .listArea ul::-webkit-scrollbar{width: 6px;}
+.bureauBox .listArea ul::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
+.bureauBox .listArea ul li button{padding-block: 7.5px; width: 100%; text-align: left;}
+.bureauBox .listArea :is(button, summary).active{color: var(--color-point01); font-weight: 700; display: flex; align-items: center;}
+.bureauBox .listArea :is(button, summary).active::after{content: ''; width: 16px; aspect-ratio: 1; background: url(../images/icon-check.png) no-repeat center / cover; margin-left: 6px;}
+.bureauBox .listArea ul li > button{padding-inline: 20px;}
+.bureauBox .listArea ul li details summary{padding-block: 7.5px; padding-inline: 20px; cursor: pointer; list-style-type: none;}
+.bureauBox .listArea ul li details summary::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; left: 4px; top: 50%; translate: 0 -50%; rotate: -90deg;}
+.bureauBox .listArea ul li details :is(summary, button){position: relative;}
+.bureauBox .listArea ul li details :is(summary, button)::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; top: 50%; translate: 0 -50%; rotate: -90deg;}
+.bureauBox .listArea ul li details summary::before{left: 4px;}
+.bureauBox .listArea ul li details button::before{left: 26px;}
+.bureauBox .listArea ul li details[open] summary::before{rotate: 0deg;}
+.bureauBox .listArea ul li details button{padding-inline: 40px;}
+.bureauBox .addBtn{margin-inline: 20px;}
 
 
 /* 게시판 */
