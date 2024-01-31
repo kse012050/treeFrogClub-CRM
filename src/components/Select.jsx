@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
 
-function Select({type, list, current, /* currentChange, */ setInputs, changeName, disabled}) {
+function Select({type, list, current, setInputs, changeName, disabled}) {
     // console.log('셀릭트 박스');
     const navigate = useNavigate();
     const location = useLocation();
@@ -11,16 +11,26 @@ function Select({type, list, current, /* currentChange, */ setInputs, changeName
     const [name, setName] = useState([])
     const [value, setValue] = useState([])
     const [select, setSelect] = useState()
+    
     useEffect(()=>{
         type === 'year' && setName(['2023', '2022', '2021']);
         type === 'month' && setName(['10', '11', '12']);
         type === 'pagerCount' && setName(['10', '20', '30', '50', '100', '300', '500']);
         type === 'yn' && setName(['Y', 'N']);
         type === 'clientRating' && setName(['무료', '유료']);
-        type === 'customerCount' && setName(['10', '20', '30', '50', '100', '300', '500']);
+        if(type === 'customerCount'){
+            setName(['10', '20', '30', '50', '100', '300', '500']);
+            setValue(['10', '20', '30', '50', '100', '300', '500']);
+        }
         type === 'sns' && setName(['수신', '거부']);
-        type === 'mobileColor' && setName(['허용', '안함']);
-        type === 'orderBy' && setName(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
+        if(type === 'mobileColor'){
+            setName(['허용', '안함'])
+            setValue(['y','n'])
+        }
+        if(type === 'orderBy'){
+            setName(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
+            setValue(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
+        }
         type === 'time-hour' && setName(()=>{
             const arr = []
             for(let a = 0; a < 24; a++){
@@ -67,26 +77,37 @@ function Select({type, list, current, /* currentChange, */ setInputs, changeName
         }
     },[type, list])
 
+    const bodyClick = () =>{
+        setActive(false)
+    }
+
     useEffect(()=>{
-        if(current){
-            setSelect(name[0])
-            setInputs((inputs)=>({...inputs, [changeName]: value[0]}))
+        if(current && !select){
+            if(typeof(current) === 'string'){
+                setSelect(name[value.indexOf(current)])
+            }
+            if(typeof(current) === 'boolean'){
+                setSelect(name[0])
+            }
         }
-    },[current, changeName, name, value, setInputs])
+    },[current, name, select, value])
+
+    useEffect(()=>{
+        if(current && !select){
+            if(typeof(current) === 'string'){
+                setInputs((inputs)=>({...inputs, [changeName]: value[name.indexOf(current)]}))
+            }
+            if(typeof(current) === 'boolean'){
+                setInputs((inputs)=>({...inputs, [changeName]: value[0]}))
+            }
+        }
+    },[current, name, changeName, select, setInputs, value])
 
     useEffect(()=>{
         if(!value){
             setValue(name)
         }
     },[name, value])
-
-    useEffect(()=>{
-    },[])
-    
-    const bodyClick = () =>{
-        // console.log('select 바디 클릭 시작');
-        setActive(false)
-    }
 
     const selectOpen = (e)=>{
         e.preventDefault();
@@ -95,7 +116,6 @@ function Select({type, list, current, /* currentChange, */ setInputs, changeName
     }
 
     const listClick = (name, i) =>{
-        // currentChange(value)
         search && navigate(pathname)
         setSelect(name)
         setInputs((inputs)=>({...inputs, [changeName]: value[i]}))

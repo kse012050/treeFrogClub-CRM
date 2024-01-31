@@ -38,7 +38,7 @@ export default function AnUserRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log(inputs);
+        // console.log(inputs);
         api('user', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

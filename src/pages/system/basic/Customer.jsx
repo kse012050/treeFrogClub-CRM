@@ -5,7 +5,7 @@ import Select from '../../../components/Select';
 import Popup from '../../../components/popup/Popup';
 
 export default function Customer() {
-    const [inputs, setInputs] = useState({})
+    const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState('')
 
     useEffect(()=>{
@@ -13,11 +13,6 @@ export default function Customer() {
             api('constant', 'combine_customer_setting_info')
                 .then(({result, data})=>{
                     if(result){
-                        data.combine_customer_list_number || (data.combine_customer_list_number = '20');
-                        data.combine_customer_duplicate_mobile_color_mark_yn === 'n' ? 
-                            data.combine_customer_duplicate_mobile_color_mark_yn = '안함' : 
-                            data.combine_customer_duplicate_mobile_color_mark_yn = '허용';
-                        data.combine_customer_order_by || (data.combine_customer_order_by = '최신등록일 순');
                         setInputs(data)
                     }
                 })
@@ -26,10 +21,6 @@ export default function Customer() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        inputs.combine_customer_duplicate_mobile_color_mark_yn === '허용' ?
-            inputs.combine_customer_duplicate_mobile_color_mark_yn = 'y' :
-            inputs.combine_customer_duplicate_mobile_color_mark_yn = 'n';
-
         api('constant', 'combine_customer_setting_info_save', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -56,48 +47,49 @@ export default function Customer() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">목록 개수</label>
+                                 <label htmlFor="">목록 개수</label>
                                 <div>
-                                    <Select name={'customerCount'} current={inputs.combine_customer_list_number} setInputs={setInputs} changeName='combine_customer_list_number'/>
+                                    <Select type={'customerCount'} setInputs={setInputs} changeName='combine_customer_list_number' current={inputs?.combine_customer_list_number}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">SMS거부요청</label>
                                 <div>
-                                    <Select name={'sns'} current={'api없음'}/>
+                                    api 없음
+                                    {/* <Select type={'sns'} current={'api없음'}/> */}
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">중복휴대폰번호 색상표기</label>
                                 <div>
-                                    <Select name={'mobileColor'} current={inputs.combine_customer_duplicate_mobile_color_mark_yn} setInputs={setInputs} changeName='combine_customer_duplicate_mobile_color_mark_yn'/>
+                                    <Select type={'mobileColor'} setInputs={setInputs} changeName='combine_customer_duplicate_mobile_color_mark_yn' current={inputs?.combine_customer_duplicate_mobile_color_mark_yn}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">정렬 기준</label>
                                 <div>
-                                    <Select name={'orderBy'} current={inputs.combine_customer_order_by} setInputs={setInputs} changeName='combine_customer_order_by'/>
+                                    <Select type={'orderBy'} setInputs={setInputs} changeName='combine_customer_order_by' current={inputs?.combine_customer_order_by}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">무료체험 기간</label>
                                 <div>
-                                    <input type="radio" id='free_year' name='combine_customer_free_experience_period' value='year' checked={inputs.combine_customer_free_experience_period === 'year'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='free_year' name='combine_customer_free_experience_period' value='year' checked={inputs?.combine_customer_free_experience_period === 'year'} onChange={(e)=>inputChange(e, setInputs)}/>
                                     <label htmlFor="free_year">금년</label>
-                                    <input type="radio" id='free_month' name='combine_customer_free_experience_period' value='month' checked={inputs.combine_customer_free_experience_period === 'month'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='free_month' name='combine_customer_free_experience_period' value='month' checked={inputs?.combine_customer_free_experience_period === 'month'} onChange={(e)=>inputChange(e, setInputs)}/>
                                     <label htmlFor="free_month">금월</label>
-                                    <input type="radio" id='free_day' name='combine_customer_free_experience_period' value='day' checked={inputs.combine_customer_free_experience_period === 'day'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='free_day' name='combine_customer_free_experience_period' value='day' checked={inputs?.combine_customer_free_experience_period === 'day'} onChange={(e)=>inputChange(e, setInputs)}/>
                                     <label htmlFor="free_day">금일</label>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">유료 기간</label>
                                 <div>
-                                    <input type="radio" id='fee_year' name='combine_customer_fee_period' value='year' checked={inputs.combine_customer_fee_period === 'year'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='fee_year' name='combine_customer_fee_period' value='year' checked={inputs?.combine_customer_fee_period === 'year'} onChange={(e)=>inputChange(e, setInputs)}/>
                                     <label htmlFor="fee_year">금년</label>
-                                    <input type="radio" id='fee_month' name='combine_customer_fee_period' value='month' checked={inputs.combine_customer_fee_period === 'month'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='fee_month' name='combine_customer_fee_period' value='month' checked={inputs?.combine_customer_fee_period === 'month'} onChange={(e)=>inputChange(e, setInputs)}/>
                                     <label htmlFor="fee_month">금월</label>
-                                    <input type="radio" id='fee_day' name='combine_customer_fee_period' value='day' checked={inputs.combine_customer_fee_period === 'day'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='fee_day' name='combine_customer_fee_period' value='day' checked={inputs?.combine_customer_fee_period === 'day'} onChange={(e)=>inputChange(e, setInputs)}/>
                                     <label htmlFor="fee_day">금일</label>
                                 </div>
                             </li>
@@ -105,7 +97,7 @@ export default function Customer() {
                     </fieldset>
                     <fieldset className='autoArea'>
                         <b>무료회원 DB회수 자동 설정</b>
-                        <input type="radio" id='auto_y' name='auto_collection_yn' value='y' checked={inputs.auto_collection_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
+                        <input type="radio" id='auto_y' name='auto_collection_yn' value='y' checked={inputs?.auto_collection_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
                         <label htmlFor="auto_y">자동 설정 ( 회수 담당자 선택 미완 )</label>
                         <div>
                             <ul>
@@ -127,7 +119,7 @@ export default function Customer() {
                                 </li>
                             </ul>
                         </div>
-                        <input type="radio" id='auto_n' name='auto_collection_yn' value='n' checked={inputs.auto_collection_yn === 'n'} onChange={(e)=>inputChange(e, setInputs)}/>
+                        <input type="radio" id='auto_n' name='auto_collection_yn' value='n' checked={inputs?.auto_collection_yn === 'n'} onChange={(e)=>inputChange(e, setInputs)}/>
                         <label htmlFor="auto_n">자동 설정 안 함</label>
                     </fieldset>
                     <div>
