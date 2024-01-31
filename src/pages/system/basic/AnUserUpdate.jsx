@@ -114,13 +114,13 @@ export default function AnUserUpdate() {
                             <li>
                                 <label htmlFor="">사용자 구분</label>
                                 <div>
-                                    <Select type={'userDivision'} inputs={inputs} changeName='type' setInputs={setInputs} current={inputs?.type}/>
+                                    <Select type={'userDivision'} changeName='type' setInputs={setInputs} current={inputs?.type}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">역할그룹 { inputs?.role_name } { inputs?.mobile }</label>
+                                <label htmlFor="">역할그룹</label>
                                 <div>
-                                    <Select type={'management'} list={roleList} inputs={inputs} changeName='role_id' setInputs={setInputs} current={inputs?.role_id}/>
+                                    <Select type={'management'} list={roleList} changeName='role_id' setInputs={setInputs} current={inputs?.role_id}/>
                                 </div>
                             </li>
                             <li>
@@ -132,7 +132,7 @@ export default function AnUserUpdate() {
                             <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
-                                    <Select type={'use'} inputs={inputs} changeName='useable_yn' setInputs={setInputs} current={inputs?.useable_yn}/>
+                                    <Select type={'use'} changeName='useable_yn' setInputs={setInputs} current={inputs?.useable_yn}/>
                                 </div>
                             </li>
                             <li>

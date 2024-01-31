@@ -7,7 +7,7 @@ import CustomerRegistration from '../pages/customer/Registration';
 import CustomerBulkRegistration from '../pages/customer/BulkRegistration';
 import PaymentList from '../pages/payment/List';
 import PaymentBulkRegistration from '../pages/payment/BulkRegistration';
-import PaymentProductList from '../pages/payment/ProductList';
+import PaymentProduct from '../pages/payment/Product';
 import PaymentProductRegistration from '../pages/payment/ProductRegistration';
 import StatisticsAccount from '../pages/statistics/Account';
 import StatisticsByType from '../pages/statistics/ByType';
@@ -77,7 +77,7 @@ export const routers = [
                 path: 'list/registration', element: <PaymentBulkRegistration />
             },
             {
-                path: 'productList', element: <PaymentProductList />
+                path: 'product', element: <PaymentProduct />
             },
             {
                 path: 'productList/registration', element: <PaymentProductRegistration />

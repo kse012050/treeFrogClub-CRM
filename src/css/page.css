@@ -195,13 +195,13 @@
 
 
 /* 결제 관리 - 상품 목록 */
-.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
-.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
-.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 300;}
-.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 140;}
-.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 140;}
-.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 164;}
-.paymentPage.productListPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 50;}
+.paymentPage.productPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
+.paymentPage.productPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
+.paymentPage.productPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 300;}
+.paymentPage.productPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 140;}
+.paymentPage.productPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 140;}
+.paymentPage.productPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 164;}
+.paymentPage.productPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 50;}
 
 
 /* 통계 - 그룹/계정별 유효성 */

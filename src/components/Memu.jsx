@@ -12,7 +12,7 @@ export default function Memu() {
             <strong>결제 관리</strong>
             <ul>
                 <li><NavLink to={'/payment/list'}>결제 목록</NavLink></li>
-                <li><NavLink to={'/payment/productList'}>상품 목록</NavLink></li>
+                <li><NavLink to={'/payment/product'}>상품 목록</NavLink></li>
             </ul>
             <strong>통계</strong>
             <ul>
