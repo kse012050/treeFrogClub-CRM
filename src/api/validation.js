@@ -1,16 +1,17 @@
 const formetMap = {
     id(value) {
-        const regex = /^[a-zA-Z0-9!@#$%^&*()_+={}[\]:;<>,.?~\\/-]*$/;
+        const regex = /^[a-zA-Z][a-zA-Z0-9]*$/;
         return {
             is: regex.test(value),
-            value: value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '')
+            value: /^\d/.test(value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '')) ? value.slice(1) : value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '')
         };
     },
     numb(value) {
         const regex = /^[0-9]+$/;
         return {
             is: regex.test(value),
-            value: Number(value.replace(/\D/g, ''))
+            // value: Number(value.replace(/\D/g, ''))
+            value: value.replace(/\D/g, '')
         };
     },
     color(value){
@@ -31,6 +32,18 @@ const formetMap = {
 
 export function isFormet(type, value){
     return Object.keys(formetMap).includes(type) && formetMap[type](value);
+}
+
+export const onChange = (e, setChange) => {
+    const { value, dataset: { formet } } = e.target;
+    
+    if(formet && !!value && !isFormet(formet, value)['is']){
+        const cur = e.target.selectionStart - 1;
+        e.target.value = isFormet(formet, value)['value'];
+        e.target.setSelectionRange(cur, cur);
+    }
+
+    setChange(e.target.value)
 }
 
 

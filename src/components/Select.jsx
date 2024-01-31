@@ -1,31 +1,34 @@
 import React, { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { api } from '../api/api';
 
-function Select({name, list, current, /* currentChange, */ setInputs, changeName, disabled}) {
+function Select({type, list, current, /* currentChange, */ setInputs, changeName, disabled}) {
     // console.log('셀릭트 박스');
     const navigate = useNavigate();
     const location = useLocation();
     const { pathname, search } = location;
     const [active, setActive] = useState(false)
-    const [testDate, setTestData] = useState([])
+    const [name, setName] = useState([])
+    const [value, setValue] = useState([])
+    const [select, setSelect] = useState()
     useEffect(()=>{
-        name === 'year' && setTestData(['2023', '2022', '2021']);
-        name === 'month' && setTestData(['10', '11', '12']);
-        name === 'pagerCount' && setTestData(['10', '20', '30', '50', '100', '300', '500']);
-        name === 'yn' && setTestData(['Y', 'N']);
-        name === 'clientRating' && setTestData(['무료', '유료']);
-        name === 'customerCount' && setTestData(['10', '20', '30', '50', '100', '300', '500']);
-        name === 'sns' && setTestData(['수신', '거부']);
-        name === 'mobileColor' && setTestData(['허용', '안함']);
-        name === 'orderBy' && setTestData(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
-        name === 'time-hour' && setTestData(()=>{
+        type === 'year' && setName(['2023', '2022', '2021']);
+        type === 'month' && setName(['10', '11', '12']);
+        type === 'pagerCount' && setName(['10', '20', '30', '50', '100', '300', '500']);
+        type === 'yn' && setName(['Y', 'N']);
+        type === 'clientRating' && setName(['무료', '유료']);
+        type === 'customerCount' && setName(['10', '20', '30', '50', '100', '300', '500']);
+        type === 'sns' && setName(['수신', '거부']);
+        type === 'mobileColor' && setName(['허용', '안함']);
+        type === 'orderBy' && setName(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
+        type === 'time-hour' && setName(()=>{
             const arr = []
             for(let a = 0; a < 24; a++){
                 arr.push(Number(a) < 10 ? `0${a}` : a)
             }
             return arr;
         });
-        name === 'time-minute' && setTestData(()=>{
+        type === 'time-minute' && setName(()=>{
             const arr = []
             for(let a = 0; a < 60; a = a + 10){
                 arr.push(Number(a) < 10 ? `0${a}` : a)
@@ -34,15 +37,51 @@ function Select({name, list, current, /* currentChange, */ setInputs, changeName
         });
 
 
-        name === 'pageCount' && setTestData(['1', '2', '3']);
-        list && setTestData(list.map((text)=>text.id))
+        type === 'pageCount' && setName(['1', '2', '3']);
+        list && setName(list.map((text)=>text.id))
+
+        if(type === 'userDivision'){
+            setName(['사용자', '관리자']);
+            setValue(['user','admin'])
+        }
+
+        if(type === 'management'){
+            api('role', 'list')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({role_classification})=>role_classification))
+                        setValue(list.map(({role_id})=>role_id))
+                    }
+                })
+        }
+
+        if(type === 'use'){
+            setName(['사용가능', '사용불가능']);
+            setValue(['y','n'])
+        }
 
         document.querySelector('body').addEventListener('click',bodyClick)
         return () => {
             // console.log('select 바디 클릭 종료');
             document.querySelector('body').removeEventListener('click',bodyClick)
         }
-    },[name, list])
+    },[type, list])
+
+    useEffect(()=>{
+        if(current){
+            setSelect(name[0])
+            setInputs((inputs)=>({...inputs, [changeName]: value[0]}))
+        }
+    },[current, changeName, name, value, setInputs])
+
+    useEffect(()=>{
+        if(!value){
+            setValue(name)
+        }
+    },[name, value])
+
+    useEffect(()=>{
+    },[])
     
     const bodyClick = () =>{
         // console.log('select 바디 클릭 시작');
@@ -55,19 +94,20 @@ function Select({name, list, current, /* currentChange, */ setInputs, changeName
         setActive((value)=>!value)
     }
 
-    const listClick = (value) =>{
+    const listClick = (name, i) =>{
         // currentChange(value)
         search && navigate(pathname)
-        setInputs((inputs)=>({...inputs, [changeName]: value}))
-        setActive((value)=>!value)
+        setSelect(name)
+        setInputs((inputs)=>({...inputs, [changeName]: value[i]}))
+        setActive((active)=>!active)
     }
     return (
-        <div className={`selectBox${name ? `-${name}`: ''}`}>
-            <button onClick={selectOpen} disabled={disabled}>{ current || '선택' }</button>
+        <div className={`selectBox${type ? `-${type}`: ''}`}>
+            <button onClick={selectOpen} disabled={disabled}>{ select || '선택' }</button>
             {
                 active && 
                     <div>
-                        {testDate.map((value, i)=> <button key={i} onClick={()=>listClick(value)}>{value}</button>)}
+                        {name.map((name, i)=> <button key={i} onClick={()=>listClick(name, i)}>{name}</button>)}
                     </div>
             }
         </div>

@@ -4,8 +4,9 @@ import BureauList from './BureauList';
 import BureauUpdate from './BureauUpdate';
 import BureauRegistration from './BureauRegistration';
 import BureauNotice from './BureauNotice';
+import BureauChoice from './BureauChoice';
 
-export default function BureauBox({type, inputs, setInputs, children}) {
+export default function BureauBox({type, inputs, setInputs, children, select, setSelect}) {
     // console.log(2);
     const [bureau, setBureau] = useState();
 
@@ -21,6 +22,12 @@ export default function BureauBox({type, inputs, setInputs, children}) {
 
     return (
         <>
+            {type === 'choice' &&
+                <div className='searchArea'>
+                    <input type="search" placeholder='검색'/>
+                    <button>검색</button>
+                </div>
+            }
             <div className='bureauBox'>
                 <div className='listArea'>
                     { (type === 'list' || type === 'update') && <b>{ bureau?.company_name }</b>}
@@ -42,8 +49,11 @@ export default function BureauBox({type, inputs, setInputs, children}) {
                             { bureau?.company_name }
                         </button>
                     }
+                    {type === 'choice' &&
+                        <b>{ bureau?.company_name }</b>
+                    }
                     
-                    <ul>
+                    <ul className='scroll-width'>
                         { type === 'list' && bureau?.list.map((data)=>
                             <BureauList 
                                 key={data.department_id}
@@ -78,6 +88,14 @@ export default function BureauBox({type, inputs, setInputs, children}) {
                                 inputs={inputs}
                                 setInputs={setInputs}
                                 changeName={'department_id'}
+                            />
+                        )}
+                        { type === 'choice' && bureau?.list.map((data)=>
+                            <BureauChoice
+                                key={data.department_id}
+                                data={data}
+                                select={select}
+                                setSelect={setSelect}
                             />
                         )}
                     </ul>

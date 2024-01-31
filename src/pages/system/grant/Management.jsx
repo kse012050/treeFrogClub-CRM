@@ -109,7 +109,7 @@ function Board({ boardList, setBoardList }){
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select name="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
                     <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>

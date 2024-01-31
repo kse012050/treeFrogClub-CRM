@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/api';
 
-export default function BureauList({ data, inputs, setInputs, changeName }) {
+export default function BureauChoice({ data, select, setSelect }) {
     const [lowerList, setLowerList] = useState();
-
+    
     useEffect(()=>{
         if(data.lower_department_count !== '0'){
             api('department', 'list', {'parent_department_id': data.department_id})
@@ -21,8 +21,8 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                 { data.lower_department_count === '0' ?
                     <button 
                         type='button' 
-                        onClick={()=>setInputs(data)}
-                        className={inputs[changeName] === data.department_id ? 'active' : ''}
+                        onClick={()=>setSelect(data)}
+                        className={select?.department_id === data.department_id ? 'active' : ''}
                         >
                             {data.name} ({data.depth})
                     </button> :
@@ -35,8 +35,8 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                                 <button 
                                     type='button'
                                     key={lowerData.department_id} 
-                                    onClick={()=>setInputs(lowerData)}
-                                    className={(inputs[changeName] === lowerData.department_id) ? 'active' : ''}
+                                    onClick={()=>setSelect(lowerData)}
+                                    className={(select?.department_id === lowerData.department_id) ? 'active' : ''}
                                 >
                                     { lowerData.name }
                                 </button> )}

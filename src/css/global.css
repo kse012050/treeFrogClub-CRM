@@ -84,11 +84,13 @@ li.icon-remove{display: flex; align-items: center;}
 li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/icon-delete.png) no-repeat center / cover; text-indent: -9999px; margin-left: 6px;}
 .popupBox .choice-horizontal{flex-wrap: wrap; align-content: start;}
 .popupBox .choice-vertical{flex-direction: column;}
+.popupBox .bureauArea .searchArea{margin-bottom: 12px;}
+.popupBox .bureauArea .bureauBox .listArea ul{height: 353px;}
 
 
 /* 부서 리스트 */
 .bureauBox{width: 300px; padding-top: 20px; border: 1px solid var(--color-line); box-sizing: border-box;}
-.bureauBox:not(:has( + .addBtn)){padding-bottom: 12.5px;}
+/* .bureauBox:not(:has( + .addBtn)){padding-bottom: 12.5px;} */
 .bureauBox .listArea{display: flex; flex-direction: column;}
 .bureauBox .listArea > *:first-child{font-size: 15px; line-height: 18px; padding-inline: 20px; font-weight: 700; text-align: left; margin-bottom: 5px;}
 .bureauBox .listArea ul{padding-inline: 20px; padding-block: 2.5px; box-sizing: border-box; overflow: auto;}

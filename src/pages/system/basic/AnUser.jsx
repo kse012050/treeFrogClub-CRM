@@ -90,7 +90,6 @@ function Board({ boardList, setBoardList }){
             api('user', 'list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
-                        console.log(list);
                         setPagerInfo(data)
                         setBoardList(list)
                     }
@@ -106,7 +105,7 @@ function Board({ boardList, setBoardList }){
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
+                <BoardChkDelete url='user' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
@@ -139,7 +138,7 @@ function Board({ boardList, setBoardList }){
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select name="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
                     <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>
