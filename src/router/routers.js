@@ -116,7 +116,7 @@ export const routers = [
                 path: 'basic/anUser/registration', element: <SystemBasicAnUserRegistration />
             },
             {
-                path: 'basic/anUser/update', element: <SystemBasicAnUserUpdate />
+                path: 'basic/anUser/update/:id', element: <SystemBasicAnUserUpdate />
             },
             {
                 path: 'basic/bureau', element: <SystemBasicBureau />

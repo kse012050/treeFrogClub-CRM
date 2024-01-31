@@ -9,17 +9,27 @@ import Popup from '../../../components/popup/Popup';
 export default function AnUserRegistration() {
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
-    const [id, setId] = useState();
+    const [userId, setUserId] = useState();
+    const [roleList, setroleList] = useState();
     const [bureau, setBureau] = useState();
 
+    useEffect(()=>{
+        api('role', 'list')
+            .then(({result, list})=>{
+                if(result){
+                    setroleList(list)
+                }
+            })
+    },[])
+
     const idCheck = () => {
-        api('user', 'duplicate', {id: id})
+        api('user', 'duplicate', {id: userId})
             .then(({result, data: { exist_yn }})=>{
                 if(result){
                     setPopup({'type': 'confirm', 'title': '중복확인'})
                     if(exist_yn === 'n'){
                         setPopup((popup)=>({...popup, 'description': '등록 가능한 아이디 입니다.'}))
-                        setInputs((input)=>({...input, 'id': id}))
+                        setInputs((input)=>({...input, 'id': userId}))
                     }else{
                         setPopup((popup)=>({...popup, 'description': '이미 존재하는 아이디입니다.\n다른아이드를 입력해주세요.'}))
                     }
@@ -29,7 +39,7 @@ export default function AnUserRegistration() {
 
     useEffect(()=>{
         setInputs((input)=>({...input, 'id': ''}))
-    },[id])
+    },[userId])
 
     const onDate = (date, dateString) => {
         console.log(date, dateString);
@@ -69,8 +79,8 @@ export default function AnUserRegistration() {
                             <li>
                                 <label htmlFor="id">로그인 아이디</label>
                                 <div>
-                                    <input type="text" name='id' id='id' data-formet="id" onChange={(e)=>onChange(e, setId)}/>
-                                    <button className='btn-gray-black' type="button" disabled={!id || id === inputs?.id} onClick={idCheck}>중복 확인</button>
+                                    <input type="text" name='id' id='id' data-formet="id" onChange={(e)=>onChange(e, setUserId)}/>
+                                    <button className='btn-gray-black' type="button" disabled={!userId || userId === inputs?.id} onClick={idCheck}>중복 확인</button>
                                 </div>
                             </li>
                             <li>
@@ -100,7 +110,7 @@ export default function AnUserRegistration() {
                             <li>
                                 <label htmlFor="">역할그룹</label>
                                 <div>
-                                    <Select type={'management'} changeName='role_id' setInputs={setInputs} />
+                                    <Select type={'management'} list={roleList} inputs={inputs} changeName='role_id' setInputs={setInputs} />
                                 </div>
                             </li>
                             <li>

@@ -49,13 +49,13 @@ export default function AnUser() {
                             <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
-                                    <Select name={''} />
+                                    {/* <Select name={''} /> */}
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">사용자 구분</label>
                                 <div>
-                                    <Select name={''} />
+                                    {/* <Select name={''} /> */}
                                 </div>
                             </li>
                         </ul>
@@ -131,14 +131,14 @@ function Board({ boardList, setBoardList }){
                                 <span>{ data.role_name }</span>
                                 <span>{ data.department_name }</span>
                                 <span>{ data.useable_yn }</span>
-                                <Link to={`update/${data.properties_id}`}>수정</Link>
+                                <Link to={`update/${data.admin_id}`}>수정</Link>
                             </li>
                         ))}
                     </ol>
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    {/* <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/> */}
                     <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>

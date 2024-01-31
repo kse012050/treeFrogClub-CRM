@@ -1,8 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { api } from '../api/api';
 
-function Select({type, list, current, setInputs, changeName, disabled}) {
+function Select({type, list, current, inputs, setInputs, changeName, disabled}) {
     // console.log('셀릭트 박스');
     const navigate = useNavigate();
     const location = useLocation();
@@ -14,55 +13,70 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
     
     useEffect(()=>{
         type === 'year' && setName(['2023', '2022', '2021']);
+
         type === 'month' && setName(['10', '11', '12']);
-        type === 'pagerCount' && setName(['10', '20', '30', '50', '100', '300', '500']);
+
+        if(type === 'pagerCount'){
+            setName(['10', '20', '30', '50', '100', '300', '500']);
+            setValue(['10', '20', '30', '50', '100', '300', '500']);
+        }
+
         type === 'yn' && setName(['Y', 'N']);
+
         type === 'clientRating' && setName(['무료', '유료']);
+
         if(type === 'customerCount'){
             setName(['10', '20', '30', '50', '100', '300', '500']);
             setValue(['10', '20', '30', '50', '100', '300', '500']);
         }
+
         type === 'sns' && setName(['수신', '거부']);
+
         if(type === 'mobileColor'){
             setName(['허용', '안함'])
             setValue(['y','n'])
         }
+
         if(type === 'orderBy'){
             setName(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
             setValue(['최신등록일 순', '최종수정일 순', '최종상담일 순']);
         }
-        type === 'time-hour' && setName(()=>{
+
+        if(type === 'time-hour'){
             const arr = []
             for(let a = 0; a < 24; a++){
                 arr.push(Number(a) < 10 ? `0${a}` : a)
             }
-            return arr;
-        });
-        type === 'time-minute' && setName(()=>{
+            setName(arr);
+            setValue(arr);
+        }
+        
+        if(type === 'time-minute'){
             const arr = []
             for(let a = 0; a < 60; a = a + 10){
                 arr.push(Number(a) < 10 ? `0${a}` : a)
             }
-            return arr;
-        });
+            setName(arr);
+            setValue(arr);
+        }
+        
 
 
         type === 'pageCount' && setName(['1', '2', '3']);
-        list && setName(list.map((text)=>text.id))
 
         if(type === 'userDivision'){
             setName(['사용자', '관리자']);
             setValue(['user','admin'])
         }
 
-        if(type === 'management'){
-            api('role', 'list')
-                .then(({result, list})=>{
-                    if(result){
-                        setName(list.map(({role_classification})=>role_classification))
-                        setValue(list.map(({role_id})=>role_id))
-                    }
-                })
+        if(type === 'divisionList' && list){
+            setName(list.map(({name})=>name))
+            setValue(list.map(({id})=>id))
+        }
+
+        if(type === 'management' && list){
+            setName(list.map(({role_classification})=>role_classification))
+            setValue(list.map(({role_id})=>role_id))
         }
 
         if(type === 'use'){
@@ -70,6 +84,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setValue(['y','n'])
         }
 
+        
         document.querySelector('body').addEventListener('click',bodyClick)
         return () => {
             // console.log('select 바디 클릭 종료');
@@ -82,7 +97,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
     }
 
     useEffect(()=>{
-        if(current && !select){
+        if(current && name && value){
             if(typeof(current) === 'string'){
                 setSelect(name[value.indexOf(current)])
             }
@@ -90,24 +105,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                 setSelect(name[0])
             }
         }
-    },[current, name, select, value])
-
-    useEffect(()=>{
-        if(current && !select){
-            if(typeof(current) === 'string'){
-                setInputs((inputs)=>({...inputs, [changeName]: value[name.indexOf(current)]}))
-            }
-            if(typeof(current) === 'boolean'){
-                setInputs((inputs)=>({...inputs, [changeName]: value[0]}))
-            }
-        }
-    },[current, name, changeName, select, setInputs, value])
-
-    useEffect(()=>{
-        if(!value){
-            setValue(name)
-        }
-    },[name, value])
+    },[name, current, value])
 
     const selectOpen = (e)=>{
         e.preventDefault();
@@ -117,6 +115,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
 
     const listClick = (name, i) =>{
         search && navigate(pathname)
+        console.log(name);
         setSelect(name)
         setInputs((inputs)=>({...inputs, [changeName]: value[i]}))
         setActive((active)=>!active)
