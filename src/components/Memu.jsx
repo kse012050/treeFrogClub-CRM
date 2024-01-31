@@ -23,7 +23,7 @@ export default function Memu() {
             <strong>시스템 관리</strong>
             <b>기본 설정</b>
             <ul>
-                <li><NavLink to={'/system/basic/anUserList'}>사용자 목록</NavLink></li>
+                <li><NavLink to={'/system/basic/anUser'}>사용자 목록</NavLink></li>
                 <li><NavLink to={'/system/basic/bureau'}>부서 관리</NavLink></li>
                 <li><NavLink to={'/system/basic/client'}>고객 구분 관리</NavLink></li>
                 <li><NavLink to={'/system/basic/common'}>공통 코드 관리</NavLink></li>

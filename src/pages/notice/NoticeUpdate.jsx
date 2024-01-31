@@ -15,9 +15,7 @@ export default function NoticeUpdate() {
     useEffect(()=>{
         api('board', 'detail', {'board_id': id})
             .then(({result, data})=>{
-                // console.log(result);
                 if(result){
-                    console.log(data);
                     setInputs(data)
                     setChoiceList(data.department_list)
                 }
@@ -49,7 +47,6 @@ export default function NoticeUpdate() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        // console.log(inputs);
         api('board', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

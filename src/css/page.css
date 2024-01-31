@@ -255,6 +255,18 @@
 .statisticsPage.salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 80;}
 
 
+/* 시스템 관리 - 기본 설정 - 사용자 목록 */
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 116.28;}
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 116.28;}
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 116.28;}
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 116.28;}
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 116.28;}
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 116.28;}
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 116.28;}
+.systemPage.anUserPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 60;}
+
+
 /* 시스템 관리 - 기본 설정 - 부서 관리 */
 .systemPage.bureauPage .horizontalTwo .bureauBox .addBtn{margin-inline: 20px; padding-block: 15px; display: flex; gap: 7px; margin-top: 10px; border-top: 1px solid var(--color-line);}
 .systemPage.bureauPage .horizontalTwo .bureauBox .addBtn button{flex: 1;}

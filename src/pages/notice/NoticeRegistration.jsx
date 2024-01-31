@@ -17,7 +17,6 @@ export default function NoticeRegistration() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(inputs);
         api('board', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

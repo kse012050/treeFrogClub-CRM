@@ -13,7 +13,9 @@ import StatisticsAccount from '../pages/statistics/Account';
 import StatisticsByType from '../pages/statistics/ByType';
 import StatisticsCampaign from '../pages/statistics/Campaign';
 import StatisticsSales from '../pages/statistics/Sales';
-import SystemBasicAnUserList from '../pages/system/basic/AnUserList';
+import SystemBasicAnUser from '../pages/system/basic/AnUser';
+import SystemBasicAnUserRegistration from '../pages/system/basic/AnUserRegistration';
+// import SystemBasicAnUserUpdate from '../pages/system/basic/AnUserUpdate';
 import SystemBasicBureau from '../pages/system/basic/Bureau';
 import SystemBasicClient from '../pages/system/basic/Client';
 import SystemBasicClientRegistration from '../pages/system/basic/ClientRegistration';
@@ -108,8 +110,14 @@ export const routers = [
         element: <Root />,
         children: [
             {
-                path: 'basic/anUserList', element: <SystemBasicAnUserList />
+                path: 'basic/anUser', element: <SystemBasicAnUser />
             },
+            {
+                path: 'basic/anUser/registration', element: <SystemBasicAnUserRegistration />
+            },
+            // {
+            //     path: 'basic/anUser/update', element: <SystemBasicAnUserUpdate />
+            // },
             {
                 path: 'basic/bureau', element: <SystemBasicBureau />
             },

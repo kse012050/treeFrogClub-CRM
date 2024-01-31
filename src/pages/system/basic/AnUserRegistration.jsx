@@ -7,7 +7,7 @@ const onChange = (date, dateString) => {
     console.log(date, dateString);
 };
 
-export default function AnUserList() {
+export default function AnUserRegistration() {
     return (
         <>
             <h2>사용자 목록</h2>
