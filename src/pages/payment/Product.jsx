@@ -62,8 +62,6 @@ export default function Product() {
                 </form>
             </DropBox>
             
-    
-            
             <Board boardList={boardList} setBoardList={setBoardList}/>
         </>
     );
@@ -84,7 +82,7 @@ function Board({ boardList, setBoardList }){
     },[inputs.limit])
 
     useEffect(()=>{
-        if(deleteList){
+        if(!deleteList){
             api('product', 'list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
@@ -103,7 +101,7 @@ function Board({ boardList, setBoardList }){
             <b className='total'>{ pagerInfo?.total_count }</b>
             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
             <b className='choice'>{ deleteList.length }</b>
-            <BoardChkDelete url='user' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
+            <BoardChkDelete url='product' idName='product_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
 
             
             <div className="board-top">

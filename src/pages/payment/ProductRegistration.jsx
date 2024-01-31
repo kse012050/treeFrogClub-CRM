@@ -1,8 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Select from '../../components/Select';
+import { onChange, inputChange } from '../../api/validation';
 import { Link } from 'react-router-dom';
+import { api } from '../../api/api';
+import Popup from '../../components/popup/Popup';
 
 export default function ProductRegistration() {
+    const [inputs, setInputs] = useState({'analyst_admin_id': '3', 'customer_properties_id': '57'})
+    const [popup, setPopup] = useState()
+    const [productCode, setProductCode] = useState()
+
+    const codeCheck = () => {
+        api('product', 'duplicate', {'product_code': productCode})
+            .then(({result, data: { exist_yn }})=>{
+                if(result){
+                    setPopup({'type': 'confirm', 'title': '중복확인'})
+                    if(exist_yn === 'n'){
+                        setPopup((popup)=>({...popup, 'description': '등록 가능한 상품코드입니다.'}))
+                        setInputs((input)=>({...input, 'product_code': productCode}))
+                    }else{
+                        setPopup((popup)=>({...popup, 'description': '이미 존재하는 상품코드입니다.\n다른 코드를 입력하세요.'}))
+                    }
+                }
+            })
+    }
+
+    const onSubmit = (e) =>{
+        e.preventDefault();
+        // console.log(inputs);
+        api('product', 'insert', inputs)
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        'link': '/payment/product'
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
+    }
+
     return (
         <>
             <h2>상품 등록</h2>
@@ -13,22 +56,22 @@ export default function ProductRegistration() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">상품코드</label>
+                                <label htmlFor="product_code">상품코드</label>
                                 <div>
-                                    <input type="text" />
-                                    <button className='btn-gray-black'>중복 확인</button>
+                                    <input type="text" name='product_code' id='product_code' data-formet="numb" onChange={(e)=>onChange(e, setProductCode)}/>
+                                    <button className='btn-gray-black' disabled={!productCode || productCode === inputs?.product_code} onClick={codeCheck}>중복 확인</button>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">상품명</label>
+                                <label htmlFor="product_name">상품명</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='product_name' id='product_name' onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">애널리스트</label>
+                                <label htmlFor="analyst_admin_id">애널리스트</label>
                                 <div>
-                                    <input type="search" />
+                                    <input type="search" name='analyst_admin_id' id='analyst_admin_id'/>
                                 </div>
                             </li>
                             <li>
@@ -38,19 +81,22 @@ export default function ProductRegistration() {
                                 </div>
                             </li>
                             <li className='fill-two'>
-                                <label htmlFor="">비고</label>
+                                <label htmlFor="memo">비고</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='memo' id='memo' onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
-                        <Link to={''} className='btn-gray-white'>목록</Link>
-                        <input type="submit" value="저장" className='btn-point'/>
+                        <Link to={'/payment/product'} className='btn-gray-white'>목록</Link>
+                        <input type="submit" value="저장" className='btn-point' onClick={onSubmit}/>
                     </div>
                 </form>
             </div>
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
         </>
     );
 }

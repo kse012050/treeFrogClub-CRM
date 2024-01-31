@@ -9,6 +9,7 @@ import PaymentList from '../pages/payment/List';
 import PaymentBulkRegistration from '../pages/payment/BulkRegistration';
 import PaymentProduct from '../pages/payment/Product';
 import PaymentProductRegistration from '../pages/payment/ProductRegistration';
+import PaymentProductUpdate from '../pages/payment/ProductUpdate';
 import StatisticsAccount from '../pages/statistics/Account';
 import StatisticsByType from '../pages/statistics/ByType';
 import StatisticsCampaign from '../pages/statistics/Campaign';
@@ -80,7 +81,10 @@ export const routers = [
                 path: 'product', element: <PaymentProduct />
             },
             {
-                path: 'productList/registration', element: <PaymentProductRegistration />
+                path: 'product/registration', element: <PaymentProductRegistration />
+            },
+            {
+                path: 'product/update/:id', element: <PaymentProductUpdate />
             }
         ]
     },
