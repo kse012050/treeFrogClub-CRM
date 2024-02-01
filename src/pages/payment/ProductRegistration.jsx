@@ -6,7 +6,7 @@ import { api } from '../../api/api';
 import Popup from '../../components/popup/Popup';
 
 export default function ProductRegistration() {
-    const [inputs, setInputs] = useState({'analyst_admin_id': '3', 'customer_properties_id': '57'})
+    const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
     const [productCode, setProductCode] = useState()
     const [analyst, setAnalyst] = useState()
@@ -28,23 +28,23 @@ export default function ProductRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log(inputs);
-        // api('product', 'insert', inputs)
-        //     .then(({result, error_message})=>{
-        //         setPopup({'type': 'confirm', 'description': error_message})
-        //         if(result){
-        //             setPopup((popup)=>({
-        //                 ...popup,
-        //                 'title': '완료',
-        //                 'link': '/payment/product'
-        //             }))
-        //         }else{
-        //             setPopup((popup)=>({
-        //                 ...popup,
-        //                 'title': '실패',
-        //             }))
-        //         }
-        //     })
+        // console.log(inputs);
+        api('product', 'insert', inputs)
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        'link': '/payment/product'
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
     }
 
     return (
@@ -88,9 +88,9 @@ export default function ProductRegistration() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">결제시 고객구분</label>
+                                <label htmlFor="customer_properties_id">결제시 고객구분</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select type={'productProperties'} changeName='customer_properties_id' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>

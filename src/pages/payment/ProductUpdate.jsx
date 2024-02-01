@@ -6,9 +6,10 @@ import { api } from '../../api/api';
 import Popup from '../../components/popup/Popup';
 
 export default function ProductUpdate() {
-    const [inputs, setInputs] = useState({'analyst_admin_id': '3', 'customer_properties_id': '57'})
+    const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
     const [productCode, setProductCode] = useState()
+    const [analyst, setAnalyst] = useState()
     const { id } = useParams();
 
     useEffect(()=>{
@@ -16,6 +17,7 @@ export default function ProductUpdate() {
             .then(({result, data})=>{
                 if(result){
                     setInputs(data)
+                    setAnalyst(data.analyst_admin_name)
                 }
             })
 
@@ -69,32 +71,44 @@ export default function ProductUpdate() {
                             <li>
                                 <label htmlFor="product_code">상품코드</label>
                                 <div>
-                                    <input type="text" name='product_code' id='product_code' data-formet="numb" defaultValue={inputs.product_code} onChange={(e)=>onChange(e, setProductCode)}/>
+                                    <input type="text" name='product_code' id='product_code' data-formet="numb" defaultValue={inputs?.product_code} onChange={(e)=>onChange(e, setProductCode)}/>
                                     <button className='btn-gray-black' disabled={!productCode || productCode === inputs?.product_code} onClick={codeCheck}>중복 확인</button>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="product_name">상품명</label>
                                 <div>
-                                    <input type="text" name='product_name' id='product_name' defaultValue={inputs.product_name} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name='product_name' id='product_name' defaultValue={inputs?.product_name} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="analyst_admin_id">애널리스트</label>
                                 <div>
-                                    <input type="search" name='analyst_admin_id' id='analyst_admin_id' defaultValue={inputs.analyst_admin_id}/>
+                                    <input 
+                                        type="search" 
+                                        value={analyst || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'analyst',
+                                            'func': (data)=>{
+                                                setInputs((input)=>({...input, 'analyst_admin_id': data.admin_id}))
+                                                setAnalyst(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">결제시 고객구분</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select type={'productProperties'} current={inputs?.customer_properties_id} changeName='customer_properties_id' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>
                                 <label htmlFor="memo">비고</label>
                                 <div>
-                                    <input type="text" name='memo' id='memo' defaultValue={inputs.memo} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name='memo' id='memo' defaultValue={inputs?.memo} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                         </ul>

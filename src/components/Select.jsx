@@ -101,6 +101,16 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setValue(['y','n'])
         }
 
+        if(type === 'productProperties'){
+            api('clientcode', 'properties_list', {'all_yn': 'y'})
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name))
+                        setValue(list.map(({properties_id})=>properties_id))
+                    }
+                })
+        }
+
         
         document.querySelector('body').addEventListener('click',bodyClick)
         return () => {
@@ -134,7 +144,6 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
 
     const listClick = (name, i) =>{
         search && navigate(pathname)
-        console.log(name);
         setSelect(name)
         setInputs((input)=>({...input, [changeName]: value[i]}))
         setActive((active)=>!active)

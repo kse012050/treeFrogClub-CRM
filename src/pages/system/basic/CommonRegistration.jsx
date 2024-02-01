@@ -66,7 +66,7 @@ export default function CommonRegistration() {
                             <li>
                                 <label htmlFor="useable_yn">사용여부</label>
                                 <div>
-                                    <Select name='yn' current={inputs.useable_yn} setInputs={setInputs} changeName='useable_yn'/>
+                                    <Select name='yn' current={inputs.useable_yn} changeName='useable_yn' setInputs={setInputs}/>
                                 </div>
                             </li>
                         </ul>

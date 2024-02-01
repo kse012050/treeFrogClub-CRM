@@ -86,7 +86,6 @@ function Board({ boardList, setBoardList }){
             api('product', 'list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
-                        console.log(list);
                         setPagerInfo(data)
                         setBoardList(list)
                     }
