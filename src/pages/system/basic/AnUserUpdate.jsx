@@ -79,7 +79,7 @@ export default function AnUserUpdate() {
 
     return (
         <>
-            <h2>사용자 목록</h2>
+            <h2>사용자 수정</h2>
 
             <div className='dropBox'>
                 <b>기본 정보</b>
@@ -87,44 +87,44 @@ export default function AnUserUpdate() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="id">로그인 아이디</label>
+                                <label htmlFor="id" className='required'>로그인 아이디</label>
                                 <div>
                                     <input type="text" name='id' id='id' data-formet="id" defaultValue={inputs?.id} onChange={(e)=>onChange(e, setUserId)}/>
                                     <button className='btn-gray-black' type="button" disabled={!userId || userId === inputs?.id} onClick={idCheck}>중복 확인</button>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="name">사용자명</label>
+                                <label htmlFor="name" className='required'>사용자명</label>
                                 <div>
                                     <input type="text" name='name' id='name' defaultValue={inputs?.name} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="mobile">휴대폰</label>
+                                <label htmlFor="mobile" className='required'>휴대폰</label>
                                 <div>
                                     <input type="text" name='mobile' id='mobile' defaultValue={inputs?.mobile} data-formet="numb" onChange={(e)=>inputChange(e, setInputs)} maxLength={11}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">회원사</label>
+                                <label htmlFor="" className='required'>회원사</label>
                                 <div>
                                     <input type="text" name='' id='' value={'(주)청개구리투자클럽'} disabled/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">사용자 구분</label>
+                                <label htmlFor="" className='required'>사용자 구분</label>
                                 <div>
                                     <Select type={'userDivision'} changeName='type' setInputs={setInputs} current={inputs?.type}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">역할그룹</label>
+                                <label htmlFor="" className='required'>역할그룹</label>
                                 <div>
                                     <Select type={'management'} list={roleList} changeName='role_id' setInputs={setInputs} current={inputs?.role_id}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="email">이메일</label>
+                                <label htmlFor="email" className='required'>이메일</label>
                                 <div>
                                     <input type="email" name='email' id='email' defaultValue={inputs?.email} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
@@ -168,7 +168,8 @@ export default function AnUserUpdate() {
                         </ul>
                     </fieldset>
                     <div>
-                        <Link to={''} className='btn-point'>임시 비밀번호 발급</Link>
+                        <button type='button'className='btn-point'>임시 비밀번호 발급</button>
+                        {/* <Link to={''} className='btn-point'>임시 비밀번호 발급</Link> */}
                         <Link to={'/system/basic/anUser'} className='btn-gray-white'>목록</Link>
                         <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
                     </div>

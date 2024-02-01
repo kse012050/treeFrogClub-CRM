@@ -67,7 +67,7 @@ export default function NoticeUpdate() {
 
     return (
         <>
-            <h2>공지사항 등록</h2>
+            <h2>공지사항 보기/수정</h2>
             <div className="dropBox">
                 <b>공지사항</b>
                 <form>

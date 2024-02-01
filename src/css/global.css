@@ -34,6 +34,7 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 [class*='btn']:not([class*="btnArea"]):not(.btn-point){font-weight: 400;}
 [class*='btn']:disabled{pointer-events: none;}
 .btn-point{padding-inline: 30px; font-weight: 700; color: white; text-align: center; background-color: var(--color-point01);}
+.btn-point:disabled{opacity: 0.3;}
 .btn-gray-white{padding-inline: 30px; color: white; background-color: var(--color-button);}
 .btn-gray-black{padding-inline: 15px; background-color: var(--color-division);}
 .btn-gray-black:disabled{color: var(--color-button);}

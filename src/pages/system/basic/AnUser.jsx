@@ -10,6 +10,7 @@ import Pager from '../../../components/Pager';
 
 export default function AnUser() {
     const [boardList, setBoardList] = useState()
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
 
     return (
         <>
@@ -49,13 +50,12 @@ export default function AnUser() {
                             <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select type={'use'} changeName='useable_yn' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">사용자 구분</label>
-                                <div>
-                                    <Select name={''} />
+                                    <div><Select type={'userDivision'} changeName='type' setInputs={setInputs}/>
                                 </div>
                             </li>
                         </ul>
@@ -138,7 +138,7 @@ function Board({ boardList, setBoardList }){
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    {/* <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/> */}
+                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
                     <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>
