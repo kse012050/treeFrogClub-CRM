@@ -19,15 +19,15 @@ export default function ManagementRegistration() {
     const [popup, setPopup] = useState('')
     const ipRef = useRef();
 
-    useEffect(()=>{
-        api('constant', 'role_classification')
-            .then(({result, list})=>{
-                if(result){
-                    console.log(list);
-                    setDivisionList(list);
-                }
-            })
-    },[])
+    // useEffect(()=>{
+    //     api('constant', 'role_classification')
+    //         .then(({result, list})=>{
+    //             if(result){
+    //                 console.log(list);
+    //                 setDivisionList(list);
+    //             }
+    //         })
+    // },[])
 
     const ipAdd = () =>{
         if((ipRef.current.value.match(/\./g) || []).length === 3){
@@ -44,16 +44,16 @@ export default function ManagementRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        if(inputs.connect_limit_yn === 'y'){
+        if(inputs.connect_limit_yn === 'y' && inputs.connect_limit_start_time_hour && inputs.connect_limit_end_time_minute){
             inputs.connect_limit_start_time = `${inputs.connect_limit_start_time_hour}:${inputs.connect_limit_start_time_minute}`;
             inputs.connect_limit_end_time = `${inputs.connect_limit_end_time_hour}:${inputs.connect_limit_end_time_minute}`
+            delete inputs.connect_limit_start_time_hour;
+            delete inputs.connect_limit_start_time_minute;
+            delete inputs.connect_limit_end_time_hour;
+            delete inputs.connect_limit_end_time_minute;
         }
-        delete inputs.connect_limit_start_time_hour;
-        delete inputs.connect_limit_start_time_minute;
-        delete inputs.connect_limit_end_time_hour;
-        delete inputs.connect_limit_end_time_minute;
 
-        
+        console.log(inputs);
         api('role', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -81,13 +81,13 @@ export default function ManagementRegistration() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">구분</label>
+                                <label htmlFor="" className='required'>구분</label>
                                 <div>
-                                    <Select type={'divisionList'} list={divisionList} current={inputs?.role_classification} setInputs={setInputs} changeName='role_classification'/>
+                                    <Select type={'divisionList'} setInputs={setInputs} changeName='role_classification'/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="role_name">역할명</label>
+                                <label htmlFor="role_name" className='required'>역할명</label>
                                 <div>
                                     <input type="text" id='role_name' name='role_name' onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>

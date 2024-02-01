@@ -42,7 +42,7 @@ export default function Management() {
 
 
 function Board({ boardList, setBoardList }){
-    const [inputs, setInputs] = useState({'limit': 10, 'page': '1'});
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
 

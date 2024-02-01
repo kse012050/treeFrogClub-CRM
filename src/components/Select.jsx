@@ -100,9 +100,14 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setValue(['user','admin'])
         }
 
-        if(type === 'divisionList' && list){
-            setName(list.map(({name})=>name))
-            setValue(list.map(({id})=>id))
+        if(type === 'divisionList'){
+            api('constant', 'role_classification')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name))
+                        setValue(list.map(({id})=>id))
+                    }
+                })
         }
 
         if(type === 'management' && list){

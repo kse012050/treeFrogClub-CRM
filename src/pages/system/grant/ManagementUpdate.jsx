@@ -90,13 +90,13 @@ export default function ManagementUpdate() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">구분</label>
+                                <label htmlFor="" className='required'>구분</label>
                                 <div>
-                                    <Select type={'divisionList'} list={divisionList} current={inputs?.role_classification} setInputs={setInputs} changeName='role_classification'/>
+                                    <Select type={'divisionList'} current={inputs?.role_classification} setInputs={setInputs} changeName='role_classification'/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="role_name">역할명</label>
+                                <label htmlFor="role_name" className='required'>역할명</label>
                                 <div>
                                     <input type="text" id='role_name' name='role_name' defaultValue={inputs.role_name} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
@@ -114,11 +114,11 @@ export default function ManagementUpdate() {
                         <input type="checkbox" id='connect_limit_yn' name='connect_limit_yn' checked={inputs.connect_limit_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
                         <label htmlFor="connect_limit_yn">제한시간 설정 (설정한 시간에만 로그인 허용)</label>
                         <div className='timeArea'>
-                            <Select type={'time-hour'} inputs={inputs} current={inputs?.connect_limit_start_time_hour && inputs?.connect_limit_start_time_hour} setInputs={setInputs} onChange={(e)=>inputChange(e, setInputs)} changeName='connect_limit_start_time_hour' disabled={inputs.connect_limit_yn === 'y' ? false: true}/>
-                            <Select type={'time-minute'} inputs={inputs} current={inputs?.connect_limit_start_time_minute} setInputs={setInputs} onChange={(e)=>inputChange(e, setInputs)} changeName='connect_limit_start_time_minute' disabled={inputs.connect_limit_yn === 'y' ? false: true}/>
+                            <Select type={'time-hour'} current={inputs?.connect_limit_start_time_hour} setInputs={setInputs} onChange={(e)=>inputChange(e, setInputs)} changeName='connect_limit_start_time_hour' disabled={inputs.connect_limit_yn === 'y' ? false: true}/>
+                            <Select type={'time-minute'} current={inputs?.connect_limit_start_time_minute} setInputs={setInputs} onChange={(e)=>inputChange(e, setInputs)} changeName='connect_limit_start_time_minute' disabled={inputs.connect_limit_yn === 'y' ? false: true}/>
                             -
-                            <Select type={'time-hour'} inputs={inputs} current={inputs?.connect_limit_end_time_hour} setInputs={setInputs} onChange={(e)=>inputChange(e, setInputs)} changeName='connect_limit_end_time_hour' disabled={inputs.connect_limit_yn === 'y' ? false: true}/>
-                            <Select type={'time-minute'} inputs={inputs} current={inputs?.connect_limit_end_time_minute} setInputs={setInputs} onChange={(e)=>inputChange(e, setInputs)} changeName='connect_limit_end_time_minute' disabled={inputs.connect_limit_yn === 'y' ? false: true}/>
+                            <Select type={'time-hour'} current={inputs?.connect_limit_end_time_hour} setInputs={setInputs} onChange={(e)=>inputChange(e, setInputs)} changeName='connect_limit_end_time_hour' disabled={inputs.connect_limit_yn === 'y' ? false: true}/>
+                            <Select type={'time-minute'} current={inputs?.connect_limit_end_time_minute} setInputs={setInputs} onChange={(e)=>inputChange(e, setInputs)} changeName='connect_limit_end_time_minute' disabled={inputs.connect_limit_yn === 'y' ? false: true}/>
                         </div>
                         <input type="checkbox" id='ip_limit_yn' name='ip_limit_yn' checked={inputs.ip_limit_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
                         <label htmlFor="ip_limit_yn">허용IP 설정 (0.0.X.X, 0.0.0.X 로 대역대 설정가능)</label>
