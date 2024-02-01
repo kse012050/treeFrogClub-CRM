@@ -1,18 +1,18 @@
 import React from 'react';
 
-export default function BoardChkAll({ deleteList, list }) {
+export default function BoardChkAll({ deleteList, setDeleteList, list }) {
     const allChecked = (e) => {
         const { checked } = e.target;
-        console.log(list);
+        // console.log(list);
         if(checked){
-            deleteList(list)
+            setDeleteList(list)
         }else{
-            deleteList([]);
+            setDeleteList([]);
         }
     }
     return (
         <div>
-            <input type="checkbox" id='allChecked' onChange={allChecked}/>
+            <input type="checkbox" id='allChecked' onChange={allChecked} checked={list.length === deleteList.length}/>
             <label htmlFor="allChecked"></label>
         </div>
     );

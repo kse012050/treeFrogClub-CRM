@@ -4,22 +4,26 @@ import Popup from '../popup/Popup';
 
 export default function BoardChkDelete({ url, idName, deleteList, setDeleteList, isAwait }) {
     const [popup, setPopup] = useState('')
-    // console.log(typeof deleteList);
     const popupFunc = () =>{
-        if(/* Array.isArray(deleteList) &&  */deleteList.length){
+        if(deleteList.length){
+            const confirmPopupMessage = {
+                'type': 'confirm',
+                'title': '완료',
+                'description': `항목이 삭제되었습니다.`,
+            }
             if(!isAwait){
                 api(url, 'delete', {[idName]: deleteList})
                     .then((result)=>{
                         console.log(result);
                         if(result){
-                            setPopup('');
+                            setPopup(confirmPopupMessage)
                             setDeleteList('')
                         }
                     })
             }else{
                 apiAwait(url, 'delete', idName, deleteList).then((result)=>{
                     if(result){
-                        setPopup('');
+                        setPopup(confirmPopupMessage)
                         setDeleteList('')
                     }
                 })
@@ -33,11 +37,12 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
                 onClick={()=>setPopup({
                     'type': 'finFunc',
                     'title': '선택 삭제',
-                    'description': `선택 항목을 삭제하시겠습니까?`
+                    'description': `선택 항목을 삭제하시겠습니까?`,
+                    'func': popupFunc
                 })}
                 disabled={!deleteList?.length}>선택 삭제</button>
             {popup && (
-                <Popup popup={popup} setPopup={setPopup} func={popupFunc}/>
+                <Popup popup={popup} setPopup={setPopup}/>
             )}
         </>
     );
