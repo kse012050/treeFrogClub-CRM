@@ -61,28 +61,28 @@ export default function ProductUpdate() {
 
     return (
         <>
-            <h2>상품 등록</h2>
+            <h2>상품 수정</h2>
 
             <div className='dropBox'>
-                <b>검색 항목</b>
+                <b>기본 정보</b>
                 <form onClick={(e)=>e.preventDefault()}>
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="product_code">상품코드</label>
+                                <label htmlFor="product_code" className='required'>상품코드</label>
                                 <div>
                                     <input type="text" name='product_code' id='product_code' data-formet="numb" defaultValue={inputs?.product_code} onChange={(e)=>onChange(e, setProductCode)}/>
                                     <button className='btn-gray-black' disabled={!productCode || productCode === inputs?.product_code} onClick={codeCheck}>중복 확인</button>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="product_name">상품명</label>
+                                <label htmlFor="product_name" className='required'>상품명</label>
                                 <div>
                                     <input type="text" name='product_name' id='product_name' defaultValue={inputs?.product_name} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="analyst_admin_id">애널리스트</label>
+                                <label htmlFor="analyst_admin_id" className='required'>애널리스트</label>
                                 <div>
                                     <input 
                                         type="search" 

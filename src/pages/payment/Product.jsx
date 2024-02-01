@@ -9,6 +9,7 @@ import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 
 export default function Product() {
+    const [inputs, setInputs] = useState()
     const [boardList, setBoardList] = useState()
 
     return (
@@ -44,7 +45,7 @@ export default function Product() {
                             <li>
                                 <label htmlFor="">결제시 고객구분</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select type={'customer'} changeName='customer_properties_id' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>
