@@ -45,7 +45,8 @@ export default function Customer() {
                 if(result){
                     setPopup((popup)=>({
                         ...popup,
-                        'title': '완료'
+                        'title': '완료',
+                        'link': '/customer/list'
                     }))
                 }else{
                     setPopup((popup)=>({
