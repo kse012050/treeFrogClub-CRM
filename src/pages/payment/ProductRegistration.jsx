@@ -9,6 +9,7 @@ export default function ProductRegistration() {
     const [inputs, setInputs] = useState({'analyst_admin_id': '3', 'customer_properties_id': '57'})
     const [popup, setPopup] = useState()
     const [productCode, setProductCode] = useState()
+    const [analyst, setAnalyst] = useState()
 
     const codeCheck = () => {
         api('product', 'duplicate', {'product_code': productCode})
@@ -27,23 +28,23 @@ export default function ProductRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        // console.log(inputs);
-        api('product', 'insert', inputs)
-            .then(({result, error_message})=>{
-                setPopup({'type': 'confirm', 'description': error_message})
-                if(result){
-                    setPopup((popup)=>({
-                        ...popup,
-                        'title': '완료',
-                        'link': '/payment/product'
-                    }))
-                }else{
-                    setPopup((popup)=>({
-                        ...popup,
-                        'title': '실패',
-                    }))
-                }
-            })
+        console.log(inputs);
+        // api('product', 'insert', inputs)
+        //     .then(({result, error_message})=>{
+        //         setPopup({'type': 'confirm', 'description': error_message})
+        //         if(result){
+        //             setPopup((popup)=>({
+        //                 ...popup,
+        //                 'title': '완료',
+        //                 'link': '/payment/product'
+        //             }))
+        //         }else{
+        //             setPopup((popup)=>({
+        //                 ...popup,
+        //                 'title': '실패',
+        //             }))
+        //         }
+        //     })
     }
 
     return (
@@ -71,7 +72,19 @@ export default function ProductRegistration() {
                             <li>
                                 <label htmlFor="analyst_admin_id">애널리스트</label>
                                 <div>
-                                    <input type="search" name='analyst_admin_id' id='analyst_admin_id'/>
+                                    <input 
+                                        type="search" 
+                                        value={analyst || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'analyst',
+                                            'func': (data)=>{
+                                                setInputs((input)=>({...input, 'analyst_admin_id': data.admin_id}))
+                                                setAnalyst(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>

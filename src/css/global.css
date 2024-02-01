@@ -70,8 +70,9 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 body:has(.popupBox){overflow: hidden;}
 .popupBox{position: fixed; left: 0; top: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); z-index: 101;}
 .popupBox > div{padding: 20px; box-sizing: border-box; background-color: white; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); border-radius: 4px;}
-.popupBox > div:not(:has([class*="bureau"])){width: 320px;}
+.popupBox > div:not(:has([class*="bureau"], :has([class*="analyst"]))){width: 320px;}
 .popupBox > div:has([class*="bureau"]){width: 340px;}
+.popupBox > div[class*="analyst"]{width: 510px;}
 .popupBox > div strong{display: block; font-size: 15px; line-height: 18px; font-weight: 700; text-align: center; margin-bottom: 30px;}
 .popupBox > div p{text-align: center; white-space: pre-line;}
 .popupBox > div b{font-weight: 700;}
@@ -86,6 +87,12 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .popupBox .choice-vertical{flex-direction: column;}
 .popupBox .bureauArea .searchArea{margin-bottom: 12px;}
 .popupBox .bureauArea .bureauBox .listArea ul{height: 353px;}
+.popupBox .analystArea .searchArea{max-width: 300px; margin-inline: auto; margin-bottom: 20px;}
+.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 60;}
+.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
+.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 110;}
+.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 70;}
+.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 30;}
 
 
 /* 부서 리스트 */
@@ -139,7 +146,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox .board-center li > *{text-align: left; font-weight: 400;}
 .boardBox .board-center li button.select{display: flex; align-items: center;}
 .boardBox .board-center li button.select::after{content: ''; width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center top / 100%; margin-left: 6px;}
-.boardBox .board-center li :is(a, .popup){color: var(--color-point01); text-decoration: underline; text-underline-offset: 2px;}
+.boardBox .board-center li :is(a, .popup, .board-center button){color: var(--color-point01); text-decoration: underline; text-underline-offset: 2px;}
 .boardBox .board-center li div:has(.popup){display: flex; gap: 10px;}
 .boardBox .board-center li > div[style]{display: flex; align-items: center; padding-left: 4px; position: relative;}
 .boardBox .board-center li > div[style]::before{content: ''; width: 18px; aspect-ratio: 1; background-color: var(--color); border-radius: 4px; box-sizing: border-box;}

@@ -86,6 +86,7 @@ function Board({ boardList, setBoardList }){
             api('product', 'list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
+                        console.log(list);
                         setPagerInfo(data)
                         setBoardList(list)
                     }
@@ -119,11 +120,11 @@ function Board({ boardList, setBoardList }){
                     { boardList.map((data)=>(
                         <li key={ data.product_id }>
                             <BoardChk id={data.product_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
-                            <button>{ data.product_code }</button>
-                            <button>{ data.product_name }</button>
-                            <button>{ data.analyst_admin_id }</button>
-                            <button>{ data.customer_properties_id }</button>
-                            <button>{ data.memo }</button>
+                            <span>{ data.product_code }</span>
+                            <span>{ data.product_name }</span>
+                            <span>{ data.analyst_admin_name }</span>
+                            <span>{ data.customer_properties_name }</span>
+                            <span>{ data.memo }</span>
                             <Link to={`update/${data.product_id}`}>수정</Link>
                         </li>
                     ))}
