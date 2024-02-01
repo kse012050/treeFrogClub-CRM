@@ -4,6 +4,7 @@ import Main from '../pages/main/Main'
 import CustomerList from '../pages/customer/List'
 import CustomerBulkModify from '../pages/customer/BulkModify';
 import CustomerRegistration from '../pages/customer/Registration';
+import CustomerUpdate from '../pages/customer/Update';
 import CustomerBulkRegistration from '../pages/customer/BulkRegistration';
 import PaymentList from '../pages/payment/List';
 import PaymentBulkRegistration from '../pages/payment/BulkRegistration';
@@ -34,7 +35,6 @@ import SystemGrantPermissions from '../pages/system/grant/Permissions';
 import Notice from '../pages/notice/Notice';
 import NoticeRegistration from '../pages/notice/NoticeRegistration';
 import NoticeUpdate from '../pages/notice/NoticeUpdate';
-// import Test from '../pages/customer/Test';
 
 export const routers = [
     {
@@ -60,6 +60,9 @@ export const routers = [
             },
             {
                 path: 'registration', element: <CustomerRegistration />
+            },
+            {
+                path: 'update', element: <CustomerUpdate />
             },
             {
                 path: 'registration/bulk', element: <CustomerBulkRegistration />

@@ -90,7 +90,7 @@ export default function ProductRegistration() {
                             <li>
                                 <label htmlFor="customer_properties_id">결제시 고객구분</label>
                                 <div>
-                                    <Select type={'productProperties'} changeName='customer_properties_id' setInputs={setInputs}/>
+                                    <Select type={'customer'} changeName='customer_properties_id' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>

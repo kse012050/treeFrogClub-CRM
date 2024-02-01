@@ -101,8 +101,18 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setValue(['y','n'])
         }
 
-        if(type === 'productProperties'){
+        if(type === 'customer'){
             api('clientcode', 'properties_list', {'all_yn': 'y'})
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name))
+                        setValue(list.map(({properties_id})=>properties_id))
+                    }
+                })
+        }
+
+        if(type === 'counsel'){
+            api('commoncode', 'properties_list', {'all_yn': 'y'})
                 .then(({result, list})=>{
                     if(result){
                         setName(list.map(({name})=>name))

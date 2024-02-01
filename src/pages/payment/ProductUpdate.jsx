@@ -102,7 +102,7 @@ export default function ProductUpdate() {
                             <li>
                                 <label htmlFor="">결제시 고객구분</label>
                                 <div>
-                                    <Select type={'productProperties'} current={inputs?.customer_properties_id} changeName='customer_properties_id' setInputs={setInputs}/>
+                                    <Select type={'customer'} current={inputs?.customer_properties_id} changeName='customer_properties_id' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>
