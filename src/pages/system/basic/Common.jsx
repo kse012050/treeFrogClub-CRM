@@ -10,7 +10,13 @@ import Pager from '../../../components/Pager';
 
 export default function Common() {
     // console.log('common 랜더링');
+    const [inputs, setInputs] = useState();
     const [boardList, setBoardList] = useState()
+
+    const onReset = () => {
+        console.log('reset');
+    }
+
     return (
         <>
             <h2>
@@ -19,13 +25,13 @@ export default function Common() {
             </h2>
 
             <DropBox title="검색 항목" arrow>
-                <form onClick={(e)=>e.preventDefault()}>
+                <form>
                     <fieldset>
                         <ul>
                             <li>
                                 <label htmlFor="">분류유형명</label>
                                 <div>
-                                    <input type="text" />
+                                    <Select type='commonClassification' changeName='classification_id' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li>
@@ -37,13 +43,13 @@ export default function Common() {
                             <li>
                                 <label htmlFor="">사용 여부</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select type='yn' current={inputs?.useable_yn} changeName='useable_yn' setInputs={setInputs}/>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
-                        <input type="reset" value="초기화" className='btn-gray-white'/>
+                        <input type="reset" value="초기화" className='btn-gray-white' onClick={onReset}/>
                         <input type="submit" value="검색" className='btn-point'/>
                     </div>
                 </form>
