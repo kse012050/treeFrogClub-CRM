@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
 import { DatePicker } from 'antd';
+import { UserContext } from '../../context/UserContext';
 
 const onChange = (date, dateString) => {
     console.log(date, dateString);
@@ -10,6 +11,12 @@ const onChange = (date, dateString) => {
 
 export default function Registration() {
     const [inputs, setInputs] = useState()
+
+    const { user } = useContext(UserContext)
+
+    useEffect(()=>{
+        console.log(user);
+    },[user])
 
     return (
         <>
@@ -38,7 +45,19 @@ export default function Registration() {
                             <li>
                                 <label htmlFor="">영업담당자</label>
                                 <div>
-                                    <input type="search" />
+                                    {/* <input 
+                                        type="search" 
+                                        value={analyst || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'analyst',
+                                            'func': (data)=>{
+                                                setInputs((input)=>({...input, 'analyst_admin_id': data.admin_id}))
+                                                setAnalyst(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button> */}
                                 </div>
                             </li>
                             <li>

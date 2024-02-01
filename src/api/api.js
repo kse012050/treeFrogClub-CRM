@@ -2,8 +2,6 @@
 const apiUrl = 'http://3.36.55.143/api/web/'
 const serviceKey = "0fc708856322c7fda00a341b26bed1741acf967a7f16ecc8d8f9ebc12e745a39";
 
-
-
 function common(type, data){
     const headers = new Headers();
     headers.append("Service-Key", serviceKey);
@@ -23,6 +21,16 @@ function common(type, data){
 
 }
 
+export function logout(){
+    api('profile', 'logout')
+        .then((result)=>{
+            if(result){
+                sessionStorage.removeItem('authorization')
+                window.location.href = '/'
+            }
+        })
+}
+
 export function api(url, type, data){
     const options = common(type, data);
     // console.log(url);
@@ -39,3 +47,4 @@ export function apiAwait(url, type, dataName, data){
             .then((result)=> result)
             .catch(error => console.log('error', error));
 }
+
