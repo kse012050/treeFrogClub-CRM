@@ -47,7 +47,7 @@ export default function PopupSales({ close, func }) {
                                 <span>{ data.id }</span>
                                 <span>{ data.department_name }</span>
                                 <span>직위</span>
-                                <button onClick={()=>salesSelect(data)}>선택</button>
+                                <button type='button' onClick={()=>salesSelect(data)}>선택</button>
                             </li>
                         ))}
                     </ol>

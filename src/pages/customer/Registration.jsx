@@ -11,7 +11,7 @@ import { api } from '../../api/api';
 
 export default function Registration() {
     const [inputs, setInputs] = useState()
-    const [analyst, setAnalyst] = useState()
+    const [sales, setSales] = useState()
     const [popup, setPopup] = useState()
 
     const { user } = useContext(UserContext)
@@ -20,7 +20,7 @@ export default function Registration() {
         // console.log(user);
         if(user?.role_info.role_classification === '영업'){
             setInputs((input)=>({...input, 'sales_admin_id': user?.admin_id}))
-            setAnalyst(user?.name)
+            setSales(user?.name)
         }
         
         const today = new Date();
@@ -90,13 +90,13 @@ export default function Registration() {
                                 <div>
                                     <input 
                                         type="search" 
-                                        value={analyst || ''}
+                                        value={sales || ''}
                                         readOnly
                                         onClick={()=>setPopup({
                                             'type': 'sales',
                                             'func': (data)=>{
                                                 setInputs((input)=>({...input, 'sales_admin_id': data.admin_id}))
-                                                setAnalyst(data.name)
+                                                setSales(data.name)
                                             }
                                         })}
                                     />

@@ -6,21 +6,39 @@ import Popup from '../../../components/popup/Popup';
 
 export default function Customer() {
     const [inputs, setInputs] = useState()
+    const [sales, setSales] = useState()
     const [popup, setPopup] = useState('')
 
     useEffect(()=>{
-        if(!popup){
-            api('constant', 'combine_customer_setting_info')
-                .then(({result, data})=>{
-                    if(result){
-                        setInputs(data)
+        api('constant', 'combine_customer_setting_info')
+            .then(({result, data})=>{
+                if(result){
+                    console.log(data);
+                    if(data.auto_collection_yn === 'n'){
+                        delete data.auto_collection_date
+                        delete data.auto_collection_admin_id
                     }
-                })
-            }
-    },[popup])
+                    setInputs(data)
+                    setSales(data.auto_collection_admin_id)
+                }
+            })
+    },[])
+
+    useEffect(()=>{
+        if(inputs?.auto_collection_yn === 'n'){
+            setInputs((input)=>{
+                const copy = {...input};
+                delete copy.auto_collection_date
+                delete copy.auto_collection_admin_id
+                return copy;
+            })
+            setSales('')
+        }
+    },[inputs?.auto_collection_yn])
 
     const onSubmit = (e) =>{
         e.preventDefault();
+        console.log(inputs);
         api('constant', 'combine_customer_setting_info_save', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -104,16 +122,27 @@ export default function Customer() {
                                 <li>
                                     <label htmlFor="">회수일자</label>
                                     <div>
-                                        <input type="radio" />
-                                        <label htmlFor="">무료체험 종료일</label>
-                                        <input type="radio" />
-                                        <label htmlFor="">DB분배일로부터 30일 후</label>
+                                        <input type="radio" name='auto_collection_date' id='finish' value='free_experience_finish' checked={inputs?.auto_collection_date === 'free_experience_finish'} disabled={inputs?.auto_collection_yn === 'n'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                        <label htmlFor="finish">무료체험 종료일</label>
+                                        <input type="radio" name='auto_collection_date' id='30deg' value='db_division_after_30_day' checked={inputs?.auto_collection_date === 'db_division_after_30_day'} disabled={inputs?.auto_collection_yn === 'n'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                        <label htmlFor="30deg">DB분배일로부터 30일 후</label>
                                     </div>
                                 </li>
                                 <li>
                                     <label htmlFor="">회수 담당자 선택</label>
                                     <div>
-                                        <input type="search" />
+                                        <input 
+                                            type="search" 
+                                            value={sales || ''}
+                                            readOnly
+                                            onClick={()=>setPopup({
+                                                'type': 'sales',
+                                                'func': (data)=>{
+                                                    setInputs((input)=>({...input, 'auto_collection_admin_id': data.admin_id}))
+                                                    setSales(data.name)
+                                                }
+                                            })}
+                                        />
                                         <button>검색</button>
                                     </div>
                                 </li>
