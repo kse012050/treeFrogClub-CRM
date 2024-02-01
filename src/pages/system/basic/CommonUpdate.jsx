@@ -76,14 +76,14 @@ export default function CommonUpdate() {
                             <li>
                                 <label htmlFor="useable_yn">사용여부</label>
                                 <div>
-                                    <Select name='yn' current={inputs.useable_yn} setInputs={setInputs} changeName='useable_yn'/>
+                                    <Select type='yn' current={inputs?.useable_yn} changeName='useable_yn' setInputs={setInputs}/>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
                         <Link to={'/system/basic/common'} className='btn-gray-white'>목록</Link>
-                        <input type="submit" value="저장" className='btn-point' onClick={onSubmit}/>
+                        <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
                     </div>
                 </form>
             </div>

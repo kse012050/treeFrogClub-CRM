@@ -56,7 +56,7 @@ export default function Common() {
 
 
 function Board({ boardList, setBoardList }){
-    const [inputs, setInputs] = useState({'limit': 10, 'page': '1'});
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
 
@@ -91,7 +91,7 @@ function Board({ boardList, setBoardList }){
                 <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
                 
                 <div className="board-top">
-                    <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
+                    <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
                     <button>분류유형코드</button>
                     <button>분류유형명</button>
                     <button>코드</button>

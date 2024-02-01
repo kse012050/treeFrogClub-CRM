@@ -14,13 +14,25 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
     
     useEffect(()=>{
         type === 'year' && setName(['2023', '2022', '2021']);
-
         type === 'month' && setName(['10', '11', '12']);
 
+        // 페이저
         if(type === 'pagerCount'){
             setName(['10', '20', '30', '50', '100', '300', '500']);
             setValue(['10', '20', '30', '50', '100', '300', '500']);
         }
+
+        // 공통 코드 전용
+        if(type === 'commonClassification'){
+            api('commoncode', 'classification_list')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({classification_id})=>classification_id));
+                    }
+                })
+        }
+        // 공통 코드 전용 fin
 
         if(type === 'clientClassification'){
             api('clientcode', 'classification_list')

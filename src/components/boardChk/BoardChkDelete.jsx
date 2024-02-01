@@ -13,8 +13,7 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
             }
             if(!isAwait){
                 api(url, 'delete', {[idName]: deleteList})
-                    .then((result)=>{
-                        console.log(result);
+                    .then(({result})=>{
                         if(result){
                             setPopup(confirmPopupMessage)
                             setDeleteList('')
@@ -22,7 +21,7 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
                     })
             }else{
                 apiAwait(url, 'delete', idName, deleteList).then((result)=>{
-                    if(result){
+                    if({result}){
                         setPopup(confirmPopupMessage)
                         setDeleteList('')
                     }
