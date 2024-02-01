@@ -24,7 +24,7 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                         onClick={()=>setInputs(data)}
                         className={inputs[changeName] === data.department_id ? 'active' : ''}
                         >
-                            {data.name} ({data.depth})
+                            {data.name} ({data.admin_count})
                     </button> :
                     <details>
                         <summary>

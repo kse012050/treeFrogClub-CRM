@@ -60,7 +60,10 @@ export default function Bureau() {
                             onClick={()=>setPopup({
                                 type: 'finFunc',
                                 title: '삭제',
-                                description: `[${inputs.name}] 을 삭제하시겠습니까?\n소속된 사용자는 미지정 상태로 변경됩니다.`
+                                description: `[${inputs.name}] 을 삭제하시겠습니까?\n소속된 사용자는 미지정 상태로 변경됩니다.`,
+                                func: () =>{
+                                    func()
+                                }
                             })}
                         >
                             부서 삭제
@@ -72,7 +75,7 @@ export default function Bureau() {
             { bureauUpdatePopup && <BureauUpdate bureauUpdatePopup={bureauUpdatePopup} setBureauUpdatePopup={setBureauUpdatePopup} parentsInputs={inputs} parentsSetInputs={setInputs}/>}
             
             {popup && (
-                <Popup popup={popup} setPopup={setPopup} func={func}/>
+                <Popup popup={popup} setPopup={setPopup}/>
             )}
         </>
     );
