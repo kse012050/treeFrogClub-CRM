@@ -6,7 +6,7 @@ import Select from '../../components/Select';
 import Pager from '../../components/Pager';
 
 export default function Notice() {
-    const [inputs, setInputs] = useState({'limit': 10, 'page': '1'});
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
 
@@ -47,7 +47,6 @@ export default function Notice() {
                     <ol className="board-center">
                         { boardList.map((data)=>(
                             <li key={ data.board_id }>
-                                {data.board_id}
                                 <span>{ data.reg_date }</span>
                                 <span>{ data.title }</span>
                                 <span>{ data.scope_of_access }</span>
@@ -59,7 +58,7 @@ export default function Notice() {
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select name="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
                     <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>

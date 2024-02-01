@@ -40,13 +40,13 @@ export default function ManagementConfirm() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">구분</label>
+                                <label htmlFor="" className='required'>구분</label>
                                 <div>
                                     <Select type={'divisionList'} current={inputs?.role_classification} setInputs={setInputs} disabled />
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="role_name">역할명</label>
+                                <label htmlFor="role_name" className='required'>역할명</label>
                                 <div>
                                     <input type="text" id='role_name' name='role_name' defaultValue={inputs.role_name} disabled/>
                                 </div>

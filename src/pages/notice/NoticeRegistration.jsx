@@ -44,7 +44,7 @@ export default function NoticeRegistration() {
                     <fieldset>
                         <ul>
                             <li className='fill-three'>
-                                <label htmlFor="">열람범위</label>
+                                <label htmlFor="" className='required'>열람범위</label>
                                 <div>
                                     <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList('')}/>
                                     <label htmlFor="department_id_list_all">전체</label>
@@ -69,13 +69,13 @@ export default function NoticeRegistration() {
                                 </div>
                             </li>
                             <li className='fill-three'>
-                                <label htmlFor="title">제목</label>
+                                <label htmlFor="title" className='required'>제목</label>
                                 <div>
                                     <input type="text" name="title" id="title" onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li className='fill-three'>
-                                <label htmlFor="comment">내용</label>
+                                <label htmlFor="comment" className='required'>내용</label>
                                 <div>
                                     <textarea name="comment" id="comment" onChange={(e)=>inputChange(e, setInputs)}></textarea>
                                 </div>

@@ -11,7 +11,7 @@ export default function NoticeUpdate() {
     const [choiceList, setChoiceList] = useState();
     const [popup, setPopup] = useState('')
     const { id } = useParams();
-    console.log(id);
+    // console.log(id);
     useEffect(()=>{
         api('board', 'detail', {'board_id': id})
             .then(({result, data})=>{
@@ -74,7 +74,7 @@ export default function NoticeUpdate() {
                     <fieldset>
                         <ul>
                             <li className='fill-three'>
-                                <label htmlFor="">열람범위</label>
+                                <label htmlFor="" className='required'>열람범위</label>
                                 <div>
                                     <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList('')}/>
                                     <label htmlFor="department_id_list_all">전체</label>
@@ -99,7 +99,7 @@ export default function NoticeUpdate() {
                                 </div>
                             </li>
                             <li className='fill-three'>
-                                <label htmlFor="title">제목</label>
+                                <label htmlFor="title" className='required'>제목</label>
                                 <div>
                                     <input type="text" name="title" id="title" defaultValue={inputs.title} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
@@ -111,7 +111,7 @@ export default function NoticeUpdate() {
                                 </div>
                             </li>
                             <li className='fill-three'>
-                                <label htmlFor="comment">내용</label>
+                                <label htmlFor="comment" className='required'>내용</label>
                                 <div>
                                     <textarea name="comment" id="comment" defaultValue={inputs.comment} onChange={(e)=>inputChange(e, setInputs)}></textarea>
                                 </div>
@@ -119,7 +119,17 @@ export default function NoticeUpdate() {
                         </ul>
                     </fieldset>
                     <div>
-                        <button type='button' className='btn-point' onClick={onDelete}>삭제</button>
+                        <button type='button' className='btn-point' 
+                            onClick={()=>
+                                setPopup({
+                                    'type': 'finFunc',
+                                    'title': '삭제',
+                                    'description': `공지사항을 삭제하시겠습니까?`,
+                                    'func': onDelete
+                                })}
+                        >
+                            삭제
+                        </button>
                         <Link to={'/notice'} className='btn-gray-white'>목록</Link>
                         <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
                     </div>
