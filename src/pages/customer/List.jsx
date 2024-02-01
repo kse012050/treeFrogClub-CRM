@@ -62,7 +62,7 @@ export default function List() {
                         <ul>
                             <li>
                                 <label htmlFor="">고객구분</label>
-                                <Select name={'customer'} />
+                                <Select type={'customer'} />
                             </li>
                             <li className='fill-two'>
                                 <label htmlFor="">고객 상세구분</label>

@@ -38,8 +38,8 @@ export default function MainSales() {
             
             <div className='boardBox'>
                 <strong>나의 투자/매출현황</strong>
-                <Select name="year"/>
-                <Select name="month"/>
+                <Select type="year"/>
+                <Select type="month"/>
                 <div className="board-top">
                     <b>분배일</b>
                     <b>DB 개수</b>

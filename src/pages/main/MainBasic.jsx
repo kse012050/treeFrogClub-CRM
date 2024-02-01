@@ -10,8 +10,8 @@ export default function MainBasic() {
                     <li><button>사용자별 매출</button></li>
                 </ul>
                 <div className='selectArea'>
-                    <Select name="year"/>
-                    <Select name="month"/>
+                    <Select type="year"/>
+                    <Select type="month"/>
                 </div>
                 <div className='infoArea'>
                     <div className='graphArea'>

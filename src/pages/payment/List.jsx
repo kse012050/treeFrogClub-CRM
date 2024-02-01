@@ -266,7 +266,7 @@ function Board({ boardList, setBoardList }){
                     // console.log(list);
                 }
             })
-    },[])
+    },[inputs, setBoardList])
 
     return (
         <>

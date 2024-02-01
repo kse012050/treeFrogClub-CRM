@@ -73,7 +73,7 @@ body:has(.popupBox){overflow: hidden;}
 .popupBox > div:is(.confirmArea, .finFuncArea){width: 320px;}
 .popupBox > div:has([class*="bureau"]){width: 340px;}
 .popupBox > div[class*="newPassword"]{width: 340px;}
-.popupBox > div[class*="analyst"]{width: 510px;}
+.popupBox > div:is(.analystArea, .salesArea){width: 510px;}
 .popupBox > div strong{display: block; font-size: 15px; line-height: 18px; font-weight: 700; text-align: center; margin-bottom: 30px;}
 .popupBox > div p{text-align: center; white-space: pre-line;}
 .popupBox > div b{font-weight: 700;}
@@ -91,12 +91,12 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .popupBox .newPasswordArea fieldset ul li:not(:last-child){margin-bottom: 20px;}
 .popupBox .bureauArea .searchArea{margin-bottom: 12px;}
 .popupBox .bureauArea .bureauBox .listArea ul{height: 353px;}
-.popupBox .analystArea .searchArea{max-width: 300px; margin-inline: auto; margin-bottom: 20px;}
-.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 60;}
-.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
-.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 110;}
-.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 70;}
-.popupBox .analystArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 30;}
+.popupBox :is(.analystArea, .salesArea) .searchArea{max-width: 300px; margin-inline: auto; margin-bottom: 20px;}
+.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 60;}
+.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
+.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 110;}
+.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 70;}
+.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 30;}
 
 
 /* 부서 리스트 */

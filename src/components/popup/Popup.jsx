@@ -5,6 +5,7 @@ import PopupProperty from './PopupProperty';
 import PopupBureau from './PopupBureau';
 import PopupAnalyst from './PopupAnalyst';
 import PopupNewPassword from './PopupNewPassword';
+import PopupSales from './PopupSales';
 
 function Popup({ popup, setPopup, confirmFunc, func, children }) {
     const close = () =>{
@@ -22,6 +23,7 @@ function Popup({ popup, setPopup, confirmFunc, func, children }) {
                 { popup.type.includes('finFunc') && <PopupFunc close={close} popup={popup} func={func}/> }
                 { popup.type.includes('properties') && <PopupProperty close={close} popup={popup}/> }
                 { popup.type.includes('bureau') && <PopupBureau close={close} func={popup['func']}/>}
+                { popup.type.includes('sales') && <PopupSales close={close} func={popup['func']}/>}
                 { popup.type.includes('analyst') && <PopupAnalyst close={close} func={popup['func']}/>}
                 { popup.type.includes('children') && children}
             </div>
