@@ -22,18 +22,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setValue(['10', '20', '30', '50', '100', '300', '500']);
         }
 
-        // 공통 코드 전용
-        if(type === 'commonClassification'){
-            api('commoncode', 'classification_list')
-                .then(({result, list})=>{
-                    if(result){
-                        setName(list.map(({name})=>name));
-                        setValue(list.map(({classification_id})=>classification_id));
-                    }
-                })
-        }
-        // 공통 코드 전용 fin
-
+        // 고객 구분 관리 
         if(type === 'clientClassification'){
             api('clientcode', 'classification_list')
                 .then(({result, list})=>{
@@ -43,6 +32,19 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                     }
                 })
         }
+        // 고객 구분 관리 fin
+
+        // 공통 코드
+        if(type === 'commonClassification'){
+            api('commoncode', 'classification_list')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({classification_id})=>classification_id));
+                    }
+                })
+        }
+        // 공통 코드 fin
 
         if(type === 'clientGrade'){
             setName(['무료', '유료']);

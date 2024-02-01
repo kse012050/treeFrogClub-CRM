@@ -84,31 +84,31 @@ export default function ClientRegistration() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">분류 유형명</label>
+                                <label htmlFor="" className='required'>분류 유형명</label>
                                 <div>
                                     <Select type={'clientClassification'} changeName='classification_id' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="grade">고객등급</label>
+                                <label htmlFor="grade" className='required'>고객등급</label>
                                 <div>
                                     <Select type={'clientGrade'} changeName='grade'  setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="code">코드(숫자)</label>
+                                <label htmlFor="code" className='required'>코드(숫자)</label>
                                 <div>
                                     <input type="text" id='code' name='code' data-formet='numb' onChange={(e)=>inputChange(e, setInputs)} />
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="name">코드명</label>
+                                <label htmlFor="name" className='required'>코드명</label>
                                 <div>
                                     <input type="text" id='name' name='name' onChange={(e)=>inputChange(e, setInputs)} />
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">배경색상</label>
+                                <label htmlFor="" className='required'>배경색상</label>
                                 <div>
                                     <ColorPicker value={bgColor} name='bg_color' onChange={setBgColor}/>
                                     <input type="text" id='bg_color' name='bg_color' defaultValue={bgColor} data-formet="color" onChange={colorChange} ref={bgColorRef} maxLength='7'/>
@@ -120,7 +120,7 @@ export default function ClientRegistration() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">폰트색상</label>
+                                <label htmlFor="" className='required'>폰트색상</label>
                                 <div>
                                     <ColorPicker value={fontColor} onChange={setFontColor}/>
                                     <input type="text" id='font_color' name='font_color' defaultValue={fontColor} data-formet="color" onChange={colorChange} ref={fontColorRef} maxLength='7'/>

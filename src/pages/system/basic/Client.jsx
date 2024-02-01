@@ -9,7 +9,7 @@ import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import Pager from '../../../components/Pager';
 
 export default function Client() {
-    const [inputs, setInputs] = useState({'limit': 10, 'page': '1'});
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
     const [deleteList, setDeleteList] = useState([])
@@ -47,7 +47,7 @@ export default function Client() {
                 <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
             
                 <div className="board-top">
-                    <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
+                    <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
                     <button>분류유형</button>
                     <button>고객등급</button>
                     <button>코드</button>
