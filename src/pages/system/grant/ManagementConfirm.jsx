@@ -7,6 +7,8 @@ import Popup from '../../../components/popup/Popup';
 export default function ManagementConfirm() {
     const { id } = useParams();
     const [inputs, setInputs] = useState({'role_id': id});
+    const [connectlimitTime, setConnectlimitTime] = useState()
+    const [allowIps, setAllowIps] = useState([])
     const [popup, setPopup] = useState('')
 
     useEffect(()=>{
@@ -14,10 +16,15 @@ export default function ManagementConfirm() {
             .then(({result, data})=>{
                 if(result){
                     if(data.connect_limit_yn === 'y'){
-                        data.connect_limit_start_time_hour = data.connect_limit_start_time ? data.connect_limit_start_time.split(':')[0] : '00';
-                        data.connect_limit_start_time_minute = data.connect_limit_start_time ? data.connect_limit_start_time.split(':')[1] : '00';
-                        data.connect_limit_end_time_hour = data.connect_limit_end_time ? data.connect_limit_end_time.split(':')[0] : '00';
-                        data.connect_limit_end_time_minute = data.connect_limit_end_time ? data.connect_limit_end_time.split(':')[1] : '00';
+                        setConnectlimitTime({
+                            'connect_limit_start_time_hour': data.connect_limit_start_time.split(':')[0],
+                            'connect_limit_start_time_minute': data.connect_limit_start_time.split(':')[1],
+                            'connect_limit_end_time_hour': data.connect_limit_end_time.split(':')[0],
+                            'connect_limit_end_time_minute': data.connect_limit_end_time.split(':')[1]
+                        })
+                    }
+                    if(data.allow_ips){
+                        setAllowIps([...data.allow_ips])
                     }
                     setInputs(data);
                 }
@@ -35,7 +42,7 @@ export default function ManagementConfirm() {
                             <li>
                                 <label htmlFor="">구분</label>
                                 <div>
-                                    <Select current={inputs?.role_classification} disabled />
+                                    <Select type={'divisionList'} current={inputs?.role_classification} setInputs={setInputs} disabled />
                                 </div>
                             </li>
                             <li>
@@ -57,11 +64,11 @@ export default function ManagementConfirm() {
                         <input type="checkbox" id='connect_limit_yn' name='connect_limit_yn' checked={inputs.connect_limit_yn === 'y'} disabled/>
                         <label htmlFor="connect_limit_yn">제한시간 설정 (설정한 시간에만 로그인 허용)</label>
                         <div className='timeArea'>
-                            <Select name={'time-hour'} current={inputs.connect_limit_start_time_hour || ''} disabled/>
-                            <Select name={'time-minute'} current={inputs.connect_limit_start_time_minute || ''} disabled/>
+                            <Select type={'time-hour'} changeName='connect_limit_start_time_hour' current={connectlimitTime?.connect_limit_start_time_hour || true} setInputs={setInputs} disabled/>
+                            <Select type={'time-minute'} current={connectlimitTime?.connect_limit_start_time_minute || true} setInputs={setInputs} disabled/>
                             -
-                            <Select name={'time-hour'} current={inputs.connect_limit_end_time_hour || ''} disabled/>
-                            <Select name={'time-minute'} current={inputs.connect_limit_end_time_minute || ''} disabled/>
+                            <Select type={'time-hour'} current={connectlimitTime?.connect_limit_end_time_hour || true} setInputs={setInputs} disabled/>
+                            <Select type={'time-minute'} current={connectlimitTime?.connect_limit_end_time_minute || true} setInputs={setInputs} disabled/>
                         </div>
                         <input type="checkbox" id='ip_limit_yn' name='ip_limit_yn' checked={inputs.ip_limit_yn === 'y'} disabled/>
                         <label htmlFor="ip_limit_yn">허용IP 설정 (0.0.X.X, 0.0.0.X 로 대역대 설정가능)</label>
@@ -70,9 +77,9 @@ export default function ManagementConfirm() {
                             <button className='btn-gray-black' type='button' disabled>
                                 등록
                             </button>
-                            { (Object.keys(inputs).includes('allow_ips') && inputs.allow_ips) && 
+                            {allowIps &&
                                 <ul>
-                                    { inputs?.allow_ips.map((data)=>
+                                    { allowIps.map((data)=>
                                         <li key={data}>
                                             { data }
                                             <button type='button'>IP 삭제</button>

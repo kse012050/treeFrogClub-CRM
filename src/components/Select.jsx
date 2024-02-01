@@ -76,7 +76,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
         if(type === 'time-hour'){
             const arr = []
             for(let a = 0; a < 24; a++){
-                arr.push(Number(a) < 10 ? `0${a}` : a)
+                arr.push(Number(a) < 10 ? `0${a}` : `${a}`)
             }
             setName(arr);
             setValue(arr);
@@ -85,7 +85,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
         if(type === 'time-minute'){
             const arr = []
             for(let a = 0; a < 60; a = a + 10){
-                arr.push(Number(a) < 10 ? `0${a}` : a)
+                arr.push(Number(a) < 10 ? `0${a}` : `${a}`)
             }
             setName(arr);
             setValue(arr);
