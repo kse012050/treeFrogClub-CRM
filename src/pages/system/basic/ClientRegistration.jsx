@@ -9,7 +9,7 @@ import Popup from '../../../components/popup/Popup';
 
 export default function ClientRegistration() {
     // order_number 없어야 하는데 api에 있어서 일단 추가
-    const [inputs, setInputs] = useState({'classification_id': '1', 'useable_yn': 'Y', 'order_number': '1'})
+    const [inputs, setInputs] = useState({'order_number': '1'})
     const [popup, setPopup] = useState('')
     const [bgColor, setBgColor] = useState('#000000')
     const [fontColor, setFontColor] = useState('#000000')
@@ -55,7 +55,7 @@ export default function ClientRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        console.log(inputs);
+        // console.log(inputs);
         api('clientcode', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -86,13 +86,13 @@ export default function ClientRegistration() {
                             <li>
                                 <label htmlFor="">분류 유형명</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select type={'clientClassification'} changeName='classification_id' setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="grade">고객등급</label>
                                 <div>
-                                    <Select name={'clientRating'} current={inputs.grade}  setInputs={setInputs} changeName='grade'/>
+                                    <Select type={'clientGrade'} changeName='grade'  setInputs={setInputs}/>
                                 </div>
                             </li>
                             <li>
@@ -134,7 +134,7 @@ export default function ClientRegistration() {
                             <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
-                                    <Select name='yn' current={inputs.useable_yn} setInputs={setInputs} changeName='useable_yn'/>
+                                    <Select type='yn' changeName='useable_yn' setInputs={setInputs} current/>
                                 </div>
                             </li>
                         </ul>

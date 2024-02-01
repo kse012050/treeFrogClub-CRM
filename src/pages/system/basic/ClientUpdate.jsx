@@ -8,7 +8,7 @@ import Popup from '../../../components/popup/Popup';
 import Select from '../../../components/Select';
 
 export default function ClientUpdate() {
-    const [inputs, setInputs] = useState({})
+    const [inputs, setInputs] = useState()
     const { id } = useParams();
     const [popup, setPopup] = useState('')
     const [bgColor, setBgColor] = useState('#000000')
@@ -43,7 +43,7 @@ export default function ClientUpdate() {
                     setFontColor(data.font_color)
                 }
             })
-    },[])
+    },[id])
 
     const colorChange = (e) => {
         const { value, name, dataset: { formet } } = e.target;
@@ -66,6 +66,7 @@ export default function ClientUpdate() {
 
     const onSubmit = (e) =>{
         e.preventDefault()
+        // console.log(inputs);
         api('clientcode', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -96,25 +97,25 @@ export default function ClientUpdate() {
                             <li>
                                 <label htmlFor="">분류 유형명</label>
                                 <div>
-                                    <Select name={''} current={inputs.classification_name} disabled />
+                                    <Select type={'clientClassification'} current={inputs?.classification_id} changeName='classification_id' setInputs={setInputs} disabled />
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="grade">고객등급</label>
                                 <div>
-                                    <Select name={'clientRating'} current={inputs.grade} disabled  changeName='grade'/>
+                                    <Select type={'clientGrade'} current={inputs?.grade} disabled setInputs={setInputs}  changeName='grade'/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="code">코드(숫자)</label>
                                 <div>
-                                    <input type="text" id='code' name='code' data-formet='numb' defaultValue={inputs.code} disabled />
+                                    <input type="text" id='code' name='code' data-formet='numb' defaultValue={inputs?.code} disabled />
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="name">코드명</label>
                                 <div>
-                                    <input type="text" id='name' name='name' defaultValue={inputs.code} onChange={(e)=>inputChange(e, setInputs)} />
+                                    <input type="text" id='name' name='name' defaultValue={inputs?.code} onChange={(e)=>inputChange(e, setInputs)} />
                                 </div>
                             </li>
                             <li>
@@ -144,7 +145,7 @@ export default function ClientUpdate() {
                             <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
-                                    <Select name='yn' current={inputs.useable_yn} setInputs={setInputs} changeName='useable_yn'/>
+                                    <Select type='yn' current={inputs?.useable_yn} changeName='useable_yn' setInputs={setInputs}/>
                                 </div>
                             </li>
                         </ul>

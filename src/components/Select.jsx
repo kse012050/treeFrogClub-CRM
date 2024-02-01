@@ -1,7 +1,8 @@
 import React, { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { api } from '../api/api';
 
-function Select({type, list, current, inputs, setInputs, changeName, disabled}) {
+function Select({type, list, current, setInputs, changeName, disabled}) {
     // console.log('셀릭트 박스');
     const navigate = useNavigate();
     const location = useLocation();
@@ -21,13 +22,29 @@ function Select({type, list, current, inputs, setInputs, changeName, disabled}) 
             setValue(['10', '20', '30', '50', '100', '300', '500']);
         }
 
-        type === 'yn' && setName(['Y', 'N']);
+        if(type === 'clientClassification'){
+            api('clientcode', 'classification_list')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map((data)=>data.name));
+                        setValue(list.map((data)=>data.classification_id));
+                    }
+                })
+        }
 
-        type === 'clientRating' && setName(['무료', '유료']);
+        if(type === 'clientGrade'){
+            setName(['무료', '유료']);
+            setValue(['무료', '유료']);
+        }
 
         if(type === 'customerCount'){
             setName(['10', '20', '30', '50', '100', '300', '500']);
             setValue(['10', '20', '30', '50', '100', '300', '500']);
+        }
+
+        if(type === 'yn'){
+            setName(['Y', 'N']);
+            setValue(['y', 'n']);
         }
 
         type === 'sns' && setName(['수신', '거부']);
@@ -100,12 +117,14 @@ function Select({type, list, current, inputs, setInputs, changeName, disabled}) 
         if(current && name && value){
             if(typeof(current) === 'string'){
                 setSelect(name[value.indexOf(current)])
+                setInputs((input)=>({...input, [changeName]: current}))
             }
             if(typeof(current) === 'boolean'){
+                setInputs((input)=>({...input, [changeName]: value[0]}))
                 setSelect(name[0])
             }
         }
-    },[name, current, value])
+    },[current, name, value, changeName, setInputs])
 
     const selectOpen = (e)=>{
         e.preventDefault();
@@ -117,7 +136,7 @@ function Select({type, list, current, inputs, setInputs, changeName, disabled}) 
         search && navigate(pathname)
         console.log(name);
         setSelect(name)
-        setInputs((inputs)=>({...inputs, [changeName]: value[i]}))
+        setInputs((input)=>({...input, [changeName]: value[i]}))
         setActive((active)=>!active)
     }
     return (
