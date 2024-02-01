@@ -49,13 +49,13 @@ export default function AnUser() {
                             <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
-                                    {/* <Select name={''} /> */}
+                                    <Select name={''} />
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">사용자 구분</label>
                                 <div>
-                                    {/* <Select name={''} /> */}
+                                    <Select name={''} />
                                 </div>
                             </li>
                         </ul>
@@ -73,7 +73,7 @@ export default function AnUser() {
 }
 
 function Board({ boardList, setBoardList }){
-    const [inputs, setInputs] = useState({'limit': 10, 'page': '1'});
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
 

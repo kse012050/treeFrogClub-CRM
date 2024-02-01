@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
-
-const onChange = (date, dateString) => {
-    console.log(date, dateString);
-};
+import { api } from '../../api/api';
+import Pager from '../../components/Pager';
 
 export default function List() {
+    const [boardList, setBoardList] = useState()
+
+    const onChange = (date, dateString) => {
+        console.log(date, dateString);
+    };
+
     return (
         <>
             <h2>
@@ -244,6 +248,28 @@ export default function List() {
                 </form>
             </DropBox>
 
+            <Board boardList={boardList} setBoardList={setBoardList}/>
+        </>
+    );
+}
+
+function Board({ boardList, setBoardList }){
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [pagerInfo, setPagerInfo] = useState()
+
+    useEffect(()=>{
+        api('payment', 'list', inputs)
+            .then(({result, data, list})=>{
+                if(result){
+                    setPagerInfo(data)
+                    setBoardList(list)
+                    // console.log(list);
+                }
+            })
+    },[])
+
+    return (
+        <>
             <div className='boardBox'>
                 <strong>목록</strong>
                 <button className='btn-gray-black'>엑셀 다운로드</button>
@@ -273,8 +299,9 @@ export default function List() {
                 </table>
 
                 
-                <b className='total'>123</b>
-                <span className='page'>1/10</span>
+                <b className='total'>{ pagerInfo?.total_count }</b>
+                <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
+
                 <div className="board-scroll">
                     <div className="board-top">
                         <button>No.</button>
@@ -300,7 +327,38 @@ export default function List() {
                             <button>종료일</button>
                         </div>
                     </div>
-                    <ol className="board-center">
+                    { boardList && 
+                        <ol className="board-center">
+                            { boardList.map((data, i)=>(
+                                <li key={i}>
+                                    <span>{ data.source }</span>
+                                    <span>{ data.payment_id }</span>
+                                    <span>{ data.customer_mobile }</span>
+                                    <span>{ data.customer_name }</span>
+                                    <span>{ }청투TV</span>
+                                    <span>{ data.payment_person_in_charge_name }</span>
+                                    <span>{ data.department_name }</span>
+                                    <time>{ data.payment_date }</time>
+                                    <span>{ data.product_name }</span>
+                                    <span>{ data.payment_properties_name}</span>
+                                    <span>{ data.payment_price }</span>
+                                    <time>{ data.refund_date }</time>
+                                    <span>{ data.refund_price }</span>
+                                    <button className='popup'>{ data.payment_chasu }회차 결제</button>
+                                    <div>
+                                        <span>{ data.standard_payment_start_date }</span>
+                                        <span>{ data.standard_payment_end_date }</span>
+                                    </div>
+                                    <div>
+                                        <span>{ data.standard_service_start_date }</span>
+                                        <span>{ data.standard_service_end_date }</span>
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+                    }
+
+                    {/* <ol className="board-center">
                         <li>
                             <span>123456</span>
                             <span>123456</span>
@@ -328,30 +386,15 @@ export default function List() {
                                 <span>2023/09/30</span>
                             </div>
                         </li>
-                    </ol>
+                    </ol> */}
+
                 </div>
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select name="pageCount"/>
-                    <Link to={''}>첫 페이지</Link>
-                    <Link to={''}>이전 페이지</Link>
-                    <ol>
-                        <li className='active'><Link to={''}>1</Link></li>
-                        <li><Link to={''}>2</Link></li>
-                        <li><Link to={''}>3</Link></li>
-                        <li><Link to={''}>4</Link></li>
-                        <li><Link to={''}>5</Link></li>
-                        <li><Link to={''}>6</Link></li>
-                        <li><Link to={''}>7</Link></li>
-                        <li><Link to={''}>8</Link></li>
-                        <li><Link to={''}>9</Link></li>
-                        <li><Link to={''}>10</Link></li>
-                    </ol>
-                    <Link to={''}>다음 페이지</Link>
-                    <Link to={''}>마지막 페이지</Link>
+                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>
         </>
-    );
+    )
 }
-
