@@ -4,11 +4,10 @@ import { inputChange } from '../../api/validation';
 import Select from '../../components/Select';
 import { DatePicker } from 'antd';
 import { UserContext } from '../../context/UserContext';
+import dayjs from 'dayjs';
 import Popup from '../../components/popup/Popup';
+import { api } from '../../api/api';
 
-const onChange = (date, dateString) => {
-    console.log(date, dateString);
-};
 
 export default function Registration() {
     const [inputs, setInputs] = useState()
@@ -18,16 +17,48 @@ export default function Registration() {
     const { user } = useContext(UserContext)
 
     useEffect(()=>{
-        console.log(user);
+        // console.log(user);
         if(user?.role_info.role_classification === '영업'){
             setInputs((input)=>({...input, 'sales_admin_id': user?.admin_id}))
             setAnalyst(user?.name)
         }
+        
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        setInputs((input)=>({...input, 'experience_start_date': `${year}-0${month}-0${day}`}))
+        const nextMonth = new Date();
+        nextMonth.setMonth(nextMonth.getMonth() + 1);
+        const nextYear = nextMonth.getFullYear();
+        const nextMonthNumber = nextMonth.getMonth() + 1;
+        const nextDay = nextMonth.getDate();
+        setInputs((input)=>({...input, 'experience_end_date': `${nextYear}-0${nextMonthNumber}-0${nextDay}`}))
     },[user])
+
+    const onDate = (dateString, name) => {
+        setInputs((input)=>({...input, [name]: dateString}))
+    };
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(inputs);
+        // console.log(inputs);
+        api('customer', 'insert', inputs)
+        .then(({result, error_message})=>{
+            setPopup({'type': 'confirm', 'description': error_message})
+            if(result){
+                setPopup((popup)=>({
+                    ...popup,
+                    'title': '완료',
+                    // 'link': '/payment/product'
+                }))
+            }else{
+                setPopup((popup)=>({
+                    ...popup,
+                    'title': '실패',
+                }))
+            }
+        })
     }
 
     return (
@@ -43,7 +74,7 @@ export default function Registration() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">고객구분</label>
+                                <label htmlFor="" className='required'>고객구분</label>
                                 <div>
                                     <Select type={'customer'} changeName='customer_properties_id' setInputs={setInputs}/>
                                 </div>
@@ -55,7 +86,7 @@ export default function Registration() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">영업담당자</label>
+                                <label htmlFor="" className='required'>영업담당자</label>
                                 <div>
                                     <input 
                                         type="search" 
@@ -73,24 +104,24 @@ export default function Registration() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="customer_name">고객명</label>
+                                <label htmlFor="customer_name" className='required'>고객명</label>
                                 <div>
                                     <input type="text" name='customer_name' id='customer_name' onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="customer_mobile">휴대폰</label>
+                                <label htmlFor="customer_mobile" className='required'>휴대폰</label>
                                 <div>
-                                    <input type="text" name='customer_mobile' id='customer_mobile' onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name='customer_mobile' id='customer_mobile' data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">체험 기간</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                         <span>-</span>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                     </div>
                                 </div>
                             </li>

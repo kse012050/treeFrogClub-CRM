@@ -62,7 +62,7 @@ export const routers = [
                 path: 'registration', element: <CustomerRegistration />
             },
             {
-                path: 'update', element: <CustomerUpdate />
+                path: 'registration/update/:id', element: <CustomerUpdate />
             },
             {
                 path: 'registration/bulk', element: <CustomerBulkRegistration />

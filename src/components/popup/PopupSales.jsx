@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../api/api';
-import Pager from '../Pager';
+// import Pager from '../Pager';
 
 export default function PopupSales({ close, func }) {
-    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [salesList, setSalesList] = useState()
-    const [pagerInfo, setPagerInfo] = useState()
+    // const [pagerInfo, setPagerInfo] = useState()
 
     useEffect(()=>{
         api('user', 'list')
             .then(({result, data, list})=>{
                 if(result){
-                    setPagerInfo(data)
+                    // setPagerInfo(data)
                     setSalesList(list.filter((listData)=> listData.role_name === '영업'))
                 }
             })
@@ -53,9 +53,9 @@ export default function PopupSales({ close, func }) {
                     </ol>
                 }
 
-                <div className='board-pagination' data-styleidx='a'>
+                {/* <div className='board-pagination' data-styleidx='a'>
                     <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                </div>
+                </div> */}
             </div>
         </>
     );

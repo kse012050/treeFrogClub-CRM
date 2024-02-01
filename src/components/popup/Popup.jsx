@@ -6,12 +6,18 @@ import PopupBureau from './PopupBureau';
 import PopupAnalyst from './PopupAnalyst';
 import PopupNewPassword from './PopupNewPassword';
 import PopupSales from './PopupSales';
+import { useNavigate } from 'react-router-dom';
 
 function Popup({ popup, setPopup, confirmFunc, func, children }) {
+    const navigate = useNavigate();
+
     const close = () =>{
         setPopup('');
         if(popup.type.includes('confirm') && popup.confirmFunc){
             popup.confirmFunc();
+        }
+        if(popup.type.includes('confirm') && popup.link){
+            navigate(popup.link)
         }
     }
     

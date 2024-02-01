@@ -135,44 +135,45 @@
 
 
 /* 통합 DB 관리 - 고객 등록 */
-.customerPage.registrationPage > div:not(:last-of-type){margin-bottom: 20px;}
-.customerPage.registrationPage .boardBox > button{color: var(--color-font03); font-weight: 700;}
-.customerPage.registrationPage .boardBox > button:not(:last-of-type){margin-right: 20px;}
-.customerPage.registrationPage .boardBox > button::after{content: ' (' attr(data-count) ')';}
-.customerPage.registrationPage .boardBox > button.active{color: var(--color-point01); position: relative;}
-.customerPage.registrationPage .boardBox > button.active::before{content: ''; width: 100%; height: 2px; position: absolute; left: 0; bottom: -15px; background-color: var(--color-point01);}
-.customerPage.registrationPage .boardBox .total{font-size: 13px; margin-left: auto;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 80;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 70;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 90;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 90;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 80;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 90;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 80;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 120;}
-.customerPage.registrationPage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 60;}
-.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 120;}
-.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 180;}
-.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 160;}
-.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 180;}
-.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 130;}
-.customerPage.registrationPage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 110;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 80; min-width: 80px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90; min-width: 90px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 90; min-width: 90px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 90; min-width: 90px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 80; min-width: 80px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 90; min-width: 90px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 80; min-width: 80px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 90; min-width: 90px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 120; min-width: 120px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 90; min-width: 90px;}
-.customerPage.registrationPage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 70; min-width: 70px;}
-.customerPage.registrationPage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 120;}
-.customerPage.registrationPage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 540;}
-.customerPage.registrationPage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 130;}
-.customerPage.registrationPage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 120;}
+.customerPage.registrationPage .ant-picker{flex: 1;}
+.customerPage.updatePage > div:not(:last-of-type){margin-bottom: 20px;}
+.customerPage.updatePage .boardBox > button{color: var(--color-font03); font-weight: 700;}
+.customerPage.updatePage .boardBox > button:not(:last-of-type){margin-right: 20px;}
+.customerPage.updatePage .boardBox > button::after{content: ' (' attr(data-count) ')';}
+.customerPage.updatePage .boardBox > button.active{color: var(--color-point01); position: relative;}
+.customerPage.updatePage .boardBox > button.active::before{content: ''; width: 100%; height: 2px; position: absolute; left: 0; bottom: -15px; background-color: var(--color-point01);}
+.customerPage.updatePage .boardBox .total{font-size: 13px; margin-left: auto;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 80;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 70;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 90;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 90;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 80;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 90;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 80;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 120;}
+.customerPage.updatePage .boardBox .board-scroll1 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 60;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 120;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 180;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 160;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 180;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 130;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 110;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 80; min-width: 80px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90; min-width: 90px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 90; min-width: 90px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 90; min-width: 90px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 80; min-width: 80px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 90; min-width: 90px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 80; min-width: 80px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 90; min-width: 90px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 120; min-width: 120px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 90; min-width: 90px;}
+.customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 70; min-width: 70px;}
+.customerPage.updatePage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 120;}
+.customerPage.updatePage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 540;}
+.customerPage.updatePage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 130;}
+.customerPage.updatePage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 120;}
 
 
 /* 결제 관리 - 목록 */

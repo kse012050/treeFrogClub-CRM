@@ -7,6 +7,8 @@ hr{width: 100%; border: none; border-top: 1px solid var(--color-line); backgroun
 hr.case01{margin-block: 15px 20px;}
 hr.case02{margin-block: 20px 30px;}
 hr.case03{margin-block: 20px 20px;}
+label.required{display: flex;}
+label.required::after{content: '*'; color: var(--color-point01); transform: translateY(2px);}
 
 
 /* input 공통 */
@@ -227,7 +229,8 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .dropBox form fieldset > ul li:not([class]){width: calc((100% - 80px) / 3);}
 .dropBox form fieldset > ul li.fill-two{width: calc((100% - 80px) / 3 * 2 + 40px);}
 .dropBox form fieldset > ul li.fill-three{width: 100%;}
-.dropBox form fieldset > ul li > label:first-child{font-weight: 700; display: block;}
+.dropBox form fieldset > ul li > label:first-child{font-weight: 700;}
+:where(.dropBox form fieldset > ul li > label:first-child){display: block;}
 .dropBox form fieldset > ul li > label:first-child:has( + div :is([type="radio"], [type="checkbox"])){margin-bottom: 18px;}
 .dropBox form fieldset > ul li > label:first-child:not(:has( + div :is([type="radio"], [type="checkbox"]))){margin-bottom: 10px;}
 .dropBox form fieldset > ul li > div:has([type="checkbox"]){display: flex; flex-wrap: wrap; gap: 15px 30px;}

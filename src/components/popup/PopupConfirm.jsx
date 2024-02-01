@@ -1,15 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
-export default function PopupConfirm({ popup, close, confirmFunc }) {
-    const navigate = useNavigate();
+export default function PopupConfirm({ popup, close/* , confirmFunc */ }) {
+    // const navigate = useNavigate();
 
     const confirm = () =>{
-        if(popup.link){
-            navigate(popup.link)
-        }else if(popup.confirmFunc) {
-            popup.confirmFunc();
-        }
+        // if(popup.link){
+        //     navigate(popup.link)
+        // }else if(popup.confirmFunc) {
+        //     popup.confirmFunc();
+        // }
         close()
     }
     return (

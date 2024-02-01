@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from "../context/UserContext.js";
 import Memu from '../components/Memu';
 import {styleIdx} from '../js/style.js';
@@ -12,6 +12,7 @@ export default function Root({ children }) {
     const [user, setUser] = useState()
     const [company, setCompany] = useState()
     const [popup, setPopup] = useState()
+    const { id } = useParams();
 
     useEffect(()=>{
         api('profile', 'detail')
@@ -31,7 +32,6 @@ export default function Root({ children }) {
 
     useEffect(()=>{
         sessionStorage.getItem('authorization') || navigate('/');
-
         return(
             document.querySelectorAll('[data-styleidx]').length ? styleIdx() : undefined
         )
@@ -53,7 +53,7 @@ export default function Root({ children }) {
                 </header>
                 <div className={`subPage`}>
                     <Memu />
-                    <div className={`${pageName[0]}Page ${pageName.length > 1 ? pageName.at(-1) + 'Page' : ''}`}>
+                    <div className={`${pageName[0]}Page ${(pageName.length > 1 && id !== pageName.at(-1)) ? pageName.at(-1) + 'Page' : pageName.at(-2) + 'Page'}`}>
                         <Outlet />
                     </div>
                 </div>
