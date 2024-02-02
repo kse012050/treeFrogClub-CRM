@@ -135,7 +135,7 @@
 
 
 /* 통합 DB 관리 - 고객 등록 */
-.customerPage.registrationPage .ant-picker{flex: 1;}
+.customerPage:is(.registrationPage, .updatePage) :is(.ant-picker:has(~ .ant-picker), .ant-picker ~ .ant-picker){flex: 1;}
 .customerPage.updatePage > div:not(:last-of-type){margin-bottom: 20px;}
 .customerPage.updatePage .boardBox > button{color: var(--color-font03); font-weight: 700;}
 .customerPage.updatePage .boardBox > button:not(:last-of-type){margin-right: 20px;}

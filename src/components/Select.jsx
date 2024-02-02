@@ -22,7 +22,28 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setValue(['10', '20', '30', '50', '100', '300', '500']);
         }
 
-        // 고객 구분 관리 
+        // 고객DB 관리 - 고객 등록
+        if(type === 'sales'){
+            api('properties', 'properties_list', {'classification_id': '3'})
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({properties_id})=>properties_id));
+                    }
+                })
+        }
+
+        if(type === 'period'){
+            const arr = ['1주']
+            for(let a = 1; a <= 36; a++){
+                arr.push(`${a}개월`)
+            }
+            setName(arr)
+            setValue(arr)
+        }
+        // 고객DB 관리 - 고객 등록 fin
+
+        // 시스템 관리 - 기본 설정 - 고객 구분 관리 
         if(type === 'clientClassification'){
             api('clientcode', 'classification_list')
                 .then(({result, list})=>{
@@ -32,9 +53,9 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                     }
                 })
         }
-        // 고객 구분 관리 fin
+        // 시스템 관리 - 기본 설정 - 고객 구분 관리 fin
 
-        // 공통 코드
+        // 시스템 관리 - 기본 설정 - 공통 코드
         if(type === 'commonClassification'){
             api('commoncode', 'classification_list')
                 .then(({result, list})=>{
@@ -44,7 +65,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                     }
                 })
         }
-        // 공통 코드 fin
+        // 시스템 관리 - 기본 설정 - 공통 코드 fin
 
         if(type === 'clientGrade'){
             setName(['무료', '유료']);

@@ -12,6 +12,11 @@ export default function AnUser() {
     const [boardList, setBoardList] = useState()
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
 
+    const onSearch = (e) =>{
+        e.preventDefault();
+        console.log(inputs);
+    }
+
     return (
         <>
             <h2>
@@ -62,7 +67,7 @@ export default function AnUser() {
                     </fieldset>
                     <div>
                         <input type="reset" value="초기화" className='btn-gray-white'/>
-                        <input type="submit" value="검색" className='btn-point'/>
+                        <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
             </DropBox>

@@ -12,6 +12,11 @@ export default function Product() {
     const [inputs, setInputs] = useState()
     const [boardList, setBoardList] = useState()
 
+    const onSearch = (e) =>{
+        e.preventDefault();
+        console.log(inputs);
+    }
+
     return (
         <>
             <h2>
@@ -58,7 +63,7 @@ export default function Product() {
                     </fieldset>
                     <div>
                         <input type="reset" value="초기화" className='btn-gray-white'/>
-                        <input type="submit" value="검색" className='btn-point'/>
+                        <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
             </DropBox>

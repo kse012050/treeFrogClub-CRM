@@ -44,21 +44,21 @@ export default function Registration() {
         e.preventDefault();
         // console.log(inputs);
         api('customer', 'insert', inputs)
-        .then(({result, error_message})=>{
-            setPopup({'type': 'confirm', 'description': error_message})
-            if(result){
-                setPopup((popup)=>({
-                    ...popup,
-                    'title': '완료',
-                    // 'link': '/payment/product'
-                }))
-            }else{
-                setPopup((popup)=>({
-                    ...popup,
-                    'title': '실패',
-                }))
-            }
-        })
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        // 'link': '/payment/product'
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
     }
 
     return (
@@ -134,7 +134,7 @@ export default function Registration() {
                         </ul>
                     </fieldset>
                     <div>
-                        <Link to={''} className='btn-gray-white'>목록</Link>
+                        <Link to={'/customer/list'} className='btn-gray-white'>목록</Link>
                         <input type="submit" value="저장" className='btn-point' onClick={onSubmit}/>
                     </div>
                 </form>
