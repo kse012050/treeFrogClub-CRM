@@ -75,6 +75,7 @@ body:has(.popupBox){overflow: hidden;}
 .popupBox > div{padding: 20px; box-sizing: border-box; background-color: white; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); border-radius: 4px;}
 .popupBox > div:is(.confirmArea, .finFuncArea){width: 320px;}
 .popupBox > div:has([class*="bureau"]){width: 340px;}
+.popupBox > div:has([class*="refundPopup"]){width: 900px;}
 .popupBox > div[class*="newPassword"]{width: 340px;}
 .popupBox > div[class*="properties"]{width: 340px;}
 .popupBox > div:is(.analystArea, .salesArea){width: 510px;}
@@ -101,6 +102,32 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 110;}
 .popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 70;}
 .popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 30;}
+.popupBox .refundPopup{}
+.popupBox .refundPopup > b{display: block; margin-bottom: 12px;}
+.popupBox .refundPopup table{width: 100%; margin-bottom: 30px; border-width: 1px 0; border-style: solid; border-color: var(--color-division);}
+.popupBox .refundPopup table :is(th, b, mark){font-weight: 700;}
+.popupBox .refundPopup table tr{height: 40px; display: flex;}
+.popupBox .refundPopup table tr > *{flex: 1;}
+.popupBox .refundPopup table tr > *:not(:last-child){border-right: 1px solid var(--color-division);}
+.popupBox .refundPopup table tr th{line-height: 40px; background-color: var(--color-face);}
+.popupBox .refundPopup table tr td{display: flex; justify-content: center; align-items: center;}
+.popupBox .refundPopup table > *:not(:last-child){border-bottom: 1px solid var(--color-division);}
+.popupBox .refundPopup table thead tr{background-color: var(--color-face);}
+.popupBox .refundPopup table tbody tr td{text-align: center;}
+.popupBox .refundPopup fieldset b{display: block; margin-bottom: 20px;}
+.popupBox .refundPopup fieldset ul{display: flex; gap: 0 40px;}
+.popupBox .refundPopup fieldset ul:not(:last-of-type){margin-bottom: 30px;}
+.popupBox .refundPopup fieldset ul li{flex: 1;}
+.popupBox .refundPopup fieldset ul li > label:first-child{font-weight: 700;}
+.popupBox .refundPopup fieldset ul li > label:first-child span{font-size: 12px; font-weight: 400; color: var(--color-font03); margin-left: 0.4em;}
+.popupBox .refundPopup fieldset ul li > label:first-child span::before{content: '(';}
+.popupBox .refundPopup fieldset ul li > label:first-child span::after{content: ')';}
+.popupBox .refundPopup fieldset ul li > div{margin-top: 10px;}
+.popupBox .refundPopup fieldset > ul li > div > div{width: 100%; display: flex; align-items: center;}
+.popupBox .refundPopup fieldset > ul li > div > div span{margin-inline: 5px;}
+.popupBox .refundPopup fieldset > ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
+.popupBox .refundPopup fieldset ul.settingArea{padding: 20px; flex-wrap: wrap; background-color: var(--color-division);}
+.popupBox .refundPopup fieldset ul.settingArea::before{content: attr(data-subText); width: 100%; font-weight: 700; color: var(--color-point01); margin-bottom: 20px;}
 
 
 /* 부서 리스트 */

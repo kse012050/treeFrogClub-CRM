@@ -17,8 +17,7 @@ export default function Registration() {
     const { user } = useContext(UserContext)
 
     useEffect(()=>{
-        // console.log(user);
-        if(user?.role_info.role_classification === '영업'){
+        if(user && user?.role_info?.role_classification === '영업'){
             setInputs((input)=>({...input, 'sales_admin_id': user?.admin_id}))
             setSales(user?.name)
         }

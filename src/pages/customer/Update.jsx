@@ -478,6 +478,8 @@ function History({ id }){
     const [historyUpdata, setHistoryUpdata] = useState()
     const [updateInfo, setUpdateInfo] = useState()
 
+    const [refundPopupActive, setRefundPopupActive] = useState()
+
     useEffect(()=>{
         api('payment','user_payment_list', inputs)
             .then(({result, data, list})=>{
@@ -500,262 +502,131 @@ function History({ id }){
     },[inputs])
 
     return(
-        <DropBox title="관련 정보" arrow>
-            <div className='boardBox'>
-                <button data-count="0" className={relatedActive === 0 ? 'active' : ''} onClick={()=>setRelatedActive(0)}>상담이력</button>
-                <button data-count={paymentInfo?.total_count} className={relatedActive === 1 ? 'active' : ''} onClick={()=>setRelatedActive(1)}>결제내역</button>
-                <button data-count={updateInfo?.total_count} className={relatedActive === 2 ? 'active' : ''} onClick={()=>setRelatedActive(2)}>결제수정내역</button>
-                <button data-count="0" className={relatedActive === 3 ? 'active' : ''} onClick={()=>setRelatedActive(3)}>삭제된 결제내역</button>
-                {/* <b className='total'>123</b>
-                <span className='page'>1/10</span> */}
+        <>
+            <DropBox title="관련 정보" arrow>
+                <div className='boardBox'>
+                    <button data-count="0" className={relatedActive === 0 ? 'active' : ''} onClick={()=>setRelatedActive(0)}>상담이력</button>
+                    <button data-count={paymentInfo?.total_count} className={relatedActive === 1 ? 'active' : ''} onClick={()=>setRelatedActive(1)}>결제내역</button>
+                    <button data-count={updateInfo?.total_count} className={relatedActive === 2 ? 'active' : ''} onClick={()=>setRelatedActive(2)}>결제수정내역</button>
+                    <button data-count="0" className={relatedActive === 3 ? 'active' : ''} onClick={()=>setRelatedActive(3)}>삭제된 결제내역</button>
+                    {/* <b className='total'>123</b>
+                    <span className='page'>1/10</span> */}
 
-                {relatedActive === 0 &&
-                    <HistoryConsult />
-                }
-                {relatedActive === 1 &&
-                    <>
-                        <b className='total'>{ paymentInfo?.total_count }</b>
-                        <span className='page'>{ paymentInfo?.current_page }/{ paymentInfo?.total_page }</span>
-                        <div className='board-scroll1'>
-                            <div className="board-top">
-                                <button>결제번호</button>
-                                <button>결제구분</button>
-                                <button>
-                                    결제<br/>
-                                    담당자
-                                </button>
-                                <button>
-                                    신청<br/>
-                                    애널리스트
-                                </button>
-                                <button>결제일</button>
-                                <button>결제금액</button>
-                                <button>환불일</button>
-                                <button>환불금액</button>
-                                <button>
-                                    유료기간<br/>
-                                    (서비스기간포함)
-                                </button>
-                                <span>환불/수정</span>
+                    {relatedActive === 0 &&
+                        <HistoryConsult />
+                    }
+                    {relatedActive === 1 &&
+                        <>
+                            <b className='total'>{ paymentInfo?.total_count }</b>
+                            <span className='page'>{ paymentInfo?.current_page }/{ paymentInfo?.total_page }</span>
+                            <div className='board-scroll1'>
+                                <div className="board-top">
+                                    <button>결제번호</button>
+                                    <button>결제구분</button>
+                                    <button>
+                                        결제<br/>
+                                        담당자
+                                    </button>
+                                    <button>
+                                        신청<br/>
+                                        애널리스트
+                                    </button>
+                                    <button>결제일</button>
+                                    <button>결제금액</button>
+                                    <button>환불일</button>
+                                    <button>환불금액</button>
+                                    <button>
+                                        유료기간<br/>
+                                        (서비스기간포함)
+                                    </button>
+                                    <span>환불/수정</span>
+                                </div>
+                                { historyPayment && 
+                                    <ol className="board-center">
+                                        { historyPayment.map((data)=>(
+                                            <li key={ data.payment_id }>
+                                                <span>{ data.payment_id }</span>
+                                                <span>{ data.payment_properties_name }</span>
+                                                <span>{ data.payment_person_in_charge_name }</span>
+                                                <span>{ data.product_name.replaceAll(' ','\n') }</span>
+                                                <time>{ data.payment_date.replaceAll('-','/') }</time>
+                                                <span>{ data.payment_price }</span>
+                                                <time>{ data?.refund_date?.replaceAll('-','/') }</time>
+                                                <span>{ data?.refund_price }</span>
+                                                <time>
+                                                    { data.standard_service_end_date.replaceAll('-','/') }<br/>
+                                                    ~ { data.standard_service_start_date.replaceAll('-','/') }
+                                                </time>
+                                                <div>
+                                                    <button className='popup' onClick={()=>setRefundPopupActive({'type': 'children', 'id': data.payment_id})}>환불</button>
+                                                    <button className='popup'>수정</button>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ol>
+                                }
                             </div>
-                            { historyPayment && 
-                                <ol className="board-center">
-                                    { historyPayment.map((data)=>(
-                                        <li key={ data.payment_id }>
-                                            <span>{ data.payment_id }</span>
-                                            <span>{ data.payment_properties_name }</span>
-                                            <span>{ data.payment_person_in_charge_name }</span>
-                                            <span>{ data.product_name.replaceAll(' ','\n') }</span>
-                                            <time>{ data.payment_date.replaceAll('-','/') }</time>
-                                            <span>{ data.payment_price }</span>
-                                            <time>{ data?.refund_date?.replaceAll('-','/') }</time>
-                                            <span>{ data?.refund_price }</span>
-                                            <time>
-                                                { data.standard_service_end_date.replaceAll('-','/') }<br/>
-                                                ~ { data.standard_service_start_date.replaceAll('-','/') }
-                                            </time>
-                                            <div>
-                                                <button className='popup'>환불</button>
-                                                <button className='popup'>수정</button>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ol>
-                            }
-                        </div>
-                        <div className='board-pagination' data-styleidx='a'>
-                            <Pager pagerInfo={paymentInfo} setInputs={setInputs}/>
-                        </div>
-                    </>
-                }
-                {relatedActive === 2 &&
-                    <>
-                        <div className='board-scroll2'>
-                            <div className="board-top">
-                                <button>결제번호</button>
-                                <button>항목</button>
-                                <button>수정 전</button>
-                                <button>수정 후</button>
-                                <button>수정일</button>
-                                <button>수정자</button>
+                            <div className='board-pagination' data-styleidx='a'>
+                                <Pager pagerInfo={paymentInfo} setInputs={setInputs}/>
                             </div>
-            
-                            
-                            { historyUpdata && 
-                                <ol className="board-center">
-                                    { historyUpdata.map((data, i)=>(
-                                        <li key={ i }>
-                                            <span>{ data.payment_id }</span>
-                                            <span>{ data.item }</span>
-                                            <time>{ data.modify_before_info.replaceAll('-', '/') }</time>
-                                            <time>{ data.modify_after_info.replaceAll('-', '/') }</time>
-                                            <time>{ data.reg_date.split(' ')[0] }</time>
-                                            <span>{ data.modify_admin_name }</span>
-                                        </li>
-                                    ))}
-                                </ol>
-                            }
-                            <ol className="board-center">
-                                <li>
-                                    <span>123456</span>
-                                    <span>유료기간 (서비스기간 포함)</span>
-                                    <time>2023/10/01~2023/11/01</time>
-                                    <time>2023/10/01~2023/11/01</time>
-                                    <time>2023/10/01</time>
-                                    <span>홍길동</span>
-                                </li>
-                            </ol>
-                        </div>
-                        <div className='board-pagination' data-styleidx='a'>
-                            <Pager pagerInfo={updateInfo} setInputs={setInputs}/>
-                        </div>
-                    </>
-                }
-                {relatedActive === 3 &&
-                    <HistoryDelete />
-                }
-
+                        </>
+                    }
+                    {relatedActive === 2 &&
+                        <>
+                            <div className='board-scroll2'>
+                                <div className="board-top">
+                                    <button>결제번호</button>
+                                    <button>항목</button>
+                                    <button>수정 전</button>
+                                    <button>수정 후</button>
+                                    <button>수정일</button>
+                                    <button>수정자</button>
+                                </div>
                 
-            </div>
-        </DropBox>
+                                
+                                { historyUpdata && 
+                                    <ol className="board-center">
+                                        { historyUpdata.map((data, i)=>(
+                                            <li key={ i }>
+                                                <span>{ data.payment_id }</span>
+                                                <span>{ data.item }</span>
+                                                <time>{ data.modify_before_info.replaceAll('-', '/') }</time>
+                                                <time>{ data.modify_after_info.replaceAll('-', '/') }</time>
+                                                <time>{ data.reg_date.split(' ')[0] }</time>
+                                                <span>{ data.modify_admin_name }</span>
+                                            </li>
+                                        ))}
+                                    </ol>
+                                }
+                                <ol className="board-center">
+                                    <li>
+                                        <span>123456</span>
+                                        <span>유료기간 (서비스기간 포함)</span>
+                                        <time>2023/10/01~2023/11/01</time>
+                                        <time>2023/10/01~2023/11/01</time>
+                                        <time>2023/10/01</time>
+                                        <span>홍길동</span>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div className='board-pagination' data-styleidx='a'>
+                                <Pager pagerInfo={updateInfo} setInputs={setInputs}/>
+                            </div>
+                        </>
+                    }
+                    {relatedActive === 3 &&
+                        <HistoryDelete />
+                    }
+
+                    
+                </div>
+            </DropBox>
+            { refundPopupActive &&
+                <RefundPopup refundPopupActive={refundPopupActive} setRefundPopupActive={setRefundPopupActive}/>
+            }
+        </>
     )
 }
-
-// function HistoryPayment({ id }){
-//     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id});
-//     const [pagerInfo, setPagerInfo] = useState()
-//     const [history, setHistory] = useState()
-
-//     useEffect(()=>{
-//         api('payment','user_payment_list', inputs)
-//             .then(({result, data, list})=>{
-//                 if(result){
-//                     setPagerInfo(data)
-//                     setHistory(list)
-//                     // console.log(data);
-//                 }
-//             })
-//     },[inputs])
-
-//     return (
-//         <>
-//             <b className='total'>{ pagerInfo?.total_count }</b>
-//             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
-//             <div className='board-scroll1'>
-//                 <div className="board-top">
-//                     <button>결제번호</button>
-//                     <button>결제구분</button>
-//                     <button>
-//                         결제<br/>
-//                         담당자
-//                     </button>
-//                     <button>
-//                         신청<br/>
-//                         애널리스트
-//                     </button>
-//                     <button>결제일</button>
-//                     <button>결제금액</button>
-//                     <button>환불일</button>
-//                     <button>환불금액</button>
-//                     <button>
-//                         유료기간<br/>
-//                         (서비스기간포함)
-//                     </button>
-//                     <span>환불/수정</span>
-//                 </div>
-//                 { history && 
-//                     <ol className="board-center">
-//                         { history.map((data)=>(
-//                             <li key={ data.payment_id }>
-//                                 <span>{ data.payment_id }</span>
-//                                 <span>{ data.payment_properties_name }</span>
-//                                 <span>{ data.payment_person_in_charge_name }</span>
-//                                 <span>{ data.product_name.replaceAll(' ','\n') }</span>
-//                                 <time>{ data.payment_date.replaceAll('-','/') }</time>
-//                                 <span>{ data.payment_price }</span>
-//                                 <time>{ data?.refund_date?.replaceAll('-','/') }</time>
-//                                 <span>{ data?.refund_price }</span>
-//                                 <time>
-//                                     { data.standard_service_end_date.replaceAll('-','/') }<br/>
-//                                     ~ { data.standard_service_start_date.replaceAll('-','/') }
-//                                 </time>
-//                                 <div>
-//                                     <button className='popup'>환불</button>
-//                                     <button className='popup'>수정</button>
-//                                 </div>
-//                             </li>
-//                         ))}
-//                     </ol>
-//                 }
-//             </div>
-//             <div className='board-pagination' data-styleidx='a'>
-//                 <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-//             </div>
-//         </>
-//     )
-// }
-
-// function HistoryUpdate({ id }){
-//     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id});
-//     const [pagerInfo, setPagerInfo] = useState()
-//     const [history, setHistory] = useState()
-
-//     useEffect(()=>{
-//         console.log(inputs);
-//         api('payment','user_payment_history_list', inputs)
-//             .then(({result, data, list})=>{
-//                 if(result){
-//                     setPagerInfo(data)
-//                     setHistory(list)
-//                     console.log(list);
-//                 }
-//             })
-//     },[inputs])
-    
-//     return (
-//         <>
-//             <div className='board-scroll2'>
-//                 <div className="board-top">
-//                     <button>결제번호</button>
-//                     <button>항목</button>
-//                     <button>수정 전</button>
-//                     <button>수정 후</button>
-//                     <button>수정일</button>
-//                     <button>수정자</button>
-//                 </div>
-
-                
-//                 { history && 
-//                     <ol className="board-center">
-//                         { history.map((data, i)=>(
-//                             <li key={ i }>
-//                                 <span>{ data.payment_id }</span>
-//                                 <span>{ data.item }</span>
-//                                 <time>{ data.modify_before_info.replaceAll('-', '/') }</time>
-//                                 <time>{ data.modify_after_info.replaceAll('-', '/') }</time>
-//                                 <time>{ data.reg_date.split(' ')[0] }</time>
-//                                 <span>{ data.modify_admin_name }</span>
-//                             </li>
-//                         ))}
-//                     </ol>
-//                 }
-//                 <ol className="board-center">
-//                     <li>
-//                         <span>123456</span>
-//                         <span>유료기간 (서비스기간 포함)</span>
-//                         <time>2023/10/01~2023/11/01</time>
-//                         <time>2023/10/01~2023/11/01</time>
-//                         <time>2023/10/01</time>
-//                         <span>홍길동</span>
-//                     </li>
-//                 </ol>
-//             </div>
-//             <div className='board-pagination' data-styleidx='a'>
-//                 <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-//             </div>
-//         </>
-//     )
-// }
 
 function HistoryDelete(){
     return (
@@ -858,3 +729,140 @@ function HistoryConsult(){
         </>
     )
 }
+
+function RefundPopup({ refundPopupActive, setRefundPopupActive }){
+    const [inputs, setInputs] = useState()
+    const [info, setInfo] = useState()
+
+    useEffect(()=>{
+        api('payment', 'detail', {'payment_id': refundPopupActive.id})
+            .then(({result, data})=>{
+                if(result){
+                    console.log(data);
+                    setInfo(data)
+                }
+            })
+    },[])
+
+    const onDate = (dateString, name) => {
+        setInputs((input)=>({...input, [name]: dateString}))
+    };
+
+    return (
+        <Popup popup={refundPopupActive} setPopup={setRefundPopupActive}>
+            <div className="refundPopup">
+                <strong>환불</strong>
+                <b>결제 정보</b>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>신청 애널리스트</th>
+                            <th>매출 구분</th>
+                            <th>결제 구분</th>
+                            <th>결제일</th>
+                            <th>결제금액</th>
+                        </tr>
+                        <tr>
+                            <td>{ info?.product_name }</td>
+                            <td>{ info?.sales_properties_name }</td>
+                            <td>{ info?.payment_properties_name }</td>
+                            <td>{ info?.payment_date.replaceAll('-', '/') }</td>
+                            <td>{ info?.payment_price }</td>
+                        </tr>
+                        <tr>
+                            <th>기간</th>
+                            <th>유료기간 (결제기준)</th>
+                            <th>유료기간 (서비스기간 포함)</th>
+                        </tr>
+                        <tr>
+                            <td>{ info?.period }</td>
+                            <td>
+                                { info?.standard_payment_start_date.replaceAll('-', '/') }
+                                ~
+                                { info?.standard_payment_end_date.replaceAll('-', '/') }
+                            </td>
+                            <td>
+                                { info?.standard_service_start_date.replaceAll('-', '/') }
+                                ~
+                                { info?.standard_service_end_date.replaceAll('-', '/') }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>결제 특이사항</th>
+                        </tr>
+                        <tr>
+                            <td>{ info?.memo || '없음' }</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <form>
+                    <fieldset>
+                        <b>환불 처리</b>
+                        <ul>
+                            <li>
+                                <label htmlFor="">환불 구분</label>
+                                <div>
+                                    <input type="text" />
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="">환불일</label>
+                                <div>
+                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="">환불금액</label>
+                                <div>
+                                    <input type="text" />
+                                </div>
+                            </li>
+                        </ul>
+                        <ul className='settingArea' data-subText="*환불 금액에 따른 이용기간이 변경되는 경우 설정하세요.">
+                            <li>
+                                <label htmlFor="">기간</label>
+                                <div>
+                                    <input type="text" />
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="">유료 기간<span>결제기준</span></label>
+                                <div>
+                                    <div>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        <span>-</span>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="">유료 기간<span>서비스 기간 포함</span></label>
+                                <div>
+                                    <div>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        <span>-</span>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <label htmlFor="">환불 특이사항</label>
+                                <div>
+                                    <textarea name="" id="" ></textarea>
+                                </div>
+                            </li>
+                        </ul>
+                    </fieldset>
+                    <div className="btnArea-end">
+                        <button type="button" className='btn-gray-white'>닫기</button>
+                        <input type="submit" value='저장' className='btn-point' />
+                    </div>
+                </form>
+            </div>
+        </Popup>
+    )
+}
+
