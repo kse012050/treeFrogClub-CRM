@@ -56,7 +56,7 @@ function Basic({ id, setPopup }){
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log(inputs);
+        // console.log(inputs);
         api('customer', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -583,7 +583,7 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
         api('payment', 'detail', {'payment_id': refundPopupActive.id})
             .then(({result, data})=>{
                 if(result){
-                    console.log(data);
+                    // console.log(data);
                     setInfo(data)
                 }
             })
@@ -766,7 +766,6 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive }){
         api('payment', 'detail', inputs)
             .then(({result, data})=>{
                 if(result){
-                    console.log(data);
                     setInputs((input)=>({...input, ...data}))
                 }
             })
