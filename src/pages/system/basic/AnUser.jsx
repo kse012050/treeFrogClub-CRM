@@ -7,14 +7,28 @@ import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import Pager from '../../../components/Pager';
+import { inputChange } from '../../../api/validation';
+import Popup from '../../../components/popup/Popup';
 
 export default function AnUser() {
     const [boardList, setBoardList] = useState()
-    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'});
+    const [bureau, setBureau] = useState();
+    const [popup, setPopup] = useState()
 
     const onSearch = (e) =>{
         e.preventDefault();
-        console.log(inputs);
+        // console.log(searchInputs);
+        api('user', 'list', searchInputs)
+            .then(({result, list})=>{
+                if(result){
+                    setBoardList(list)
+                }
+            })
+    }
+
+    const onReset = ()=>{
+        setSearchInputs({'limit': '10', 'page': '1'})
     }
 
     return (
@@ -25,54 +39,71 @@ export default function AnUser() {
             </h2>
 
             <DropBox title="검색 항목" arrow>
-                <form onClick={(e)=>e.preventDefault()}>
+                <form>
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">사용자명</label>
+                                <label htmlFor="name">사용자명</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">아이디</label>
+                                <label htmlFor="id">아이디</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='id' id='id' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">부서</label>
                                 <div>
-                                    <input type="text" />
+                                    <input 
+                                        type="search" 
+                                        value={bureau || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'bureau',
+                                            'func': (data)=>{
+                                                setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
+                                                setBureau(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
-                            <li>
+                            {/* <li>
                                 <label htmlFor="">회원사</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='' id='' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
-                            </li>
+                            </li> */}
                             <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
-                                    <Select type={'use'} changeName='useable_yn' setInputs={setInputs}/>
+                                    <Select type={'use'} current={searchInputs?.useable_yn} changeName='useable_yn' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">사용자 구분</label>
-                                    <div><Select type={'userDivision'} changeName='type' setInputs={setInputs}/>
+                                    <div><Select type={'userDivision'} current={searchInputs?.type} changeName='type' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
-                        <input type="reset" value="초기화" className='btn-gray-white'/>
+                        <input type="reset" value="초기화" className='btn-gray-white' onClick={onReset}/>
                         <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
             </DropBox>
 
             <Board boardList={boardList} setBoardList={setBoardList}/>
+
+            
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
         </>
     );
 }
