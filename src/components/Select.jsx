@@ -33,6 +33,17 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                 })
         }
 
+        
+        if(type === 'refund'){
+            api('properties', 'properties_list', {'classification_id': '5'})
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({properties_id})=>properties_id));
+                    }
+                })
+        }
+
         if(type === 'period'){
             const arr = ['1주']
             for(let a = 1; a <= 36; a++){

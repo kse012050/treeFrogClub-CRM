@@ -22,158 +22,8 @@ export default function Update() {
             <Basic id={id} popup={popup} setPopup={setPopup}/>
 
             <Payment id={id} popup={popup} setPopup={setPopup}/>
-            {/* <DropBox title="결제 정보" arrow>
-                <form onClick={(e)=>e.preventDefault()}>
-                    <fieldset>
-                        <ul>
-                            <li>
-                                <label htmlFor="">매출 구분</label>
-                                <div>
-                                    <Select />
-                                </div>
-                            </li>
-                            <li className='fill-two'>
-                                <label htmlFor="">결제 구분</label>
-                                <div>
-                                    <input type="radio" />
-                                    <label htmlFor="">카드 결제</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">현금 결제</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">카드/현금 분할결제</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">실전 렌탈</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">초급 렌탈</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">고급 렌탈</label>
-                                </div>
-                            </li>
-                        </ul>
-                    </fieldset>
-                    <fieldset>
-                        <ul>
-                            <li>
-                                <label htmlFor="">결제금액</label>
-                                <div>
-                                    <input type="text" />
-                                </div>
-                            </li>
-                            <li>
-                                <label htmlFor="">결제일</label>
-                                <div>
-                                    <div>
-                                        <DatePicker onChange={onChange} />
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </fieldset>
-                    <fieldset>
-                        <ul>
-                            <li>
-                                <label htmlFor="">기간</label>
-                                <div>
-                                    <Select />
-                                </div>
-                            </li>
-                            <li>
-                                <label htmlFor="">유료 기간</label>
-                                <div>
-                                    <div>
-                                        <DatePicker onChange={onChange} />
-                                        <span>-</span>
-                                        <DatePicker onChange={onChange} />
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <label htmlFor="">유료 기간</label>
-                                <div>
-                                    <div>
-                                        <DatePicker onChange={onChange} />
-                                        <span>-</span>
-                                        <DatePicker onChange={onChange} />
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </fieldset>
-                    <fieldset>
-                        <ul>
-                            <li className='fill-three'>
-                                <label htmlFor="">신청 애널리스트</label>
-                                <div>
-                                    <input type="radio" />
-                                    <label htmlFor="">[소액투자반] 김최우</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">[소액투자반] 김최우</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">[소액투자반] 김최우</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">[소액투자반] 김최우</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">청개구리투자자문</label>
-                                </div>
-                            </li>
-                        </ul>
-                    </fieldset>
-                    <fieldset>
-                        <ul>
-                            <li className='fill-three'>
-                                <label htmlFor="">결제 특이사항</label>
-                                <div>
-                                    <textarea name="" id=""></textarea>
-                                </div>
-                            </li>
-                        </ul>
-                    </fieldset>
-                    <div>
-                        <input type="submit" value="결제" className='btn-point'/>
-                    </div>
-                </form>
-            </DropBox> */}
+          
             <History id={id}/>
-           
-
 
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
@@ -479,6 +329,7 @@ function History({ id }){
     const [updateInfo, setUpdateInfo] = useState()
 
     const [refundPopupActive, setRefundPopupActive] = useState()
+    const [updatePopupActive, setUpdatePopupActive] = useState()
 
     useEffect(()=>{
         api('payment','user_payment_list', inputs)
@@ -559,7 +410,7 @@ function History({ id }){
                                                 </time>
                                                 <div>
                                                     <button className='popup' onClick={()=>setRefundPopupActive({'type': 'children', 'id': data.payment_id})}>환불</button>
-                                                    <button className='popup'>수정</button>
+                                                    <button className='popup' onClick={()=>setUpdatePopupActive({'type': 'children', 'id': data.payment_id})}>수정</button>
                                                 </div>
                                             </li>
                                         ))}
@@ -598,16 +449,6 @@ function History({ id }){
                                         ))}
                                     </ol>
                                 }
-                                <ol className="board-center">
-                                    <li>
-                                        <span>123456</span>
-                                        <span>유료기간 (서비스기간 포함)</span>
-                                        <time>2023/10/01~2023/11/01</time>
-                                        <time>2023/10/01~2023/11/01</time>
-                                        <time>2023/10/01</time>
-                                        <span>홍길동</span>
-                                    </li>
-                                </ol>
                             </div>
                             <div className='board-pagination' data-styleidx='a'>
                                 <Pager pagerInfo={updateInfo} setInputs={setInputs}/>
@@ -623,6 +464,9 @@ function History({ id }){
             </DropBox>
             { refundPopupActive &&
                 <RefundPopup refundPopupActive={refundPopupActive} setRefundPopupActive={setRefundPopupActive}/>
+            }
+            { updatePopupActive &&
+                <UpdatePopup updatePopupActive={updatePopupActive} setUpdatePopupActive={setUpdatePopupActive}/>
             }
         </>
     )
@@ -731,8 +575,9 @@ function HistoryConsult(){
 }
 
 function RefundPopup({ refundPopupActive, setRefundPopupActive }){
-    const [inputs, setInputs] = useState()
+    const [inputs, setInputs] = useState({'payment_id': refundPopupActive.id})
     const [info, setInfo] = useState()
+    const [popup, setPopup] = useState()
 
     useEffect(()=>{
         api('payment', 'detail', {'payment_id': refundPopupActive.id})
@@ -748,121 +593,344 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
         setInputs((input)=>({...input, [name]: dateString}))
     };
 
-    return (
-        <Popup popup={refundPopupActive} setPopup={setRefundPopupActive}>
-            <div className="refundPopup">
-                <strong>환불</strong>
-                <b>결제 정보</b>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>신청 애널리스트</th>
-                            <th>매출 구분</th>
-                            <th>결제 구분</th>
-                            <th>결제일</th>
-                            <th>결제금액</th>
-                        </tr>
-                        <tr>
-                            <td>{ info?.product_name }</td>
-                            <td>{ info?.sales_properties_name }</td>
-                            <td>{ info?.payment_properties_name }</td>
-                            <td>{ info?.payment_date.replaceAll('-', '/') }</td>
-                            <td>{ info?.payment_price }</td>
-                        </tr>
-                        <tr>
-                            <th>기간</th>
-                            <th>유료기간 (결제기준)</th>
-                            <th>유료기간 (서비스기간 포함)</th>
-                        </tr>
-                        <tr>
-                            <td>{ info?.period }</td>
-                            <td>
-                                { info?.standard_payment_start_date.replaceAll('-', '/') }
-                                ~
-                                { info?.standard_payment_end_date.replaceAll('-', '/') }
-                            </td>
-                            <td>
-                                { info?.standard_service_start_date.replaceAll('-', '/') }
-                                ~
-                                { info?.standard_service_end_date.replaceAll('-', '/') }
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>결제 특이사항</th>
-                        </tr>
-                        <tr>
-                            <td>{ info?.memo || '없음' }</td>
-                        </tr>
-                    </tbody>
-                </table>
+    const onSubmit = (e) =>{
+        e.preventDefault()
+        // console.log(inputs);
+        api('payment', 'refund', inputs)
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        'confirmFunc': ()=>{
+                            setRefundPopupActive('')
+                        }
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
 
-                <form>
-                    <fieldset>
-                        <b>환불 처리</b>
-                        <ul>
-                            <li>
-                                <label htmlFor="">환불 구분</label>
-                                <div>
-                                    <input type="text" />
-                                </div>
-                            </li>
-                            <li>
-                                <label htmlFor="">환불일</label>
-                                <div>
-                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
-                                </div>
-                            </li>
-                            <li>
-                                <label htmlFor="">환불금액</label>
-                                <div>
-                                    <input type="text" />
-                                </div>
-                            </li>
-                        </ul>
-                        <ul className='settingArea' data-subText="*환불 금액에 따른 이용기간이 변경되는 경우 설정하세요.">
-                            <li>
-                                <label htmlFor="">기간</label>
-                                <div>
-                                    <input type="text" />
-                                </div>
-                            </li>
-                            <li>
-                                <label htmlFor="">유료 기간<span>결제기준</span></label>
-                                <div>
+    }
+
+    return (
+        <>
+            <Popup popup={refundPopupActive} setPopup={setRefundPopupActive}>
+                <div className="refundPopup">
+                    <strong>환불</strong>
+                    <b>결제 정보</b>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>신청 애널리스트</th>
+                                <th>매출 구분</th>
+                                <th>결제 구분</th>
+                                <th>결제일</th>
+                                <th>결제금액</th>
+                            </tr>
+                            <tr>
+                                <td>{ info?.product_name }</td>
+                                <td>{ info?.sales_properties_name }</td>
+                                <td>{ info?.payment_properties_name }</td>
+                                <td>{ info?.payment_date.replaceAll('-', '/') }</td>
+                                <td>{ info?.payment_price }</td>
+                            </tr>
+                            <tr>
+                                <th>기간</th>
+                                <th>유료기간 (결제기준)</th>
+                                <th>유료기간 (서비스기간 포함)</th>
+                            </tr>
+                            <tr>
+                                <td>{ info?.period }</td>
+                                <td>
+                                    { info?.standard_payment_start_date.replaceAll('-', '/') }
+                                    ~
+                                    { info?.standard_payment_end_date.replaceAll('-', '/') }
+                                </td>
+                                <td>
+                                    { info?.standard_service_start_date.replaceAll('-', '/') }
+                                    ~
+                                    { info?.standard_service_end_date.replaceAll('-', '/') }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>결제 특이사항</th>
+                            </tr>
+                            <tr>
+                                <td>{ info?.memo || '없음' }</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <form>
+                        <fieldset>
+                            <b>환불 처리</b>
+                            <ul>
+                                <li>
+                                    <label htmlFor="">환불 구분</label>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
-                                        <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        <Select type='refund' setInputs={setInputs} changeName='refund_properties_id'/>
                                     </div>
-                                </div>
-                            </li>
-                            <li>
-                                <label htmlFor="">유료 기간<span>서비스 기간 포함</span></label>
-                                <div>
+                                </li>
+                                <li>
+                                    <label htmlFor="">환불일</label>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
-                                        <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'refund_date')} format={'YYYY-MM-DD'}/>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li>
-                                <label htmlFor="">환불 특이사항</label>
-                                <div>
-                                    <textarea name="" id="" ></textarea>
-                                </div>
-                            </li>
-                        </ul>
-                    </fieldset>
-                    <div className="btnArea-end">
-                        <button type="button" className='btn-gray-white'>닫기</button>
-                        <input type="submit" value='저장' className='btn-point' />
-                    </div>
-                </form>
-            </div>
-        </Popup>
+                                </li>
+                                <li>
+                                    <label htmlFor="refund_price">환불금액</label>
+                                    <div>
+                                        <input type="text" name='refund_price' id='refund_price' data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul className='settingArea' data-subtext="*환불 금액에 따른 이용기간이 변경되는 경우 설정하세요.">
+                                <li>
+                                    <label htmlFor="">기간</label>
+                                    <div>
+                                        <Select type='period' setInputs={setInputs} changeName='period'/>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label htmlFor="">유료 기간<span>결제기준</span></label>
+                                    <div>
+                                        <div>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} format={'YYYY-MM-DD'}/>
+                                            <span>-</span>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} format={'YYYY-MM-DD'}/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label htmlFor="">유료 기간<span>서비스 기간 포함</span></label>
+                                    <div>
+                                        <div>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} format={'YYYY-MM-DD'}/>
+                                            <span>-</span>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} format={'YYYY-MM-DD'}/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <label htmlFor="memo">환불 특이사항</label>
+                                    <div>
+                                        <textarea name="memo" id="memo" onChange={(e)=>inputChange(e, setInputs)}></textarea>
+                                    </div>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <div className="btnArea-end">
+                            <button type="button" className='btn-gray-white' onClick={()=>setRefundPopupActive('')}>닫기</button>
+                            <input type="submit" value='저장' className='btn-point' onClick={onSubmit}/>
+                        </div>
+                    </form>
+                </div>
+            </Popup>
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
+        </>
+    )
+}
+
+function UpdatePopup({ updatePopupActive, setUpdatePopupActive }){
+    const [inputs, setInputs] = useState({'payment_id': updatePopupActive.id})
+    const [paymentList, setPaymentList] = useState()
+    const [analystList, setAnalystList] = useState()
+    const [popup, setPopup] = useState()
+
+    useEffect(()=>{
+        api('properties', 'properties_list', {'classification_id': '4'})
+            .then(({result, list})=>{
+                if(result){
+                    setPaymentList(list)
+                }
+            })
+
+        
+        api('user', 'analyst_list')
+            .then(({result, list})=>{
+                if(result){
+                    // console.log(list);
+                    setAnalystList(list)
+                }
+            })
+
+        api('payment', 'detail', inputs)
+            .then(({result, data})=>{
+                if(result){
+                    console.log(data);
+                    setInputs((input)=>({...input, ...data}))
+                }
+            })
+    },[])
+
+    const onDate = (dateString, name) => {
+        setInputs((input)=>({...input, [name]: dateString}))
+    };
+
+    const onSubmit = (e) =>{
+        e.preventDefault()
+        // console.log(inputs);
+        api('payment', 'update', inputs)
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        'confirmFunc': ()=>{
+                            setUpdatePopupActive('')
+                        }
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
+    }
+
+
+    return (
+        <>
+            <Popup popup={updatePopupActive} setPopup={setUpdatePopupActive}>
+                <div className='updatePopup'>
+                    <strong>수정</strong>
+                    <form>
+                        <fieldset>
+                            <ul>
+                                <li>
+                                    <label htmlFor="">매출 구분</label>
+                                    <div>
+                                        <Select type='sales' current={inputs?.sales_properties_id} setInputs={setInputs} changeName='sales_properties_id'/>
+                                    </div>
+                                </li>
+                                <li className='fill-two'>
+                                    <label htmlFor="">결제 구분</label>
+                                    { paymentList &&
+                                        <div>
+                                            { paymentList.map((data)=>(
+                                                <span key={data.properties_id}>
+                                                    <input type="radio" 
+                                                        name='payment_properties_id'
+                                                        id={`payment_properties_update_${data.properties_id}`} 
+                                                        defaultChecked={inputs.payment_properties_id === data.properties_id}
+                                                        value={data.properties_id} 
+                                                        onChange={(e)=>inputChange(e, setInputs)}
+                                                    />
+                                                    <label htmlFor={`payment_properties_update_${data.properties_id}`}>{ data.name }</label>
+                                                </span>
+                                            ))}
+                                        </div>
+                                    }
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset>
+                            <ul>
+                                <li>
+                                    <label htmlFor="payment_price">결제금액</label>
+                                    <div>
+                                        <input type="text" name='payment_price' id='payment_price' data-formet="numb" defaultValue={inputs.payment_price} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label htmlFor="">결제일</label>
+                                    <div>
+                                        <div>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} value={dayjs(inputs?.payment_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset>
+                            <ul>
+                                <li>
+                                    <label htmlFor="">기간</label>
+                                    <div>
+                                        <Select type='period' setInputs={setInputs} current={inputs?.period} changeName='period'/>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label htmlFor="">유료 기간<span>결제기준</span></label>
+                                    <div>
+                                        <div>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} value={dayjs(inputs?.standard_payment_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                            <span>-</span>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} value={dayjs(inputs?.standard_payment_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label htmlFor="">유료 기간<span>서비스기간 포함</span></label>
+                                    <div>
+                                        <div>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} value={dayjs(inputs?.standard_service_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                            <span>-</span>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} value={dayjs(inputs?.standard_service_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset>
+                            <ul>
+                                <li className='fill-three'>
+                                    <label htmlFor="">신청 애널리스트</label>
+                                    { analystList &&
+                                        <div>
+                                            { analystList.map((data)=>(
+                                                <span key={data.admin_id}>
+                                                    <input type="radio" 
+                                                        name='product_id'
+                                                        id={`product_update_${data.admin_id}`}
+                                                        defaultChecked={inputs?.product_id === data.product_id}
+                                                        value={data.admin_id}
+                                                        onChange={(e)=>inputChange(e, setInputs)}
+                                                    />
+                                                    <label htmlFor={`product_update_${data.admin_id}`}>
+                                                        { data.department_name && `[${data.department_name}]`}
+                                                        { data.name }
+                                                    </label>
+                                                </span>
+                                            ))}
+                                        </div>
+                                    }
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <fieldset>
+                            <ul>
+                                <li className='fill-three'>
+                                    <label htmlFor="memo">결제 특이사항</label>
+                                    <div>
+                                        <textarea name='memo' id='memo' onChange={(e)=>inputChange(e, setInputs)}></textarea>
+                                    </div>
+                                </li>
+                            </ul>
+                        </fieldset>
+                        <div className='btnArea-end'>
+                            <input type="submit" value="저장" className='btn-point' 
+                                onClick={onSubmit}
+                            />
+                        </div>
+                    </form>
+                </div>
+            </Popup>
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
+        </>
     )
 }
 
