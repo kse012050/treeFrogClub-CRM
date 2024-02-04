@@ -14,8 +14,8 @@ export default function Sales() {
                 <hr className='case02'/>
                 {/* 검색 결과 */}
                 {/* <b>[테마주 홈페이지 랜딩] 사용자별 매출현황</b> */}
-                <Select name={'year'} />
-                <Select name={'month'} />
+                <Select type={'year'} />
+                <Select type={'month'} />
                 <div className='board-search'>
                     <input type="search" placeholder='캠페인명'/>
                     <button>검색</button>

@@ -6,6 +6,7 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
     const [popup, setPopup] = useState('')
     const popupFunc = () =>{
         if(deleteList.length){
+            // console.log(deleteList);
             const confirmPopupMessage = {
                 'type': 'confirm',
                 'title': '완료',

@@ -238,8 +238,8 @@ export default function List() {
                 <b className='choice'>1</b>
                 <Select />
                 <Select />
-                <button className='btn-gray-black boundary'>선택 변경</button>
-                <button className='btn-gray-black'>선택 삭제</button>
+                <button className='btn-gray-black'>선택 변경</button>
+                <button className='btn-gray-black boundary'>선택 삭제</button>
                 <button className='btn-gray-black'>선택 수신거부</button>
                 <div className="board-top">
                     <div>
@@ -280,7 +280,7 @@ export default function List() {
                 </ol>
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select name="pageCount"/>
+                    <Select type="pagerCount"/>
                     <Link to={''}>첫 페이지</Link>
                     <Link to={''}>이전 페이지</Link>
                     <ol>

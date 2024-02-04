@@ -78,6 +78,21 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
         }
         // 시스템 관리 - 기본 설정 - 공통 코드 fin
 
+        
+        // 시스템 관리 - 권한 설정 - 역할 권한 권리
+        if(type === 'moduleCategory'){
+            api('module', 'category')
+                .then(({result, list})=>{
+                    if(result){
+                        // console.log(list);
+                        setName(list.map(({module_category})=>module_category));
+                        setValue(list.map(({module_category})=>module_category));
+                        // setValue(list.map(({module_id})=>module_id));
+                    }
+                })
+        }
+        // 시스템 관리 - 권한 설정 - 역할 권한 권리 fin
+
         if(type === 'clientGrade'){
             setName(['무료', '유료']);
             setValue(['무료', '유료']);

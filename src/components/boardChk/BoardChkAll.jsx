@@ -12,7 +12,7 @@ export default function BoardChkAll({ deleteList, setDeleteList, list }) {
     }
     return (
         <div>
-            <input type="checkbox" id='allChecked' onChange={allChecked} checked={list?.length === deleteList?.length}/>
+            <input type="checkbox" id='allChecked' onChange={allChecked} checked={list?.length === deleteList?.length && list.length}/>
             <label htmlFor="allChecked"></label>
         </div>
     );
