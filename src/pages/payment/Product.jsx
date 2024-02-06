@@ -7,14 +7,25 @@ import { api } from '../../api/api';
 import BoardChk from '../../components/boardChk/BoardChk';
 import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
+import { inputChange } from '../../api/validation';
+import Popup from '../../components/popup/Popup';
 
 export default function Product() {
-    const [inputs, setInputs] = useState()
+    // const [inputs, setInputs] = useState()
     const [boardList, setBoardList] = useState()
-
+    const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'});
+    const [analyst, setAnalyst] = useState()
+    const [popup, setPopup] = useState()
+    
     const onSearch = (e) =>{
         e.preventDefault();
-        console.log(inputs);
+        console.log(searchInputs);
+        api('product', 'list', searchInputs)
+            .then(({result, list})=>{
+                if(result){
+                    setBoardList(list)
+                }
+            })
     }
 
     return (
@@ -30,33 +41,45 @@ export default function Product() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">상품코드</label>
+                                <label htmlFor="product_code">상품코드</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='product_code' id='product_code' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">상품명</label>
+                                <label htmlFor="product_name">상품명</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='product_name' id='product_name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">애널리스트</label>
+                                <label htmlFor="analyst_admin_id" className='required'>애널리스트</label>
                                 <div>
-                                    <input type="search" />
+                                    <input 
+                                        type="search" 
+                                        value={analyst || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'analyst',
+                                            'func': (data)=>{
+                                                setSearchInputs((input)=>({...input, 'analyst_admin_id': data.admin_id}))
+                                                setAnalyst(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">결제시 고객구분</label>
                                 <div>
-                                    <Select type={'customer'} changeName='customer_properties_id' setInputs={setInputs}/>
+                                    <Select type={'customer'} changeName='customer_properties_id' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>
-                                <label htmlFor="">비고</label>
+                                <label htmlFor="memo">비고</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='memo' id='memo' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                         </ul>
@@ -69,6 +92,11 @@ export default function Product() {
             </DropBox>
             
             <Board boardList={boardList} setBoardList={setBoardList}/>
+
+            
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
         </>
     );
 }

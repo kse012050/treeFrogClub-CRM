@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../api/api';
+import PagerButton from '../PagerButton';
 // import Pager from '../Pager';
 
 export default function PopupAnalyst({ close, func }) {
     // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
     const [analystList, setAnalystList] = useState()
-    // const [pagerInfo, setPagerInfo] = useState()
+    const [pagerInfo, setPagerInfo] = useState()
 
     useEffect(()=>{
         api('user', 'analyst_list')
-            .then(({result,/*  data, */ list})=>{
+            .then(({result, data, list})=>{
                 if(result){
-                    // setPagerInfo(data)
+                    setPagerInfo(data)
                     setAnalystList(list)
                 }
             })
@@ -47,15 +49,16 @@ export default function PopupAnalyst({ close, func }) {
                                 <span>{ data.id }</span>
                                 <span>{ data.department_name }</span>
                                 <span>직위</span>
-                                <button onClick={()=>analystSelect(data)}>선택</button>
+                                <button onClick={()=>analystSelect(data)} className='point'>선택</button>
                             </li>
                         ))}
                     </ol>
                 }
 
-                {/* <div className='board-pagination' data-styleidx='a'>
-                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                </div> */}
+                <div className='board-pagination' data-styleidx='a'>
+                    {/* <Pager pagerInfo={pagerInfo} setInputs={setInputs}/> */}
+                    <PagerButton pagerInfo={pagerInfo} setInputs={setListInfo}/>
+                </div>
             </div>
         </>
     );
