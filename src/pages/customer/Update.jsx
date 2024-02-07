@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../api/api';
 import { inputChange } from '../../api/validation';
@@ -12,6 +12,20 @@ import Pager from '../../components/Pager';
 export default function Update() {
     const [popup, setPopup] = useState()
     const { id } = useParams()
+    const [paymentInfo, setPaymentInfo] = useState()
+    const [historyPayment, setHistoryPayment] = useState()
+
+    const historyPaymentFunc = useCallback((inputs)=>{
+        api('payment','user_payment_list', inputs)
+            .then(({result, data, list})=>{
+                if(result){
+                    setPaymentInfo(data)
+                    setHistoryPayment(list)
+                    // console.log(data);
+                }
+            })
+    },[])
+
     return (
         <>
             <h2>
@@ -21,9 +35,9 @@ export default function Update() {
 
             <Basic id={id} popup={popup} setPopup={setPopup}/>
 
-            <Payment id={id} popup={popup} setPopup={setPopup}/>
+            <Payment id={id} popup={popup} setPopup={setPopup} historyPaymentFunc={historyPaymentFunc}/>
           
-            <History id={id}/>
+            <History id={id} paymentInfo={paymentInfo} historyPayment={historyPayment} historyPaymentFunc={historyPaymentFunc}/>
 
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
@@ -151,7 +165,7 @@ function Basic({ id, setPopup }){
 }
 
 
-function Payment({ id, setPopup }){
+function Payment({ id, historyPaymentFunc, setPopup }){
     const [inputs, setInputs] = useState({ 'customer_id': id })
     const [paymentList, setPaymentList] = useState()
     const [analystList, setAnalystList] = useState()
@@ -188,6 +202,9 @@ function Payment({ id, setPopup }){
                     setPopup((popup)=>({
                         ...popup,
                         'title': '완료',
+                        confirmFunc: () => {
+                            historyPaymentFunc({'limit': '10', 'page': '1', 'customer_id': id})
+                        }
                     }))
                 }else{
                     setPopup((popup)=>({
@@ -320,28 +337,15 @@ function Payment({ id, setPopup }){
     )
 }
 
-function History({ id }){
+function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
     const [relatedActive, setRelatedActive] = useState(0);
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id});
-    const [paymentInfo, setPaymentInfo] = useState()
-    const [historyPayment, setHistoryPayment] = useState()
     const [historyUpdata, setHistoryUpdata] = useState()
     const [updateInfo, setUpdateInfo] = useState()
-
     const [refundPopupActive, setRefundPopupActive] = useState()
     const [updatePopupActive, setUpdatePopupActive] = useState()
 
-    useEffect(()=>{
-        api('payment','user_payment_list', inputs)
-            .then(({result, data, list})=>{
-                if(result){
-                    setPaymentInfo(data)
-                    setHistoryPayment(list)
-                    // console.log(data);
-                }
-            })
-        
-        
+    const historyUpdateFunc = useCallback(()=>{
         api('payment','user_payment_history_list', inputs)
             .then(({result, data, list})=>{
                 if(result){
@@ -352,6 +356,11 @@ function History({ id }){
             })
     },[inputs])
 
+    useEffect(()=>{
+        historyPaymentFunc(inputs)
+        historyUpdateFunc(inputs)
+    },[inputs, historyPaymentFunc, historyUpdateFunc])
+
     return(
         <>
             <DropBox title="관련 정보" arrow>
@@ -360,8 +369,6 @@ function History({ id }){
                     <button data-count={paymentInfo?.total_count} className={relatedActive === 1 ? 'active' : ''} onClick={()=>setRelatedActive(1)}>결제내역</button>
                     <button data-count={updateInfo?.total_count} className={relatedActive === 2 ? 'active' : ''} onClick={()=>setRelatedActive(2)}>결제수정내역</button>
                     <button data-count="0" className={relatedActive === 3 ? 'active' : ''} onClick={()=>setRelatedActive(3)}>삭제된 결제내역</button>
-                    {/* <b className='total'>123</b>
-                    <span className='page'>1/10</span> */}
 
                     {relatedActive === 0 &&
                         <HistoryConsult />
@@ -466,7 +473,7 @@ function History({ id }){
                 <RefundPopup refundPopupActive={refundPopupActive} setRefundPopupActive={setRefundPopupActive}/>
             }
             { updatePopupActive &&
-                <UpdatePopup updatePopupActive={updatePopupActive} setUpdatePopupActive={setUpdatePopupActive}/>
+                <UpdatePopup updatePopupActive={updatePopupActive} setUpdatePopupActive={setUpdatePopupActive} historyUpdateFunc={historyUpdateFunc}/>
             }
         </>
     )
@@ -740,7 +747,7 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
     )
 }
 
-function UpdatePopup({ updatePopupActive, setUpdatePopupActive }){
+function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFunc }){
     const [inputs, setInputs] = useState({'payment_id': updatePopupActive.id})
     const [paymentList, setPaymentList] = useState()
     const [analystList, setAnalystList] = useState()
@@ -766,6 +773,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive }){
         api('payment', 'detail', inputs)
             .then(({result, data})=>{
                 if(result){
+                    // console.log(data);
                     setInputs((input)=>({...input, ...data}))
                 }
             })
@@ -787,6 +795,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive }){
                         'title': '완료',
                         'confirmFunc': ()=>{
                             setUpdatePopupActive('')
+                            historyUpdateFunc({'limit': '10', 'page': '1', 'customer_id': updatePopupActive.id})
                         }
                     }))
                 }else{
@@ -893,7 +902,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive }){
                                                     <input type="radio" 
                                                         name='product_id'
                                                         id={`product_update_${data.admin_id}`}
-                                                        defaultChecked={inputs?.product_id === data.product_id}
+                                                        defaultChecked={inputs?.product_id === data.admin_id}
                                                         value={data.admin_id}
                                                         onChange={(e)=>inputChange(e, setInputs)}
                                                     />
@@ -913,7 +922,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive }){
                                 <li className='fill-three'>
                                     <label htmlFor="memo">결제 특이사항</label>
                                     <div>
-                                        <textarea name='memo' id='memo' onChange={(e)=>inputChange(e, setInputs)}></textarea>
+                                        <textarea name='memo' id='memo' defaultValue={inputs.memo} onChange={(e)=>inputChange(e, setInputs)}></textarea>
                                     </div>
                                 </li>
                             </ul>

@@ -46,7 +46,7 @@ export default function Root({ children }) {
                         </Link>
                         고객 DB 관리 시스템
                     </h1>
-                    <strong>[영업1팀] 홍길동</strong>
+                    <strong>{user?.department_info && `[${user.department_info.name}]`} {user?.name}</strong>
                     {/* <Link to="">정보변경</Link> */}
                     <button onClick={()=> setPopup({'type': 'newPassword'})}>정보변경</button>
                     <button onClick={logout}>로그아웃</button>
