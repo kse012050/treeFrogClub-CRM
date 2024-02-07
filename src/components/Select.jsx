@@ -200,6 +200,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
     }
 
     useEffect(()=>{
+        console.log('?');
         if(current && name && value){
             if(typeof(current) === 'string'){
                 setSelect(name[value.indexOf(current)])
@@ -209,6 +210,11 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                 setInputs((input)=>({...input, [changeName]: value[0]}))
                 setSelect(name[0])
             }
+        }
+        // 초기화
+        if(!current && name && value){
+            setInputs((input)=>({...input, [changeName]: ''}))
+            setSelect('')
         }
     },[current, name, value, changeName, setInputs])
 

@@ -16,6 +16,11 @@ export default function Product() {
     const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'});
     const [analyst, setAnalyst] = useState()
     const [popup, setPopup] = useState()
+
+    const onReset = () => {
+        setAnalyst()
+        setSearchInputs((input)=>({...input, 'customer_properties_id': false}))
+    }
     
     const onSearch = (e) =>{
         e.preventDefault();
@@ -37,7 +42,7 @@ export default function Product() {
 
             
             <DropBox title="검색 항목" arrow>
-                <form onClick={(e)=>e.preventDefault()}>
+                <form>
                     <fieldset>
                         <ul>
                             <li>
@@ -73,7 +78,7 @@ export default function Product() {
                             <li>
                                 <label htmlFor="">결제시 고객구분</label>
                                 <div>
-                                    <Select type={'customer'} changeName='customer_properties_id' setInputs={setSearchInputs}/>
+                                    <Select type={'customer'} changeName='customer_properties_id' current={searchInputs?.customer_properties_id} setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>
@@ -85,7 +90,7 @@ export default function Product() {
                         </ul>
                     </fieldset>
                     <div>
-                        <input type="reset" value="초기화" className='btn-gray-white'/>
+                        <input type="reset" value="초기화" className='btn-gray-white' onClick={onReset}/>
                         <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
