@@ -19,7 +19,7 @@ export default function Product() {
     
     const onSearch = (e) =>{
         e.preventDefault();
-        console.log(searchInputs);
+        // console.log(searchInputs);
         api('product', 'list', searchInputs)
             .then(({result, list})=>{
                 if(result){
