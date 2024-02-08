@@ -68,8 +68,7 @@ export function apiFile(url, type, data, name){
     }
     
     return fetch(`${apiUrl}${url}`, options)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+        .then(response => response.json())
+        .catch(error => console.log('error', error));
 }
 

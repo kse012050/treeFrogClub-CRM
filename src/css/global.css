@@ -365,7 +365,7 @@ ol.bulkBox > li:nth-child(3) > div{text-align: center;}
 ol.bulkBox > li:nth-child(3) > div p{font-size: 20px; line-height: 24px; font-weight: 400; margin-bottom: 10px;}
 ol.bulkBox > li:nth-child(3) > div > mark{font-weight: 700;}
 ol.bulkBox > li:nth-child(3) > div > mark::before{content: '('; color: var(--color-font03);}
-ol.bulkBox > li:nth-child(3) > div > mark::after{content: '총' attr(data-total) '건)'; color: var(--color-font03);}
+ol.bulkBox > li:nth-child(3) > div > mark::after{content: '/' attr(data-total) ')'; color: var(--color-font03);}
 ol.bulkBox > li:nth-child(3) > div dl{display: flex; justify-content: center; align-items: center;}
 ol.bulkBox > li:nth-child(3) > div dl dt{display: flex; align-items: center;}
 ol.bulkBox > li:nth-child(3) > div dl dt::after{content: ':'; margin-inline: 0.4em;}

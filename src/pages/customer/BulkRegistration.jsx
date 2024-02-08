@@ -6,6 +6,7 @@ export default function BulkRegistration() {
     // const [inputs, setInputs] = useState()
     const [formetUrl, setFormetUrl] = useState()
     const [fileName, setFileName] = useState()
+    const [finMessage, setFinMessage] = useState()
 
     useEffect(()=>{
         api('customer', 'format_download')
@@ -21,8 +22,10 @@ export default function BulkRegistration() {
         // console.log(e);
         // setInputs({'upload_file': e.target.files[0]})
         apiFile('excel', 'customer_excel_upload', {'upload_file': e.target.files[0]})
-            .then((result)=>{
-                console.log(result);
+            .then(({result, error_message})=>{
+                if(result){
+                    setFinMessage(error_message.match(/(\d+건 완료)\/(총 \d+건)/))
+                }
             })
     }
 
@@ -59,13 +62,15 @@ export default function BulkRegistration() {
                         <p>유료회원 중 서비스이용기간이 끝나지 않은 고객은 상담정보 이관되지 않습니다</p>
                     </div>
                 </li>
-                {/* <li>
-                    <b>결과</b>
-                    <div>
-                        <p>등록이 완료되었습니다.</p>
-                        <mark data-total="50">50건 완료</mark>
-                    </div>
-                </li> */}
+                { finMessage && 
+                    <li>
+                        <b onClick={()=>console.log(finMessage)}>결과</b>
+                        <div>
+                            <p>등록이 완료되었습니다.</p>
+                            <mark data-total={finMessage[2]}>{ finMessage[1] }</mark>
+                        </div>
+                    </li>
+                }
             </ol>
         </>
     );
