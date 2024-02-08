@@ -140,7 +140,7 @@ function Basic({ id, setPopup }){
                                 <label htmlFor="">체험 기간</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} format={'YYYY-MM-DD'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                         <span>-</span>
                                         <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                     </div>
@@ -594,7 +594,7 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
                     setInfo(data)
                 }
             })
-    },[])
+    },[refundPopupActive.id])
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
@@ -777,7 +777,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                     setInputs((input)=>({...input, ...data}))
                 }
             })
-    },[])
+    },[inputs])
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))

@@ -19,7 +19,7 @@ export default function Product() {
 
     const onReset = () => {
         setAnalyst()
-        setSearchInputs((input)=>({...input, 'customer_properties_id': false}))
+        setSearchInputs({'limit': '10', 'page': '1'})
     }
     
     const onSearch = (e) =>{
@@ -78,7 +78,7 @@ export default function Product() {
                             <li>
                                 <label htmlFor="">결제시 고객구분</label>
                                 <div>
-                                    <Select type={'customer'} changeName='customer_properties_id' current={searchInputs?.customer_properties_id} setInputs={setSearchInputs}/>
+                                    <Select type={'customer'} changeName='customer_properties_id' current={searchInputs?.customer_properties_id || false} setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>

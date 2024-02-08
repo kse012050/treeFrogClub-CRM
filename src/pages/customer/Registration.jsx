@@ -43,13 +43,13 @@ export default function Registration() {
         e.preventDefault();
         // console.log(inputs);
         api('customer', 'insert', inputs)
-            .then(({result, error_message})=>{
+            .then(({result, error_message, data: {customer_id}})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
                     setPopup((popup)=>({
                         ...popup,
                         'title': '완료',
-                        // 'link': '/payment/product'
+                        'link': `update/${customer_id}`
                     }))
                 }else{
                     setPopup((popup)=>({

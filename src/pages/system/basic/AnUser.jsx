@@ -28,6 +28,7 @@ export default function AnUser() {
     }
 
     const onReset = ()=>{
+        setBureau()
         setSearchInputs({'limit': '10', 'page': '1'})
     }
 
@@ -81,12 +82,12 @@ export default function AnUser() {
                             <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
-                                    <Select type={'use'} current={searchInputs?.useable_yn} changeName='useable_yn' setInputs={setSearchInputs}/>
+                                    <Select type={'use'} current={searchInputs?.useable_yn || false} changeName='useable_yn' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">사용자 구분</label>
-                                    <div><Select type={'userDivision'} current={searchInputs?.type} changeName='type' setInputs={setSearchInputs}/>
+                                    <div><Select type={'userDivision'} current={searchInputs?.type || false} changeName='type' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                         </ul>

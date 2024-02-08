@@ -81,7 +81,7 @@ function PropertyDivision() {
                             <li key={properties_id}>
                                 <BoardChk id={properties_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ name }</span>
-                                <button className="popup" onClick={()=>setPopup({'type': `properties_update`, 'id': properties_id})}>수정</button>
+                                <button className="popup" onClick={()=>setPopup({'type': `properties_update`, 'value': name, 'id': properties_id})}>수정</button>
                             </li>
                         ))}
                     </ol>

@@ -21,14 +21,14 @@ export default function BureauRegistration({ data, inputs, setInputs, changeName
                 { data.lower_department_count === '0' ?
                     <button 
                         type='button' 
-                        onClick={()=>setInputs(data)}
+                        onClick={()=>setInputs((input)=>({...input, 'department_id': data.department_id}))}
                         className={inputs[changeName] === data.department_id ? 'active' : ''}
                         >
                             {data.name} ({data.depth})
                     </button> :
                     <details>
                         <summary
-                            onClick={()=>setInputs(data)}
+                            onClick={()=>setInputs((input)=>({...input, 'department_id': data.department_id}))}
                             className={inputs[changeName] === data.department_id ? 'active' : ''}
                         >
                             {data.name} ({data.depth})

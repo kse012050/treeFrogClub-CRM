@@ -88,6 +88,7 @@ function BureauRegistration({ bureauRegistrationPopup, setBureauRegistrationPopu
 
     const onSubmit = (e) =>{
         e.preventDefault();
+        // console.log(inputs);
         inputs.parent_department_id = inputs.department_id
         delete inputs.department_id
         api('department', 'insert', inputs)
@@ -137,7 +138,7 @@ function BureauRegistration({ bureauRegistrationPopup, setBureauRegistrationPopu
                                         <div className="addBtn">
                                             <b>부서장 선택</b>
                                             <span>(최대 6명)</span>
-                                            <button className='btn-gray-black'>찾기</button>
+                                            <button className='btn-gray-black' onClick={(e)=>e.preventDefault()}>찾기</button>
                                         </div>
                                     </BureauBox>
                                 </li>
@@ -169,6 +170,7 @@ function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, parentsInputs, 
 
     const onSubmit = (e) =>{
         e.preventDefault();
+        // console.log(inputs);
         api('department', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -216,7 +218,7 @@ function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, parentsInputs, 
                                         <div className="addBtn">
                                             <b>부서장 선택</b>
                                             <span>(최대 6명)</span>
-                                            <button className='btn-gray-black'>찾기</button>
+                                            <button className='btn-gray-black' onClick={(e)=>e.preventDefault()}>찾기</button>
                                         </div>
                                     </BureauBox>
                                 </li>

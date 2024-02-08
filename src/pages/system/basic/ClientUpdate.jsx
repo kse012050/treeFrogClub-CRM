@@ -143,6 +143,12 @@ export default function ClientUpdate() {
                                 </div>
                             </li>
                             <li>
+                                <label htmlFor="order_number" className='required'>코드명</label>
+                                <div>
+                                    <input type="text" id='order_number' name='order_number' defaultValue={inputs?.order_number} onChange={(e)=>inputChange(e, setInputs)} />
+                                </div>
+                            </li>
+                            <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
                                     <Select type='yn' current={inputs?.useable_yn} changeName='useable_yn' setInputs={setInputs}/>

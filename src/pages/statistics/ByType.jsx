@@ -6,8 +6,8 @@ export default function ByType() {
     return (
         <div className='boardBox'>
             <strong>청개구리투자그룹 &gt; 계정별 유효율</strong>
-            <Select name={'year'} />
-            <Select name={'month'} />
+            <Select type={'year'} />
+            <Select type={'month'} />
             <hr className='case02'/>
             <b className='total'>5</b>
 

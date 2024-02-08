@@ -9,7 +9,7 @@ import Popup from '../../../components/popup/Popup';
 
 export default function ClientRegistration() {
     // order_number 없어야 하는데 api에 있어서 일단 추가
-    const [inputs, setInputs] = useState({'order_number': '1'})
+    const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState('')
     const [bgColor, setBgColor] = useState('#000000')
     const [fontColor, setFontColor] = useState('#000000')
@@ -132,6 +132,12 @@ export default function ClientRegistration() {
                                 </div>
                             </li>
                             <li>
+                                <label htmlFor="order_number" className='required'>코드명</label>
+                                <div>
+                                    <input type="text" id='order_number' name='order_number' onChange={(e)=>inputChange(e, setInputs)} />
+                                </div>
+                            </li>
+                            <li>
                                 <label htmlFor="">사용여부</label>
                                 <div>
                                     <Select type='yn' changeName='useable_yn' setInputs={setInputs} current/>
@@ -140,7 +146,7 @@ export default function ClientRegistration() {
                         </ul>
                     </fieldset>
                     <div>
-                        <Link to={''} className='btn-gray-white'>목록</Link>
+                        <Link to={'/system/basic/client'} className='btn-gray-white'>목록</Link>
                         <input type="submit" value="저장" className='btn-point' onClick={onSubmit}/>
                     </div>
                 </form>

@@ -58,7 +58,7 @@ export default function AnUserUpdate() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log(inputs);
+        // console.log(inputs);
         api('user', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

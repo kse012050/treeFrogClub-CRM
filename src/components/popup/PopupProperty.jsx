@@ -39,7 +39,7 @@ function PopupProperty({ popup, close }) {
             <b>구분값</b>
             <form>
                 <fieldset>
-                    <input type="text" name='name' onChange={(e)=>inputChange(e, setInputs)}/>
+                    <input type="text" name='name' defaultValue={type === 'update' ? popup.value : ''} onChange={(e)=>inputChange(e, setInputs)}/>
                     <div className='btnArea-end'>
                         { type === 'update' && <button className='btn-gray-white' type="button" onClick={close}>취소</button> }
                         <input type="submit" className='btn-point' onClick={onSubmit} value={
