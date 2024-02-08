@@ -13,7 +13,7 @@ export default function Customer() {
         api('constant', 'combine_customer_setting_info')
             .then(({result, data})=>{
                 if(result){
-                    console.log(data);
+                    // console.log(data);
                     if(data.auto_collection_yn === 'n'){
                         delete data.auto_collection_date
                         delete data.auto_collection_admin_id

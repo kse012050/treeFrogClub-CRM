@@ -132,7 +132,7 @@ export default function ClientRegistration() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="order_number" className='required'>코드명</label>
+                                <label htmlFor="order_number" className='required'>정렬 순서</label>
                                 <div>
                                     <input type="text" id='order_number' name='order_number' onChange={(e)=>inputChange(e, setInputs)} />
                                 </div>

@@ -7,12 +7,18 @@ import { api, logout } from '../api/api.js';
 import Popup from '../components/popup/Popup.jsx';
 
 export default function Root({ children }) {
+    const location = useLocation().pathname;
     const pageName = useLocation().pathname.slice(1).split('/');
     const navigate = useNavigate();
     const [user, setUser] = useState()
     const [company, setCompany] = useState()
     const [popup, setPopup] = useState()
     const { id } = useParams();
+
+    
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, [location]);
 
     useEffect(()=>{
         api('profile', 'detail')

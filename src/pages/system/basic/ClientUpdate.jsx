@@ -115,7 +115,7 @@ export default function ClientUpdate() {
                             <li>
                                 <label htmlFor="name" className='required'>코드명</label>
                                 <div>
-                                    <input type="text" id='name' name='name' defaultValue={inputs?.code} onChange={(e)=>inputChange(e, setInputs)} />
+                                    <input type="text" id='name' name='name' defaultValue={inputs?.name} onChange={(e)=>inputChange(e, setInputs)} />
                                 </div>
                             </li>
                             <li>
@@ -143,7 +143,7 @@ export default function ClientUpdate() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="order_number" className='required'>코드명</label>
+                                <label htmlFor="order_number" className='required'>정렬 순서</label>
                                 <div>
                                     <input type="text" id='order_number' name='order_number' defaultValue={inputs?.order_number} onChange={(e)=>inputChange(e, setInputs)} />
                                 </div>

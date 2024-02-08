@@ -165,7 +165,7 @@ function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, parentsInputs, 
     const [popup, setPopup] = useState()
 
     useEffect(()=>{
-        setInputs(parentsInputs)
+        setInputs({...parentsInputs, 'order_number': '1'})
     },[parentsInputs])
 
     const onSubmit = (e) =>{

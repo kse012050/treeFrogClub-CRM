@@ -116,7 +116,7 @@
 .customerPage.listPage .boardBox ul li:nth-child(5):before{background-color: #74CBCA;}
 .customerPage.listPage .boardBox ul li:nth-child(6):before{background-color: #79C0FC;}
 .customerPage.listPage .boardBox ul li:nth-child(7):before{background-color: #BF9DFC;}
-:where(.customerPage.listPage .boardBox .btn-gray-black){margin-left: 7px;}
+.customerPage.listPage .boardBox .btn-gray-black:not(.boundary){margin-left: 7px;}
 .customerPage.listPage .boardBox .selectBox{max-width: 130px;}
 .customerPage.listPage .boardBox .selectBox:has(+ .selectBox){margin-right: 7px;}
 /* .customerPage.listPage .boardBox .board-top{margin-top: 12px;} */
@@ -174,6 +174,10 @@
 .customerPage.updatePage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 540;}
 .customerPage.updatePage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 130;}
 .customerPage.updatePage .boardBox .board-scroll4 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 120;}
+
+
+/* 통합 DB 관리 - 고객 등록 - 대량 고객 등록*/
+.customerPage.bulkPage input[type="text"]{background-color: white;}
 
 
 /* 결제 관리 - 목록 */
@@ -269,7 +273,8 @@
 
 
 /* 시스템 관리 - 기본 설정 - 부서 관리 */
-.systemPage.bureauPage .horizontalTwo .bureauBox .addBtn{margin-inline: 20px; padding-block: 15px; display: flex; gap: 7px; margin-top: 10px; border-top: 1px solid var(--color-line);}
+.systemPage.bureauPage .addBtn{display: flex;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .addBtn{margin-inline: 20px; padding-block: 15px; gap: 7px; margin-top: 10px; border-top: 1px solid var(--color-line);}
 .systemPage.bureauPage .horizontalTwo .bureauBox .addBtn button{flex: 1;}
 .systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul{max-height: 350px;}
 .systemPage.bureauPage [class*="bureau"] fieldset > strong{font-size: 15px; line-height: 18px; font-weight: 700; display: block; margin-bottom: 30px;}
@@ -277,7 +282,7 @@
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li label{font-weight: 700;}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > div{margin-top: 10px;}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .listArea ul{max-height: 170px;}
-.systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .addBtn{align-items: center; padding-block: 10px; margin-top: 0; border-top: 1px solid var(--color-line);}
+.systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .addBtn{align-items: center; gap: 10px; padding-block: 10px; margin-top: 0; border-top: 1px solid var(--color-line);}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .addBtn button{margin-left: auto;}
 
 
