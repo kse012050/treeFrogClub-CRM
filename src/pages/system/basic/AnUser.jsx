@@ -145,7 +145,7 @@ function Board({ boardList, setBoardList }){
                 <BoardChkDelete url='user' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
                 
                 <div className="board-top">
-                    <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
+                    <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({admin_id})=>admin_id)} />
                     <button>회원사명</button>
                     <button>아이디</button>
                     <button>사용자명</button>

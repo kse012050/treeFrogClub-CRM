@@ -17,6 +17,16 @@ function SelectBoard({type, current, setInputs, changeName, disabled}) {
             setName(['전체', '부서', '본인'])
             setValue(['all', 'department', 'me'])
         }
+        
+        if(type === 'sales'){
+            api('user', 'list')
+                .then(({result, data, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({admin_id})=>admin_id));
+                    }
+                })
+        }
         document.querySelector('body').addEventListener('click',bodyClick)
         return () => {
             // console.log('select 바디 클릭 종료');

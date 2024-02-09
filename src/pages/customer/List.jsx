@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
+import { api } from '../../api/api';
+import SelectBoard from '../../components/SelectBoard';
+import BoardChkAll from '../../components/boardChk/BoardChkAll';
+import BoardChk from '../../components/boardChk/BoardChk';
 
 const onChange = (date, dateString) => {
     console.log(date, dateString);
 };
 
 export default function List() {
+    const [inputs, setInputs] = useState({'limit' : '10', 'page': '1'})
+    const [boardList, setBoardList] = useState()
+    const [deleteList, setDeleteList] = useState('')
+
+    useEffect(()=>{
+        api('customer', 'list', inputs)
+            .then(({result, data, list})=>{
+                if(result){
+                    setBoardList(list)
+                }
+            })
+    },[])
+
     return (
         <>
             <h2>
@@ -242,10 +259,7 @@ export default function List() {
                 <button className='btn-gray-black boundary'>선택 삭제</button>
                 <button className='btn-gray-black'>선택 수신거부</button>
                 <div className="board-top">
-                    <div>
-                        <input type="checkbox" />
-                        <label htmlFor=""></label>
-                    </div>
+                    <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({customer_id})=>customer_id)} />
                     <button>No.</button>
                     <button>휴대폰</button>
                     <button>이름</button>
@@ -259,25 +273,27 @@ export default function List() {
                     <span>보기</span>
                 </div>
                 
-                <ol className="board-center">
-                    <li>
-                        <div>
-                            <input type="checkbox" />
-                            <label htmlFor=""></label>
-                        </div>
-                        <span>123456</span>
-                        <span>01055558888</span>
-                        <span>홍길동</span>
-                        <button className='select'>청개구리</button>
-                        <span>환불방어매출</span>
-                        <button className='select'>불량(신청한적없음)</button>
-                        <time>2023/09/01</time>
-                        <time>2023/09/01</time>
-                        <time>2023/09/01</time>
-                        <time>2023/09/01</time>
-                        <Link to={''}>보기</Link>
-                    </li>
-                </ol>
+                { boardList && 
+                    <ol className="board-center">
+                        { boardList.map((data)=> (
+                            <li key={ data.customer_id }>
+                                <BoardChk id={data.customer_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
+                                <span>{ data.customer_id }</span>
+                                <span>{ data.customer_mobile }</span>
+                                <span>{ data.customer_name }</span>
+                                <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setInputs} changeName='sales_admin_id'/>
+                                {/* <button className='select'>{ data.sales_admin_name }</button> */}
+                                <span>{ data.customer_properties_name }</span>
+                                <button className='select'>{ data.counsel_properties_name }</button>
+                                <time>{ data.experience_ing_yn === 'y' ? data.experience_start_date : ''}</time>
+                                <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
+                                <time>{ data.standard_payment_start_date }</time>
+                                <time>{ data.standard_service_end_date }</time>
+                                <Link to={''}>보기</Link>
+                            </li>
+                        ))}
+                    </ol>
+                }
 
                 <div className='board-pagination' data-styleidx='a'>
                     <Select type="pagerCount"/>
