@@ -7,6 +7,8 @@ import { api } from '../../api/api';
 import SelectBoard from '../../components/SelectBoard';
 import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChk from '../../components/boardChk/BoardChk';
+import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
+import Pager from '../../components/Pager';
 
 const onChange = (date, dateString) => {
     console.log(date, dateString);
@@ -15,12 +17,14 @@ const onChange = (date, dateString) => {
 export default function List() {
     const [inputs, setInputs] = useState({'limit' : '10', 'page': '1'})
     const [boardList, setBoardList] = useState()
+    const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
 
     useEffect(()=>{
         api('customer', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
+                    setPagerInfo(data)
                     setBoardList(list)
                 }
             })
@@ -30,7 +34,7 @@ export default function List() {
         <>
             <h2>
                 통합 고객 목록
-                <Link to={''} className='btn-point'>추가</Link>
+                <Link to={'/customer/registration'} className='btn-point'>추가</Link>
             </h2>
 
             <DropBox title="검색 항목" arrow>
@@ -250,13 +254,13 @@ export default function List() {
                     <li>S클럽</li>
                     <li>환불방어매출</li>
                 </ul>
-                <b className='total'>123</b>
-                <span className='page'>1/10</span>
-                <b className='choice'>1</b>
+                <b className='total'>{ pagerInfo?.total_count }</b>
+                <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
+                <b className='choice'>{ deleteList.length }</b>
                 <Select />
                 <Select />
                 <button className='btn-gray-black'>선택 변경</button>
-                <button className='btn-gray-black boundary'>선택 삭제</button>
+                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} className='boundary'/>
                 <button className='btn-gray-black'>선택 수신거부</button>
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({customer_id})=>customer_id)} />
@@ -289,30 +293,15 @@ export default function List() {
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
                                 <time>{ data.standard_payment_start_date }</time>
                                 <time>{ data.standard_service_end_date }</time>
-                                <Link to={''}>보기</Link>
+                                <Link to={`/customer/registration/update/${data.customer_id}`}>보기</Link>
                             </li>
                         ))}
                     </ol>
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount"/>
-                    <Link to={''}>첫 페이지</Link>
-                    <Link to={''}>이전 페이지</Link>
-                    <ol>
-                        <li className='active'><Link to={''}>1</Link></li>
-                        <li><Link to={''}>2</Link></li>
-                        <li><Link to={''}>3</Link></li>
-                        <li><Link to={''}>4</Link></li>
-                        <li><Link to={''}>5</Link></li>
-                        <li><Link to={''}>6</Link></li>
-                        <li><Link to={''}>7</Link></li>
-                        <li><Link to={''}>8</Link></li>
-                        <li><Link to={''}>9</Link></li>
-                        <li><Link to={''}>10</Link></li>
-                    </ol>
-                    <Link to={''}>다음 페이지</Link>
-                    <Link to={''}>마지막 페이지</Link>
+                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>
         </>

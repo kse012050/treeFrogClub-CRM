@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { api, apiAwait } from '../../api/api'
 import Popup from '../popup/Popup';
 
-export default function BoardChkDelete({ url, idName, deleteList, setDeleteList, isAwait }) {
+export default function BoardChkDelete({ url, idName, deleteList, setDeleteList, isAwait, className }) {
     const [popup, setPopup] = useState('')
     const popupFunc = () =>{
         if(deleteList.length){
@@ -33,7 +33,7 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
 
     return (
         <>
-            <button className='btn-gray-black' 
+            <button className={`btn-gray-black ${className ? className : ''}`}
                 onClick={()=>setPopup({
                     'type': 'finFunc',
                     'title': '선택 삭제',
