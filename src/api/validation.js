@@ -60,6 +60,14 @@ export const inputChange = (e, setInputs) => {
     if(type === 'checkbox'){
         setInputs((input)=> ({...input, [name]: checked ? 'y': 'n'}))
     }else{
-        setInputs((input)=> ({...input, [name]: e.target.value}))
+        if(value){
+            setInputs((input)=> ({...input, [name]: e.target.value}))
+        }else{
+            setInputs((input)=>{
+                const copy = {...input}
+                delete copy[name]
+                return copy
+            })
+        }
     }
 }

@@ -120,18 +120,18 @@
 .customerPage.listPage .boardBox .selectBox{max-width: 130px;}
 .customerPage.listPage .boardBox .selectBox:has(+ .selectBox){margin-right: 7px;}
 /* .customerPage.listPage .boardBox .board-top{margin-top: 12px;} */
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 56;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 101;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 56;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 80;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 81;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 131;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 79;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 79;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 79;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 79;}
-.customerPage.listPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 23;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 56;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 101;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 56;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 80;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 81;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 131;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 79;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 79;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 79;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 79;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 23;}
 
 
 /* 통합 DB 관리 - 고객 등록 */

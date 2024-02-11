@@ -20,10 +20,20 @@ function SelectBoard({type, current, setInputs, changeName, disabled}) {
         
         if(type === 'sales'){
             api('user', 'list')
-                .then(({result, data, list})=>{
+                .then(({result, list})=>{
                     if(result){
                         setName(list.map(({name})=>name));
                         setValue(list.map(({admin_id})=>admin_id));
+                    }
+                })
+        }
+
+        if(type === 'counsel'){
+            api('commoncode', 'properties_list', {'all_yn': 'y'})
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name))
+                        setValue(list.map(({properties_id})=>properties_id))
                     }
                 })
         }
@@ -42,11 +52,11 @@ function SelectBoard({type, current, setInputs, changeName, disabled}) {
         if(current && name && value){
             if(typeof(current) === 'string'){
                 setSelect(name[value.indexOf(current)])
-                setInputs((input)=>({...input, [changeName]: current}))
+                setInputs && setInputs((input)=>({...input, [changeName]: current}))
             }
             if(typeof(current) === 'boolean'){
-                setInputs((input)=>({...input, [changeName]: value[0]}))
                 setSelect(name[0])
+                setInputs && setInputs((input)=>({...input, [changeName]: value[0]}))
             }
         }
     },[current, name, value, changeName, setInputs])

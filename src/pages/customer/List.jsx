@@ -9,6 +9,8 @@ import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChk from '../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 import Pager from '../../components/Pager';
+import Popup from '../../components/popup/Popup';
+import { inputChange } from '../../api/validation';
 
 const onChange = (date, dateString) => {
     console.log(date, dateString);
@@ -16,19 +18,29 @@ const onChange = (date, dateString) => {
 
 export default function List() {
     const [inputs, setInputs] = useState({'limit' : '10', 'page': '1'})
+    const [searchInputs, setSearchInputs] = useState({'limit' : '10', 'page': '1'})
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
+    const [popup, setPopup] = useState()
+    const [sales, setSales] = useState()
+    const [bureau, setBureau] = useState();
 
     useEffect(()=>{
         api('customer', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
+                    console.log(list);
                     setPagerInfo(data)
                     setBoardList(list)
                 }
             })
-    },[])
+    },[inputs])
+
+    const onSearch = (e) => {
+        e.preventDefault()
+        console.log(searchInputs);
+    }
 
     return (
         <>
@@ -38,43 +50,67 @@ export default function List() {
             </h2>
 
             <DropBox title="검색 항목" arrow>
-                <form onClick={(e)=>e.preventDefault()}>
+                <form>
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">고객명</label>
+                                <label htmlFor="customer_name">고객명</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='customer_name' id='customer_name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">휴대폰</label>
+                                <label htmlFor="customer_mobile">휴대폰</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='customer_mobile' id='customer_mobile' data-formet="numb" onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">사이트</label>
+                                <label htmlFor="site">사이트</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='site' id='site' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">영업담당자</label>
                                 <div>
-                                    <input type="search" />
+                                    <input 
+                                        type="search" 
+                                        value={sales || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'sales',
+                                            'func': (data)=>{
+                                                setSearchInputs((input)=>({...input, 'sales_admin_id': data.admin_id}))
+                                                setSales(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">부서</label>
                                 <div>
-                                    <input type="text" />
+                                    <input 
+                                        type="search" 
+                                        value={bureau || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'bureau',
+                                            'func': (data)=>{
+                                                setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
+                                                setBureau(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">출처</label>
+                                <label htmlFor="source">출처</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='source' id='source' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                         </ul>
@@ -83,7 +119,9 @@ export default function List() {
                         <ul>
                             <li>
                                 <label htmlFor="">고객구분</label>
-                                <Select type={'customer'} />
+                                <div>
+                                    <Select type={'customer'} />
+                                </div>
                             </li>
                             <li className='fill-two'>
                                 <label htmlFor="">고객 상세구분</label>
@@ -233,7 +271,7 @@ export default function List() {
                     </fieldset>
                     <div>
                         <input type="reset" value="초기화" className='btn-gray-white'/>
-                        <input type="submit" value="검색" className='btn-point'/>
+                        <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
             </DropBox>
@@ -285,10 +323,9 @@ export default function List() {
                                 <span>{ data.customer_id }</span>
                                 <span>{ data.customer_mobile }</span>
                                 <span>{ data.customer_name }</span>
-                                <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setInputs} changeName='sales_admin_id'/>
-                                {/* <button className='select'>{ data.sales_admin_name }</button> */}
+                                <SelectBoard type='sales' current={data?.sales_admin_id} /* setInputs={setInputs} */ changeName='sales_admin_id'/>
                                 <span>{ data.customer_properties_name }</span>
-                                <button className='select'>{ data.counsel_properties_name }</button>
+                                <SelectBoard type='counsel' current={data?.counsel_properties_id} /* setInputs={setInputs} */ changeName='counsel_properties_id'/>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_start_date : ''}</time>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
                                 <time>{ data.standard_payment_start_date }</time>
@@ -300,10 +337,13 @@ export default function List() {
                 }
 
                 <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
+                    <Select type="pagerCount" current={searchInputs.limit} setInputs={setInputs} changeName='limit'/>
                     <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
                 </div>
             </div>
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
         </>
     );
 }
