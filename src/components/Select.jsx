@@ -170,13 +170,13 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
         if(type === 'customer'){
             
             api('clientcode', 'properties_list', {'all_yn': 'y'})
-            .then(({result, list})=>{
-                if(result){
-                        console.log(list);
-                        setName(list.map(({name})=>name))
-                        setValue(list.map(({properties_id})=>properties_id))
-                    }
-                })
+                .then(({result, list})=>{
+                    if(result){
+                            // console.log(list);
+                            setName(list.map(({name})=>name))
+                            setValue(list.map(({properties_id})=>properties_id))
+                        }
+                    })
         }
 
         if(type === 'counsel'){

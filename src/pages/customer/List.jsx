@@ -10,11 +10,8 @@ import BoardChk from '../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 import Pager from '../../components/Pager';
 import Popup from '../../components/popup/Popup';
-import { inputChange } from '../../api/validation';
+import { inputChange, arrayChange, parentsChange } from '../../api/validation';
 
-const onChange = (date, dateString) => {
-    console.log(date, dateString);
-};
 
 export default function List() {
     const [inputs, setInputs] = useState({'limit' : '10', 'page': '1'})
@@ -40,11 +37,18 @@ export default function List() {
         api('commoncode', 'properties_list', {'all_yn': 'y'})
             .then(({result, list})=>{
                 if(result){
-                    console.log(list);
+                    // console.log(list);
                     setSearchCounsel(list)
                 }
             })
     },[inputs])
+
+    const onDate = (dateString, parents, name) => {
+        // console.log(dateString);
+        // console.log(parents);
+        // console.log(name);
+        setSearchInputs((input)=>({...input, [parents]: {...input[parents], [name]: dateString}}))
+    };
 
     const onSearch = (e) => {
         e.preventDefault()
@@ -179,54 +183,12 @@ export default function List() {
                                     <div>
                                         { searchCounsel.map((data)=>
                                             <span key={data.properties_id}>
-                                                <input type="checkbox" />
-                                                <label htmlFor="">{ data.name }</label>
+                                                <input type="checkbox" name='counsel_properties_id_list' id={`counsel_properties_id_list_${data.properties_id}`} value={data.properties_id} onChange={(e)=>arrayChange(e, setSearchInputs)}/>
+                                                <label htmlFor={`counsel_properties_id_list_${data.properties_id}`}>{ data.properties_id }{ data.name }</label>
                                             </span>
                                         )}
                                     </div>
                                 }
-                                {/* <div>
-                                    <input type="checkbox"/>
-                                    <label htmlFor="">분배(신규)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">분배(재신청)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">유효DB</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">부재 1차</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">부재 2차</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">재통화</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">체험(카톡접속)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">체험</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">가망고객</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">예상가입자</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">거절</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">환불신청</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">해지완료</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">불량(본인아님)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">불량(전화번호)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">불량(신청한적없음)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">VIP</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">VVIP</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">렌탈소액</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">렌탈VIP</label>
-                                </div> */}
                             </li>
                         </ul>
                     </fieldset>
@@ -235,28 +197,28 @@ export default function List() {
                             <li>
                                 <label htmlFor="">유료 기간</label>
                                 <div>
-                                    <input type="radio" name='experience_date_info' value='start'/>
-                                    <label htmlFor="">시작일 검색</label>
-                                    <input type="radio" name='experience_date_info' value='end'/>
-                                    <label htmlFor="">종료일 검색</label>
+                                    <input type="radio" name='experience_search_type' id='experience_search_type_start' data-parents='experience_date_info' data-name='search_type' value='start' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <label htmlFor="experience_search_type_start">시작일 검색</label>
+                                    <input type="radio" name='experience_search_type' id='experience_search_type_end' data-parents='experience_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <label htmlFor="experience_search_type_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={onChange} disabled={!searchInputs?.experience_date_info}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'start_date')} disabled={!searchInputs?.experience_date_info}/>
                                         <span>-</span>
-                                        <DatePicker onChange={onChange} disabled={!searchInputs?.experience_date_info}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'end_date')} disabled={!searchInputs?.experience_date_info}/>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">무료체험 기간</label>
                                 <div>
-                                    <input type="radio" name='payment_date_info' value='start'/>
-                                    <label htmlFor="">시작일 검색</label>
-                                    <input type="radio" name='payment_date_info' value='end'/>
-                                    <label htmlFor="">종료일 검색</label>
+                                    <input type="radio" name='payment_search_type' id='payment_search_type_start' data-parents='payment_date_info' data-name='search_type' value='start' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <label htmlFor="payment_search_type_start">시작일 검색</label>
+                                    <input type="radio" name='payment_search_type' id='payment_search_type_end' data-parents='payment_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <label htmlFor="payment_search_type_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} disabled={!searchInputs?.payment_date_info} />
                                         <span>-</span>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'end_date')} disabled={!searchInputs?.payment_date_info} />
                                     </div>
                                 </div>
                             </li>
@@ -264,9 +226,9 @@ export default function List() {
                                 <label htmlFor="">최초 등록일</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'start_date')} />
                                         <span>-</span>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'end_date')} />
                                     </div>
                                 </div>
                             </li>

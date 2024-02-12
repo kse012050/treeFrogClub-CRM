@@ -71,3 +71,18 @@ export const inputChange = (e, setInputs) => {
         }
     }
 }
+
+export const arrayChange = (e, setInputs) => {
+    const { value, name } = e.target;
+    setInputs((input)=>{
+        let copy;
+        input[name] ? (copy = [...input[name]]) : (copy = []);
+        copy.includes(value) ? (copy = copy.filter((arr)=> arr !== value)) : copy.push(value);
+        return {...input, [name]: copy};
+    })
+}
+
+export const parentsChange = (e, setInputs) => {
+    const { value, dataset: { parents, name } } = e.target;
+    setInputs((input)=>({...input, [parents]: {...input[parents], [name]: value}}))
+}
