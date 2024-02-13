@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
 import { api } from '../../api/api';
@@ -17,6 +18,7 @@ export default function List() {
     const [inputs, setInputs] = useState({'limit' : '10', 'page': '1'})
     const [searchInputs, setSearchInputs] = useState({'limit' : '10', 'page': '1'})
     const [searchCounsel, setSearchCounsel] = useState()
+    const [searchClient, setSearchClient] = useState()
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
@@ -41,6 +43,15 @@ export default function List() {
                     setSearchCounsel(list)
                 }
             })
+
+            
+        api('clientcode', 'properties_list', {'limit': '500'})
+            .then(({result, list})=>{
+                if(result){
+                    // console.log(list);
+                    setSearchClient(list)
+                }
+            })
     },[inputs])
 
     const onDate = (dateString, parents, name) => {
@@ -52,7 +63,21 @@ export default function List() {
 
     const onSearch = (e) => {
         e.preventDefault()
-        console.log(searchInputs);
+        // console.log(searchInputs);
+        api('customer', 'list', searchInputs)
+            .then(({result, data, list})=>{
+                if(result){
+                    // console.log(list);
+                    setPagerInfo(data)
+                    setBoardList(list)
+                }
+            })
+    }
+
+    const onReset = ()=>{
+        setSales()
+        setBureau()
+        setSearchInputs({'limit': '10', 'page': '1'})
     }
 
     return (
@@ -133,7 +158,7 @@ export default function List() {
                             <li>
                                 <label htmlFor="">고객구분</label>
                                 <div>
-                                    <Select type={'customer'} setInputs={setSearchInputs} changeName='customer_properties_id'/>
+                                    <Select type={'customer'} current={searchInputs?.customer_properties_id || false} changeName='customer_properties_id' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li className='fill-two'>
@@ -202,9 +227,9 @@ export default function List() {
                                     <input type="radio" name='experience_search_type' id='experience_search_type_end' data-parents='experience_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="experience_search_type_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'start_date')} disabled={!searchInputs?.experience_date_info}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'start_date')} value={searchInputs?.experience_date_info?.start_date ? dayjs(searchInputs?.experience_date_info?.start_date) : ''} disabled={!searchInputs?.experience_date_info}/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'end_date')} disabled={!searchInputs?.experience_date_info}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'end_date')} value={searchInputs?.experience_date_info?.end_date ? dayjs(searchInputs?.experience_date_info?.end_date) : ''} disabled={!searchInputs?.experience_date_info}/>
                                     </div>
                                 </div>
                             </li>
@@ -216,9 +241,9 @@ export default function List() {
                                     <input type="radio" name='payment_search_type' id='payment_search_type_end' data-parents='payment_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="payment_search_type_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} disabled={!searchInputs?.payment_date_info} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} value={searchInputs?.payment_date_info?.start_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} disabled={!searchInputs?.payment_date_info} />
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'end_date')} disabled={!searchInputs?.payment_date_info} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'end_date')} value={searchInputs?.payment_date_info?.end_date ? dayjs(searchInputs?.payment_date_info?.end_date) : ''} disabled={!searchInputs?.payment_date_info} />
                                     </div>
                                 </div>
                             </li>
@@ -226,9 +251,9 @@ export default function List() {
                                 <label htmlFor="">최초 등록일</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'start_date')} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'start_date')} value={searchInputs?.reg_date_info?.start_date ? dayjs(searchInputs?.reg_date_info?.start_date) : ''}/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'end_date')} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'end_date')} value={searchInputs?.reg_date_info?.end_date ? dayjs(searchInputs?.reg_date_info?.end_date) : ''}/>
                                     </div>
                                 </div>
                             </li>
@@ -238,7 +263,9 @@ export default function List() {
                         <ul>
                             <li>
                                 <label htmlFor="">신청 애널리스트</label>
-                                <Select name={'customer'} />
+                                <div>
+                                    <Select type={'analyst'} current={searchInputs?.analyst_admin_id || false} changeName='analyst_admin_id' setInputs={setSearchInputs}/>
+                                </div>
                             </li>
                             <li>
                                 <label htmlFor="">상품명</label>
@@ -251,7 +278,7 @@ export default function List() {
                         </ul>
                     </fieldset>
                     <div>
-                        <input type="reset" value="초기화" className='btn-gray-white'/>
+                        <input type="reset" value="초기화" className='btn-gray-white' onClick={onReset}/>
                         <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
@@ -264,7 +291,14 @@ export default function List() {
                 <button className='btn-gray-black'>검색고객 삭제</button>
                 <button className='btn-gray-black'>검색고객 수신거부</button>
                 <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
-                <ul>
+                { searchClient && 
+                    <ul>
+                        { searchClient.map((data)=>
+                            <li key={data.properties_id} style={{'--color': data.bg_color }}>{ data.name }</li>    
+                        )}
+                    </ul>
+                }
+                {/* <ul>
                     <li>무료회원</li>
                     <li>VIP회원</li>
                     <li>VVIP회원</li>
@@ -272,7 +306,7 @@ export default function List() {
                     <li>교육</li>
                     <li>S클럽</li>
                     <li>환불방어매출</li>
-                </ul>
+                </ul> */}
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>

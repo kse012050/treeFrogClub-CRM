@@ -52,6 +52,17 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setName(arr)
             setValue(arr)
         }
+
+        if(type === 'analyst'){
+            api('user', 'analyst_list')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({admin_id})=>admin_id));
+                    }
+                })
+
+        }
         // 고객DB 관리 - 고객 등록 fin
 
         // 시스템 관리 - 기본 설정 - 고객 구분 관리 
