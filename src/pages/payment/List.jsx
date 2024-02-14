@@ -5,13 +5,25 @@ import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
 import { api } from '../../api/api';
 import Pager from '../../components/Pager';
+import { inputChange } from '../../api/validation';
+import Popup from '../../components/popup/Popup';
 
 export default function List() {
     const [boardList, setBoardList] = useState()
+    const [searchInputs, setSearchInputs] = useState()
+    const [popup, setPopup] = useState()
+    const [sales, setSales] = useState()
+    const [bureau, setBureau] = useState()
 
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     };
+
+    const onSearch = (e) => {
+        e.preventDefault();
+        console.log(searchInputs);
+    }
+
 
     return (
         <>
@@ -20,25 +32,25 @@ export default function List() {
                 <Link to="registration" className='btn-point'>대량결제 등록</Link>
             </h2>
             <DropBox title="검색 항목" arrow>
-                <form onClick={(e)=>e.preventDefault()}>
+                <form>
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">고객명</label>
+                                <label htmlFor="customer_name">고객명</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='customer_name' id='customer_name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">휴대폰</label>
+                                <label htmlFor="customer_mobile">휴대폰</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='customer_mobile' id='customer_mobile' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">출처</label>
+                                <label htmlFor="source">출처</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='source' id='source' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
@@ -50,13 +62,37 @@ export default function List() {
                             <li>
                                 <label htmlFor="">영업담당자</label>
                                 <div>
-                                    <input type="search" />
+                                    <input 
+                                        type="search" 
+                                        value={sales || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'sales',
+                                            'func': (data)=>{
+                                                setSearchInputs((input)=>({...input, 'sales_admin_id': data.admin_id}))
+                                                setSales(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">부서</label>
                                 <div>
-                                    <input type="search" />
+                                    <input 
+                                        type="search" 
+                                        value={bureau || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'bureau',
+                                            'func': (data)=>{
+                                                setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
+                                                setBureau(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>
@@ -118,7 +154,7 @@ export default function List() {
                     <fieldset>
                         <ul>
                             <li className='fill-three'>
-                                <label htmlFor="">매출구분</label>
+                                <label htmlFor="">매출구분 <span>복수 선택 가능</span></label>
                                 <div>
                                     <input type="checkbox" />
                                     <label htmlFor="">신규결제</label>
@@ -159,7 +195,7 @@ export default function List() {
                     <fieldset>
                         <ul>
                             <li className='fill-three'>
-                                <label htmlFor="">매출구분</label>
+                                <label htmlFor="">환불구분 <span>복수 선택 가능</span></label>
                                 <div>
                                     <input type="checkbox" />
                                     <label htmlFor="">재결제</label>
@@ -243,27 +279,33 @@ export default function List() {
                     </fieldset>
                     <div>
                         <input type="reset" value="초기화" className='btn-gray-white'/>
-                        <input type="submit" value="검색" className='btn-point'/>
+                        <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
             </DropBox>
 
             <Board boardList={boardList} setBoardList={setBoardList}/>
+            
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
         </>
     );
 }
 
 function Board({ boardList, setBoardList }){
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [summary, setSummary] = useState()
     const [pagerInfo, setPagerInfo] = useState()
+
 
     useEffect(()=>{
         api('payment', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
                     setPagerInfo(data)
+                    setSummary(data)
                     setBoardList(list)
-                    // console.log(list);
                 }
             })
     },[inputs, setBoardList])
@@ -289,11 +331,11 @@ function Board({ boardList, setBoardList }){
                     <tbody>
                         <tr>
                             <td><b>2023년 10월</b></td>
-                            <td>105</td>
-                            <td>12,000,000원</td>
-                            <td>2</td>
-                            <td>300,000원</td>
-                            <td><mark>11,500,000원</mark></td>
+                            <td>{ summary?.total_payment_count }</td>
+                            <td>{ summary?.total_payment_price }원</td>
+                            <td>{ summary?.total_refund_count }</td>
+                            <td>{ summary?.total_refund_price }원</td>
+                            <td><mark>{ summary?.total_sales_price }원</mark></td>
                         </tr>
                     </tbody>
                 </table>
@@ -335,7 +377,7 @@ function Board({ boardList, setBoardList }){
                                     <span>{ data.payment_id }</span>
                                     <span>{ data.customer_mobile }</span>
                                     <span>{ data.customer_name }</span>
-                                    <span>{ }청투TV</span>
+                                    <span>{ data.source }</span>
                                     <span>{ data.payment_person_in_charge_name }</span>
                                     <span>{ data.department_name }</span>
                                     <time>{ data.payment_date }</time>
