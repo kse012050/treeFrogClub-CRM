@@ -34,8 +34,8 @@ export default function BureauBox({type, inputs, setInputs, children, select, se
                     { type === 'registration' && 
                          <button 
                          type='button'
-                         className={inputs.department_id === '' ? 'active' : ''}
-                         onClick={()=>setInputs((input)=>({...input, 'department_id': ''}))}
+                         className={!inputs?.parent_department_id ? 'active' : ''}
+                         onClick={()=>setInputs((input)=>({...input, 'parent_department_id': ''}))}
                         >
                             { bureau?.company_name }
                         </button>
@@ -65,11 +65,11 @@ export default function BureauBox({type, inputs, setInputs, children, select, se
                         )}
                         { type === 'registration' && bureau?.list.map((data)=>
                             <BureauRegistration
-                                key={data.department_id}
+                                key={data?.parent_department_id}
                                 data={data}
                                 inputs={inputs}
                                 setInputs={setInputs}
-                                changeName={'department_id'}
+                                changeName={'parent_department_id'}
                             />
                         )}
                         { type === 'update' && bureau?.list.map((data)=>
@@ -100,6 +100,13 @@ export default function BureauBox({type, inputs, setInputs, children, select, se
                         )}
                     </ul>
                 </div>
+                { (type === 'registration' || type === 'update') && 
+                    <div className="addBtn">
+                        <b>부서장 선택</b>
+                        <span>(최대 6명)</span>
+                        <button className='btn-gray-black' onClick={(e)=>e.preventDefault()}>찾기</button>
+                    </div>
+                }
                 { children && children }
             </div>
         </>

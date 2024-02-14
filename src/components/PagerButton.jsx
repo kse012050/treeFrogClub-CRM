@@ -17,19 +17,19 @@ export default function PagerButton({ pagerInfo, setInputs }) {
 
     return (
         <>  
-            <button onClick={()=>setInputs((input)=>({...input, 'page': '1'}))}>첫 페이지</button>
-            <button onClick={()=>setInputs((input)=>({...input, 'page': prev}))}>이전 페이지</button>
+            <button onClick={()=>setInputs((input)=>({...input, 'page': '1'}))} type='button'>첫 페이지</button>
+            <button onClick={()=>setInputs((input)=>({...input, 'page': prev}))} type='button'>이전 페이지</button>
             { pager() && 
                 <ol>
                     { pager()?.map((numb)=> 
                         <li key={numb} className={numb === pagerInfo.current_page ? 'active' : ''}>
-                            <button onClick={()=>setInputs((input)=>({...input, 'page': numb}))}>{ numb }</button>
+                            <button onClick={()=>setInputs((input)=>({...input, 'page': numb}))} type='button'>{ numb }</button>
                         </li>
                     )}
                 </ol>
             }
-            <button onClick={()=>setInputs((input)=>({...input, 'page': next}))}>다음 페이지</button>
-            <button onClick={()=>setInputs((input)=>({...input, 'page': pagerInfo?.total_page}))}>마지막 페이지</button>
+            <button onClick={()=>setInputs((input)=>({...input, 'page': next}))} type='button'>다음 페이지</button>
+            <button onClick={()=>setInputs((input)=>({...input, 'page': pagerInfo?.total_page}))} type='button'>마지막 페이지</button>
         </>
     );
 }

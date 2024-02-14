@@ -17,29 +17,29 @@ export default function BureauRegistration({ data, inputs, setInputs, changeName
 
     return (
         <>
-            <li>
-                { data.lower_department_count === '0' ?
+            <li key={data.department_id}>
+                { data?.lower_department_count === '0' ?
                     <button 
                         type='button' 
-                        onClick={()=>setInputs((input)=>({...input, 'department_id': data.department_id}))}
-                        className={inputs[changeName] === data.department_id ? 'active' : ''}
+                        onClick={()=>setInputs((input)=>({...input, 'parent_department_id': data?.department_id}))}
+                        className={inputs[changeName] === data?.department_id ? 'active' : ''}
                         >
-                            {data.name} ({data.depth})
+                            {data?.name} ({data?.depth})
                     </button> :
                     <details>
                         <summary
-                            onClick={()=>setInputs((input)=>({...input, 'department_id': data.department_id}))}
-                            className={inputs[changeName] === data.department_id ? 'active' : ''}
+                            onClick={()=>setInputs((input)=>({...input, 'parent_department_id': data?.department_id}))}
+                            className={inputs[changeName] === data?.department_id ? 'active' : ''}
                         >
-                            {data.name} ({data.depth})
+                            {data?.name} ({data?.depth})
                         </summary>
                         { lowerList && 
                             lowerList.map((lowerData)=> 
                                 <button 
                                     type='button'
-                                    key={lowerData.department_id} 
+                                    key={lowerData?.department_id} 
                                 >
-                                    { lowerData.name }
+                                    { lowerData?.name }
                                 </button> )}
                     </details>
                 }

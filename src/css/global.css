@@ -87,7 +87,7 @@ body:has(.popupBox){overflow: hidden;}
 .popupBox > div:has(.refundPopup, .updatePopup){width: 900px;}
 .popupBox > div[class*="newPassword"]{width: 340px;}
 .popupBox > div[class*="properties"]{width: 340px;}
-.popupBox > div:is(.analystArea, .salesArea){width: 510px;}
+.popupBox > div:is(.analystArea, .salesArea, .salesArrayArea){width: 510px;}
 .popupBox > div .rolePopup{width: 510px;}
 .popupBox > div strong{display: block; font-size: 15px; line-height: 18px; font-weight: 700; text-align: center; margin-bottom: 30px;}
 .popupBox > div p{text-align: center; white-space: pre-line;}
@@ -106,12 +106,13 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .popupBox .newPasswordArea fieldset ul li:not(:last-child){margin-bottom: 20px;}
 .popupBox .bureauArea .searchArea{margin-bottom: 12px;}
 .popupBox .bureauArea .bureauBox .listArea ul{height: 353px;}
-.popupBox :is(.analystArea, .salesArea) .searchArea{max-width: 300px; margin-inline: auto; margin-bottom: 20px;}
-.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 60;}
-.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
-.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 110;}
-.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 70;}
-.popupBox :is(.analystArea, .salesArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 30;}
+.popupBox :is(.analystArea, .salesArea, .salesArrayArea) .searchArea{max-width: 300px; margin-inline: auto; margin-bottom: 20px;}
+.popupBox :is(.analystArea, .salesArea, .salesArrayArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 60;}
+.popupBox :is(.analystArea, .salesArea, .salesArrayArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
+.popupBox :is(.analystArea, .salesArea, .salesArrayArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 110;}
+.popupBox :is(.analystArea, .salesArea, .salesArrayArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 70;}
+.popupBox :is(.analystArea, .salesArea, .salesArrayArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 30;}
+.popupBox .salesArrayArea [class*="choice"]{margin-top: 20px;}
 .popupBox :is(.refundPopup, .updatePopup) > b{display: block; margin-bottom: 12px;}
 .popupBox :is(.refundPopup, .updatePopup) table{width: 100%; margin-bottom: 30px; border-width: 1px 0; border-style: solid; border-color: var(--color-division);}
 .popupBox :is(.refundPopup, .updatePopup) table :is(th, b, mark){font-weight: 700;}
@@ -202,6 +203,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox .board-top button{text-align: left; position: relative;}
 .boardBox .board-top button::before{content: ''; width: 10px; aspect-ratio: 10 / 18; background: url(../images/icon-sort.png) no-repeat center / cover; position: absolute; right: 10px; top: 50%; translate: 0 -50%;}
 .boardBox .board-center li{border-bottom: 1px solid var(--color-division); white-space: pre-line}
+.boardBox .board-center li.active{background-color: #FFF9F9;}
 .boardBox .board-center li > *{text-align: left; font-weight: 400;}
 .boardBox .board-center li button.select{display: flex; align-items: center;}
 .boardBox .board-center li button.select::after{content: ''; width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center top / 100%; margin-left: 6px;}
