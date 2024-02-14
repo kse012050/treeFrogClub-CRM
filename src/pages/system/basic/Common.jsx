@@ -7,14 +7,26 @@ import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import Pager from '../../../components/Pager';
+import { inputChange } from '../../../api/validation';
 
 export default function Common() {
     // console.log('common 랜더링');
-    const [inputs, setInputs] = useState();
+    const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'});
     const [boardList, setBoardList] = useState()
 
     const onReset = () => {
-        console.log('reset');
+        // console.log('reset');
+        setSearchInputs({'limit': '10', 'page': '1'})
+    }
+
+    const onSearch = (e) => {
+        e.preventDefault()
+        console.log(searchInputs);
+        
+        // api('commoncode', 'properties_list', searchInputs)
+        //     .then((result)=>{
+        //         console.log(result);
+        //     })
     }
 
     return (
@@ -31,26 +43,26 @@ export default function Common() {
                             <li>
                                 <label htmlFor="">분류유형명</label>
                                 <div>
-                                    <Select type='commonClassification' changeName='classification_id' setInputs={setInputs}/>
+                                    <Select type='commonClassification' current={searchInputs?.classification_id || false} changeName='classification_id' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">코드명</label>
+                                <label htmlFor="name">코드명</label>
                                 <div>
-                                    <input type="text" />
+                                    <input type="text" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">사용 여부</label>
                                 <div>
-                                    <Select type='yn' current={inputs?.useable_yn} changeName='useable_yn' setInputs={setInputs}/>
+                                    <Select type='yn' changeName='useable_yn' current={searchInputs?.useable_yn || false} setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
                         <input type="reset" value="초기화" className='btn-gray-white' onClick={onReset}/>
-                        <input type="submit" value="검색" className='btn-point'/>
+                        <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
             </DropBox>
