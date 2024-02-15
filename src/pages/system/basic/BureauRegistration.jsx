@@ -5,13 +5,13 @@ import Popup from '../../../components/popup/Popup';
 import BureauBox from '../../../components/bureau/BureauBox';
 // import BureauBox from '../../../components//BureauBox';
 
-export default function BureauRegistration({ setBureauRegistrationPopup }) {
+export default function BureauRegistration({ bureauRegistrationPopup, setBureauRegistrationPopup }) {
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log(inputs);
+        // console.log(inputs);
         api('department', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -54,7 +54,7 @@ export default function BureauRegistration({ setBureauRegistrationPopup }) {
                             </li>
                             <li>
                                 <label htmlFor="">상위부서 선택</label>
-                                <BureauBox type='registration' inputs={inputs} setInputs={setInputs} />
+                                <BureauBox type='registration' inputs={inputs} setInputs={setInputs} dataPopup={bureauRegistrationPopup} setDataPopup={setBureauRegistrationPopup}/>
                             </li>
                         </ul>
                     </fieldset>

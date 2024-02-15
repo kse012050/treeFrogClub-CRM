@@ -281,7 +281,7 @@
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li:not(:last-child){margin-bottom: 20px;}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li label{font-weight: 700;}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > div{margin-top: 10px;}
-.systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .listArea ul{max-height: 170px;}
+.systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .listArea > ul{max-height: 170px;}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .addBtn{align-items: center; gap: 10px; padding-block: 10px; margin-top: 0; border-top: 1px solid var(--color-line);}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .addBtn button{margin-left: auto;}
 .systemPage.bureauPage .horizontalTwo .boardArea > div:not(:first-of-type){margin-top: 40px;}

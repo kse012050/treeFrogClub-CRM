@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import BureauRegistration from './BureauRegistration';
+import BureauUpdate from './BureauUpdate';
 import { api } from '../../api/api';
 
-export default function BureauBox({ type, inputs, setInputs }) {
+export default function BureauBox({ type, inputs, setInputs, dataPopup, setDataPopup, setBureauUpdatePopup }) {
     const [bureau, setBureau] = useState();
 
     useEffect(()=>{
@@ -18,7 +19,10 @@ export default function BureauBox({ type, inputs, setInputs }) {
     return (
         <div className='bureauBox'>
             { bureau && 
-                type === 'registration' && <BureauRegistration bureau={bureau} inputs={inputs} setInputs={setInputs}/>
+                (
+                    (type === 'registration' && <BureauRegistration bureau={bureau} inputs={inputs} setInputs={setInputs} dataPopup={dataPopup} setDataPopup={setDataPopup}/>) ||
+                    (type === 'update' && <BureauUpdate bureau={bureau} inputs={inputs} setInputs={setInputs} setBureauUpdatePopup={setBureauUpdatePopup}/>)
+                )
             }
         </div>
     );

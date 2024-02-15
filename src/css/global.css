@@ -105,7 +105,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .popupBox .newPasswordArea fieldset ul li div{margin-top: 10px;}
 .popupBox .newPasswordArea fieldset ul li:not(:last-child){margin-bottom: 20px;}
 .popupBox .bureauArea .searchArea{margin-bottom: 12px;}
-.popupBox .bureauArea .bureauBox .listArea ul{height: 353px;}
+.popupBox .bureauArea .bureauBox .listArea > ul{height: 353px;}
 .popupBox :is(.analystArea, .salesArea, .salesArrayArea) .searchArea{max-width: 300px; margin-inline: auto; margin-bottom: 20px;}
 .popupBox :is(.analystArea, .salesArea, .salesArrayArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 60;}
 .popupBox :is(.analystArea, .salesArea, .salesArrayArea) .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
@@ -160,21 +160,21 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 /* .bureauBox:not(:has( + .addBtn)){padding-bottom: 12.5px;} */
 .bureauBox .listArea{display: flex; flex-direction: column;}
 .bureauBox .listArea > *:first-child{font-size: 15px; line-height: 18px; padding-inline: 20px; font-weight: 700; text-align: left; margin-bottom: 5px;}
-.bureauBox .listArea ul{padding-inline: 20px; padding-block: 2.5px; box-sizing: border-box; overflow: auto;}
-.bureauBox .listArea ul::-webkit-scrollbar{width: 6px;}
-.bureauBox .listArea ul::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
-.bureauBox .listArea ul li button{padding-block: 7.5px; width: 100%; text-align: left;}
+.bureauBox .listArea > ul{padding-inline: 20px; padding-block: 2.5px; box-sizing: border-box; overflow: auto;}
+.bureauBox .listArea > ul::-webkit-scrollbar{width: 6px;}
+.bureauBox .listArea > ul::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
+.bureauBox .listArea > ul li button{padding-block: 7.5px; width: 100%; text-align: left;}
 .bureauBox .listArea :is(button, summary).active{color: var(--color-point01); font-weight: 700; display: flex; align-items: center;}
 .bureauBox .listArea :is(button, summary).active::after{content: ''; width: 16px; aspect-ratio: 1; background: url(../images/icon-check.png) no-repeat center / cover; margin-left: 6px;}
-.bureauBox .listArea ul li > button{padding-inline: 20px;}
-.bureauBox .listArea ul li details summary{padding-block: 7.5px; padding-inline: 20px; cursor: pointer; list-style-type: none;}
-.bureauBox .listArea ul li details summary::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; left: 4px; top: 50%; translate: 0 -50%; rotate: -90deg;}
-.bureauBox .listArea ul li details :is(summary, button){position: relative;}
-.bureauBox .listArea ul li details :is(summary, button)::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; top: 50%; translate: 0 -50%; rotate: -90deg;}
-.bureauBox .listArea ul li details summary::before{left: 4px;}
-.bureauBox .listArea ul li details button::before{left: 26px;}
-.bureauBox .listArea ul li details[open] summary::before{rotate: 0deg;}
-.bureauBox .listArea ul li details button{padding-inline: 40px;}
+.bureauBox .listArea > ul li > button{padding-inline: 20px;}
+.bureauBox .listArea > ul li details summary{padding-block: 7.5px; padding-inline: 20px; cursor: pointer; list-style-type: none;}
+.bureauBox .listArea > ul li details summary::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; left: 4px; top: 50%; translate: 0 -50%; rotate: -90deg;}
+.bureauBox .listArea > ul li details :is(summary, button){position: relative;}
+.bureauBox .listArea > ul li details :is(summary, button)::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; top: 50%; translate: 0 -50%; rotate: -90deg;}
+.bureauBox .listArea > ul li details summary::before{left: 4px;}
+.bureauBox .listArea > ul li details button::before{left: 26px;}
+.bureauBox .listArea > ul li details[open] summary::before{rotate: 0deg;}
+.bureauBox .listArea > ul li details button{padding-inline: 40px;}
 .bureauBox .addBtn{margin-inline: 20px;}
 
 

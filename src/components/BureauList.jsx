@@ -28,7 +28,7 @@ export default function BureauList({ data, inputs, setInputs, changeName }) {
                     </button> :
                     <details>
                         <summary>
-                            {data.name} ({data.depth})
+                            {data.name} ({data.lower_department_count})
                         </summary>
                         { lowerList && 
                             lowerList.map((lowerData)=> 

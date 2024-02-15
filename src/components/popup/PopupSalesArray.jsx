@@ -37,7 +37,7 @@ export default function PopupSalesArray({ close, popup }) {
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        popup.func(selectList.map((data)=>data.admin_id));
+        popup.func(selectList);
         close();
     }
 
