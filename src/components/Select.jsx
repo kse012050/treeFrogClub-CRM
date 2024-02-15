@@ -61,7 +61,22 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                         setValue(list.map(({admin_id})=>admin_id));
                     }
                 })
+        }
 
+        if(type === 'product'){
+            api('product', 'list', {'all_yn': 'y'})
+                .then(({result, list})=>{
+                    console.log(list);
+                    if(result){
+                        setName(list.map(({product_name})=>product_name));
+                        setValue(list.map(({product_id})=>product_id));
+                    }
+                })
+        }
+
+        if(type === 'excelCount'){
+            setName(['1,000', '5,000', '10,000']);
+            setValue(['1000', '5000', '10000'])
         }
         // 고객DB 관리 - 고객 등록 fin
 
@@ -216,7 +231,11 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
         if(current && name && value){
             if(typeof(current) === 'string'){
                 setSelect(name[value.indexOf(current)])
-                setInputs((input)=>({...input, [changeName]: current}))
+                if(changeName){
+                    setInputs((input)=>({...input, [changeName]: current}))
+                }else{
+                    setInputs(current)
+                }
             }
             if(typeof(current) === 'boolean'){
                 setInputs((input)=>({...input, [changeName]: value[0]}))
@@ -240,8 +259,14 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
     const listClick = (name, i) =>{
         search && navigate(pathname)
         setSelect(name)
-        setInputs((input)=>({...input, [changeName]: value[i]}))
         setActive((active)=>!active)
+        if(changeName){
+            setInputs((input)=>({...input, [changeName]: value[i]}))
+        }else{
+            console.log(value);
+            console.log(value[i]);
+            setInputs(value[i])
+        }
     }
     return (
         <div className={`selectBox${type ? `-${type}`: ''}`}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -19,6 +19,7 @@ export default function List() {
     const [searchInputs, setSearchInputs] = useState({'limit' : '10', 'page': '1'})
     const [searchCounsel, setSearchCounsel] = useState()
     const [searchClient, setSearchClient] = useState()
+    const [isSearch, setIsSearch] = useState(false)
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
@@ -26,16 +27,16 @@ export default function List() {
     const [sales, setSales] = useState()
     const [bureau, setBureau] = useState();
 
-    useEffect(()=>{
+    const currentData = useCallback(()=>{
         api('customer', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
-                    // console.log(list);
+                    // console.log(data);
                     setPagerInfo(data)
                     setBoardList(list)
                 }
             })
-        
+    
         api('commoncode', 'properties_list', {'all_yn': 'y'})
             .then(({result, list})=>{
                 if(result){
@@ -52,7 +53,15 @@ export default function List() {
                     setSearchClient(list)
                 }
             })
+
+        setIsSearch(false)
     },[inputs])
+  
+    useEffect(()=>{
+        currentData()
+    },[currentData])
+
+  
 
     const onDate = (dateString, parents, name) => {
         // console.log(dateString);
@@ -63,13 +72,14 @@ export default function List() {
 
     const onSearch = (e) => {
         e.preventDefault()
-        // console.log(searchInputs);
+        console.log(searchInputs);
         api('customer', 'list', searchInputs)
             .then(({result, data, list})=>{
                 if(result){
                     // console.log(list);
                     setPagerInfo(data)
                     setBoardList(list)
+                    setIsSearch(true)
                 }
             })
     }
@@ -78,6 +88,7 @@ export default function List() {
         setSales()
         setBureau()
         setSearchInputs({'limit': '10', 'page': '1'})
+        currentData()
     }
 
     return (
@@ -209,7 +220,7 @@ export default function List() {
                                         { searchCounsel.map((data)=>
                                             <span key={data.properties_id}>
                                                 <input type="checkbox" name='counsel_properties_id_list' id={`counsel_properties_id_list_${data.properties_id}`} value={data.properties_id} onChange={(e)=>arrayChange(e, setSearchInputs)}/>
-                                                <label htmlFor={`counsel_properties_id_list_${data.properties_id}`}>{ data.properties_id }{ data.name }</label>
+                                                <label htmlFor={`counsel_properties_id_list_${data.properties_id}`}>{ data.name }</label>
                                             </span>
                                         )}
                                     </div>
@@ -269,7 +280,9 @@ export default function List() {
                             </li>
                             <li>
                                 <label htmlFor="">상품명</label>
-                                <Select name={'customer'} />
+                                <div>
+                                    <Select type={'product'} current={searchInputs?.product_id || false} changeName='product_id' setInputs={setSearchInputs}/>
+                                </div>
                             </li>
                             <li>
                                 <label htmlFor="">SMS 거부 요청</label>
@@ -285,12 +298,45 @@ export default function List() {
             </DropBox>
 
             <div className='boardBox'>
-                <strong>목록</strong>
-                <button className='btn-gray-black'>엑셀 다운로드</button>
-                <button className='btn-gray-black'>중복고객 삭제</button>
-                <button className='btn-gray-black'>검색고객 삭제</button>
-                <button className='btn-gray-black'>검색고객 수신거부</button>
-                <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
+                <strong>{ isSearch ? '검색 결과' : '목록' }</strong>
+                <button 
+                    className='btn-gray-black'
+                    onClick={()=>setPopup({
+                        'type': 'excelDownload',
+                        'total': pagerInfo.total_count
+                    })}
+                >
+                    엑셀 다운로드
+                </button>
+                <button 
+                    className='btn-gray-black'
+                    onClick={()=>setPopup({
+                        'type': 'finFunc',
+                        'title': '중복고객 삭제',
+                        'description': '중복고객을 삭제하시겠습니까?',
+                        'func': ()=>{
+                            api('customer', 'duplicate_customer_delete')
+                                .then(({result, error_message})=>{
+                                    if(result){
+                                        setPopup({
+                                            'type': 'confirm',
+                                            'title': '완료',
+                                            'description': error_message,
+                                        })
+                                    }
+                                })
+                        }
+                    })}
+                >
+                    중복고객 삭제
+                </button>
+                { isSearch && 
+                    <>
+                        <button className='btn-gray-black'>검색고객 삭제</button>
+                        <button className='btn-gray-black'>검색고객 수신거부</button>
+                        <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
+                    </>
+                }
                 { searchClient && 
                     <ul>
                         { searchClient.map((data)=>
