@@ -71,7 +71,7 @@ export default function Bureau() {
                         <button 
                             className='btn-gray-black'
                             disabled={!inputs.department_id}
-                            onClick={()=>setBureauUpdatePopup({type: 'children', id: inputs.department_id})}
+                            onClick={()=>setBureauUpdatePopup({type: 'children', id: inputs.department_id, list: []})}
                         >
                             부서 수정
                         </button>

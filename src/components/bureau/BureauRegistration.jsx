@@ -73,7 +73,6 @@ export default function BureauRegistration({ bureau, inputs, setInputs, dataPopu
                     </button>
                 </div>
 
-                
             </div>
             { dataPopup?.list.length !== 0 &&
                 <ul className='choice-horizontal scroll-width'>

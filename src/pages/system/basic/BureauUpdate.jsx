@@ -11,33 +11,36 @@ export default function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup }
 
     useEffect(()=>{
         api('department', 'detail', {'department_id': bureauUpdatePopup.id})
-            .then((result)=>{
-                console.log(result);
-                setInputs({})
+            .then(({result, data})=>{
+                if(result){
+                    console.log(data);
+                    setBureauUpdatePopup((dataPopup)=>({...dataPopup, list: data.user_list}))
+                    setInputs({'department_id': data.department_id, 'name': data.name, 'order_number': data.order_number, 'admin_id_list': data.user_list})
+                }
             })
-    },[bureauUpdatePopup.id])
+    },[bureauUpdatePopup.id, setBureauUpdatePopup])
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log(inputs);
-        // api('department', 'update', inputs)
-        //     .then(({result, error_message})=>{
-        //         setPopup({'type': 'confirm', 'description': error_message})
-        //         if(result){
-        //             setPopup((popup)=>({
-        //                 ...popup,
-        //                 'title': '완료',
-        //                 'confirmFunc': ()=>{
-        //                     setBureauUpdatePopup('')
-        //                 }
-        //             }))
-        //         }else{
-        //             setPopup((popup)=>({
-        //                 ...popup,
-        //                 'title': '실패',
-        //             }))
-        //         }
-        //     })
+        // console.log(inputs);
+        api('department', 'update', inputs)
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        'confirmFunc': ()=>{
+                            setBureauUpdatePopup('')
+                        }
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
     }
 
 
@@ -62,7 +65,7 @@ export default function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup }
                             </li>
                             <li>
                                 <label htmlFor="">부서 선택</label>
-                                <BureauBox type='update' inputs={inputs} setInputs={setInputs} setBureauUpdatePopup={setBureauUpdatePopup} />
+                                <BureauBox type='update' inputs={inputs} setInputs={setInputs} dataPopup={bureauUpdatePopup} setDataPopup={setBureauUpdatePopup} />
                             </li>
                         </ul>
                     </fieldset>

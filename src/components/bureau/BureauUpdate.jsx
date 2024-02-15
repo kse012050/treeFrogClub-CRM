@@ -2,18 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { api } from '../../api/api';
 import Popup from '../popup/Popup';
 
-export default function BureauUpdate({ bureau, inputs, setInputs, setBureauUpdatePopup }) {
+export default function BureauUpdate({ bureau, inputs, setInputs, dataPopup, setDataPopup }) {
     const [popup, setPopup] = useState()
     // console.log(inputs);
     const onSales = () => {
         setPopup({
             type: 'salesArray',
-            list: inputs.user_list,
+            list: dataPopup.list,
             func: (data) => {
-                setInputs((input)=>({...input, 'admin_id_list': data}))
+                setDataPopup((dataPopup2)=>({...dataPopup2, 'list': data}))
+                setInputs((input)=>({...input, 'admin_id_list': data.map((data)=>data.admin_id)}))
             }
         })
+    }
 
+    const onSalesDelete = (data) => {
+        setDataPopup((dataPopup2)=>({...dataPopup2, 'list': dataPopup2.list.filter((dataPopup3)=>dataPopup3.admin_id !== data.admin_id)}))
+        setInputs((input)=>({...input, 'admin_id_list': input.admin_id_list.filter((adminId)=>adminId !== data.admin_id)}))
     }
 
     return (
@@ -34,7 +39,7 @@ export default function BureauUpdate({ bureau, inputs, setInputs, setBureauUpdat
                                 <BureauList
                                     data={data}
                                     inputs={inputs}
-                                    setBureauUpdatePopup={setBureauUpdatePopup}
+                                    setDataPopup={setDataPopup}
                                 />
                             </li>
                         )}
@@ -53,6 +58,23 @@ export default function BureauUpdate({ bureau, inputs, setInputs, setBureauUpdat
                 </div>
             </div>
 
+            { dataPopup?.list.length !== 0 &&
+                <ul className='choice-horizontal scroll-width'>
+                    { dataPopup.list.map((data)=>(
+                        <li key={data.admin_id} className='icon-remove'>
+                            { data.name }
+                            <button 
+                                type='button'
+                                onClick={()=>onSalesDelete(data)}
+                            >
+                                제거
+                            </button>
+                        </li>
+                        ))
+                    }
+                </ul>
+            }
+
             {popup && (
                 <Popup popup={popup} setPopup={setPopup}/>
             )}
@@ -60,7 +82,7 @@ export default function BureauUpdate({ bureau, inputs, setInputs, setBureauUpdat
     );
 }
 
-function BureauList({ data, inputs, setBureauUpdatePopup }){
+function BureauList({ data, inputs, setDataPopup }){
     const [lowerList, setLowerList] = useState();
     
     useEffect(()=>{
@@ -79,14 +101,14 @@ function BureauList({ data, inputs, setBureauUpdatePopup }){
             { data.lower_department_count === '0' ?
                 <button 
                     type='button' 
-                    onClick={()=>setBureauUpdatePopup((update)=>({...update, 'id': data?.department_id}))}
+                    onClick={()=>setDataPopup((update)=>({...update, 'id': data?.department_id}))}
                     className={inputs?.department_id === data?.department_id ? 'active' : ''}
                     >
                         {data.name} ({data.admin_count}) {data.order_Number}
                 </button> :
                 <details>
                     <summary
-                        onClick={()=>setBureauUpdatePopup((update)=>({...update, 'id': data?.department_id}))}
+                        onClick={()=>setDataPopup((update)=>({...update, 'id': data?.department_id}))}
                         className={(inputs?.department_id === data?.department_id) ? 'active' : ''}
                     >
                         {data.name} ({data.depth})
@@ -96,7 +118,7 @@ function BureauList({ data, inputs, setBureauUpdatePopup }){
                             <button 
                                 type='button'
                                 key={lowerData.department_id} 
-                                onClick={()=>setBureauUpdatePopup((update)=>({...update, 'id': lowerData?.department_id}))}
+                                onClick={()=>setDataPopup((update)=>({...update, 'id': lowerData?.department_id}))}
                                 // onClick={()=>setInputs(lowerData)}
                                 className={(inputs?.department_id === lowerData.department_id) ? 'active' : ''}
                             >

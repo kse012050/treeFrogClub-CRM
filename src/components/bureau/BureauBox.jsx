@@ -3,7 +3,7 @@ import BureauRegistration from './BureauRegistration';
 import BureauUpdate from './BureauUpdate';
 import { api } from '../../api/api';
 
-export default function BureauBox({ type, inputs, setInputs, dataPopup, setDataPopup, setBureauUpdatePopup }) {
+export default function BureauBox({ type, inputs, setInputs, dataPopup, setDataPopup }) {
     const [bureau, setBureau] = useState();
 
     useEffect(()=>{
@@ -21,7 +21,7 @@ export default function BureauBox({ type, inputs, setInputs, dataPopup, setDataP
             { bureau && 
                 (
                     (type === 'registration' && <BureauRegistration bureau={bureau} inputs={inputs} setInputs={setInputs} dataPopup={dataPopup} setDataPopup={setDataPopup}/>) ||
-                    (type === 'update' && <BureauUpdate bureau={bureau} inputs={inputs} setInputs={setInputs} setBureauUpdatePopup={setBureauUpdatePopup}/>)
+                    (type === 'update' && <BureauUpdate bureau={bureau} inputs={inputs} setInputs={setInputs} dataPopup={dataPopup} setDataPopup={setDataPopup}/>)
                 )
             }
         </div>
