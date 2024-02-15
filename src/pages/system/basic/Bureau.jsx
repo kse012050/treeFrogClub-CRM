@@ -4,9 +4,13 @@ import { inputChange } from '../../../api/validation'
 import Popup from '../../../components/popup/Popup';
 import BureauBox from '../../../components/BureauBox';
 import BureauRegistration from './BureauRegistration';
+import BoardChkAll from '../../../components/boardChk/BoardChkAll';
+import BoardChk from '../../../components/boardChk/BoardChk';
 
 export default function Bureau() {
     const [inputs, setInputs] = useState({ 'department_id': '' })
+    const [searchInputs, setSearchInputs] = useState()
+    const [boardList, setBoardList] = useState()
     const [bureauRegistrationPopup, setBureauRegistrationPopup] = useState();
     const [bureauUpdatePopup, setBureauUpdatePopup] = useState();
     const [popup, setPopup] = useState();
@@ -14,6 +18,17 @@ export default function Bureau() {
     useEffect(()=>{
         setInputs({ 'department_id': '' })
     },[bureauRegistrationPopup])
+
+    const onSearch = () => {
+        api('department', 'search_user', searchInputs)
+            .then(({result, list})=>{
+                if(result){
+                    console.log(list);
+                    setBoardList(list)
+                }
+            })
+    }
+
 
     const func = () =>{
         api('department', 'delete', inputs)
@@ -39,8 +54,8 @@ export default function Bureau() {
             <h2>
                 부서 관리
                 <div>
-                    <input type="search" />
-                    <button>검색</button>
+                    <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
+                    <button onClick={onSearch}>검색</button>
                 </div>
             </h2>
             
@@ -71,8 +86,17 @@ export default function Bureau() {
                         </button>
                     </div>
                 </BureauBox>
+                { boardList && 
+                    <div className='boardArea'>
+                        { boardList.map((data)=> 
+                            <div className='boardBox' key={data.department_id}>
+                                <Board data={data} onSearch={onSearch}/>
+                            </div>
+                        )}
+                    </div>
+                }
             </div>
-            { bureauRegistrationPopup && <BureauRegistration bureauRegistrationPopup={bureauRegistrationPopup} setBureauRegistrationPopup={setBureauRegistrationPopup}/>}
+            { bureauRegistrationPopup && <BureauRegistration setBureauRegistrationPopup={setBureauRegistrationPopup}/>}
             { bureauUpdatePopup && <BureauUpdate bureauUpdatePopup={bureauUpdatePopup} setBureauUpdatePopup={setBureauUpdatePopup} parentsInputs={inputs} parentsSetInputs={setInputs}/>}
             
             {popup && (
@@ -83,76 +107,87 @@ export default function Bureau() {
 }
 
 
-// function BureauRegistration({ bureauRegistrationPopup, setBureauRegistrationPopup }){
-//     const [inputs, setInputs] = useState({'department_id': ''})
-//     const [popup, setPopup] = useState()
+function Board({ data, onSearch }){
+    const [deleteList, setDeleteList] = useState('')
+    const [popup, setPopup] = useState()
 
-//     const onSubmit = (e) =>{
-//         e.preventDefault();
-//         inputs.parent_department_id = inputs.department_id
-//         delete inputs.department_id
-//         api('department', 'insert', inputs)
-//             .then(({result, error_message})=>{
-//                 setPopup({'type': 'confirm', 'description': error_message})
-//                 if(result){
-//                     setPopup((popup)=>({
-//                         ...popup,
-//                         'title': '완료',
-//                         'confirmFunc': ()=>{
-//                             setBureauRegistrationPopup('')
-//                         }
-//                     }))
-//                     setInputs({'department_id': ''})
-//                 }else{
-//                     setPopup((popup)=>({
-//                         ...popup,
-//                         'title': '실패',
-//                     }))
-//                 }
-//             })
-//     }
+    return (
+        <>
+            <strong>{ data.name } ({ data.admin_count })</strong>
+            <button 
+                className='btn-gray-black'
+                onClick={()=>
+                    setPopup({
+                        type: 'salesArray',
+                        list: data.user_list,
+                        func: (selectData) => {
+                            console.log(selectData);
+                            // setInputs((input)=>({...input, 'admin_id_list': data}))
+                            api('department', 'add_user', {'department_id': data.department_id,'admin_id_list': selectData})
+                                .then((result)=>{
+                                    if(result){
+                                        onSearch()
+                                    }
+                                })
+                        }
+                    })
+                }
+            >
+                사용자 추가
+            </button>
+            <button className={`btn-gray-black`}
+                onClick={()=>setPopup({
+                    'type': 'finFunc',
+                    'title': '선택 삭제',
+                    'description': `선택 항목을 삭제하시겠습니까?`,
+                    'func': ()=>{
+                        if(deleteList.length){
+                            console.log(deleteList);
+                            api('department', 'delete_user', { 'department_id': data.department_id, 'admin_id_list': deleteList})
+                                .then(({result})=>{
+                                    if(result){
+                                        setPopup()
+                                        setDeleteList('')
+                                        onSearch()
+                                    }
+                                })
+                        }
+                    }
+                })}
+                disabled={!deleteList?.length}
+            >
+                선택 삭제
+            </button>
+            <button className='btn-gray-black'>선택 이동</button>
 
-//     return (
-//         <>
-//             { bureauRegistrationPopup &&
-//                 <Popup popup={bureauRegistrationPopup} setPopup={setBureauRegistrationPopup}>
-//                     <form className='bureau-add'>
-//                         <fieldset>
-//                             <strong>부서 추가</strong>
-//                             <ul>
-//                                 <li>
-//                                     <label htmlFor="name">부서명</label>
-//                                     <div>
-//                                         <input type="text" id='name' name='name' onChange={(e)=>inputChange(e, setInputs)}/> 
-//                                     </div>
-//                                 </li>
-//                                 <li>
-//                                     <label htmlFor="order_number">정렬순서</label>
-//                                     <div>
-//                                         <input type="text" id='order_number' name='order_number' onChange={(e)=>inputChange(e, setInputs)}/>
-//                                     </div>
-//                                 </li>
-//                                 <li>
-//                                     <label htmlFor="">상위부서 선택</label>
-//                                     <BureauBox type='registration' inputs={inputs} setInputs={setInputs} />
-//                                 </li>
-//                             </ul>
-//                         </fieldset>
-//                         <div className='btnArea-end'>
-//                             <button className='btn-gray-white' type='button' onClick={()=>setBureauRegistrationPopup('')}>취소</button>
-//                             <input type="submit" className='btn-point' value='저장' onClick={onSubmit}/>
-//                         </div>
-//                     </form>
-//                 </Popup>
-//             }
-            
-//             {popup && (
-//                 <Popup popup={popup} setPopup={setPopup} />
-//             )}
-//         </>
-//     )
-// }
+            <div className="board-top">
+                <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={data.user_list.map(({admin_id})=>admin_id)}/>
+                <span>아이디</span>
+                <span>사용자명</span>
+                <span>휴대폰</span>
+                <span>이메일</span>
+                <span>직위</span>
+            </div>
 
+            <ol className="board-center">
+                { data.user_list.map((data)=>(
+                    <li key={ data.admin_id }>
+                        <BoardChk id={data.admin_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
+                        <span>{ data.id }</span>
+                        <span>{ data.name }</span>
+                        <span>{ data.mobile }</span>
+                        <span>{ data.email }</span>
+                        <span>{ data.role_name }</span>
+                    </li>
+                ))}
+            </ol>
+
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup}/>
+            )}
+        </>
+    )
+}
 
 function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, parentsInputs, parentsSetInputs }){
     const [inputs, setInputs] = useState(/* parentsInputs */)

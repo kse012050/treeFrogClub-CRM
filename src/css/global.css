@@ -188,7 +188,8 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox [class*="board-scroll"]::-webkit-scrollbar{height: 6px;}
 .boardBox [class*="board-scroll"]::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
 .boardBox :is(.board-top, .board-center, .board-bottom){min-width: 100%;}
-.boardBox div:has(:is(.board-top, .board-center, .board-bottom)){width: 100%;}
+/* .boardBox div:has(:is(.board-top, .board-center, .board-bottom)){width: 100%;} */
+.boardBox :has(:is(.board-top, .board-center, .board-bottom)){width: 100%;}
 .boardBox :is(.board-top, .board-center li, .board-bottom){min-width: 100%; display: inline-flex; align-items: center; gap: 10px; height: 56px; padding-inline: 10px; box-sizing: border-box;}
 .boardBox :is(.board-top, .board-center li, .board-bottom) > div{display: flex; column-gap: 10px;}
 .boardBox :is(.board-top, .board-center li, .board-bottom) > div > *{flex: 1;}

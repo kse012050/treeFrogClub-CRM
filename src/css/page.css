@@ -284,6 +284,20 @@
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .listArea ul{max-height: 170px;}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .addBtn{align-items: center; gap: 10px; padding-block: 10px; margin-top: 0; border-top: 1px solid var(--color-line);}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li > .bureauBox .addBtn button{margin-left: auto;}
+.systemPage.bureauPage .horizontalTwo .boardArea > div:not(:first-of-type){margin-top: 40px;}
+.systemPage.bureauPage .horizontalTwo .boardArea .boardBox > .btn-gray-black:not(:last-of-type){margin-right: 7px;}
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-top *:nth-child(1), 
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-center li > *:nth-child(1){flex: 16;}
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-top *:nth-child(2), 
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-center li > *:nth-child(2){flex: 94;}
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-top *:nth-child(3), 
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-center li > *:nth-child(3){flex: 100;}
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-top *:nth-child(4), 
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-center li > *:nth-child(4){flex: 110;}
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-top *:nth-child(5), 
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-center li > *:nth-child(5){flex: 155;}
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-top *:nth-child(6), 
+.systemPage.bureauPage .horizontalTwo .boardArea > .boardBox > .board-center li > *:nth-child(6){flex: 65;}
 
 
 /* 시스템 관리 - 기본 설정 - 고객 구분 관리 */

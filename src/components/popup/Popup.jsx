@@ -31,7 +31,7 @@ function Popup({ popup, setPopup, confirmFunc, func, children }) {
                 { popup.type.includes('properties') && <PopupProperty close={close} popup={popup}/> }
                 { popup.type.includes('bureau') && <PopupBureau close={close} func={popup['func']}/>}
                 { popup.type === 'sales' && <PopupSales close={close} func={popup['func']}/>}
-                { popup.type === 'salesArray' && <PopupSalesArray close={close} func={popup['func']}/>}
+                { popup.type === 'salesArray' && <PopupSalesArray close={close} popup={popup}/>}
                 { popup.type.includes('analyst') && <PopupAnalyst close={close} func={popup['func']}/>}
                 { popup.type.includes('children') && children}
             </div>

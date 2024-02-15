@@ -3,12 +3,12 @@ import { api } from '../../api/api';
 import PagerButton from '../PagerButton';
 // import Pager from '../Pager';
 
-export default function PopupSalesArray({ close, func }) {
+export default function PopupSalesArray({ close, popup }) {
     // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
     const [salesList, setSalesList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
-    const [selectList, setSelectList] = useState([])
+    const [selectList, setSelectList] = useState(popup.hasOwnProperty('list') ? popup.list : [])
 
     useEffect(()=>{
         api('user', 'list', listInfo)
@@ -37,7 +37,7 @@ export default function PopupSalesArray({ close, func }) {
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        func(selectList.map((data)=>data.admin_id));
+        popup.func(selectList.map((data)=>data.admin_id));
         close();
     }
 
