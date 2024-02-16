@@ -25,14 +25,14 @@ export default function Registration() {
         const today = new Date();
         const year = today.getFullYear();
         const month = today.getMonth() + 1;
-        const day = today.getDate();
-        setInputs((input)=>({...input, 'experience_start_date': `${year}-0${month}-0${day}`}))
+        const day = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
+        setInputs((input)=>({...input, 'experience_start_date': `${year}-0${month}-${day}`}))
         const nextMonth = new Date();
         nextMonth.setMonth(nextMonth.getMonth() + 1);
         const nextYear = nextMonth.getFullYear();
         const nextMonthNumber = nextMonth.getMonth() + 1;
-        const nextDay = nextMonth.getDate();
-        setInputs((input)=>({...input, 'experience_end_date': `${nextYear}-0${nextMonthNumber}-0${nextDay}`}))
+        const nextDay = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate()
+        setInputs((input)=>({...input, 'experience_end_date': `${nextYear}-0${nextMonthNumber}-${nextDay}`}))
     },[user])
 
     const onDate = (dateString, name) => {

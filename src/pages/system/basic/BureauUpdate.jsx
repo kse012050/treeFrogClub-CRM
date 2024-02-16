@@ -13,7 +13,7 @@ export default function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup }
         api('department', 'detail', {'department_id': bureauUpdatePopup.id})
             .then(({result, data})=>{
                 if(result){
-                    console.log(data);
+                    // console.log(data);
                     setBureauUpdatePopup((dataPopup)=>({...dataPopup, list: data.user_list}))
                     setInputs({'department_id': data.department_id, 'name': data.name, 'order_number': data.order_number, 'admin_id_list': data.user_list})
                 }
