@@ -11,13 +11,15 @@ export default function PermissionsList({ data, deleteList, setDeleteList }) {
     useEffect(()=>{
         setInputs({...data})
         setPrevInputs({...data})
-    },[])
+    },[data])
 
     useEffect(()=>{
         if(inputs && prevInputs && !Object.entries(inputs).every(([key, value])=> value === prevInputs[key])){
             api('module', 'update', inputs)
                 .then(({result})=>{
-                    console.log(result);
+                    if(result){
+                        setPrevInputs({...inputs})
+                    }
                 })
         }
        

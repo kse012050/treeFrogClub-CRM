@@ -25,7 +25,8 @@ export default function List() {
     const [deleteList, setDeleteList] = useState('')
     const [popup, setPopup] = useState()
     const [sales, setSales] = useState()
-    const [bureau, setBureau] = useState();
+    const [bureau, setBureau] = useState()
+    // const [changeInputs, setChangeInputs] = useState()
 
     const currentData = useCallback(()=>{
         api('customer', 'list', inputs)
@@ -90,6 +91,10 @@ export default function List() {
         setSearchInputs({'limit': '10', 'page': '1'})
         currentData()
     }
+
+    // useEffect(()=>{
+    //     console.log(11);
+    // },[changeInputs])
 
     return (
         <>
@@ -384,9 +389,11 @@ export default function List() {
                                 <span>{ data.customer_id }</span>
                                 <span>{ data.customer_mobile }</span>
                                 <span>{ data.customer_name }</span>
-                                <SelectBoard type='sales' current={data?.sales_admin_id} /* setInputs={setInputs} */ changeName='sales_admin_id'/>
+                                <SalesItem data={data} />
+                                {/* <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setChangeInputs} changeName='sales_admin_id'/> */}
                                 <span>{ data.customer_properties_name }</span>
-                                <SelectBoard type='counsel' current={data?.counsel_properties_id} /* setInputs={setInputs} */ changeName='counsel_properties_id'/>
+                                <CounselItem data={data} />
+                                {/* <SelectBoard type='counsel' current={data?.counsel_properties_id} changeName='counsel_properties_id'/> */}
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_start_date : ''}</time>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
                                 <time>{ data.standard_payment_start_date }</time>
@@ -409,3 +416,61 @@ export default function List() {
     );
 }
 
+
+// 개별 항목
+function CounselItem({ data }) {
+    const [inputs, setInputs] = useState()
+    const [prevInputs, setPrevInputs] = useState()
+
+    useEffect(()=>{
+        setInputs({'customer_id': data.customer_id, 'counsel_properties_id': data.counsel_properties_id})
+        setPrevInputs({'customer_id': data.customer_id, 'counsel_properties_id': data.counsel_properties_id})
+    },[data])
+
+    useEffect(()=>{
+        if(inputs && prevInputs && !Object.entries(inputs).every(([key, value])=> value === prevInputs[key])){
+            api('customer', 'counsel_properties_change', inputs)
+                .then(({result})=>{
+                    if(result){
+                        setPrevInputs({...inputs})
+                    }
+                })
+        }
+       
+    },[inputs, prevInputs])
+
+    return (
+        <>
+            <SelectBoard type='counsel' current={data?.counsel_properties_id} setInputs={setInputs} changeName='counsel_properties_id'/>
+        </>
+    )
+}
+
+// 개별 항목
+function SalesItem({ data }) {
+    const [inputs, setInputs] = useState()
+    const [prevInputs, setPrevInputs] = useState()
+
+    useEffect(()=>{
+        setInputs({'customer_id': data.customer_id, 'sales_admin_id': data.sales_admin_id})
+        setPrevInputs({'customer_id': data.customer_id, 'sales_admin_id': data.sales_admin_id})
+    },[data])
+
+    useEffect(()=>{
+        if(inputs && prevInputs && !Object.entries(inputs).every(([key, value])=> value === prevInputs[key])){
+            api('customer', 'sales_admin_change', inputs)
+                .then(({result})=>{
+                    if(result){
+                        setPrevInputs({...inputs})
+                    }
+                })
+        }
+       
+    },[inputs, prevInputs])
+
+    return (
+        <>
+            <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setInputs} changeName='sales_admin_id'/>
+        </>
+    )
+}
