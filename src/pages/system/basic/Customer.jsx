@@ -59,7 +59,7 @@ export default function Customer() {
 
     return (
         <>
-            <h2>고객목록 설정</h2>
+            <h2>고객 목록 설정</h2>
             <div className="dropBox">
                 <b>통합 고객 목록 설정</b>
                 <form>

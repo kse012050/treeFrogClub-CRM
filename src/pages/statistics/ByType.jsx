@@ -56,7 +56,7 @@ export default function ByType() {
                     <span>0%</span>
                 </li>
             </ol>
-            <Link to={'/statistics/Account'} className='btn-gray-white'>목록</Link>
+            <Link to={'/statistics/account'} className='btn-gray-white'>목록</Link>
         </div>
     );
 }

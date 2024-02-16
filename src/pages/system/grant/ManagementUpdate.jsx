@@ -80,7 +80,7 @@ export default function ManagementUpdate() {
 
     return (
         <>
-            <h2>역할 등록</h2>
+            <h2>역할 수정</h2>
             <div className="dropBox">
                 <b>기본 정보</b>
                 <form>

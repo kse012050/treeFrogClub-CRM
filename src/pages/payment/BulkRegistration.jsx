@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default function Registration() {
     return (
         <>
-            <h2>대량결제 등록</h2>
+            <h2>대량 결제 등록</h2>
             <ol className='bulkBox'>
                 <li>
                     <b>투입양식 작성</b>
