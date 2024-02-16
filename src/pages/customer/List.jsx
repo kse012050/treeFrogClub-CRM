@@ -19,14 +19,16 @@ export default function List() {
     const [searchInputs, setSearchInputs] = useState({'limit' : '10', 'page': '1'})
     const [searchCounsel, setSearchCounsel] = useState()
     const [searchClient, setSearchClient] = useState()
+    const [searchId, setSearchId] = useState()
     const [isSearch, setIsSearch] = useState(false)
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
-    const [deleteList, setDeleteList] = useState('')
+    const [deleteList, setDeleteList] = useState([])
     const [popup, setPopup] = useState()
     const [sales, setSales] = useState()
     const [bureau, setBureau] = useState()
-    // const [changeInputs, setChangeInputs] = useState()
+    const [customerList, setCustomerList] = useState('영업담당자')
+    const [customerListInputs, setCustomerListInputs] = useState()
 
     const currentData = useCallback(()=>{
         api('customer', 'list', inputs)
@@ -47,7 +49,7 @@ export default function List() {
             })
 
             
-        api('clientcode', 'properties_list', {'limit': '500'})
+        api('clientcode', 'properties_list', {"all_yn": "y"})
             .then(({result, list})=>{
                 if(result){
                     // console.log(list);
@@ -73,13 +75,14 @@ export default function List() {
 
     const onSearch = (e) => {
         e.preventDefault()
-        console.log(searchInputs);
+        // console.log(searchInputs);
         api('customer', 'list', searchInputs)
             .then(({result, data, list})=>{
                 if(result){
                     // console.log(list);
                     setPagerInfo(data)
                     setBoardList(list)
+                    setSearchId(list.map((listData)=>listData.customer_id))
                     setIsSearch(true)
                 }
             })
@@ -90,11 +93,12 @@ export default function List() {
         setBureau()
         setSearchInputs({'limit': '10', 'page': '1'})
         currentData()
+        setSearchId()
     }
 
-    // useEffect(()=>{
-    //     console.log(11);
-    // },[changeInputs])
+    useEffect(()=>{
+        setCustomerListInputs()
+    },[customerList])
 
     return (
         <>
@@ -337,8 +341,51 @@ export default function List() {
                 </button>
                 { isSearch && 
                     <>
-                        <button className='btn-gray-black'>검색고객 삭제</button>
-                        <button className='btn-gray-black'>검색고객 수신거부</button>
+                        <button 
+                            className='btn-gray-black' 
+                            onClick={()=>setPopup({
+                                'type': 'finFunc',
+                                'title': '검색고객 삭제',
+                                'description': '검색된 고객을 삭제하시겠습니까?',
+                                'func': ()=>{
+                                    api('customer', 'delete', {'customer_id_list': searchId})
+                                        .then(({result, error_message})=>{
+                                            if(result){
+                                                setPopup({
+                                                    'type': 'confirm',
+                                                    'title': '완료',
+                                                    'description': error_message,
+                                                })
+                                                currentData()
+                                            }
+                                        })
+                                }
+                            })}
+                        >
+                            검색고객 삭제
+                        </button>
+                        <button 
+                            className='btn-gray-black'
+                            onClick={()=>setPopup({
+                                'type': 'finFunc',
+                                'title': '검색고객 수신거부',
+                                'description': '검색된 고객을 수신거부하시겠습니까?',
+                                'func': ()=>{
+                                    api('customer', 'receive_reject', {'customer_id_list': searchId})
+                                        .then(({result, error_message})=>{
+                                            if(result){
+                                                setPopup({
+                                                    'type': 'confirm',
+                                                    'title': '완료',
+                                                    'description': error_message,
+                                                })
+                                            }
+                                        })
+                                }
+                            })}
+                        >
+                            검색고객 수신거부
+                        </button>
                         <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
                     </>
                 }
@@ -361,11 +408,73 @@ export default function List() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <Select />
-                <Select />
-                <button className='btn-gray-black'>선택 변경</button>
+
+                { deleteList?.length !== 0 &&
+                    <>
+                        <Select type='customerList' current={customerList} setInputs={setCustomerList}/>
+                        { customerList === '영업담당자' &&
+                            <Select type='sales' setInputs={setCustomerListInputs} changeName='sales_admin_id'/>
+                        }
+                        { customerList === '상담상태' &&
+                            <Select type='counsel' setInputs={setCustomerListInputs} changeName='counsel_properties_id'/>
+                        }
+                        { customerList === '고객구분' &&
+                            <Select type='customer' setInputs={setCustomerListInputs} changeName='customer_properties_id'/>
+                        }
+                        <button 
+                            className='btn-gray-black'
+                            onClick={()=>setPopup({
+                                'type': 'finFunc',
+                                'title': '선택 변경',
+                                'description': '선택 항목을 변경하시겠습니까?',
+                                'func': ()=>{
+                                    // console.log({...customerListInputs, 'customer_id_list': deleteList});
+                                    api('customer', 'select_properties', {...customerListInputs, 'customer_id_list': deleteList})
+                                        .then(({result, error_message})=>{
+                                            if(result){
+                                                setPopup({
+                                                    'type': 'confirm',
+                                                    'title': '완료',
+                                                    'description': error_message,
+                                                })
+                                                setCustomerListInputs()
+                                                currentData()
+                                            }
+                                        })
+                                }
+                            })}
+                            disabled={!customerListInputs}
+                        >
+                            선택 변경
+                        </button>
+                    </>
+                }
+           
                 <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} className='boundary'/>
-                <button className='btn-gray-black'>선택 수신거부</button>
+                <button 
+                    className='btn-gray-black' 
+                    onClick={()=>setPopup({
+                        'type': 'finFunc',
+                        'title': '선택고객 수신거부',
+                        'description': '선택된 고객을 수신거부하시겠습니까?',
+                        'func': ()=>{
+                            api('customer', 'receive_reject', {'customer_id_list': deleteList})
+                                .then(({result, error_message})=>{
+                                    if(result){
+                                        setPopup({
+                                            'type': 'confirm',
+                                            'title': '완료',
+                                            'description': error_message,
+                                        })
+                                        setDeleteList([])
+                                    }
+                                })
+                        }
+                    })}
+                    disabled={!deleteList?.length}
+                >
+                    선택 수신거부
+                </button>
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({customer_id})=>customer_id)} />
                     <button>No.</button>
@@ -390,10 +499,8 @@ export default function List() {
                                 <span>{ data.customer_mobile }</span>
                                 <span>{ data.customer_name }</span>
                                 <SalesItem data={data} />
-                                {/* <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setChangeInputs} changeName='sales_admin_id'/> */}
                                 <span>{ data.customer_properties_name }</span>
                                 <CounselItem data={data} />
-                                {/* <SelectBoard type='counsel' current={data?.counsel_properties_id} changeName='counsel_properties_id'/> */}
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_start_date : ''}</time>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
                                 <time>{ data.standard_payment_start_date }</time>

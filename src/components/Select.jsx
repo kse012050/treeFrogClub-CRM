@@ -22,8 +22,53 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setValue(['10', '20', '30', '50', '100', '300', '500']);
         }
 
-        // 고객DB 관리 - 고객 등록
+
+        // 고객DB 관리
         if(type === 'sales'){
+            api('user', 'list')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({admin_id})=>admin_id));
+                    }
+                })
+        }
+
+        if(type === 'analyst'){
+            api('user', 'analyst_list')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({admin_id})=>admin_id));
+                    }
+                })
+        }
+
+        if(type === 'product'){
+            api('product', 'list', {'all_yn': 'y'})
+                .then(({result, list})=>{
+                    // console.log(list);
+                    if(result){
+                        setName(list.map(({product_name})=>product_name));
+                        setValue(list.map(({product_id})=>product_id));
+                    }
+                })
+        }
+
+        if(type === 'excelCount'){
+            setName(['1,000', '5,000', '10,000'])
+            setValue(['1000', '5000', '10000'])
+        }
+
+        if(type === 'customerList'){
+            setName(['영업담당자'/* , '관리담당자' */, '상담상태', '고객구분']);
+            setValue(['영업담당자'/* , '관리담당자' */, '상담상태', '고객구분'])
+        }
+        // 고객DB 관리 fin
+
+
+        // 고객DB 관리 - 고객 등록
+        if(type === 'salesProperties'){
             api('properties', 'properties_list', {'classification_id': '3'})
                 .then(({result, list})=>{
                     if(result){
@@ -52,33 +97,8 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setName(arr)
             setValue(arr)
         }
-
-        if(type === 'analyst'){
-            api('user', 'analyst_list')
-                .then(({result, list})=>{
-                    if(result){
-                        setName(list.map(({name})=>name));
-                        setValue(list.map(({admin_id})=>admin_id));
-                    }
-                })
-        }
-
-        if(type === 'product'){
-            api('product', 'list', {'all_yn': 'y'})
-                .then(({result, list})=>{
-                    console.log(list);
-                    if(result){
-                        setName(list.map(({product_name})=>product_name));
-                        setValue(list.map(({product_id})=>product_id));
-                    }
-                })
-        }
-
-        if(type === 'excelCount'){
-            setName(['1,000', '5,000', '10,000']);
-            setValue(['1000', '5000', '10000'])
-        }
         // 고객DB 관리 - 고객 등록 fin
+
 
         // 시스템 관리 - 기본 설정 - 고객 구분 관리 
         if(type === 'clientClassification'){
@@ -263,8 +283,8 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
         if(changeName){
             setInputs((input)=>({...input, [changeName]: value[i]}))
         }else{
-            console.log(value);
-            console.log(value[i]);
+            // console.log(value);
+            // console.log(value[i]);
             setInputs(value[i])
         }
     }

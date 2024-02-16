@@ -17,14 +17,14 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
                     .then(({result})=>{
                         if(result){
                             setPopup(confirmPopupMessage)
-                            setDeleteList('')
+                            setDeleteList([])
                         }
                     })
             }else{
                 apiAwait(url, 'delete', idName, deleteList).then((result)=>{
                     if({result}){
                         setPopup(confirmPopupMessage)
-                        setDeleteList('')
+                        setDeleteList([])
                     }
                 })
             }

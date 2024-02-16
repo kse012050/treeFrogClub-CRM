@@ -223,7 +223,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                         <li>
                             <label htmlFor="">매출 구분</label>
                             <div>
-                                <Select type='sales' setInputs={setInputs} changeName='sales_properties_id'/>
+                                <Select type='salesProperties' setInputs={setInputs} changeName='sales_properties_id'/>
                             </div>
                         </li>
                         <li className='fill-two'>
