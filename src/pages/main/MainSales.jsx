@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from '../../components/Select';
+import { api } from '../../api/api';
 
 export default function MainSales() {
+    const [dashboard, setDashboard] = useState()
+    
+    useEffect(()=>{
+        api('dashboard', 'month_sales_total_stat')
+            .then((result)=>{
+                console.log(result);
+                // if(result){
+                //     setDashboard(data)
+                // }
+            })
+    },[])
+
     return (
         <div className='salesPage'>
             <div className='salesArea'>

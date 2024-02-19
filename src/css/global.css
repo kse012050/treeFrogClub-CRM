@@ -59,9 +59,9 @@ div:has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; tra
 [class*="selectBox"] div{position: absolute; left: 0; top: calc(100% + 3px); width: 100%; padding: 5px; background-color: white; border-radius: 4px; box-sizing: border-box; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); z-index: 1;}
 [class*="selectBox"] div button:hover{background-color: var(--color-point02); font-weight: 700;}
 .selectBox-year{max-width: 90px;}
-.selectBox-year button::after{content: '년';}
+/* .selectBox-year button::after{content: '년';} */
 .selectBox-month{max-width: 70px;}
-.selectBox-month button::after{content: '월';}
+/* .selectBox-month button::after{content: '월';} */
 .board-pagination:has(.selectBox-pagerCount){position: relative;}
 .selectBox-pagerCount{max-width: 80px; position: absolute; left: 55px; top: 0;}
 .selectBox-pagerCount::before{content: '노출개수'; position: absolute; left: 0; top: 50%; translate: calc(-100% - 10px) -50%;}

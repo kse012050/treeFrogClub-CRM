@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import MainBasic from './MainBasic';
-import MainSales from './MainSales';
+import MainBasic from './MainBasic';
+// import MainSales from './MainSales';
 import { api } from '../../api/api';
 
 export default function Main() {
@@ -25,8 +25,8 @@ export default function Main() {
                 </Link>
             }
 
-            {/* <MainBasic /> */}
-            <MainSales />
+            <MainBasic />
+            {/* <MainSales /> */}
         </>
     );
 }

@@ -13,8 +13,22 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
     const [select, setSelect] = useState()
     
     useEffect(()=>{
-        type === 'year' && setName(['2023', '2022', '2021']);
-        type === 'month' && setName(['10', '11', '12']);
+        // 대시 보드
+        if(type === 'year'){
+            api('calendar', 'calculation_year_list')
+                .then(({result, list})=>{
+                    if(result){
+                        // console.log(list);
+                        setName(list.map(({year_value_title})=>year_value_title));
+                        setValue(list.map(({year_value})=>year_value));
+                    }
+                })
+        }
+
+        if(type === 'month'){
+            setName(['10', '11', '12']);
+        }
+        // 대시 보드 finc
 
         // 페이저
         if(type === 'pagerCount'){
@@ -288,6 +302,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
             setInputs(value[i])
         }
     }
+
     return (
         <div className={`selectBox${type ? `-${type}`: ''}`}>
             <button onClick={selectOpen} disabled={disabled}>{ select || '선택' }</button>
