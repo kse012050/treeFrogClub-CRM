@@ -20,6 +20,21 @@ export default function Bureau() {
         setInputs({ 'department_id': '' })
     },[bureauRegistrationPopup, bureauUpdatePopup])
 
+    useEffect(()=>{
+        if(inputs.department_id){
+            boardListFunc();
+        }
+    },[inputs])
+
+    const boardListFunc = () => {
+        api('user', 'list', {'department_id': inputs.department_id})
+            .then(({result, list})=>{
+                if(result){
+                    setBoardList([{'department_id': inputs.department_id, 'name': inputs.name, 'admin_count': list.length, 'user_list': list}])
+                }
+            })
+    }
+
     const onSearch = () => {
         api('department', 'search_user', searchInputs)
             .then(({result, list})=>{
@@ -95,7 +110,7 @@ export default function Bureau() {
                     <div className='boardArea'>
                         { boardList.map((data)=> 
                             <div className='boardBox' key={data.department_id}>
-                                <Board data={data} onSearch={onSearch}/>
+                                <Board data={data} onSearch={onSearch} boardListFunc={boardListFunc}/>
                             </div>
                         )}
                     </div>
@@ -112,7 +127,7 @@ export default function Bureau() {
 }
 
 
-function Board({ data, onSearch }){
+function Board({ data, onSearch, boardListFunc }){
     const [deleteList, setDeleteList] = useState('')
     const [popup, setPopup] = useState()
 
@@ -147,7 +162,7 @@ function Board({ data, onSearch }){
                     'description': `선택 항목을 삭제하시겠습니까?`,
                     'func': ()=>{
                         if(deleteList.length){
-                            console.log(deleteList);
+                            // console.log(deleteList);
                             api('department', 'delete_user', { 'department_id': data.department_id, 'admin_id_list': deleteList})
                                 .then(({result})=>{
                                     if(result){
@@ -163,7 +178,22 @@ function Board({ data, onSearch }){
             >
                 선택 삭제
             </button>
-            <button className='btn-gray-black'>선택 이동</button>
+            <button 
+                className='btn-gray-black'
+                onClick={()=>setPopup({
+                    'type': 'bureau',
+                    'func': (data)=>{
+                        api('department', 'move_user', {'department_id': data.department_id, 'admin_id_list': deleteList})
+                            .then((result)=>{
+                                console.log(result);
+                                boardListFunc()
+                            })
+                    }
+                })}
+                disabled={!deleteList?.length}
+            >
+                선택 이동
+            </button>
 
             <div className="board-top">
                 <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={data.user_list.map(({admin_id})=>admin_id)}/>

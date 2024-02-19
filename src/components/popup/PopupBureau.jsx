@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import BureauBox from '../BureauBox';
+// import BureauBox from '../bureau/BureauBox';
 
 export default function PopupBureau({ close, func }) {
     const [select, setSelect] = useState();
