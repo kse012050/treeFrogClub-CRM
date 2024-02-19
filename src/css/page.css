@@ -15,7 +15,7 @@
 .mainPage > a::before{content: attr(title); font-weight: 700; margin-right: 40px;}
 .mainPage > a::after{content: ''; order: -1; width: 16px; aspect-ratio: 1; background: url(../images/icon-notice.png) no-repeat center / cover; margin-right: 10px;}
 .mainPage > a time{font-size: 12px; font-weight: 400; color: var(--color-font03); margin-right: 10px;}
-.mainPage > a p{font-weight: 400; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.mainPage > a p{font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .mainPage > a[data-new] p{padding-right: 15px; position: relative;}
 .mainPage > a[data-new] p::after{content: ''; position: absolute; right: 0; top: 0; width: 7px; aspect-ratio: 1; background: url(../images/icon-new.png) no-repeat center / cover;}
 /* 메인 페이지 - 기본 페이지 */

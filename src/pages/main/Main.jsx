@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 // import MainBasic from './MainBasic';
 import MainSales from './MainSales';
+import { api } from '../../api/api';
 
 export default function Main() {
+    const [dashboardAlarm, setDashboardAlarm] = useState()
+
+    useEffect(()=>{
+        api('board', 'dashboard_alarm')
+            .then(({result, data})=>{
+                if(result){
+                    setDashboardAlarm(data)
+                }
+            })
+    },[])
+
     return (
         <>
-            <Link to="" title="공지알림" data-new>
-                <time>2023/11/15 11:00</time>
-                <p>사업지원팀 공통 공지사항입니다~! 사업지원팀 공통 공지사항입니다~! 사업지원팀 공통 공지사항입니다~! 사업지원팀 공통 공지사항입니다~! 사업지원팀 공통 공지사항입니다~! 사업지원팀 공통 공지사항입니다~! 사업지원팀 공통 공지사항입니다~!</p>
-            </Link>
+            { dashboardAlarm && 
+                <Link to={`/notice/update/${dashboardAlarm.board_id}`} title="공지알림" data-new={dashboardAlarm.new_yn === 'y'}>
+                    <time>{ dashboardAlarm.reg_data }</time>
+                    <p>{ dashboardAlarm.title }</p>
+                </Link>
+            }
 
             {/* <MainBasic /> */}
             <MainSales />
