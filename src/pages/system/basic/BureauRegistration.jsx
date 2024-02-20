@@ -7,6 +7,7 @@ import Popup from '../../../components/popup/Popup';
 
 export default function BureauRegistration({ bureau, setBureauRegistrationPopup, onRefresh }) {
     const [inputs, setInputs] = useState()
+    const [headList, setHeadList] = useState()
     const [popup, setPopup] = useState()
 
     const onSales = () => {
@@ -18,12 +19,15 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
             return copy
         })
 
-        // setDataPopup((dataPopup)=> ({...dataPopup, list: []}))
+        // setBureauRegistrationPopup((dataPopup)=> ({...dataPopup, list: []}))
 
         setPopup({
             type: 'salesArray',
+            list: headList ? headList.list : [],
             func: (data) => {
-                // setDataPopup((dataPopup)=>({...dataPopup, list: data}))
+                // console.log(data);
+                // setBureauRegistrationPopup((dataPopup)=>({...dataPopup, list: data}))
+                setHeadList({'list': data})
                 setInputs((input)=>({...input, 'admin_id_list': data.map((data)=>data.admin_id)}))
             }
         })
@@ -31,12 +35,13 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
 
     const onSalesDelete = (data) => {
         // console.log(data);
-        // setDataPopup((dataPopup2)=>({...dataPopup2, 'list': dataPopup2.list.filter((dataPopup3)=>dataPopup3.admin_id !== data.admin_id)}))
+        setHeadList((dataPopup2)=>({...dataPopup2, 'list': dataPopup2.list.filter((dataPopup3)=>dataPopup3.admin_id !== data.admin_id)}))
         setInputs((input)=>({...input, 'admin_id_list': input.admin_id_list.filter((adminId)=>adminId !== data.admin_id)}))
     }
 
     const onSubmit = (e) =>{
         e.preventDefault();
+        // console.log(inputs);
         api('department', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -103,17 +108,34 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
                                         }
 
                                         <div className="addBtn">
-                                                <b>부서장 선택</b>
-                                                <span>(최대 6명)</span>
-                                                <button 
-                                                    type='button'
-                                                    className='btn-gray-black'
-                                                    onClick={onSales}
-                                                >
-                                                    찾기
-                                                </button>
-                                            </div>
+                                            <b>부서장 선택</b>
+                                            <span>(최대 6명)</span>
+                                            <button 
+                                                type='button'
+                                                className='btn-gray-black'
+                                                onClick={onSales}
+                                            >
+                                                찾기
+                                            </button>
+                                        </div>
                                     </div>
+
+                                    { headList &&
+                                        <ul className='choice-horizontal scroll-width'>
+                                            { headList.list.map((data)=>(
+                                                <li key={data.admin_id} className='icon-remove'>
+                                                    { data.name }
+                                                    <button 
+                                                        type='button'
+                                                        onClick={()=>onSalesDelete(data)}
+                                                    >
+                                                        제거
+                                                    </button>
+                                                </li>
+                                                ))
+                                            }
+                                        </ul>
+                                    }
                                 </div>
                             </li>
                         </ul>

@@ -8,6 +8,9 @@ export default function PopupSalesArray({ close, popup }) {
     const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
     const [salesList, setSalesList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
+    // console.log(popup);
+    // console.log(popup.list);
+    // console.log(popup.hasOwnProperty('list'));
     const [selectList, setSelectList] = useState(popup.hasOwnProperty('list') ? popup.list : [])
 
     useEffect(()=>{
