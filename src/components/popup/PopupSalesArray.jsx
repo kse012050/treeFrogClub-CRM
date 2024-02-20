@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../api/api';
 import PagerButton from '../PagerButton';
+import { inputChange } from '../../api/validation';
 // import Pager from '../Pager';
 
 export default function PopupSalesArray({ close, popup }) {
     // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
-    const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
+    const [listInfo, setListInfo] = useState({'limit': '20', 'page': '1'})
     const [salesList, setSalesList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
+    const [searchInputs, setSearchInputs] = useState()
     // console.log(popup);
     // console.log(popup.list);
     // console.log(popup.hasOwnProperty('list'));
@@ -38,6 +40,20 @@ export default function PopupSalesArray({ close, popup }) {
         }
     }
 
+    const onSearch = (e) =>{
+        e.preventDefault()
+        api('user', 'list', {...listInfo, ...searchInputs})
+            .then(({result, data, list})=>{
+                if(result){
+                    setPagerInfo(data)
+                    // setSalesList(list.filter((listData)=> listData.role_name.includes('영업')))
+                    setSalesList(list)
+                }
+            })
+
+
+    }
+
     const onSubmit = (e) =>{
         e.preventDefault()
         popup.func(selectList);
@@ -47,10 +63,10 @@ export default function PopupSalesArray({ close, popup }) {
     return (
         <>
             <strong>사용자 선택</strong>   
-            <div className='searchArea'>
-                <input type="search" />
-                <button>검색</button>
-            </div>
+            <form className='searchArea'>
+                <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
+                <button onClick={onSearch}>검색</button>
+            </form>
             <div className='boardBox'>
                 <b className='total'>{ salesList?.length }</b>
                 <div className="board-top">
