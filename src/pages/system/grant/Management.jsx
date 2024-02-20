@@ -77,7 +77,7 @@ function Board({ boardList, setBoardList }){
                 <BoardChkDelete url='role' idName='role_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
                 
                 <div className="board-top">
-                    <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
+                    <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({role_id})=>role_id)} />
                     <button>구분</button>
                     <button>역할</button>
                     <button>허용IP 설정</button>

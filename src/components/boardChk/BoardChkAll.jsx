@@ -4,7 +4,7 @@ export default function BoardChkAll({ deleteList, setDeleteList, list }) {
     const uuid = useId()
     const allChecked = (e) => {
         const { checked } = e.target;
-        // console.log(list);
+        console.log(list);
         if(checked){
             setDeleteList(list)
         }else{
