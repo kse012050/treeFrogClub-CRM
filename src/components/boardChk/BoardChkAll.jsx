@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 export default function BoardChkAll({ deleteList, setDeleteList, list }) {
+    const uuid = useId()
     const allChecked = (e) => {
         const { checked } = e.target;
         // console.log(list);
@@ -12,8 +13,8 @@ export default function BoardChkAll({ deleteList, setDeleteList, list }) {
     }
     return (
         <div>
-            <input type="checkbox" id='allChecked' onChange={allChecked} checked={list?.length === deleteList?.length && list.length}/>
-            <label htmlFor="allChecked"></label>
+            <input type="checkbox" id={uuid} onChange={allChecked} checked={list?.length === deleteList?.length && list.length}/>
+            <label htmlFor={uuid}></label>
         </div>
     );
 }

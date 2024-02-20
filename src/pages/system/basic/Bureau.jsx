@@ -93,11 +93,12 @@ export default function Bureau() {
         }
     },[inputs])
 
-    const onSearch = () => {
+    const onSearch = (e) => {
+        e.preventDefault()
         api('department', 'search_user', searchInputs)
             .then(({result, list})=>{
                 if(result){
-                    console.log(list);
+                    // console.log(list);
                     setBoardList(list)
                     setInputs()
                 }
@@ -108,7 +109,7 @@ export default function Bureau() {
         bureauFunc()
         // console.log(id);
         if(id){
-            boardIdFunc(id)
+            // boardIdFunc(id)
         }else{
             // firstBureauFunc()
         }
@@ -118,10 +119,14 @@ export default function Bureau() {
         <>
             <h2>
                 부서 관리
-                <div>
+                {/* <div>
                     <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
                     <button onClick={onSearch}>검색</button>
-                </div>
+                </div> */}
+                <form>
+                    <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
+                    <button onClick={onSearch}>검색</button>
+                </form>
             </h2>
             
             <div className="horizontalTwo">
