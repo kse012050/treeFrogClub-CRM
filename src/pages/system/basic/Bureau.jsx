@@ -24,14 +24,16 @@ export default function Bureau() {
             .then(({result, list, data: { company_name }})=>{
                 if(result){
                     setBureau(()=>({'company_name': company_name, 'list': list}))
-                    setFirstBureau({...list[0]})
+                    // console.log(firstBureau);
+                    setFirstBureau(list[0])
                 }
             })
 
     },[])
 
     const boardFunc = useCallback((data)=>{
-        // console.log(bureau);
+        // console.log(data);
+        // console.log('?');
         api('user', 'list', {'department_id': data.department_id})
             .then(({result, list})=>{
                 if(result){
@@ -44,11 +46,29 @@ export default function Bureau() {
             })
     },[])
 
-    const firstBureauFunc = useCallback(()=>{
-        if(firstBureau){
-            boardFunc(firstBureau)
+    const boardIdFunc = useCallback((id)=>{
+        // console.log(id);
+        if(bureau){
+            const data = bureau.list.filter((data)=> data.department_id === id)[0]
+            // console.log(data);
+            api('user', 'list', {'department_id': data.department_id})
+                .then(({result, list})=>{
+                    if(result){
+                        // 아마도 부서장 판별인 듯
+                        // console.log(list);
+                        // list = list.filter((data)=>data.useable_yn === 'n')
+                        setBoardList([{'department_id': data.department_id, 'name': data.name, 'admin_count': list.length, 'user_list': list}])
+                        setInputs(data)
+                    }
+                })
         }
-    },[boardFunc, firstBureau])
+    },[bureau])
+
+    const firstBureauFunc = useCallback(()=>{
+        if(bureau){
+            boardFunc(bureau.list[0])
+        }
+    },[boardFunc, bureau])
    
     useEffect(()=>{
         bureauFunc()
@@ -73,9 +93,25 @@ export default function Bureau() {
         }
     },[inputs])
 
-    const onRefresh = () =>{
+    const onSearch = () => {
+        api('department', 'search_user', searchInputs)
+            .then(({result, list})=>{
+                if(result){
+                    console.log(list);
+                    setBoardList(list)
+                    setInputs()
+                }
+            })
+    }
+
+    const onRefresh = (id) =>{
         bureauFunc()
-        firstBureauFunc()
+        // console.log(id);
+        if(id){
+            boardIdFunc(id)
+        }else{
+            // firstBureauFunc()
+        }
     }
    
     return (
@@ -84,7 +120,7 @@ export default function Bureau() {
                 부서 관리
                 <div>
                     <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
-                    {/* <button onClick={onSearch}>검색</button> */}
+                    <button onClick={onSearch}>검색</button>
                 </div>
             </h2>
             
@@ -139,7 +175,7 @@ export default function Bureau() {
                     <div className='boardArea'>
                         { boardList.map((data)=> 
                             <div className='boardBox' key={data.department_id}>
-                                <Board data={data}/>
+                                <Board data={data} onRefresh={onRefresh}/>
                             </div>
                         )}
                     </div>
@@ -157,7 +193,7 @@ export default function Bureau() {
 }
 
 
-function Board({ data, onSearch, boardListFunc }){
+function Board({ data, onSearch, boardListFunc, onRefresh }){
     const [deleteList, setDeleteList] = useState('')
     const [popup, setPopup] = useState()
 
@@ -171,12 +207,26 @@ function Board({ data, onSearch, boardListFunc }){
                         type: 'salesArray',
                         list: data.user_list,
                         func: (selectData) => {
-                            console.log(selectData);
+                            selectData = selectData.map((test)=>test.admin_id)
+                            // console.log(selectData);
+                            // console.log(data);
                             // setInputs((input)=>({...input, 'admin_id_list': data}))
                             api('department', 'add_user', {'department_id': data.department_id,'admin_id_list': selectData})
-                                .then((result)=>{
+                                .then(({result, error_message})=>{
+                                    setPopup({'type': 'confirm', 'description': error_message})
                                     if(result){
-                                        onSearch()
+                                        setPopup((popup)=>({
+                                            ...popup,
+                                            'title': '완료',
+                                            'confirmFunc': ()=>{
+                                                onRefresh(data.department_id)
+                                            }
+                                        }))
+                                    }else{
+                                        setPopup((popup)=>({
+                                            ...popup,
+                                            'title': '실패',
+                                        }))
                                     }
                                 })
                         }
@@ -194,11 +244,21 @@ function Board({ data, onSearch, boardListFunc }){
                         if(deleteList.length){
                             // console.log(deleteList);
                             api('department', 'delete_user', { 'department_id': data.department_id, 'admin_id_list': deleteList})
-                                .then(({result})=>{
+                                .then(({result, error_message})=>{
+                                    setPopup({'type': 'confirm', 'description': error_message})
                                     if(result){
-                                        setPopup()
-                                        setDeleteList('')
-                                        onSearch()
+                                        setPopup((popup)=>({
+                                            ...popup,
+                                            'title': '완료',
+                                            'confirmFunc': ()=>{
+                                                onRefresh()
+                                            }
+                                        }))
+                                    }else{
+                                        setPopup((popup)=>({
+                                            ...popup,
+                                            'title': '실패',
+                                        }))
                                     }
                                 })
                         }
@@ -213,10 +273,24 @@ function Board({ data, onSearch, boardListFunc }){
                 onClick={()=>setPopup({
                     'type': 'bureau',
                     'func': (data)=>{
+                        // console.log(data);
                         api('department', 'move_user', {'department_id': data.department_id, 'admin_id_list': deleteList})
-                            .then((result)=>{
-                                console.log(result);
-                                boardListFunc()
+                            .then(({result, error_message})=>{
+                                setPopup({'type': 'confirm', 'description': error_message})
+                                if(result){
+                                    setPopup((popup)=>({
+                                        ...popup,
+                                        'title': '완료',
+                                        'confirmFunc': ()=>{
+                                            onRefresh()
+                                        }
+                                    }))
+                                }else{
+                                    setPopup((popup)=>({
+                                        ...popup,
+                                        'title': '실패',
+                                    }))
+                                }
                             })
                     }
                 })}

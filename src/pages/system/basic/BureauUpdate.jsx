@@ -15,7 +15,7 @@ export default function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, 
                 if(result){
                     // console.log(data);
                     setBureauUpdatePopup((dataPopup)=>({...dataPopup, list: data.head_list}))
-                    setInputs({'department_id': data.department_id, 'name': data.name, 'order_number': data.order_number, 'admin_id_list': data.user_list})
+                    setInputs({'department_id': data.department_id, 'name': data.name, 'order_number': data.order_number, 'admin_id_list': data.user_list.map((listData)=>listData.department_id)})
                 }
             })
     },[bureauUpdatePopup.id, setBureauUpdatePopup])
@@ -32,7 +32,7 @@ export default function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, 
                         'title': '완료',
                         'confirmFunc': ()=>{
                             setBureauUpdatePopup('')
-                            onRefresh()
+                            onRefresh(inputs.department_id)
                         }
                     }))
                 }else{

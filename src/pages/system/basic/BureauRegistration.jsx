@@ -41,8 +41,8 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        // console.log(inputs);
-        api('department', 'insert', inputs)
+        console.log(inputs);
+       /*  api('department', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
@@ -60,7 +60,7 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
                         'title': '실패',
                     }))
                 }
-            })
+            }) */
     }
 
     return (
