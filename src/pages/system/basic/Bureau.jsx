@@ -210,6 +210,7 @@ function Board({ data, onSearch, boardListFunc, onRefresh }){
                 onClick={()=>
                     setPopup({
                         type: 'salesArray',
+                        limit: 'none',
                         list: data.user_list,
                         func: (selectData) => {
                             selectData = selectData.map((test)=>test.admin_id)

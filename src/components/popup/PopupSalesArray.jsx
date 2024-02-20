@@ -27,7 +27,8 @@ export default function PopupSalesArray({ close, popup }) {
     },[listInfo])
 
     const salesSelect = (data) => {
-        if(selectList.length < 6){
+        // console.log(popup.limit);
+        if(selectList.length < 6 || popup.limit === 'none'){
             setSelectList((select)=> {
                 let copy = [...select];
                 if(!copy.some((copyData) => copyData.admin_id === data.admin_id)){
