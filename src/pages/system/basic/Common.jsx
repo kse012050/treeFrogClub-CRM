@@ -87,7 +87,7 @@ function Board({ boardList, setBoardList }){
     },[inputs.limit])
     
     useEffect(()=>{
-        if(!deleteList){
+        if(!deleteList.length){
             api('commoncode', 'properties_list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
@@ -101,7 +101,7 @@ function Board({ boardList, setBoardList }){
     return (
         <>
             <div className='boardBox'>
-                <strong>목록</strong>
+                <strong onClick={()=>console.log(deleteList)}>목록</strong>
                 <hr className='case01'/>
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>

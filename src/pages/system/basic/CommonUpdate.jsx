@@ -52,7 +52,7 @@ export default function CommonUpdate() {
                             <li>
                                 <label htmlFor="">분류 유형명</label>
                                 <div>
-                                    <input type="text" disabled value={inputs?.name || ''}/>
+                                    <input type="text" disabled value={inputs?.classification_name || ''}/>
                                 </div>
                             </li>
                             <li>
@@ -70,7 +70,7 @@ export default function CommonUpdate() {
                             <li>
                                 <label htmlFor="order_number">정렬순서</label>
                                 <div>
-                                    <input type="text" id='order_number' name='order_number' value={inputs?.order_number || ''} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" id='order_number' name='order_number' data-formet="numb" value={inputs?.order_number || ''} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>

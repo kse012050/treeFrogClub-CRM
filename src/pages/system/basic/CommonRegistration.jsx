@@ -61,7 +61,7 @@ export default function CommonRegistration() {
                             <li>
                                 <label htmlFor="order_number" className='required'>정렬순서</label>
                                 <div>
-                                    <input type="text" id='order_number' name='order_number' onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" id='order_number' data-formet="numb" name='order_number' onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
