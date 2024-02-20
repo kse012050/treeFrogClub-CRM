@@ -36,6 +36,7 @@ function DashboardFirst(){
                     .then(({result, list})=>{
                         if(result){
                             // console.log(list);
+                            // console.log(result);
                             setDashboard(list.filter(({ranking})=>ranking))
                             setDashboardSum(list.filter(({ranking})=>!ranking)[0])
                         }

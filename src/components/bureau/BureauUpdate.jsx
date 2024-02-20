@@ -87,9 +87,14 @@ function BureauList({ data, inputs, setDataPopup }){
     
     useEffect(()=>{
         if(data.lower_department_count !== '0'){
-            api('department', 'list', {'department_id': data.department_id})
+            api('department', 'list', {'parent_department_id': data.department_id})
+                // .then((result)=>{
+                //     console.log(result);
+                //     setLowerList(result.list)    
+                // })
                 .then(({result, list})=>{
                     if(result){
+                        // console.log(list);
                         setLowerList(list)
                     }
                 })
@@ -108,8 +113,8 @@ function BureauList({ data, inputs, setDataPopup }){
                 </button> :
                 <details>
                     <summary
-                        onClick={()=>setDataPopup((update)=>({...update, 'id': data?.department_id}))}
-                        className={(inputs?.department_id === data?.department_id) ? 'active' : ''}
+                        // onClick={()=>setDataPopup((update)=>({...update, 'id': data?.department_id}))}
+                        // className={(inputs?.department_id === data?.department_id) ? 'active' : ''}
                     >
                         {data.name} ({data.depth})
                     </summary>

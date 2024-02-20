@@ -11,7 +11,7 @@ function common(type, data){
     sessionStorage.getItem('authorization') && headers.append("Authorization", `Bearer ${sessionStorage.getItem('authorization')}`);
     type && (data = {...data, 'func_type': type});
     
-    data = {...data, 'ip': ip, 'user-agent': ''};
+    // data = {...data, 'ip': ip, 'user-agent': ''};
     data = JSON.stringify(data)
 
     return {

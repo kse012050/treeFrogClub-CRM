@@ -14,7 +14,7 @@ export default function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup }
             .then(({result, data})=>{
                 if(result){
                     // console.log(data);
-                    setBureauUpdatePopup((dataPopup)=>({...dataPopup, list: data.user_list}))
+                    setBureauUpdatePopup((dataPopup)=>({...dataPopup, list: data.head_list}))
                     setInputs({'department_id': data.department_id, 'name': data.name, 'order_number': data.order_number, 'admin_id_list': data.user_list})
                 }
             })

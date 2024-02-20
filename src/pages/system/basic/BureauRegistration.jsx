@@ -5,7 +5,7 @@ import Popup from '../../../components/popup/Popup';
 import BureauBox from '../../../components/bureau/BureauBox';
 // import BureauBox from '../../../components//BureauBox';
 
-export default function BureauRegistration({ bureauRegistrationPopup, setBureauRegistrationPopup }) {
+export default function BureauRegistration({ bureauRegistrationPopup, setBureauRegistrationPopup, firstBureau }) {
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
 
@@ -23,7 +23,7 @@ export default function BureauRegistration({ bureauRegistrationPopup, setBureauR
                             setBureauRegistrationPopup('')
                         }
                     }))
-                    setInputs({'department_id': ''})
+                    setInputs({'department_id': firstBureau.department_id})
                 }else{
                     setPopup((popup)=>({
                         ...popup,

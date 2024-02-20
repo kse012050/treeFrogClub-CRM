@@ -7,99 +7,138 @@ import BureauRegistration from './BureauRegistration';
 import BureauUpdate from './BureauUpdate';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
-import BureauList from './BureauList';
 
 export default function Bureau() {
-    const [inputs, setInputs] = useState()
+    const [inputs, setInputs] = useState({ 'department_id': '' })
     const [searchInputs, setSearchInputs] = useState()
-    const [bureau, setBureau] = useState()
+    const [boardList, setBoardList] = useState()
     const [firstBureau, setFirstBureau] = useState()
     const [bureauRegistrationPopup, setBureauRegistrationPopup] = useState();
-    const [bureauUpdatePopup, setBureauUpdatePopup] = useState()
-    const [boardList, setBoardList] = useState()
-    const [popup, setPopup] = useState()
+    const [bureauUpdatePopup, setBureauUpdatePopup] = useState();
+    const [popup, setPopup] = useState();
 
-    const bureauFunc = useCallback(()=>{
-        api('department', 'list')
-            .then(({result, list, data: { company_name }})=>{
-                if(result){
-                    setBureau(()=>({'company_name': company_name, 'list': list}))
-                    setFirstBureau({...list[0]})
-                }
-            })
+    useEffect(()=>{
+        setInputs({ 'department_id': '' })
+    },[bureauRegistrationPopup, bureauUpdatePopup])
 
-    },[])
-
-    const boardFunc = useCallback((data)=>{
-        api('user', 'list', {'department_id': data.department_id})
+    const boardListFunc = () => {
+        // console.log(inputs.department_id);
+        api('user', 'list', {'department_id': inputs.department_id})
+            // .then((result)=>{
+            //     console.log(result);
+            // })
             .then(({result, list})=>{
                 if(result){
                     // 아마도 부서장 판별인 듯
-                    // console.log(list);
+                    console.log(list);
                     // list = list.filter((data)=>data.useable_yn === 'n')
-                    setBoardList([{'department_id': data.department_id, 'name': data.name, 'admin_count': list.length, 'user_list': list}])
-                    setInputs(data)
+                    setBoardList([{'department_id': inputs.department_id, 'name': inputs.name, 'admin_count': list.length, 'user_list': list}])
                 }
             })
-    },[])
+    }
 
-    const firstBureauFunc = useCallback(()=>{
+    useEffect(()=>{
+        // console.log(firstBureau);
+        test()
+    },[firstBureau])
+    
+    const test = useCallback(()=>{
         if(firstBureau){
-            boardFunc(firstBureau)
-        }
-    },[boardFunc, firstBureau])
-   
-    useEffect(()=>{
-        bureauFunc()
-    },[bureauFunc])
-
-    useEffect(()=>{
-        firstBureauFunc()
-    },[firstBureauFunc])
-
-
-    useEffect(()=>{
-        if(inputs){
-            api('user', 'list', {'department_id': inputs.department_id})
+            api('user', 'list', {'department_id': firstBureau.department_id})
                 .then(({result, list})=>{
                     if(result){
                         // 아마도 부서장 판별인 듯
                         console.log(list);
                         // list = list.filter((data)=>data.useable_yn === 'n')
-                        setBoardList([{'department_id': inputs.department_id, 'name': inputs.name, 'admin_count': list.length, 'user_list': list}])
+                        setBoardList([{'department_id': firstBureau.department_id, 'name': firstBureau.name, 'admin_count': list.length, 'user_list': list}])
                     }
                 })
         }
-    },[inputs])
 
-   
+    },[firstBureau])
 
-   
+    const onSearch = () => {
+        api('department', 'search_user', searchInputs)
+            .then(({result, list})=>{
+                if(result){
+                    // console.log(list);
+                    setBoardList(list)
+                }
+            })
+    }
+
+
+    const func = () =>{
+        api('department', 'delete', inputs)
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                    }))
+                    setInputs({ 'department_id': '' })
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
+    }
+        
     return (
         <>
             <h2>
                 부서 관리
                 <div>
                     <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
-                    {/* <button onClick={onSearch}>검색</button> */}
+                    <button onClick={onSearch}>검색</button>
                 </div>
             </h2>
             
             <div className="horizontalTwo">
-                <BureauList bureau={bureau} inputs={inputs} setInputs={setInputs} bureauFunc={bureauFunc}/>
-
+                <BureauBox type='list' inputs={inputs} setInputs={setInputs} setFirstBureau={setFirstBureau}>
+                    <div className='addBtn'>
+                        <button className='btn-gray-black' 
+                            onClick={()=>setBureauRegistrationPopup({type: 'children', list: []})}
+                        >
+                            부서 추가
+                        </button>
+                        <button 
+                            className='btn-gray-black'
+                            disabled={!inputs.department_id}
+                            onClick={()=>setBureauUpdatePopup({type: 'children', id: inputs.department_id, list: []})}
+                        >
+                            부서 수정
+                        </button>
+                        <button 
+                            className='btn-gray-black'
+                            disabled={!inputs.department_id}
+                            onClick={()=>setPopup({
+                                type: 'finFunc',
+                                title: '삭제',
+                                description: `[${inputs.name}] 을 삭제하시겠습니까?\n소속된 사용자는 미지정 상태로 변경됩니다.`,
+                                func: () =>{
+                                    func()
+                                }
+                            })}
+                        >
+                            부서 삭제
+                        </button>
+                    </div>
+                </BureauBox>
                 { boardList && 
                     <div className='boardArea'>
                         { boardList.map((data)=> 
                             <div className='boardBox' key={data.department_id}>
-                                <Board data={data}/>
+                                <Board data={data} onSearch={onSearch} boardListFunc={boardListFunc}/>
                             </div>
                         )}
                     </div>
                 }
             </div>
-           
-            { bureauRegistrationPopup && <BureauRegistration bureauRegistrationPopup={bureauRegistrationPopup} setBureauRegistrationPopup={setBureauRegistrationPopup}/>}
+            { bureauRegistrationPopup && <BureauRegistration bureauRegistrationPopup={bureauRegistrationPopup} setBureauRegistrationPopup={setBureauRegistrationPopup} firstBureau={firstBureau}/>}
             { bureauUpdatePopup && <BureauUpdate bureauUpdatePopup={bureauUpdatePopup} setBureauUpdatePopup={setBureauUpdatePopup}/>}
             
             {popup && (

@@ -6,7 +6,7 @@ import BureauRegistration from './BureauRegistration';
 import BureauNotice from './BureauNotice';
 import BureauChoice from './BureauChoice';
 
-export default function BureauBox({type, inputs, setInputs, children, select, setSelect}) {
+export default function BureauBox({type, inputs, setInputs, children, select, setSelect, setFirstBureau}) {
     // console.log(2);
     const [bureau, setBureau] = useState();
 
@@ -14,11 +14,14 @@ export default function BureauBox({type, inputs, setInputs, children, select, se
         api('department', 'list')
             .then(({result, list, data: { company_name }})=>{
                 if(result){
-                    // console.log(list);
                     setBureau(()=>({'company_name': company_name, 'list': list}))
+                    if(type === 'list'){
+                        setFirstBureau(list[0])
+                        // console.log(list[0]);
+                    }
                 }
             })
-    },[inputs])
+    },[type, inputs, setFirstBureau])
 
     return (
         <>
