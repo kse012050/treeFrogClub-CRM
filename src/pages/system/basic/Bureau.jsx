@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { api } from '../../../api/api'
 import { inputChange } from '../../../api/validation'
 import Popup from '../../../components/popup/Popup';
-import BureauBox from '../../../components/BureauBox';
+// import BureauBox from '../../../components/BureauBox';
 import BureauRegistration from './BureauRegistration';
 import BureauUpdate from './BureauUpdate';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
@@ -31,6 +31,7 @@ export default function Bureau() {
     },[])
 
     const boardFunc = useCallback((data)=>{
+        // console.log(bureau);
         api('user', 'list', {'department_id': data.department_id})
             .then(({result, list})=>{
                 if(result){
@@ -64,7 +65,7 @@ export default function Bureau() {
                 .then(({result, list})=>{
                     if(result){
                         // 아마도 부서장 판별인 듯
-                        console.log(list);
+                        // console.log(list);
                         // list = list.filter((data)=>data.useable_yn === 'n')
                         setBoardList([{'department_id': inputs.department_id, 'name': inputs.name, 'admin_count': list.length, 'user_list': list}])
                     }
@@ -72,8 +73,10 @@ export default function Bureau() {
         }
     },[inputs])
 
-   
-
+    const onRefresh = () =>{
+        bureauFunc()
+        firstBureauFunc()
+    }
    
     return (
         <>
@@ -86,7 +89,51 @@ export default function Bureau() {
             </h2>
             
             <div className="horizontalTwo">
-                <BureauList bureau={bureau} inputs={inputs} setInputs={setInputs} bureauFunc={bureauFunc}/>
+                <BureauList bureau={bureau} inputs={inputs} setInputs={setInputs} bureauFunc={bureauFunc}>
+                    <div className='addBtn'>
+                        <button className='btn-gray-black' 
+                            onClick={()=>setBureauRegistrationPopup({type: 'children', list: []})}
+                        >
+                            부서 추가
+                        </button>
+                        <button 
+                            className='btn-gray-black'
+                            disabled={!inputs?.department_id}
+                            onClick={()=>setBureauUpdatePopup({type: 'children', id: inputs.department_id, list: []})}
+                        >
+                            부서 수정
+                        </button>
+                        <button 
+                            className='btn-gray-black'
+                            disabled={!inputs?.department_id}
+                            onClick={()=>setPopup({
+                                type: 'finFunc',
+                                title: '삭제',
+                                description: `[${inputs.name}] 을 삭제하시겠습니까?\n소속된 사용자는 미지정 상태로 변경됩니다.`,
+                                func: () =>{
+                                    api('department', 'delete', inputs)
+                                        .then(({result, error_message})=>{
+                                            setPopup({'type': 'confirm', 'description': error_message})
+                                            if(result){
+                                                setPopup((popup)=>({
+                                                    ...popup,
+                                                    'title': '완료',
+                                                }))
+                                                bureauFunc()
+                                            }else{
+                                                setPopup((popup)=>({
+                                                    ...popup,
+                                                    'title': '실패',
+                                                }))
+                                            }
+                                        })
+                                }
+                            })}
+                        >
+                            부서 삭제
+                        </button>
+                    </div>
+                </BureauList>
 
                 { boardList && 
                     <div className='boardArea'>
@@ -99,8 +146,8 @@ export default function Bureau() {
                 }
             </div>
            
-            { bureauRegistrationPopup && <BureauRegistration bureauRegistrationPopup={bureauRegistrationPopup} setBureauRegistrationPopup={setBureauRegistrationPopup}/>}
-            { bureauUpdatePopup && <BureauUpdate bureauUpdatePopup={bureauUpdatePopup} setBureauUpdatePopup={setBureauUpdatePopup}/>}
+            { bureauRegistrationPopup && <BureauRegistration bureau={bureau} setBureauRegistrationPopup={setBureauRegistrationPopup} onRefresh={onRefresh}/>}
+            { bureauUpdatePopup && <BureauUpdate bureauUpdatePopup={bureauUpdatePopup} setBureauUpdatePopup={setBureauUpdatePopup} onRefresh={onRefresh}/>}
             
             {popup && (
                 <Popup popup={popup} setPopup={setPopup}/>
