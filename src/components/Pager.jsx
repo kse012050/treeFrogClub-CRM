@@ -6,8 +6,11 @@ export default function Pager({ pagerInfo, setInputs }) {
     const page = queryParams.get('page') || 1;
 
     useEffect(()=>{
-        (page !== pagerInfo.current_page && page <= pagerInfo.total_page) 
-            && setInputs((input)=> ({...input, page}));
+        // console.log(pagerInfo);
+        console.log(page);
+        if(page !== pagerInfo.current_page && page <= pagerInfo.total_page) {
+            setInputs((input)=> ({...input, page}));
+        }
     },[page, pagerInfo.current_page, pagerInfo.total_page, setInputs])
 
 

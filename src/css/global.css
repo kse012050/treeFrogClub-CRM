@@ -25,7 +25,8 @@ input[disabled]{background-color: white; color: inherit;}
 :is(div, form):has( > [type="search"]){position: relative;}
 :is(div, form):has( > [type="search"]) [type="search"]{padding-right: 30px;}
 :is(div, form):has( > [type="search"]) [type="search"]:read-only{cursor: pointer;}
-:is(div, form):has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; translate: 0 -50%; width: 22px; aspect-ratio: 1; background: url(../images/icon-search.png) no-repeat center / cover; text-indent: -9999px; pointer-events: none; cursor: pointer;}
+:is(div, form):has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; translate: 0 -50%; width: 22px; aspect-ratio: 1; background: url(../images/icon-search.png) no-repeat center / cover; text-indent: -9999px;}
+:is(div, form):has( > [type="search"]:read-only) button{pointer-events: none; cursor: pointer;}
 .ant-color-picker-trigger + input{padding-left: 35px;}
 [data-unit]{position: relative;}
 [data-unit]::after{content: attr(data-unit); position: absolute; right: 10px; top: 50%; translate: 0 -50%;}

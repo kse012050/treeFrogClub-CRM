@@ -125,13 +125,13 @@ export default function Connect() {
                     </ol>
                 }
 
-                <div className='board-pagination' data-styleidx='a'>
-                    {/* <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/> */}
-                    <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                    { pagerInfo && 
+                { !!pagerInfo?.total_count &&
+                    <div className='board-pagination' data-styleidx='a'>
+                        {/* <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/> */}
+                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
                         <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                    }
-                </div>
+                    </div>
+                }
             </div>
         </>
     );
