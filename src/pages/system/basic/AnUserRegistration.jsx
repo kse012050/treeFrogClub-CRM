@@ -38,23 +38,23 @@ export default function AnUserRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log(inputs);
-        // api('user', 'insert', inputs)
-        //     .then(({result, error_message})=>{
-        //         setPopup({'type': 'confirm', 'description': error_message})
-        //         if(result){
-        //             setPopup((popup)=>({
-        //                 ...popup,
-        //                 'title': '완료',
-        //                 'link': '/system/basic/anUser'
-        //             }))
-        //         }else{
-        //             setPopup((popup)=>({
-        //                 ...popup,
-        //                 'title': '실패',
-        //             }))
-        //         }
-        //     })
+        // console.log(inputs);
+        api('user', 'insert', inputs)
+            .then(({result, error_message})=>{
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        'link': '/system/basic/anUser'
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
     }
 
     return (

@@ -55,7 +55,10 @@ function List({ data, inputs, setInputs, bureau }){
                             {data.name} ({data.admin_count})
                     </button> :
                     <details>
-                        <summary>
+                        <summary 
+                            onClick={()=>setInputs(data)}
+                            className={inputs?.department_id === data.department_id ? 'active' : ''}
+                        >
                             {data.name} ({data.lower_department_count})
                         </summary>
                         { lowerList && 
