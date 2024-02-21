@@ -41,7 +41,7 @@ export default function AnUserUpdate() {
                         setPopup((popup)=>({...popup, 'description': '등록 가능한 아이디 입니다.'}))
                         setInputs((input)=>({...input, 'id': userId}))
                     }else{
-                        setPopup((popup)=>({...popup, 'description': '이미 존재하는 아이디입니다.\n다른아이드를 입력해주세요.'}))
+                        setPopup((popup)=>({...popup, 'description': '이미 존재하는 아이디입니다.\n다른아이디를 입력해주세요.'}))
                     }
                 }
             })
@@ -156,7 +156,7 @@ export default function AnUserUpdate() {
                             <li>
                                 <label htmlFor="">입사일</label>
                                 <div>
-                                    <DatePicker onChange={onDate} value={dayjs(inputs?.employment_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                    <DatePicker onChange={onDate} value={inputs?.employment_date ? dayjs(inputs?.employment_date, 'YYYY-MM-DD') : ''} format={'YYYY-MM-DD'} placeholder='입사일 선택'/>
                                 </div>
                             </li>
                             <li className='fill-three'>

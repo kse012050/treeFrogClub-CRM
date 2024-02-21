@@ -21,7 +21,7 @@ export default function AnUserRegistration() {
                         setPopup((popup)=>({...popup, 'description': '등록 가능한 아이디 입니다.'}))
                         setInputs((input)=>({...input, 'id': userId}))
                     }else{
-                        setPopup((popup)=>({...popup, 'description': '이미 존재하는 아이디입니다.\n다른아이드를 입력해주세요.'}))
+                        setPopup((popup)=>({...popup, 'description': '이미 존재하는 아이디입니다.\n다른아이디를 입력해주세요.'}))
                     }
                 }
             })
@@ -136,7 +136,7 @@ export default function AnUserRegistration() {
                             <li>
                                 <label htmlFor="">입사일</label>
                                 <div>
-                                    <DatePicker onChange={onDate} placeholder='입사일'/>
+                                    <DatePicker onChange={onDate} placeholder='입사일 선택'/>
                                 </div>
                             </li>
                             <li className='fill-three'>
