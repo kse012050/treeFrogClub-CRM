@@ -109,14 +109,14 @@ function BureauList({ data, inputs, setDataPopup }){
                     onClick={()=>setDataPopup((update)=>({...update, 'id': data?.department_id}))}
                     className={inputs?.department_id === data?.department_id ? 'active' : ''}
                     >
-                        {data.name} ({data.admin_count}) {data.order_Number}
+                        {data.name} ({data.admin_count})
                 </button> :
                 <details>
                     <summary
                         // onClick={()=>setDataPopup((update)=>({...update, 'id': data?.department_id}))}
                         // className={(inputs?.department_id === data?.department_id) ? 'active' : ''}
                     >
-                        {data.name} ({data.depth})
+                        {data.name} ({data.admin_count})
                     </summary>
                     { lowerList && 
                         lowerList.map((lowerData)=> 
@@ -127,7 +127,7 @@ function BureauList({ data, inputs, setDataPopup }){
                                 // onClick={()=>setInputs(lowerData)}
                                 className={(inputs?.department_id === lowerData.department_id) ? 'active' : ''}
                             >
-                                { lowerData.name }
+                                { lowerData.name } ({lowerData.admin_count})
                             </button> )}
                 </details>
             }

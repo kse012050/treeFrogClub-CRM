@@ -189,7 +189,7 @@ function List({ data, inputs, setInputs }){
                             onClick={()=>setInputs((input)=>({...input, 'parent_department_id': data.department_id}))}
                             className={inputs?.parent_department_id  === data.department_id ? 'active' : ''}
                         >
-                            {data.name} ({data.lower_department_count})
+                            {data.name} ({data.admin_count})
                         </summary>
                         { lowerList && 
                             lowerList.map((lowerData)=> 
@@ -197,7 +197,7 @@ function List({ data, inputs, setInputs }){
                                     type='button'
                                     key={lowerData.department_id} 
                                 >
-                                    { lowerData.name }
+                                    { lowerData.name } ({lowerData.admin_count})
                                 </button> )}
                     </details> 
                 }

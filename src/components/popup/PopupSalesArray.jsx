@@ -74,7 +74,7 @@ export default function PopupSalesArray({ close, popup }) {
                     <span>이름</span>
                     <span>아이디</span>
                     <span>부서</span>
-                    <span>직위</span>
+                    {/* <span>직위</span> */}
                     <span></span>
                 </div>
 
@@ -85,7 +85,7 @@ export default function PopupSalesArray({ close, popup }) {
                                 <span>{ data.name }</span>
                                 <span>{ data.id }</span>
                                 <span>{ data.department_name }</span>
-                                <span>직위</span>
+                                {/* <span>직위</span> */}
                                 <button type='button' className='point' onClick={()=>salesSelect(data)}>선택</button>
                             </li>
                         ))}
