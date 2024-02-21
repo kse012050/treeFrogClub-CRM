@@ -66,7 +66,7 @@ function List({ data, inputs, setInputs, bureau }){
                                     onClick={()=>setInputs(lowerData)}
                                     className={(inputs?.department_id === lowerData.department_id) ? 'active' : ''}
                                 >
-                                    { lowerData.name }
+                                    { lowerData.name } ({lowerData.admin_count})
                                 </button> )}
                     </details>
                 }

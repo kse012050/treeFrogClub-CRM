@@ -66,8 +66,8 @@ export default function Client() {
                                 <BoardChk id={data.properties_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ data.classification_name }</span>
                                 <span>{ data.grade }</span>
-                                <span>{ data.name }</span>
                                 <span>{ data.code }</span>
+                                <span>{ data.name }</span>
                                 <div style={{'--color': `${data.bg_color}`}}>{ data.bg_color }</div>
                                 <div style={{'--color': `${data.font_color}`}}>{ data.font_color }</div>
                                 <span>{ data.order_number }</span>
