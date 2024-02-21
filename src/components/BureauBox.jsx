@@ -5,10 +5,12 @@ import BureauUpdate from './BureauUpdate';
 import BureauRegistration from './BureauRegistration';
 import BureauNotice from './BureauNotice';
 import BureauChoice from './BureauChoice';
+import { inputChange } from '../api/validation';
 
 export default function BureauBox({type, inputs, setInputs, children, select, setSelect, setFirstBureau}) {
     // console.log(2);
     const [bureau, setBureau] = useState();
+    const [searchInputs, setSearchInputs] = useState();
 
     useEffect(()=>{
         api('department', 'list')
@@ -23,13 +25,30 @@ export default function BureauBox({type, inputs, setInputs, children, select, se
             })
     },[type, inputs, setFirstBureau])
 
+    const onSearch = (e) =>{
+        e.preventDefault()
+        // console.log(searchInputs);
+        
+        api('department', 'list')
+            .then(({result, list, data: { company_name }})=>{
+                if(result){
+                    // console.log(list);
+                    // console.log(list.filter((listData)=>listData.name.includes(searchInputs.name)))
+                    setBureau(()=>({
+                        'company_name': company_name,
+                        'list': list.filter((listData)=>listData.name.includes(searchInputs.name))
+                    }))
+                }
+            })
+    }
+
     return (
         <>
             {type === 'choice' &&
-                <div className='searchArea'>
-                    <input type="search" placeholder='검색'/>
-                    <button>검색</button>
-                </div>
+                <form className='searchArea'>
+                    <input type="search" placeholder='검색' name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
+                    <button onClick={onSearch}>검색</button>
+                </form>
             }
             <div className='bureauBox'>
                 <div className='listArea'>

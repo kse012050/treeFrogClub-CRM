@@ -146,7 +146,7 @@ export default function AnUserRegistration() {
                             <li>
                                 <label htmlFor="">입사일</label>
                                 <div>
-                                    <DatePicker onChange={onDate} />
+                                    <DatePicker onChange={onDate} placeholder='입사일'/>
                                 </div>
                             </li>
                             <li className='fill-three'>

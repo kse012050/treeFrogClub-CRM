@@ -29,6 +29,7 @@ input[disabled]{background-color: white; color: inherit;}
 [data-unit]{position: relative;}
 [data-unit]::after{content: attr(data-unit); position: absolute; right: 10px; top: 50%; translate: 0 -50%;}
 [data-unit] input{padding-right: 25px;}
+:where(.css-dev-only-do-not-override-dkbvqv).ant-picker .ant-picker-input >input{font-size: 13px; font-family: 'Pretendard';}
 
 
 /* 버튼 */
