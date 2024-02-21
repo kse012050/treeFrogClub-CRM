@@ -23,7 +23,7 @@ export default function Client() {
     },[inputs.limit])
 
     useEffect(()=>{
-        if(!deleteList){
+        if(!deleteList.length){
             api('clientcode', 'properties_list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
