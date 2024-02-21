@@ -7,6 +7,7 @@ import { api } from '../../api/api';
 import Pager from '../../components/Pager';
 import { inputChange } from '../../api/validation';
 import Popup from '../../components/popup/Popup';
+import SelectPage from '../../components/SelectPage';
 
 export default function List() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
@@ -405,10 +406,12 @@ export default function List() {
                     }
                 </div>
 
-                <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
-                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                </div>
+                { !!pagerInfo?.total_count &&
+                    <div className='board-pagination' data-styleidx='a'>
+                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
+                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                    </div>
+                }
             </div>
             
             {popup && (

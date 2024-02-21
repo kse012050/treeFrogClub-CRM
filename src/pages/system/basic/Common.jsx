@@ -8,6 +8,7 @@ import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import Pager from '../../../components/Pager';
 import { inputChange } from '../../../api/validation';
+import SelectPage from '../../../components/SelectPage';
 
 export default function Common() {
     // console.log('common 랜더링');
@@ -130,10 +131,12 @@ export default function Common() {
                     </ol>
                 }
 
-                <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
-                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                </div>
+                { !!pagerInfo?.total_count &&
+                    <div className='board-pagination' data-styleidx='a'>
+                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
+                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                    </div>
+                }
             </div>
         </>
     );

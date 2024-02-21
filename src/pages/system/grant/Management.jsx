@@ -7,7 +7,7 @@ import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import Pager from '../../../components/Pager';
-import Select from '../../../components/Select';
+import SelectPage from '../../../components/SelectPage';
 
 export default function Management() {
     const [boardList, setBoardList] = useState()
@@ -108,12 +108,12 @@ function Board({ boardList, setBoardList }){
                     </ol>
                 }
 
-                <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
-                    { pagerInfo && 
+                { !!pagerInfo?.total_count &&
+                    <div className='board-pagination' data-styleidx='a'>
+                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
                         <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                    }
-                </div>
+                    </div>
+                }
             </div>
         </>
     )

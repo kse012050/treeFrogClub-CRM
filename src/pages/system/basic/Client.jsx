@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../../api/api';
 import { Link } from 'react-router-dom';
-import Select from '../../../components/Select';
 import SubTitle from '../../../components/SubTitle';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import Pager from '../../../components/Pager';
+import SelectPage from '../../../components/SelectPage';
 
 export default function Client() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
@@ -78,10 +78,12 @@ export default function Client() {
                     </ol>
                 }
 
-                <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
-                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                </div>
+                { !!pagerInfo?.total_count &&
+                    <div className='board-pagination' data-styleidx='a'>
+                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
+                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                    </div>
+                }
             </div>
         </>
     );

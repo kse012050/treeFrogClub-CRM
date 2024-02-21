@@ -9,6 +9,7 @@ import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import Pager from '../../../components/Pager';
 import { inputChange } from '../../../api/validation';
 import Popup from '../../../components/popup/Popup';
+import SelectPage from '../../../components/SelectPage';
 
 export default function AnUser() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
@@ -156,13 +157,13 @@ export default function AnUser() {
                         ))}
                     </ol>
                 }
-
-                <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
-                    { pagerInfo && 
+          
+                { !!pagerInfo?.total_count &&
+                    <div className='board-pagination' data-styleidx='a'>
+                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
                         <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                    }
-                </div>
+                    </div>
+                }
             </div>
 
             

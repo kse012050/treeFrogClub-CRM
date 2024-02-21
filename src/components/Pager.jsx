@@ -7,7 +7,7 @@ export default function Pager({ pagerInfo, setInputs }) {
 
     useEffect(()=>{
         // console.log(pagerInfo);
-        console.log(page);
+        // console.log(page);
         if(page !== pagerInfo.current_page && page <= pagerInfo.total_page) {
             setInputs((input)=> ({...input, page}));
         }

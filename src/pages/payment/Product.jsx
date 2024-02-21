@@ -9,6 +9,7 @@ import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 import { inputChange } from '../../api/validation';
 import Popup from '../../components/popup/Popup';
+import SelectPage from '../../components/SelectPage';
 
 export default function Product() {
     // const [inputs, setInputs] = useState()
@@ -155,12 +156,13 @@ export default function Product() {
                     ))}
                 </ol>
             }
-            
 
-            <div className='board-pagination' data-styleidx='a'>
-                <Select type="pagerCount" current={inputs?.limit} setInputs={setInputs} changeName='limit'/>
-                <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-            </div>
+            { !!pagerInfo?.total_count &&
+                <div className='board-pagination' data-styleidx='a'>
+                    <SelectPage current={inputs.limit} setInputs={setInputs}/>
+                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                </div>
+            }
         </div>
 
             

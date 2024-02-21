@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../api/api';
 import SubTitle from '../../components/SubTitle';
-import Select from '../../components/Select';
 import Pager from '../../components/Pager';
+import SelectPage from '../../components/SelectPage';
 
 export default function Notice() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
@@ -57,10 +57,12 @@ export default function Notice() {
                     </ol>
                 }
 
-                <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/>
-                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                </div>
+                { !!pagerInfo?.total_count &&
+                    <div className='board-pagination' data-styleidx='a'>
+                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
+                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                    </div>
+                }
             </div>
         </>
     );
