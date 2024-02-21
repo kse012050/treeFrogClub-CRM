@@ -28,16 +28,30 @@ export default function ManagementRegistration() {
     const onSubmit = (e) =>{
         e.preventDefault();
         if(inputs?.connect_limit_yn === 'y'){
-            inputs.connect_limit_start_time = `${connectlimitTime.connect_limit_start_time_hour}:${connectlimitTime.connect_limit_start_time_minute}`;
-            inputs.connect_limit_end_time = `${connectlimitTime.connect_limit_end_time_hour}:${connectlimitTime.connect_limit_end_time_minute}`
+            if(!connectlimitTime?.connect_limit_start_time_hour || !connectlimitTime?.connect_limit_start_time_minute || !connectlimitTime?.connect_limit_end_time_hour || !connectlimitTime?.connect_limit_end_time_minute){
+                setPopup(()=>({
+                    'type': 'confirm',
+                    'title': '실패',
+                    'description': '제한시간을 설정해주세요.'
+                }))
+                return;
+            }else{
+                inputs.connect_limit_start_time = `${connectlimitTime.connect_limit_start_time_hour}:${connectlimitTime.connect_limit_start_time_minute}`;
+                inputs.connect_limit_end_time = `${connectlimitTime.connect_limit_end_time_hour}:${connectlimitTime.connect_limit_end_time_minute}`
+            }
+
+        }else{
+            delete inputs.connect_limit_start_time
+            delete inputs.connect_limit_end_time
         }
+
 
         if(inputs?.ip_limit_yn === 'y'){
             inputs.allow_ips = allowIps
         }else{
             delete inputs.allow_ips
         }
-
+        
         api('role', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -89,11 +103,11 @@ export default function ManagementRegistration() {
                         <input type="checkbox" id='connect_limit_yn' name='connect_limit_yn' onChange={(e)=>inputChange(e, setInputs)}/>
                         <label htmlFor="connect_limit_yn">제한시간 설정 (설정한 시간에만 로그인 허용)</label>
                         <div className='timeArea'>
-                            <Select type={'time-hour'} current setInputs={setConnectlimitTime} changeName='connect_limit_start_time_hour' disabled={inputs?.connect_limit_yn === 'y' ? false: true}/>
-                            <Select type={'time-minute'} current setInputs={setConnectlimitTime} changeName='connect_limit_start_time_minute' disabled={inputs?.connect_limit_yn === 'y' ? false: true}/>
+                            <Select type={'time-hour'} setInputs={setConnectlimitTime} changeName='connect_limit_start_time_hour' disabled={inputs?.connect_limit_yn === 'y' ? false: true} placeholder='00'/>
+                            <Select type={'time-minute'} setInputs={setConnectlimitTime} changeName='connect_limit_start_time_minute' disabled={inputs?.connect_limit_yn === 'y' ? false: true} placeholder='00'/>
                             -
-                            <Select type={'time-hour'} current setInputs={setConnectlimitTime} changeName='connect_limit_end_time_hour' disabled={inputs?.connect_limit_yn === 'y' ? false: true}/>
-                            <Select type={'time-minute'} current setInputs={setConnectlimitTime} changeName='connect_limit_end_time_minute' disabled={inputs?.connect_limit_yn === 'y' ? false: true}/>
+                            <Select type={'time-hour'} setInputs={setConnectlimitTime} changeName='connect_limit_end_time_hour' disabled={inputs?.connect_limit_yn === 'y' ? false: true} placeholder='00'/>
+                            <Select type={'time-minute'} setInputs={setConnectlimitTime} changeName='connect_limit_end_time_minute' disabled={inputs?.connect_limit_yn === 'y' ? false: true} placeholder='00'/>
                         </div>
                         <input type="checkbox" id='ip_limit_yn' name='ip_limit_yn' onChange={(e)=>inputChange(e, setInputs)}/>
                         <label htmlFor="ip_limit_yn">허용IP 설정 (0.0.X.X, 0.0.0.X 로 대역대 설정가능)</label>

@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
 
-function Select({type, current, setInputs, changeName, disabled}) {
+function Select({type, current, setInputs, changeName, placeholder, disabled}) {
     // console.log('셀릭트 박스');
     const navigate = useNavigate();
     const location = useLocation();
@@ -11,6 +11,7 @@ function Select({type, current, setInputs, changeName, disabled}) {
     const [name, setName] = useState([])
     const [value, setValue] = useState([])
     const [select, setSelect] = useState()
+    const [isPlaceholder, setIsPlaceholder] = useState(!!placeholder)
     
     useEffect(()=>{
         // 대시 보드
@@ -182,7 +183,7 @@ function Select({type, current, setInputs, changeName, disabled}) {
 
         if(type === 'time-hour'){
             const arr = []
-            for(let a = 0; a < 24; a++){
+            for(let a = 1; a < 24; a++){
                 arr.push(Number(a) < 10 ? `0${a}` : `${a}`)
             }
             setName(arr);
@@ -191,7 +192,7 @@ function Select({type, current, setInputs, changeName, disabled}) {
         
         if(type === 'time-minute'){
             const arr = []
-            for(let a = 0; a < 60; a = a + 10){
+            for(let a = 10; a < 60; a = a + 10){
                 arr.push(Number(a) < 10 ? `0${a}` : `${a}`)
             }
             setName(arr);
@@ -305,6 +306,7 @@ function Select({type, current, setInputs, changeName, disabled}) {
         search && navigate(pathname)
         setSelect(name)
         setActive((active)=>!active)
+        setIsPlaceholder(false)
         if(changeName){
             setInputs((input)=>({...input, [changeName]: value[i]}))
         }else{
@@ -316,7 +318,9 @@ function Select({type, current, setInputs, changeName, disabled}) {
 
     return (
         <div className={`selectBox${type ? `-${type}`: ''}`}>
-            <button onClick={selectOpen} disabled={disabled}>{ select || '선택' }</button>
+            <button onClick={selectOpen} disabled={disabled} className={isPlaceholder ? 'gray': ''}>
+                { isPlaceholder ? placeholder :  (select || '선택') }
+            </button>
             {
                 active && 
                     <div>

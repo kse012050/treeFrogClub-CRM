@@ -58,6 +58,7 @@ input[disabled]{background-color: white; color: inherit;}
 [class*="selectBox"] > button{font-weight: 400; border: 1px solid var(--color-line); position: relative;}
 [class*="selectBox"] > button::before{content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center bottom / 100%; }
 [class*="selectBox"] > button:disabled{background-color: var(--color-division);}
+[class*="selectBox"] > button.gray{color: var(--color-button);}
 [class*="selectBox"] div{position: absolute; left: 0; top: calc(100% + 3px); width: 100%; padding: 5px; background-color: white; border-radius: 4px; box-sizing: border-box; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); z-index: 1;}
 [class*="selectBox"] div button:hover{background-color: var(--color-point02); font-weight: 700;}
 .selectBox-year{max-width: 90px;}
