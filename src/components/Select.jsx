@@ -132,7 +132,7 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                 .then(({result, list})=>{
                     if(result){
                         setName(list.map(({name})=>name));
-                        setValue(list.map(({classification_id})=>classification_id));
+                        setValue(list.map(({code})=>code));
                     }
                 })
         }

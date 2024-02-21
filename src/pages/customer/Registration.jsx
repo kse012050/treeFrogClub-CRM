@@ -41,15 +41,15 @@ export default function Registration() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        // console.log(inputs);
+        console.log(inputs);
         api('customer', 'insert', inputs)
-            .then(({result, error_message, data: {customer_id}})=>{
+            .then(({result, error_message, data})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
                     setPopup((popup)=>({
                         ...popup,
                         'title': '완료',
-                        'link': `update/${customer_id}`
+                        'link': `update/${data.customer_id}`
                     }))
                 }else{
                     setPopup((popup)=>({
