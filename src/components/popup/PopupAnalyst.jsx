@@ -1,36 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../api/api';
 import PagerButton from '../PagerButton';
+import { inputChange } from '../../api/validation';
 // import Pager from '../Pager';
 
 export default function PopupAnalyst({ close, func }) {
-    // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [searchInputs, setSearchInputs] = useState();
     const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
     const [analystList, setAnalystList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
 
     useEffect(()=>{
-        api('user', 'analyst_list')
+        api('user', 'analyst_list',listInfo)
             .then(({result, data, list})=>{
                 if(result){
                     setPagerInfo(data)
                     setAnalystList(list)
                 }
             })
-    },[])
+    },[listInfo])
 
     const analystSelect = (data) => {
         func(data);
         close();
     }
 
+    const onSearch = (e) =>{
+        e.preventDefault();
+        // console.log({'limit': '10', 'page': '1', ...searchInputs});
+        api('user', 'analyst_list', {'limit': '10', 'page': '1', ...searchInputs})
+            .then(({result, data, list})=>{
+                if(result){
+                    setPagerInfo(data)
+                    setAnalystList(list)
+                }
+            })
+    }
+
     return (
         <>
             <strong>사용자 선택</strong>   
-            <div className='searchArea'>
-                <input type="search" />
-                <button>검색</button>
-            </div>
+            <form className='searchArea'>
+                <input type="search" name='search' id='search' onChange={(e)=>inputChange(e, setSearchInputs)}/>
+                <button onClick={onSearch}>검색</button>
+            </form>
             <div className='boardBox'>
                 <b className='total'>{ analystList?.length }</b>
                 <div className="board-top">

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { api, apiAwait } from '../../api/api'
 import Popup from '../popup/Popup';
 
-export default function BoardChkDelete({ url, idName, deleteList, setDeleteList, isAwait, className }) {
+export default function BoardChkDelete({ url, idName, deleteList, setDeleteList, isAwait, className, currentData }) {
     const [popup, setPopup] = useState('')
     const popupFunc = () =>{
         if(deleteList.length){
@@ -18,6 +18,7 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
                         if(result){
                             setPopup(confirmPopupMessage)
                             setDeleteList([])
+                            currentData()
                         }
                     })
             }else{
@@ -25,6 +26,7 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
                     if({result}){
                         setPopup(confirmPopupMessage)
                         setDeleteList([])
+                        currentData()
                     }
                 })
             }

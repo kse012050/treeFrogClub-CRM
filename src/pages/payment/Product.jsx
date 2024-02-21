@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
@@ -12,14 +12,36 @@ import Popup from '../../components/popup/Popup';
 
 export default function Product() {
     // const [inputs, setInputs] = useState()
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [pagerInfo, setPagerInfo] = useState()
+    const [deleteList, setDeleteList] = useState([])
     const [boardList, setBoardList] = useState()
     const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'});
     const [analyst, setAnalyst] = useState()
     const [popup, setPopup] = useState()
 
+    const currentData = useCallback(()=>{
+        api('product', 'list', inputs)
+                .then(({result, data, list})=>{
+                    if(result){
+                        setPagerInfo(data)
+                        setBoardList(list)
+                    }
+                })
+    },[inputs, setBoardList])
+
+    useEffect(()=>{
+        currentData()
+    },[currentData])
+
+    useEffect(()=>{
+        setInputs((input)=>({...input, 'page': '1'}))
+    },[inputs.limit])
+
     const onReset = () => {
         setAnalyst()
         setSearchInputs({'limit': '10', 'page': '1'})
+        currentData()
     }
     
     const onSearch = (e) =>{
@@ -96,55 +118,20 @@ export default function Product() {
                 </form>
             </DropBox>
             
-            <Board boardList={boardList} setBoardList={setBoardList}/>
+            {/* <Board boardList={boardList} setBoardList={setBoardList}/> */}
 
-            
-            {popup && (
-                <Popup popup={popup} setPopup={setPopup} />
-            )}
-        </>
-    );
-}
-
-
-function Board({ boardList, setBoardList }){
-    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
-    const [pagerInfo, setPagerInfo] = useState()
-    const [deleteList, setDeleteList] = useState([])
-
-    useEffect(()=>{
-        setDeleteList('');
-    },[inputs])
-
-    useEffect(()=>{
-        setInputs((input)=>({...input, 'page': '1'}))
-    },[inputs.limit])
-
-    useEffect(()=>{
-        if(!deleteList){
-            api('product', 'list', inputs)
-                .then(({result, data, list})=>{
-                    if(result){
-                        setPagerInfo(data)
-                        setBoardList(list)
-                    }
-                })
-        }
-    },[inputs, deleteList, setBoardList])
-
-    return (
-        <div className='boardBox'>
+            <div className='boardBox'>
             <strong>목록</strong>
             <button className='btn-gray-black'>엑셀 다운로드</button>
             <hr className='case01'/>
             <b className='total'>{ pagerInfo?.total_count }</b>
             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
             <b className='choice'>{ deleteList.length }</b>
-            <BoardChkDelete url='product' idName='product_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
+            <BoardChkDelete url='product' idName='product_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
 
             
             <div className="board-top">
-                <BoardChkAll deleteList={setDeleteList} list={boardList?.map(({product_id})=>product_id)} />
+                <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({product_id})=>product_id)} />
                 <button>상품코드</button>
                 <button>상품명</button>
                 <button>애널리스트</button>
@@ -175,5 +162,85 @@ function Board({ boardList, setBoardList }){
                 <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
             </div>
         </div>
-    )
+
+            
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
+        </>
+    );
 }
+
+
+// function Board({ boardList, setBoardList }){
+//     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+//     const [pagerInfo, setPagerInfo] = useState()
+//     const [deleteList, setDeleteList] = useState([])
+
+//     useEffect(()=>{
+//         setDeleteList('');
+//     },[inputs])
+
+//     useEffect(()=>{
+//         setInputs((input)=>({...input, 'page': '1'}))
+//     },[inputs.limit])
+
+//     const currentData = useCallback(()=>{
+//         api('product', 'list', inputs)
+//                 .then(({result, data, list})=>{
+//                     if(result){
+//                         setPagerInfo(data)
+//                         setBoardList(list)
+//                     }
+//                 })
+//     },[inputs, setBoardList])
+
+//     useEffect(()=>{
+//         currentData()
+//     },[currentData])
+
+//     return (
+//         <div className='boardBox'>
+//             <strong>목록</strong>
+//             <button className='btn-gray-black'>엑셀 다운로드</button>
+//             <hr className='case01'/>
+//             <b className='total'>{ pagerInfo?.total_count }</b>
+//             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
+//             <b className='choice'>{ deleteList.length }</b>
+//             <BoardChkDelete url='product' idName='product_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
+
+            
+//             <div className="board-top">
+//                 <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({product_id})=>product_id)} />
+//                 <button>상품코드</button>
+//                 <button>상품명</button>
+//                 <button>애널리스트</button>
+//                 <button>결제시 고객구분</button>
+//                 <button>비고</button>
+//                 <span>수정</span>
+//             </div>
+
+//             { boardList && 
+//                 <ol className="board-center">
+//                     { boardList.map((data)=>(
+//                         <li key={ data.product_id }>
+//                             <BoardChk id={data.product_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
+//                             <span>{ data.product_code }</span>
+//                             <span>{ data.product_name }</span>
+//                             <span>{ data.analyst_admin_name }</span>
+//                             <span>{ data.customer_properties_name }</span>
+//                             <span>{ data.memo }</span>
+//                             <Link to={`update/${data.product_id}`}>수정</Link>
+//                         </li>
+//                     ))}
+//                 </ol>
+//             }
+            
+
+//             <div className='board-pagination' data-styleidx='a'>
+//                 <Select type="pagerCount" current={inputs?.limit} setInputs={setInputs} changeName='limit'/>
+//                 <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+//             </div>
+//         </div>
+//     )
+// }

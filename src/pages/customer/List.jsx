@@ -450,7 +450,7 @@ export default function List() {
                     </>
                 }
            
-                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} className='boundary'/>
+                <BoardChkDelete url='customer' idName='customer_id_list' deleteList={deleteList} setDeleteList={setDeleteList} className='boundary' currentData={currentData}/>
                 <button 
                     className='btn-gray-black' 
                     onClick={()=>setPopup({

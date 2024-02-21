@@ -168,7 +168,7 @@ function Basic({ id, setPopup }){
 function Payment({ id, historyPaymentFunc, setPopup }){
     const [inputs, setInputs] = useState({ 'customer_id': id })
     const [paymentList, setPaymentList] = useState()
-    const [analystList, setAnalystList] = useState()
+    const [productList, setProductList] = useState()
 
     useEffect(()=>{
         api('properties', 'properties_list', {'classification_id': '4'})
@@ -178,12 +178,12 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                 }
             })
 
-        
-        api('user', 'analyst_list')
+        api('product', 'list', {'all_yn': 'y'})
             .then(({result, list})=>{
                 if(result){
-                    // console.log(list);
-                    setAnalystList(list)
+                    console.log(list);
+                    // setAnalystList(list)
+                    setProductList(list)
                 }
             })
     },[])
@@ -194,7 +194,6 @@ function Payment({ id, historyPaymentFunc, setPopup }){
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        // console.log(inputs);
         api('payment', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -292,15 +291,15 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                 <fieldset>
                     <ul>
                         <li className='fill-three'>
-                            <label htmlFor="">신청 애널리스트</label>
-                            { analystList &&
+                            <label htmlFor="">상품명</label>
+                            {
+                                productList && 
                                 <div>
-                                    { analystList.map((data)=>(
-                                        <span key={data.admin_id}>
-                                            <input type="radio" name='product_id' id={`product_${data.admin_id}`} value={data.admin_id} onChange={(e)=>inputChange(e, setInputs)}/>
-                                            <label htmlFor={`product_${data.admin_id}`}>
-                                                { data.department_name && `[${data.department_name}]`}
-                                                { data.name }
+                                    { productList.map((data)=>(
+                                        <span key={data.product_id}>
+                                            <input type="radio" name='product_id' id={`product_${data.product_id}`} value={data.product_id} onChange={(e)=>inputChange(e, setInputs)}/>
+                                            <label htmlFor={`product_${data.product_id}`}>
+                                                { data.product_name }
                                             </label>
                                         </span>
                                     ))}
