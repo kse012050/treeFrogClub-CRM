@@ -435,6 +435,9 @@
 .systemPage.permissionsPage .horizontalTwo .searchResultArea ul li:not(:last-child){margin-bottom: 15px;}
 
 
+/* 시스템 관리 - 회원사 관리 - 사용자접속이력 */
+.systemPage.connectPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *){flex: 1;}
+
 
 /* 공지사항 */
 .noticePage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 220;}

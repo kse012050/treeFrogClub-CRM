@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
 
-function Select({type, list, current, setInputs, changeName, disabled}) {
+function Select({type, current, setInputs, changeName, disabled}) {
     // console.log('셀릭트 박스');
     const navigate = useNavigate();
     const location = useLocation();
@@ -233,7 +233,6 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
         }
 
         if(type === 'customer'){
-            
             api('clientcode', 'properties_list', {'all_yn': 'y'})
                 .then(({result, list})=>{
                     if(result){
@@ -254,13 +253,20 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                 })
         }
 
+        // 회원사 관리
+        // 회원사 관리 - 사용자접속이력
+        if(type === 'logType'){
+            setName(['로그인', '페이지로딩', '버튼클릭', '로그아웃', '엑셀다운로드'])
+            setValue(['로그인', '페이지로딩', '버튼클릭', '로그아웃', '엑셀다운로드'])
+        }
+
         
         document.querySelector('body').addEventListener('click',bodyClick)
         return () => {
             // console.log('select 바디 클릭 종료');
             document.querySelector('body').removeEventListener('click',bodyClick)
         }
-    },[type, list])
+    },[type])
 
     const bodyClick = () =>{
         setActive(false)

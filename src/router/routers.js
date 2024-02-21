@@ -32,6 +32,8 @@ import SystemGrantManagementRegistration from '../pages/system/grant/ManagementR
 import SystemGrantManagementConfirm from '../pages/system/grant/ManagementConfirm';
 import SystemGrantManagementUpdate from '../pages/system/grant/ManagementUpdate';
 import SystemGrantPermissions from '../pages/system/grant/Permissions';
+import SystemMemberConnect from '../pages/system/member/Connect';
+import SystemMemberDelete from '../pages/system/member/Delete';
 import Notice from '../pages/notice/Notice';
 import NoticeRegistration from '../pages/notice/NoticeRegistration';
 import NoticeUpdate from '../pages/notice/NoticeUpdate';
@@ -185,6 +187,12 @@ export const routers = [
             },
             {
                 path: 'grant/permissions', element: <SystemGrantPermissions />
+            },
+            {
+                path: 'member/connect', element: <SystemMemberConnect />
+            },
+            {
+                path: 'member/delete', element: <SystemMemberDelete />
             }
         ]
     },

@@ -3,11 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 
 export default function Pager({ pagerInfo, setInputs }) {
     const queryParams = new URLSearchParams(useLocation().search);
-    const page = queryParams.get('page') || '1';
+    const page = queryParams.get('page') || 1;
 
     useEffect(()=>{
-        page !== pagerInfo?.current_page && setInputs((input)=> ({...input, page}));
-    },[page])
+        (page !== pagerInfo.current_page && page <= pagerInfo.total_page) 
+            && setInputs((input)=> ({...input, page}));
+    },[page, pagerInfo.current_page, pagerInfo.total_page, setInputs])
+
 
     const pager = () =>{
         let arr = []

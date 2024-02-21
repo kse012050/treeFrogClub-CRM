@@ -1,7 +1,7 @@
 const formetMap = {
     id(value) {
         // const regex = /^[a-zA-Z][a-zA-Z0-9]*$/;
-        const regex = /^[a-zA-Z0-9!@#$%^&*()_+-=,.<>?/;:'"]+$/;;
+        const regex = /^[a-zA-Z][a-zA-Z0-9!@#$%^&*()_+-=,.<>?/;:'"]*$/;
         return {
             is: regex.test(value),
             value: /^\d/.test(value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '')) ? value.slice(1) : value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g, '')

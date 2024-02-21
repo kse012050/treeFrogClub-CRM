@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export default function Memu() {
     return (
@@ -37,8 +37,8 @@ export default function Memu() {
             </ul>
             <b>회원사 관리</b>
             <ul>
-                <li><Link to={''}>사용자접속이력</Link></li>
-                <li><Link to={''}>고객삭제이력</Link></li>
+                <li><NavLink to={'/system/member/connect'}>사용자접속이력</NavLink></li>
+                <li><NavLink to={'/system/member/delete'}>고객삭제이력</NavLink></li>
             </ul>
             <strong>게시판 관리</strong>
             <ul>
