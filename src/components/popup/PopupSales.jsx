@@ -13,6 +13,7 @@ export default function PopupSales({ close, func }) {
         api('user', 'list', listInfo)
             .then(({result, data, list})=>{
                 if(result){
+                    console.log(list);
                     setPagerInfo(data)
                     // setSalesList(list.filter((listData)=> listData.role_name.includes('영업')))
                     setSalesList(list)

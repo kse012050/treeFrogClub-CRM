@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { inputChange } from '../../../api/validation'
 import { api } from '../../../api/api'
 import Select from '../../../components/Select';
@@ -9,7 +9,7 @@ export default function Customer() {
     const [sales, setSales] = useState()
     const [popup, setPopup] = useState('')
 
-    useEffect(()=>{
+    const firstInputs = useCallback(()=>{
         api('constant', 'combine_customer_setting_info')
             .then(({result, data})=>{
                 if(result){
@@ -19,10 +19,23 @@ export default function Customer() {
                         delete data.auto_collection_admin_id
                     }
                     setInputs(data)
-                    setSales(data.auto_collection_admin_id)
+                    if(data.auto_collection_admin_id){
+                        api('user', 'list', {'all_yn': 'y'})
+                            .then(({result, list})=>{
+                                if(result){
+                                    setSales(list.filter((listData)=> listData.admin_id === data.auto_collection_admin_id)[0].name)
+                                }
+                            })
+                    }
                 }
             })
     },[])
+
+    useEffect(()=>{
+        firstInputs()
+    },[firstInputs])
+
+    
 
     useEffect(()=>{
         if(inputs?.auto_collection_yn === 'n'){
@@ -46,7 +59,11 @@ export default function Customer() {
                     setPopup((popup)=>({
                         ...popup,
                         'title': '완료',
-                        'link': '/customer/list'
+                        // 'link': '/customer/list'
+                        'confirmFunc': ()=>{
+                            setInputs()
+                            firstInputs()
+                        }
                     }))
                 }else{
                     setPopup((popup)=>({
@@ -71,13 +88,13 @@ export default function Customer() {
                                     <Select type={'customerCount'} setInputs={setInputs} changeName='combine_customer_list_number' current={inputs?.combine_customer_list_number}/>
                                 </div>
                             </li>
-                            <li>
+                            {/* <li>
                                 <label htmlFor="">SMS거부요청</label>
                                 <div>
                                     api 없음
-                                    {/* <Select type={'sns'} current={'api없음'}/> */}
+                                    <Select type={'sns'} current={'api없음'}/>
                                 </div>
-                            </li>
+                            </li> */}
                             <li>
                                 <label htmlFor="">중복휴대폰번호 색상표기</label>
                                 <div>
@@ -143,6 +160,7 @@ export default function Customer() {
                                                     setSales(data.name)
                                                 }
                                             })}
+                                            disabled={inputs?.auto_collection_yn === 'n'}
                                         />
                                         <button>검색</button>
                                     </div>
