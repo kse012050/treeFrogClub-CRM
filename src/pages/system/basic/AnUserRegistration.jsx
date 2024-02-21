@@ -10,17 +10,7 @@ export default function AnUserRegistration() {
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
     const [userId, setUserId] = useState();
-    const [roleList, setroleList] = useState();
     const [bureau, setBureau] = useState();
-
-    useEffect(()=>{
-        api('role', 'list')
-            .then(({result, list})=>{
-                if(result){
-                    setroleList(list)
-                }
-            })
-    },[])
 
     const idCheck = () => {
         api('user', 'duplicate', {id: userId})
@@ -48,23 +38,23 @@ export default function AnUserRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        // console.log(inputs);
-        api('user', 'insert', inputs)
-            .then(({result, error_message})=>{
-                setPopup({'type': 'confirm', 'description': error_message})
-                if(result){
-                    setPopup((popup)=>({
-                        ...popup,
-                        'title': '완료',
-                        'link': '/system/basic/anUser'
-                    }))
-                }else{
-                    setPopup((popup)=>({
-                        ...popup,
-                        'title': '실패',
-                    }))
-                }
-            })
+        console.log(inputs);
+        // api('user', 'insert', inputs)
+        //     .then(({result, error_message})=>{
+        //         setPopup({'type': 'confirm', 'description': error_message})
+        //         if(result){
+        //             setPopup((popup)=>({
+        //                 ...popup,
+        //                 'title': '완료',
+        //                 'link': '/system/basic/anUser'
+        //             }))
+        //         }else{
+        //             setPopup((popup)=>({
+        //                 ...popup,
+        //                 'title': '실패',
+        //             }))
+        //         }
+        //     })
     }
 
     return (
@@ -110,7 +100,7 @@ export default function AnUserRegistration() {
                             <li>
                                 <label htmlFor="" className='required'>역할그룹</label>
                                 <div>
-                                    <Select type={'management'} list={roleList} inputs={inputs} changeName='role_id' setInputs={setInputs} />
+                                    <Select type={'management'} inputs={inputs} changeName='role_id' setInputs={setInputs} />
                                 </div>
                             </li>
                             <li>

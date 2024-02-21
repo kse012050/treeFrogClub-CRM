@@ -217,9 +217,14 @@ function Select({type, list, current, setInputs, changeName, disabled}) {
                 })
         }
 
-        if(type === 'management' && list){
-            setName(list.map(({role_classification})=>role_classification))
-            setValue(list.map(({role_id})=>role_id))
+        if(type === 'management'){
+            api('role', 'list')
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({role_name})=>role_name))
+                        setValue(list.map(({role_id})=>role_id))
+                    }
+                })
         }
 
         if(type === 'use'){
