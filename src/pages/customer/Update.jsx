@@ -22,7 +22,7 @@ export default function Update() {
                 if(result){
                     setPaymentInfo(data)
                     setHistoryPayment(list)
-                    // console.log(data);
+                    // console.log(list);
                 }
             })
     },[])
@@ -435,7 +435,7 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
                                                     ~ { data.standard_service_end_date.replaceAll('-','/') }
                                                 </time>
                                                 <div>
-                                                    <button className='popup' onClick={()=>setRefundPopupActive({'type': 'children', 'id': data.payment_id})}>환불</button>
+                                                    <button className='popup' onClick={()=>setRefundPopupActive({'type': 'children', 'id': data.payment_id, 'is': (!!data?.refund_price || data?.refund_date) || false})}>환불</button>
                                                     <button className='popup' onClick={()=>setUpdatePopupActive({'type': 'children', 'id': data.payment_id})}>수정</button>
                                                 </div>
                                             </li>
@@ -568,8 +568,6 @@ function HistoryConsultInput({ id, currentData }){
     const [popup, setPopup] = useState()
 
     const currentSettings = useCallback(()=>{
-        console.log(1);
-
         setInputs({'customer_id': id, 'manage_admin_id': user?.admin_id})
         setSales(user?.name)
 
@@ -800,13 +798,25 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
     const [popup, setPopup] = useState()
 
     useEffect(()=>{
-        api('payment', 'detail', {'payment_id': refundPopupActive.id})
-            .then(({result, data})=>{
-                if(result){
-                    // console.log(data);
-                    setInfo(data)
+        // console.log(refundPopupActive);
+        if(refundPopupActive.is){
+            setPopup({
+                'type': 'confirm',
+                'title': '환불',
+                'description': '환불 하실 금액이 없거나 환불이 불가능합니다.',
+                'confirmFunc': ()=>{
+                    setRefundPopupActive()
                 }
             })
+        }else{
+            api('payment', 'detail', {'payment_id': refundPopupActive.id})
+                .then(({result, data})=>{
+                    if(result){
+                        // console.log(data);
+                        setInfo(data)
+                    }
+                })
+        }
     },[refundPopupActive.id])
 
     const onDate = (dateString, name) => {
@@ -819,6 +829,13 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
         api('payment', 'refund', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
+                if(error_message.includes('refund_date')){
+                    error_message = '환불일를 선택해주세요.'
+                }else if(error_message.includes('refund_properties_id')){
+                    error_message = '환불 구분을 선택해주세요.'
+                }else if(error_message.includes('refund_price')){
+                    error_message = '환불금액을 입력해주세요.'
+                }
                 if(result){
                     setPopup((popup)=>({
                         ...popup,
@@ -839,120 +856,122 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
 
     return (
         <>
-            <Popup popup={refundPopupActive} setPopup={setRefundPopupActive}>
-                <div className="refundPopup">
-                    <strong>환불</strong>
-                    <b>결제 정보</b>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>신청 애널리스트</th>
-                                <th>매출 구분</th>
-                                <th>결제 구분</th>
-                                <th>결제일</th>
-                                <th>결제금액</th>
-                            </tr>
-                            <tr>
-                                <td>{ info?.product_name }</td>
-                                <td>{ info?.sales_properties_name }</td>
-                                <td>{ info?.payment_properties_name }</td>
-                                <td>{ info?.payment_date.replaceAll('-', '/') }</td>
-                                <td>{ info?.payment_price }</td>
-                            </tr>
-                            <tr>
-                                <th>기간</th>
-                                <th>유료기간 (결제기준)</th>
-                                <th>유료기간 (서비스기간 포함)</th>
-                            </tr>
-                            <tr>
-                                <td>{ info?.period }</td>
-                                <td>
-                                    { info?.standard_payment_start_date.replaceAll('-', '/') }
-                                    ~
-                                    { info?.standard_payment_end_date.replaceAll('-', '/') }
-                                </td>
-                                <td>
-                                    { info?.standard_service_start_date.replaceAll('-', '/') }
-                                    ~
-                                    { info?.standard_service_end_date.replaceAll('-', '/') }
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>결제 특이사항</th>
-                            </tr>
-                            <tr>
-                                <td>{ info?.memo || '없음' }</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            { !refundPopupActive.is &&
+                <Popup popup={refundPopupActive} setPopup={setRefundPopupActive}>
+                    <div className="refundPopup">
+                        <strong>환불</strong>
+                        <b>결제 정보</b>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th>신청 애널리스트</th>
+                                    <th>매출 구분</th>
+                                    <th>결제 구분</th>
+                                    <th>결제일</th>
+                                    <th>결제금액</th>
+                                </tr>
+                                <tr>
+                                    <td>{ info?.product_name }</td>
+                                    <td>{ info?.sales_properties_name }</td>
+                                    <td>{ info?.payment_properties_name }</td>
+                                    <td>{ info?.payment_date.replaceAll('-', '/') }</td>
+                                    <td>{ info?.payment_price }</td>
+                                </tr>
+                                <tr>
+                                    <th>기간</th>
+                                    <th>유료기간 (결제기준)</th>
+                                    <th>유료기간 (서비스기간 포함)</th>
+                                </tr>
+                                <tr>
+                                    <td>{ info?.period }</td>
+                                    <td>
+                                        { info?.standard_payment_start_date.replaceAll('-', '/') }
+                                        ~
+                                        { info?.standard_payment_end_date.replaceAll('-', '/') }
+                                    </td>
+                                    <td>
+                                        { info?.standard_service_start_date.replaceAll('-', '/') }
+                                        ~
+                                        { info?.standard_service_end_date.replaceAll('-', '/') }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>결제 특이사항</th>
+                                </tr>
+                                <tr>
+                                    <td>{ info?.memo || '없음' }</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                    <form>
-                        <fieldset>
-                            <b>환불 처리</b>
-                            <ul>
-                                <li>
-                                    <label htmlFor="">환불 구분</label>
-                                    <div>
-                                        <Select type='refund' setInputs={setInputs} changeName='refund_properties_id'/>
-                                    </div>
-                                </li>
-                                <li>
-                                    <label htmlFor="">환불일</label>
-                                    <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'refund_date')} format={'YYYY-MM-DD'}/>
-                                    </div>
-                                </li>
-                                <li>
-                                    <label htmlFor="refund_price">환불금액</label>
-                                    <div>
-                                        <input type="text" name='refund_price' id='refund_price' data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul className='settingArea' data-subtext="*환불 금액에 따른 이용기간이 변경되는 경우 설정하세요.">
-                                <li>
-                                    <label htmlFor="">기간</label>
-                                    <div>
-                                        <Select type='period' setInputs={setInputs} changeName='period'/>
-                                    </div>
-                                </li>
-                                <li>
-                                    <label htmlFor="">유료 기간<span>결제기준</span></label>
-                                    <div>
+                        <form>
+                            <fieldset>
+                                <b>환불 처리</b>
+                                <ul>
+                                    <li>
+                                        <label htmlFor="" className='required'>환불 구분</label>
                                         <div>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} format={'YYYY-MM-DD'}/>
-                                            <span>-</span>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} format={'YYYY-MM-DD'}/>
+                                            <Select type='refund' setInputs={setInputs} changeName='refund_properties_id'/>
                                         </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <label htmlFor="">유료 기간<span>서비스 기간 포함</span></label>
-                                    <div>
+                                    </li>
+                                    <li>
+                                        <label htmlFor="" className='required'>환불일</label>
                                         <div>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} format={'YYYY-MM-DD'}/>
-                                            <span>-</span>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} format={'YYYY-MM-DD'}/>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'refund_date')} format={'YYYY-MM-DD'} placeholder='환불일 입력'/>
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul>
-                                <li>
-                                    <label htmlFor="memo">환불 특이사항</label>
-                                    <div>
-                                        <textarea name="memo" id="memo" onChange={(e)=>inputChange(e, setInputs)}></textarea>
-                                    </div>
-                                </li>
-                            </ul>
-                        </fieldset>
-                        <div className="btnArea-end">
-                            <button type="button" className='btn-gray-white' onClick={()=>setRefundPopupActive('')}>닫기</button>
-                            <input type="submit" value='저장' className='btn-point' onClick={onSubmit}/>
-                        </div>
-                    </form>
-                </div>
-            </Popup>
+                                    </li>
+                                    <li>
+                                        <label htmlFor="refund_price" className='required'>환불금액</label>
+                                        <div>
+                                            <input type="text" name='refund_price' id='refund_price' data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul className='settingArea' data-subtext="*환불 금액에 따른 이용기간이 변경되는 경우 설정하세요.">
+                                    <li>
+                                        <label htmlFor="">기간</label>
+                                        <div>
+                                            <Select type='period' setInputs={setInputs} changeName='period'/>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <label htmlFor="">유료 기간<span>결제기준</span></label>
+                                        <div>
+                                            <div>
+                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} format={'YYYY-MM-DD'}/>
+                                                <span>-</span>
+                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} format={'YYYY-MM-DD'}/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <label htmlFor="">유료 기간<span>서비스 기간 포함</span></label>
+                                        <div>
+                                            <div>
+                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} format={'YYYY-MM-DD'}/>
+                                                <span>-</span>
+                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} format={'YYYY-MM-DD'}/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <label htmlFor="memo">환불 특이사항</label>
+                                        <div>
+                                            <textarea name="memo" id="memo" onChange={(e)=>inputChange(e, setInputs)}></textarea>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </fieldset>
+                            <div className="btnArea-end">
+                                <button type="button" className='btn-gray-white' onClick={()=>setRefundPopupActive('')}>닫기</button>
+                                <input type="submit" value='저장' className='btn-point' onClick={onSubmit}/>
+                            </div>
+                        </form>
+                    </div>
+                </Popup>
+            }
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
             )}
@@ -971,7 +990,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
         api('properties', 'properties_list', {'classification_id': '4'})
             .then(({result, list})=>{
                 if(result){
-                    console.log(list);
+                    // console.log(list);
                     setPaymentList(list)
                 }
             })
@@ -979,7 +998,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
         api('payment', 'detail', inputs)
             .then(({result, data})=>{
                 if(result){
-                    console.log(data);
+                    // console.log(data);
                     setInputs((input)=>({...input, ...data}))
                 }
             })
