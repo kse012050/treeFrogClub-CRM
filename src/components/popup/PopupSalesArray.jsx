@@ -51,8 +51,6 @@ export default function PopupSalesArray({ close, popup }) {
                     setSalesList(list)
                 }
             })
-
-
     }
 
     const onSubmit = (e) =>{

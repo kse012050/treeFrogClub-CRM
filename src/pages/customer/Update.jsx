@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useId, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../api/api';
 import { inputChange } from '../../api/validation';
@@ -8,6 +8,7 @@ import Select from '../../components/Select';
 import dayjs from 'dayjs';
 import Popup from '../../components/popup/Popup';
 import Pager from '../../components/Pager';
+import { UserContext } from '../../context/UserContext';
 
 export default function Update() {
     const [popup, setPopup] = useState()
@@ -181,7 +182,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
         api('product', 'list', {'all_yn': 'y'})
             .then(({result, list})=>{
                 if(result){
-                    console.log(list);
+                    // console.log(list);
                     // setAnalystList(list)
                     setProductList(list)
                 }
@@ -194,24 +195,50 @@ function Payment({ id, historyPaymentFunc, setPopup }){
 
     const onSubmit = (e) =>{
         e.preventDefault()
-        api('payment', 'insert', inputs)
-            .then(({result, error_message})=>{
-                setPopup({'type': 'confirm', 'description': error_message})
-                if(result){
-                    setPopup((popup)=>({
-                        ...popup,
-                        'title': '완료',
-                        confirmFunc: () => {
-                            historyPaymentFunc({'limit': '10', 'page': '1', 'customer_id': id})
+        // console.log('초기화 어떻게 만들지');
+        // setInputs({ 'customer_id': id })
+        setPopup({
+            'type': 'finFunc',
+            'title': '결제',
+            'description': `결제를 진행하시겠습니까?`,
+            'func': ()=>{
+                api('payment', 'insert', inputs)
+                    .then(({result, error_message})=>{
+                        if(error_message.includes('sales_properties_id')){
+                            error_message = '매출 구분을 선택해주세요.'
+                        }else if(error_message.includes('payment_properties_id')){
+                            error_message = '결제 구분을 선택해주세요.'
+                        }else if(error_message.includes('payment_price')){
+                            error_message = '결제금액을 입력해주세요.'
+                        }else if(error_message.includes('payment_date')){
+                            error_message = '결제일을 선택해주세요.'
+                        }else if(error_message.includes('product_id')){
+                            error_message = '상품명을 선택해주세요.'
+                        }else if(error_message.includes('period')){
+                            error_message = '기간을 선택해주세요.'
+                        }else if(error_message.includes('standard_payment')){
+                            error_message = '유료기간(결제 기준)을 선택해주세요.'
+                        }else if(error_message.includes('standard_service')){
+                            error_message = '유료기간(서비스기간 포함)을 선택해주세요.'
                         }
-                    }))
-                }else{
-                    setPopup((popup)=>({
-                        ...popup,
-                        'title': '실패',
-                    }))
-                }
-            })
+                        setPopup({'type': 'confirm', 'description': error_message})
+                        if(result){
+                            setPopup((popup)=>({
+                                ...popup,
+                                'title': '완료',
+                                confirmFunc: () => {
+                                    historyPaymentFunc({'limit': '10', 'page': '1', 'customer_id': id})
+                                }
+                            }))
+                        }else{
+                            setPopup((popup)=>({
+                                ...popup,
+                                'title': '실패',
+                            }))
+                        }
+                    })
+            }
+        })
     }
 
     return (
@@ -220,13 +247,13 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                 <fieldset>
                     <ul>
                         <li>
-                            <label htmlFor="">매출 구분</label>
+                            <label htmlFor="" className='required' onClick={()=>console.log(inputs)}>매출 구분</label>
                             <div>
-                                <Select type='salesProperties' setInputs={setInputs} changeName='sales_properties_id'/>
+                                <Select type='salesProperties' current={inputs?.salesProperties || false} setInputs={setInputs} changeName='sales_properties_id'/>
                             </div>
                         </li>
                         <li className='fill-two'>
-                            <label htmlFor="">결제 구분</label>
+                            <label htmlFor="" className='required'>결제 구분</label>
                             { paymentList &&
                                 <div>
                                     { paymentList.map((data)=>(
@@ -243,16 +270,16 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                 <fieldset>
                     <ul>
                         <li>
-                            <label htmlFor="payment_price">결제금액</label>
+                            <label htmlFor="payment_price" className='required'>결제금액</label>
                             <div>
                                 <input type="text" name='payment_price' id='payment_price' data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
                             </div>
                         </li>
                         <li>
-                            <label htmlFor="">결제일</label>
+                            <label htmlFor="" className='required'>결제일</label>
                             <div>
                                 <div>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} format={'YYYY-MM-DD'}/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} format={'YYYY-MM-DD'} placeholder='결제일 입력'/>
                                 </div>
                             </div>
                         </li>
@@ -261,28 +288,28 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                 <fieldset>
                     <ul>
                         <li>
-                            <label htmlFor="">기간</label>
+                            <label htmlFor="" className='required'>기간</label>
                             <div>
                                 <Select type='period' setInputs={setInputs} changeName='period'/>
                             </div>
                         </li>
                         <li>
-                            <label htmlFor="">유료 기간<span>결제기준</span></label>
+                            <label htmlFor="" className='required'>유료 기간<span>결제기준</span></label>
                             <div>
                                 <div>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} format={'YYYY-MM-DD'}/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} format={'YYYY-MM-DD'} placeholder='시작일'/>
                                     <span>-</span>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} format={'YYYY-MM-DD'}/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} format={'YYYY-MM-DD'} placeholder='종료일'/>
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <label htmlFor="">유료 기간<span>서비스기간 포함</span></label>
+                            <label htmlFor="" className='required'>유료 기간<span>서비스기간 포함</span></label>
                             <div>
                                 <div>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} format={'YYYY-MM-DD'}/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} format={'YYYY-MM-DD'} placeholder='시작일'/>
                                     <span>-</span>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} format={'YYYY-MM-DD'}/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} format={'YYYY-MM-DD'} placeholder='종료일'/>
                                 </div>
                             </div>
                         </li>
@@ -291,7 +318,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                 <fieldset>
                     <ul>
                         <li className='fill-three'>
-                            <label htmlFor="">상품명</label>
+                            <label htmlFor="" className='required'>상품명</label>
                             {
                                 productList && 
                                 <div>
@@ -320,15 +347,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                 </fieldset>
                 <div>
                     <input type="submit" value="결제" className='btn-point' 
-                        onClick={(e)=>{
-                            e.preventDefault()
-                            setPopup({
-                                'type': 'finFunc',
-                                'title': '결제',
-                                'description': `결제를 진행하시겠습니까?`,
-                                'func': onSubmit
-                            })
-                        }}
+                        onClick={onSubmit}
                     />
                 </div>
             </form>
@@ -343,6 +362,7 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
     const [updateInfo, setUpdateInfo] = useState()
     const [refundPopupActive, setRefundPopupActive] = useState()
     const [updatePopupActive, setUpdatePopupActive] = useState()
+    const [consultCount, setConsultCount] = useState()
 
     const historyUpdateFunc = useCallback(()=>{
         api('payment','user_payment_history_list', inputs)
@@ -364,19 +384,19 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
         <>
             <DropBox title="관련 정보" arrow>
                 <div className='boardBox'>
-                    <button data-count="0" className={relatedActive === 0 ? 'active' : ''} onClick={()=>setRelatedActive(0)}>상담이력</button>
+                    <button data-count={consultCount} className={relatedActive === 0 ? 'active' : ''} onClick={()=>setRelatedActive(0)}>상담이력</button>
                     <button data-count={paymentInfo?.total_count} className={relatedActive === 1 ? 'active' : ''} onClick={()=>setRelatedActive(1)}>결제내역</button>
                     <button data-count={updateInfo?.total_count} className={relatedActive === 2 ? 'active' : ''} onClick={()=>setRelatedActive(2)}>결제수정내역</button>
                     <button data-count="0" className={relatedActive === 3 ? 'active' : ''} onClick={()=>setRelatedActive(3)}>삭제된 결제내역</button>
 
                     {relatedActive === 0 &&
-                        <HistoryConsult />
+                        <HistoryConsult id={id} setConsultCount={setConsultCount}/>
                     }
                     {relatedActive === 1 &&
                         <>
                             <b className='total'>{ paymentInfo?.total_count }</b>
                             <span className='page'>{ paymentInfo?.current_page }/{ paymentInfo?.total_page }</span>
-                            <div className='board-scroll1'>
+                            <div className='board-scroll2'>
                                 <div className="board-top">
                                     <button>결제번호</button>
                                     <button>결제구분</button>
@@ -411,8 +431,8 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
                                                 <time>{ data?.refund_date?.replaceAll('-','/') }</time>
                                                 <span>{ data?.refund_price }</span>
                                                 <time>
-                                                    { data.standard_service_end_date.replaceAll('-','/') }<br/>
-                                                    ~ { data.standard_service_start_date.replaceAll('-','/') }
+                                                    { data.standard_service_start_date.replaceAll('-','/') }<br/>
+                                                    ~ { data.standard_service_end_date.replaceAll('-','/') }
                                                 </time>
                                                 <div>
                                                     <button className='popup' onClick={()=>setRefundPopupActive({'type': 'children', 'id': data.payment_id})}>환불</button>
@@ -430,7 +450,7 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
                     }
                     {relatedActive === 2 &&
                         <>
-                            <div className='board-scroll2'>
+                            <div className='board-scroll3'>
                                 <div className="board-top">
                                     <button>결제번호</button>
                                     <button>항목</button>
@@ -478,10 +498,238 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
     )
 }
 
+function HistoryConsult({ id, setConsultCount }){
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id})
+    const [boardList, setBoardList] = useState()
+    const [pagerInfo, setPagerInfo] = useState()
+
+    const currentData = useCallback(()=>{
+        api('counsel', 'list', inputs)
+            .then(({result, list, data})=>{
+                if(result){
+                    // console.log(list);
+                    // console.log(data);
+                    setConsultCount(data.total_count)
+                    setBoardList(list)
+                    setPagerInfo(data)
+                }
+            })
+    },[])
+
+    useEffect(()=>{
+        currentData()
+    },[currentData])
+
+    return (
+        <>
+            <div className='board-scroll1'>
+                <div className="board-top">
+                    <button onClick={()=>console.log(boardList)}>상담상태</button>
+                    <span>상담내용</span>
+                    <button>담당자</button>
+                    <button>등록일시</button>
+                </div>
+                { boardList && 
+                    <ol className="board-center">
+                        { boardList.map((data)=>
+                            <li key={ data.counsel_id }>
+                                <span>{ data.counsel_properties_name }</span>
+                                <span>
+                                    { data.counsel_memo }
+                                </span>
+                                <span>{ data.manage_admin_name }</span>
+                                <time>{ data.register_date }</time>
+                            </li>
+
+                        )}
+                    </ol>
+                }
+            </div>
+            <div className='board-pagination' data-styleidx='a'>
+                <Link to={''}>첫 페이지</Link>
+                <Link to={''}>이전 페이지</Link>
+                <ol>
+                    <li className='active'><Link to={''}>1</Link></li>
+                </ol>
+                <Link to={''}>다음 페이지</Link>
+                <Link to={''}>마지막 페이지</Link>
+            </div>
+            <HistoryConsultInput id={id} currentData={currentData}/>
+        </>
+    )
+}
+
+function HistoryConsultInput({ id, currentData }){
+    const { user } = useContext(UserContext)
+    const [inputs, setInputs] = useState()
+    const [registerDate, setRegisterDate] = useState()
+    const [expectDate, setExpectDate] = useState()
+    const [sales, setSales] = useState()
+    const [popup, setPopup] = useState()
+
+    const currentSettings = useCallback(()=>{
+        console.log(1);
+
+        setInputs({'customer_id': id, 'manage_admin_id': user?.admin_id})
+        setSales(user?.name)
+
+        const now = new Date();
+        const year = now.getFullYear(); // 현재 연도
+        const month = now.getMonth() + 1; // 현재 월 (0부터 시작하므로 +1)
+        const date = now.getDate(); // 현재 일
+        const hour = now.getHours(); // 현재 시간 (24시간 표시)
+        const minute = now.getMinutes(); // 현재 분
+
+        setRegisterDate({
+            'date': `${year}-${month < 10 ? '0' + month : month}-${date}`,
+            'hour': `${hour < 10 ? '0' + hour: hour}`,
+            'minute': `${minute < 10 ? '0' + minute : minute}`
+        })
+
+        setExpectDate()
+
+    },[id, user?.admin_id, user?.name])
+
+    useEffect(()=>{
+        currentSettings()
+    },[currentSettings])
+
+    useEffect(()=>{
+        if( registerDate?.date && registerDate?.hour && registerDate?.minute ){
+            setInputs((input)=>({...input, 'register_date': `${registerDate.date} ${registerDate.hour}:${registerDate.minute}`}))
+        }
+    },[registerDate])
+
+    useEffect(()=>{
+        if( expectDate?.date && expectDate?.hour && expectDate?.minute ){
+            setInputs((input)=>({...input, 're_call_expect_date': `${expectDate.date} ${expectDate.hour}:${expectDate.minute}`}))
+        }
+    },[expectDate])
+
+    const onRegister = (dateString, name) => {
+        setRegisterDate((input)=>({...input, [name]: dateString}))
+    };
+
+    const onExpect = (dateString, name) => {
+        setExpectDate((input)=>({...input, [name]: dateString}))
+    };
+
+    const onSubmit = (e) =>{
+        e.preventDefault();
+        // console.log(inputs);
+
+        if(expectDate?.date || expectDate?.hour || expectDate?.minute){
+            if(!expectDate?.date || !expectDate?.hour || !expectDate?.minute){
+                setPopup({
+                    'type': 'confirm',
+                    'title': '실패',
+                    'description': '재통화 예정일를 입력해주세요.'
+                })
+                return
+            }
+        }
+        
+        api('counsel', 'insert', inputs)
+            .then(({result, error_message})=>{
+                if(error_message.includes('counsel_properties_id')){
+                    error_message = '상담상태를 선택해주세요.'
+                }else if(error_message.includes('manage_admin_id')){
+                    error_message = '담당자를 선택해주세요.'
+                }else if(error_message.includes('counsel_memo')){
+                    error_message = '상담내용를 작성해주세요.'
+                }
+                setPopup({'type': 'confirm', 'description': error_message})
+                if(result){
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '완료',
+                        'confirmFunc': () =>{
+                            // 상담이력 게시판 초기화
+                            currentData()
+                            // 상담 입력 초기화
+                            currentSettings()
+                        }
+                    }))
+                }else{
+                    setPopup((popup)=>({
+                        ...popup,
+                        'title': '실패',
+                    }))
+                }
+            })
+    }
+
+    return (
+        <>
+            <div className='consultInputArea dropBox'>
+                <b>상담 입력</b>
+                <form>
+                    <fieldset>
+                        <ul>
+                            <li>
+                                <label htmlFor="">상담상태</label>
+                                <div>
+                                    <Select type={'counsel'} current={inputs?.counsel_properties_id || ''} changeName='counsel_properties_id' setInputs={setInputs}/>
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="" className='required'>담당자</label>
+                                <div>
+                                    <input 
+                                        type="search" 
+                                        value={sales || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'sales',
+                                            'func': (data)=>{
+                                                setInputs((input)=>({...input, 'manage_admin_id': data.admin_id}))
+                                                setSales(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="" className='required'>등록일시</label>
+                                <div>
+                                    <DatePicker onChange={(_, dateString)=>onRegister(dateString, 'date')} value={registerDate?.date ? dayjs(registerDate?.date) : ''}/>
+                                    <Select type='time-hour' current={registerDate?.hour} changeName='hour' setInputs={setRegisterDate}/> :
+                                    <Select type='time-minute2' current={registerDate?.minute} changeName='minute' setInputs={setRegisterDate}/>
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="">재통화 예정일</label>
+                                <div>
+                                    <DatePicker onChange={(_, dateString)=>onExpect(dateString, 'date')} value={expectDate?.date ? dayjs(expectDate?.date) : ''} placeholder='예정일 입력'/>
+                                    <Select type='time-hour' current={expectDate?.hour || ''} changeName='hour' setInputs={setExpectDate}/> :
+                                    <Select type='time-minute2' current={expectDate?.minute || ''} changeName='minute' setInputs={setExpectDate}/>
+                                </div>
+                            </li>
+                            <li className='fill-three'>
+                                <label htmlFor="counsel_memo" className='required'>상담내용</label>
+                                <div>
+                                    <textarea id='counsel_memo' name='counsel_memo' onChange={(e)=>inputChange(e, setInputs)}/>
+                                </div>
+                            </li>
+                        </ul>
+                    </fieldset>
+                    <div>
+                        <input type="submit" value="저장" className='btn-point' onClick={onSubmit}/>
+                    </div>
+                </form>
+            </div>
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
+        </>
+    )
+}
+
 function HistoryDelete(){
     return (
         <>
-            <div className='board-scroll3'>
+            <div className='board-scroll4'>
                 <div className="board-top">
                     <button>결제번호</button>
                     <button>결제구분</button>
@@ -545,40 +793,6 @@ function HistoryDelete(){
     )
 }
 
-function HistoryConsult(){
-    return (
-        <>
-            <div className='board-scroll4'>
-                <div className="board-top">
-                    <button>상담상태</button>
-                    <span>상담내용</span>
-                    <button>담당자</button>
-                    <button>등록일시</button>
-                </div>
-                <ol className="board-center">
-                    <li>
-                        <span>분배(신규)</span>
-                        <span>
-                            주식교육 - 실전반 결제금액 150 결제일 23.09.01<br></br>
-                            특이사항 : 주식으로 돈버는 기술 - 실전반 (1년 무제한 이용권) + 데일리 실전강의 1년 무료
-                        </span>
-                        <span>홍길동</span>
-                        <time>2023/09/30 12:12</time>
-                    </li>
-                </ol>
-            </div>
-            <div className='board-pagination' data-styleidx='a'>
-                <Link to={''}>첫 페이지</Link>
-                <Link to={''}>이전 페이지</Link>
-                <ol>
-                    <li className='active'><Link to={''}>1</Link></li>
-                </ol>
-                <Link to={''}>다음 페이지</Link>
-                <Link to={''}>마지막 페이지</Link>
-            </div>
-        </>
-    )
-}
 
 function RefundPopup({ refundPopupActive, setRefundPopupActive }){
     const [inputs, setInputs] = useState({'payment_id': refundPopupActive.id})
@@ -747,36 +961,38 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
 }
 
 function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFunc }){
+    const uuid = useId()
     const [inputs, setInputs] = useState({'payment_id': updatePopupActive.id})
     const [paymentList, setPaymentList] = useState()
-    const [analystList, setAnalystList] = useState()
+    const [productList, setProductList] = useState()
     const [popup, setPopup] = useState()
 
     useEffect(()=>{
         api('properties', 'properties_list', {'classification_id': '4'})
             .then(({result, list})=>{
                 if(result){
+                    console.log(list);
                     setPaymentList(list)
-                }
-            })
-
-        
-        api('user', 'analyst_list')
-            .then(({result, list})=>{
-                if(result){
-                    // console.log(list);
-                    setAnalystList(list)
                 }
             })
 
         api('payment', 'detail', inputs)
             .then(({result, data})=>{
                 if(result){
-                    // console.log(data);
+                    console.log(data);
                     setInputs((input)=>({...input, ...data}))
                 }
             })
-    },[inputs])
+
+        api('product', 'list', {'all_yn': 'y'})
+            .then(({result, list})=>{
+                if(result){
+                    // console.log(list);
+                    // setAnalystList(list)
+                    setProductList(list)
+                }
+            })
+    },[setInputs])
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
@@ -818,7 +1034,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                                 <li>
                                     <label htmlFor="">매출 구분</label>
                                     <div>
-                                        <Select type='sales' current={inputs?.sales_properties_id} setInputs={setInputs} changeName='sales_properties_id'/>
+                                        <Select type='salesProperties' current={inputs?.sales_properties_id} setInputs={setInputs} changeName='sales_properties_id'/>
                                     </div>
                                 </li>
                                 <li className='fill-two'>
@@ -829,12 +1045,12 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                                                 <span key={data.properties_id}>
                                                     <input type="radio" 
                                                         name='payment_properties_id'
-                                                        id={`payment_properties_update_${data.properties_id}`} 
-                                                        defaultChecked={inputs.payment_properties_id === data.properties_id}
+                                                        id={`payment_properties_update_${data.properties_id}_${uuid}`} 
+                                                        checked={inputs.payment_properties_id === data.properties_id}
                                                         value={data.properties_id} 
                                                         onChange={(e)=>inputChange(e, setInputs)}
                                                     />
-                                                    <label htmlFor={`payment_properties_update_${data.properties_id}`}>{ data.name }</label>
+                                                    <label htmlFor={`payment_properties_update_${data.properties_id}_${uuid}`}>{ data.name }</label>
                                                 </span>
                                             ))}
                                         </div>
@@ -893,21 +1109,15 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                         <fieldset>
                             <ul>
                                 <li className='fill-three'>
-                                    <label htmlFor="">신청 애널리스트</label>
-                                    { analystList &&
+                                    <label htmlFor="">상품명</label>
+                                    {
+                                        productList && 
                                         <div>
-                                            { analystList.map((data)=>(
-                                                <span key={data.admin_id}>
-                                                    <input type="radio" 
-                                                        name='product_id'
-                                                        id={`product_update_${data.admin_id}`}
-                                                        defaultChecked={inputs?.product_id === data.admin_id}
-                                                        value={data.admin_id}
-                                                        onChange={(e)=>inputChange(e, setInputs)}
-                                                    />
-                                                    <label htmlFor={`product_update_${data.admin_id}`}>
-                                                        { data.department_name && `[${data.department_name}]`}
-                                                        { data.name }
+                                            { productList.map((data)=>(
+                                                <span key={data.product_id}>
+                                                    <input type="radio" name='product_id' id={`product_${data.product_id}_${uuid}`} value={data.product_id} defaultChecked={data.product_id === inputs?.product_id} onChange={(e)=>inputChange(e, setInputs)}/>
+                                                    <label htmlFor={`product_${data.product_id}_${uuid}`}>
+                                                        { data.product_name }
                                                     </label>
                                                 </span>
                                             ))}

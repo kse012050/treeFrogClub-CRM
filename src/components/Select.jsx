@@ -198,6 +198,14 @@ function Select({type, current, setInputs, changeName, placeholder, disabled}) {
             setName(arr);
             setValue(arr);
         }
+        if(type === 'time-minute2'){
+            const arr = []
+            for(let a = 0; a < 60; a++){
+                arr.push(Number(a) < 10 ? `0${a}` : `${a}`)
+            }
+            setName(arr);
+            setValue(arr);
+        }
         
 
 

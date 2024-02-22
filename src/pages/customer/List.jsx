@@ -12,6 +12,7 @@ import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 import Pager from '../../components/Pager';
 import Popup from '../../components/popup/Popup';
 import { inputChange, arrayChange, parentsChange } from '../../api/validation';
+import SelectPage from '../../components/SelectPage';
 
 
 export default function List() {
@@ -511,10 +512,12 @@ export default function List() {
                     </ol>
                 }
 
-                <div className='board-pagination' data-styleidx='a'>
-                    <Select type="pagerCount" current={searchInputs.limit} setInputs={setInputs} changeName='limit'/>
-                    <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
-                </div>
+                { !!pagerInfo?.total_count &&
+                    <div className='board-pagination' data-styleidx='a'>
+                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
+                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                    </div>
+                }
             </div>
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />

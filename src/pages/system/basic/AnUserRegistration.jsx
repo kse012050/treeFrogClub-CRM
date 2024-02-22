@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { DatePicker } from 'antd';
 import Select from '../../../components/Select';
 import { Link } from 'react-router-dom';
 import { onChange, inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
+import { UserContext } from '../../../context/UserContext';
 
 export default function AnUserRegistration() {
+    const { company } = useContext(UserContext)
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
     const [userId, setUserId] = useState();
@@ -88,7 +90,7 @@ export default function AnUserRegistration() {
                             <li>
                                 <label htmlFor="" className='required'>회원사</label>
                                 <div>
-                                    <input type="text" name='' id='' value={'(주)청개구리투자클럽'} disabled/>
+                                    <input type="text" name='' id='' value={company?.company_name || ''} disabled/>
                                 </div>
                             </li>
                             <li>
