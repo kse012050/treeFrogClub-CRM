@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Popup from '../../../components/popup/Popup';
 
 export default function ManagementRegistration() {
-    const [inputs, setInputs] = useState();
+    const [inputs, setInputs] = useState({});
     const [connectlimitTime, setConnectlimitTime] = useState()
     const [allowIps, setAllowIps] = useState([])
     const [popup, setPopup] = useState('')
@@ -27,6 +27,7 @@ export default function ManagementRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
+        // console.log(inputs);
         if(inputs?.connect_limit_yn === 'y'){
             if(!connectlimitTime?.connect_limit_start_time_hour || !connectlimitTime?.connect_limit_start_time_minute || !connectlimitTime?.connect_limit_end_time_hour || !connectlimitTime?.connect_limit_end_time_minute){
                 setPopup(()=>({
@@ -41,6 +42,7 @@ export default function ManagementRegistration() {
             }
 
         }else{
+            inputs.connect_limit_yn = 'n'
             delete inputs.connect_limit_start_time
             delete inputs.connect_limit_end_time
         }
@@ -49,11 +51,17 @@ export default function ManagementRegistration() {
         if(inputs?.ip_limit_yn === 'y'){
             inputs.allow_ips = allowIps
         }else{
+            inputs.ip_limit_yn = 'n'
             delete inputs.allow_ips
         }
         
         api('role', 'insert', inputs)
             .then(({result, error_message})=>{
+                if(error_message.includes('role_classification')){
+                    error_message = '구분을 선택해주세요.'
+                }else if(error_message.includes('role_name')){
+                    error_message = '역할명을 입력해주세요.'
+                }
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
                     setPopup((popup)=>({

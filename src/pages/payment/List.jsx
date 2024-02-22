@@ -27,7 +27,7 @@ export default function List() {
                     setPagerInfo(data)
                     setSummary(data)
                     setBoardList(list)
-                    console.log(list);
+                    // console.log(list);
                 }
             })
     },[inputs])

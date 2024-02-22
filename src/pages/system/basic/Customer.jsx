@@ -18,6 +18,7 @@ export default function Customer() {
                         delete data.auto_collection_date
                         delete data.auto_collection_admin_id
                     }
+                    // console.log(data);
                     setInputs(data)
                     if(data.auto_collection_admin_id){
                         api('user', 'list', {'all_yn': 'y'})
@@ -51,7 +52,7 @@ export default function Customer() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        console.log(inputs);
+        // console.log(inputs);
         api('constant', 'combine_customer_setting_info_save', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

@@ -67,6 +67,7 @@ input[disabled]{background-color: white; color: inherit;}
 .selectBox-month{max-width: 70px;}
 /* .selectBox-month button::after{content: '월';} */
 .board-pagination:has(.selectBox-pagerCount){position: relative;}
+[class*="selectBox"].selectBox-pagerCount div{bottom: calc(100% + 3px); top: auto;}
 .selectBox-pagerCount{max-width: 80px; position: absolute; left: 55px; top: 0;}
 .selectBox-pagerCount::before{content: '노출개수'; position: absolute; left: 0; top: 50%; translate: calc(-100% - 10px) -50%;}
 .selectBox-excelCount{max-width: 130px;}

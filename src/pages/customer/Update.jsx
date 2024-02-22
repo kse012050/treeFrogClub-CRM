@@ -279,7 +279,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                             <label htmlFor="" className='required'>결제일</label>
                             <div>
                                 <div>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} format={'YYYY-MM-DD'} placeholder='결제일 입력'/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} format={'YYYY-MM-DD'} placeholder='날짜 선택'/>
                                 </div>
                             </div>
                         </li>

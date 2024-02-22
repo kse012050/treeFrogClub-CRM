@@ -16,8 +16,8 @@ import SelectPage from '../../components/SelectPage';
 
 
 export default function List() {
-    const [inputs, setInputs] = useState({'limit' : '10', 'page': '1'})
-    const [searchInputs, setSearchInputs] = useState({'limit' : '10', 'page': '1'})
+    const [inputs, setInputs] = useState()
+    const [searchInputs, setSearchInputs] = useState()
     const [searchCounsel, setSearchCounsel] = useState()
     const [searchClient, setSearchClient] = useState()
     const [searchId, setSearchId] = useState()
@@ -32,38 +32,57 @@ export default function List() {
     const [customerListInputs, setCustomerListInputs] = useState()
 
     const currentData = useCallback(()=>{
-        api('customer', 'list', inputs)
-            .then(({result, data, list})=>{
-                if(result){
-                    // console.log(data);
-                    setPagerInfo(data)
-                    setBoardList(list)
-                }
-            })
-    
-        api('commoncode', 'properties_list', {'all_yn': 'y'})
-            .then(({result, list})=>{
-                if(result){
-                    // console.log(list);
-                    setSearchCounsel(list)
-                }
-            })
+        // console.log(inputs);
+        if(inputs){
+            api('customer', 'list', inputs)
+                .then(({result, data, list})=>{
+                    if(result){
+                        // console.log(data);
+                        // console.log(list);
+                        setPagerInfo(data)
+                        setBoardList(list)
+                    }
+                })
+        
+            api('commoncode', 'properties_list', {'all_yn': 'y'})
+                .then(({result, list})=>{
+                    if(result){
+                        // console.log(list);
+                        setSearchCounsel(list)
+                    }
+                })
 
-            
-        api('clientcode', 'properties_list', {"all_yn": "y"})
-            .then(({result, list})=>{
-                if(result){
-                    // console.log(list);
-                    setSearchClient(list)
-                }
-            })
+                
+            api('clientcode', 'properties_list', {"all_yn": "y"})
+                .then(({result, list})=>{
+                    if(result){
+                        // console.log(list);
+                        setSearchClient(list)
+                    }
+                })
 
-        setIsSearch(false)
+            setIsSearch(false)
+        }
     },[inputs])
   
     useEffect(()=>{
         currentData()
     },[currentData])
+
+    useEffect(()=>{
+        api('constant', 'combine_customer_setting_info')
+            .then(({result, data})=>{
+                    if(result){
+                        const obj = {}
+                        // console.log(data);
+                        obj.limit = data.combine_customer_list_number
+                        obj.page = '1'
+                        // console.log(obj);
+                        setInputs(obj)
+                    }
+                })
+        
+    },[])
 
   
 
@@ -332,6 +351,9 @@ export default function List() {
                                             'type': 'confirm',
                                             'title': '완료',
                                             'description': error_message,
+                                            'confirmFunc': () =>{
+                                                currentData()
+                                            }
                                         })
                                     }
                                 })

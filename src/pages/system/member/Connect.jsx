@@ -10,30 +10,15 @@ import SelectPage from '../../../components/SelectPage';
 export default function Connect() {
     const initParam = {'limit': '10', 'page': '1'};
     const [inputs, setInputs] = useState(initParam)
-    const [searchInputs, setSearchInputs] = useState(initParam)
+    const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
 
-    // const currentData = useCallback(()=>{
-    //     api('log', 'list', inputs)
-    //         .then(({result, data, list})=>{
-    //             if(result){
-    //                 // console.log(list);
-    //                 setPagerInfo(data)
-    //                 setBoardList(list)
-    //             }
-    //         })
-    // },[inputs])
-
-    // useEffect(()=>{
-    //     currentData()
-    // },[currentData, inputs])
-
     useEffect(()=>{
-        // console.log(inputs);
         api('log', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
+                    console.log(list);
                     setPagerInfo(data)
                     setBoardList(list)
                 }
@@ -45,12 +30,13 @@ export default function Connect() {
     };
 
     const onReset = () => {
-        setInputs(initParam)
-        setSearchInputs(initParam)
+        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
     }
 
     const onSearch = (e) =>{
         e.preventDefault()
+        console.log(searchInputs);
         setInputs((input)=>({...input, ...searchInputs}))
     }
     return (
