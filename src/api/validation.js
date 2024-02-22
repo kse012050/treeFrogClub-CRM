@@ -87,3 +87,8 @@ export const parentsChange = (e, setInputs) => {
     const { value, dataset: { parents, name } } = e.target;
     setInputs((input)=>({...input, [parents]: {...input[parents], [name]: value}}))
 }
+
+export const numberWithCommas = (number) => {
+    number = number + ''
+    return number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};

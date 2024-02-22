@@ -75,12 +75,12 @@
 .mainPage .salesPage .salesArea strong{margin-bottom: 20px;}
 .mainPage .salesPage .salesArea > div{padding: 20px; border: 1px solid var(--color-line); display: flex; align-items: center; gap: 20px;}
 .mainPage .salesPage .salesArea > div .progressArea{/* width: 500px; */ flex: 1; height: 40px; margin-inline: 40px; border: 1px solid var(--color-line); position: relative;}
-.mainPage .salesPage .salesArea > div .progressArea::before{content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 70%; background: linear-gradient(270deg, #E02C28 40%, #A51E23 100%);}
+.mainPage .salesPage .salesArea > div .progressArea::before{content: ''; position: absolute; left: 0; top: 0; height: 100%; width: var(--percent); background: linear-gradient(270deg, #E02C28 40%, #A51E23 100%);}
 .mainPage .salesPage .salesArea > div .progressArea > *{position: absolute; ; top: 0; height: 100%;}
 .mainPage .salesPage .salesArea > div .progressArea > *:is([title="투자금액"], [title="최소할당매출"]){border-right: 1px dotted white;}
-.mainPage .salesPage .salesArea > div .progressArea > *[title="투자금액"]{left: 30%;}
-.mainPage .salesPage .salesArea > div .progressArea > *[title="최소할당매출"]{left: 50%;}
-.mainPage .salesPage .salesArea > div .progressArea > *[title="현재매출"]{left: 70%; font-weight: 700;}
+.mainPage .salesPage .salesArea > div .progressArea > *[title="투자금액"]{left: var(--percent);}
+.mainPage .salesPage .salesArea > div .progressArea > *[title="최소할당매출"]{left: var(--percent);}
+.mainPage .salesPage .salesArea > div .progressArea > *[title="현재매출"]{left: var(--percent); font-weight: 700;}
 .mainPage .salesPage .salesArea > div .progressArea > *[title="목표매출"]{left: 100%;}
 .mainPage .salesPage .salesArea > div .progressArea > *::before{content: attr(title); position: absolute; top: 100%; left: -50%; transform: translateX(-50%); white-space: nowrap; padding-top: 16px; background: url(../images/icon-triangle-gray-up.png) no-repeat center top 3px / 12px;}
 .mainPage .salesPage .salesArea > div .progressArea > *[title="현재매출"]::after{content: attr(data-percent) '% 달성'; position: absolute; top: calc(100% + 40px); transform: translateX(-50%); font-size: 12px; line-height: 14px; color: var(--color-point01); padding: 5px 10px; white-space: nowrap; background-color: var(--color-point02); border-radius: 20px;}
@@ -93,7 +93,7 @@
 .mainPage .salesPage .salesArea > div .amountArea dl dd{flex: 1;}
 .mainPage .salesPage .salesArea > div .amountArea mark{font-weight: 700; text-align: center; color: var(--color-point01); display: block; margin-top: 12px;}
 /* 메인 페이지 - 영업사원 - 현황 */
-.mainPage .salesPage .boardBox{gap: 15px 10px;}
+/* .mainPage .salesPage .boardBox{gap: 15px 10px;} */
 .mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 140;}
 .mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 100;}
 .mainPage .salesPage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 120;}
@@ -144,6 +144,9 @@
 .customerPage.updatePage .boardBox .board-scroll1 .board-center li{min-height: 56px; height: auto; padding-block: 12px; box-sizing: border-box;}
 .customerPage.updatePage .boardBox .consultInputArea{width: 100%; --padding: 0; border: none; margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--color-division);}
 .customerPage.updatePage .boardBox .consultInputArea > b{margin-bottom: 30px;}
+.customerPage.updatePage .boardBox .consultInputArea fieldset ul li div:has(.selectBox-time-hour){align-items: center;}
+.customerPage.updatePage .boardBox .consultInputArea fieldset ul li div:has(.selectBox-time-hour) .ant-picker{flex: 2;}
+.customerPage.updatePage .boardBox .consultInputArea fieldset ul li div:has(.selectBox-time-hour) [class*="selectBox-time"]{flex: 1;}
 .customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 80;}
 .customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90;}
 .customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 70;}

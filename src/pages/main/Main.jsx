@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MainBasic from './MainBasic';
-// import MainSales from './MainSales';
+import MainSales from './MainSales';
 import { api } from '../../api/api';
+import { UserContext } from '../../context/UserContext';
 
 export default function Main() {
+    const { user } = useContext(UserContext)
     const [dashboardAlarm, setDashboardAlarm] = useState()
-
+    
     useEffect(()=>{
         api('board', 'dashboard_alarm')
             .then(({result, data})=>{
@@ -24,8 +26,11 @@ export default function Main() {
                     <p>{ dashboardAlarm.title }</p>
                 </Link>
             }
-
-            <MainBasic />
+            { user && 
+                user?.useable_yn === 'n' ? <MainBasic /> :
+                ( user?.useable_yn === 'y' && <MainSales />)
+            }
+            {/* <MainBasic /> */}
             {/* <MainSales /> */}
         </>
     );

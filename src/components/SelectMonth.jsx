@@ -11,7 +11,16 @@ export default function SelectMonth({ year, setInputs, changeName, disabled, tab
         api('calendar', 'calculation_month_list', {'year_value': year})
             .then(({result, list})=>{
                 if(result){
-                    setName(list.map((data)=>data.month_value_title.split(' ')[1]))
+                    setName(()=>{
+                        let arr = list.map((data)=>data.month_value_title.split(' ')[1]);
+                        const currentDate = new Date();
+                        const currentYear = currentDate.getFullYear();
+                        const currentMonth = currentDate.getMonth() + 1;
+                        if(year >= currentYear){
+                            arr = arr.filter((data)=>data.replace(/월/g, '') <= currentMonth)
+                        }
+                        return arr
+                    })
                     setValue(list.map((data)=>data.month_value.split('-')[1]))
                     if(list.some((data)=>data.current_month_yn === 'y')){
                         setSelect(list.filter(({current_month_yn})=>current_month_yn === 'y')[0].month_value_title.split(' ')[1])
