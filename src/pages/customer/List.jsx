@@ -60,8 +60,6 @@ export default function List() {
                         setSearchClient(list)
                     }
                 })
-
-            setIsSearch(false)
         }
     },[inputs])
   
@@ -72,16 +70,15 @@ export default function List() {
     useEffect(()=>{
         api('constant', 'combine_customer_setting_info')
             .then(({result, data})=>{
-                    if(result){
-                        const obj = {}
-                        // console.log(data);
-                        obj.limit = data.combine_customer_list_number
-                        obj.page = '1'
-                        // console.log(obj);
-                        setInputs(obj)
-                    }
-                })
-        
+                if(result){
+                    const obj = {}
+                    // console.log(data);
+                    obj.limit = data.combine_customer_list_number
+                    obj.page = '1'
+                    // console.log(obj);
+                    setInputs(obj)
+                }
+            })
     },[])
 
   
@@ -92,11 +89,35 @@ export default function List() {
         // console.log(name);
         setSearchInputs((input)=>({...input, [parents]: {...input[parents], [name]: dateString}}))
     };
+    
+    const onCustomerDetail = (e) =>{
+        const { /* name, */ value, checked } = e.target
+        // if(checked){
+        //     setSearchInputs((input)=>{
+        //         let arr = []
+        //         if(input.customer_properties_id_list){
+        //             arr = [...input.customer_properties_id_list]
+        //         }
+        //         arr.push(value)
+        //         return {...input, 'customer_properties_id_list': arr}
+        //     })
+        // }else{
+        //     setSearchInputs((input)=>{
+        //         let arr = [...input.customer_properties_id_list].filter((data)=> data !== value)
+        //         return {...input, 'customer_properties_id_list': arr}
+        //     })
+        // }
+        // console.log(name);
+        console.log(value);
+        console.log(checked);
+    }
 
     const onSearch = (e) => {
         e.preventDefault()
         // console.log(searchInputs);
-        api('customer', 'list', searchInputs)
+        setInputs((input)=>({...input, ...searchInputs}))
+        setIsSearch(true)
+       /*  api('customer', 'list', searchInputs)
             .then(({result, data, list})=>{
                 if(result){
                     // console.log(list);
@@ -105,7 +126,7 @@ export default function List() {
                     setSearchId(list.map((listData)=>listData.customer_id))
                     setIsSearch(true)
                 }
-            })
+            }) */
     }
 
     const onReset = ()=>{
@@ -119,6 +140,44 @@ export default function List() {
     useEffect(()=>{
         setCustomerListInputs()
     },[customerList])
+
+    const onSort = (name) =>{
+        // setBoardList((board)=>{
+        //     let copy = [...board]
+        //         if(copy.length > 1){
+        //             if(copy[0][name] > copy[1][name]){
+        //                 copy = copy.sort((data1, data2)=> data1[name] - data2[name])
+        //             }else{
+        //                 copy = copy.sort((data1, data2)=> data2[name] - data1[name])
+        //             }
+        //         }
+        //     return copy
+        // })
+        setBoardList((board)=>{
+            let copy = [...board]
+            // console.log(copy[0][name]);
+            // console.log(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, ''));
+            if(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > copy[1][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '')){
+                copy = copy.sort((data1, data2)=> {
+                        const valueA = data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
+                        const valueB = data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
+                        // data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? 1 : -1
+                        return valueB.localeCompare(valueA);
+                    })
+                // console.log(1);
+            }else if(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') <= copy[1][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '')){
+                // copy = copy.sort((data1, data2)=> data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') >= data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? -1 : 1)
+                // console.log(2);
+                copy = copy.sort((data1, data2)=> {
+                    const valueA = data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
+                    const valueB = data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
+                    // data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? 1 : -1
+                    return valueA.localeCompare(valueB);
+                })
+            }
+            return copy
+        })
+    }
 
     return (
         <>
@@ -203,40 +262,44 @@ export default function List() {
                             </li>
                             <li className='fill-two'>
                                 <label htmlFor="">고객 상세구분</label>
-                                <div>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">무료회원(체험중)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">무료회원(체험완료)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">VIP회원(이용중)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">VIP회원(이용완료)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">VVIP회원(이용중)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">VVIP회원(이용완료)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">소액투자반(이용중)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">소액투자반(이용완료)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">교육(이용중)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">교육(이용완료)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">S클럽(이용중)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">S클럽(이용완료)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">렌탈(이용중)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">렌탈(이용완료)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">환불방어매출(이용중)</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">환불방어매출(이용완료)</label>
-                                </div>
+                                { searchClient && 
+                                    <div>
+                                        { searchClient.map((data)=>
+                                            <span key={data.properties_id}>
+                                                {/* <span> */}
+                                                    <input 
+                                                        type="checkbox" 
+                                                        name='customer_properties_id_list'
+                                                        id={`customer_properties_id_list_${data.properties_id}_y`}
+                                                        // defaultChecked={data.properties_id === searchInputs?.customer_properties_id}
+                                                        value={`${data.properties_id}|y`}
+                                                        onChange={onCustomerDetail}
+                                                    />
+                                                    <label htmlFor={`customer_properties_id_list_${data.properties_id}_y`}>
+                                                        { data.name }(이용중)
+                                                        { searchInputs?.properties_id }
+                                                    </label>
+                                               {/*  </span>
+                                                <span> */}
+                                                    <input 
+                                                        type="checkbox" 
+                                                        name='customer_properties_id_list'
+                                                        id={`customer_properties_id_list_${data.properties_id}_n`}
+                                                        // checked={data.properties_id === inputs?.customer_properties_id}
+                                                        // defaultChecked={data.properties_id === searchInputs?.customer_propert}
+                                                        value={`${data.properties_id}|n`}
+                                                        onChange={onCustomerDetail}
+                                                    />
+                                                    <label htmlFor={`customer_properties_id_list_${data.properties_id}_n`}>
+                                                        { data.name }
+                                                        { searchInputs?.customer_properties_id }
+                                                        (이용완료)
+                                                    </label>
+                                                {/* </span> */}
+                                            </span>
+                                        )}
+                                    </div>
+                                }
                             </li>
                         </ul>
                     </fieldset>
@@ -267,9 +330,9 @@ export default function List() {
                                     <input type="radio" name='experience_search_type' id='experience_search_type_end' data-parents='experience_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="experience_search_type_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'start_date')} value={searchInputs?.experience_date_info?.start_date ? dayjs(searchInputs?.experience_date_info?.start_date) : ''} disabled={!searchInputs?.experience_date_info}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'start_date')} value={searchInputs?.experience_date_info?.start_date ? dayjs(searchInputs?.experience_date_info?.start_date) : ''} disabled={!searchInputs?.experience_date_info} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'end_date')} value={searchInputs?.experience_date_info?.end_date ? dayjs(searchInputs?.experience_date_info?.end_date) : ''} disabled={!searchInputs?.experience_date_info}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'end_date')} value={searchInputs?.experience_date_info?.end_date ? dayjs(searchInputs?.experience_date_info?.end_date) : ''} disabled={!searchInputs?.experience_date_info} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
@@ -281,9 +344,9 @@ export default function List() {
                                     <input type="radio" name='payment_search_type' id='payment_search_type_end' data-parents='payment_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="payment_search_type_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} value={searchInputs?.payment_date_info?.start_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} disabled={!searchInputs?.payment_date_info} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} value={searchInputs?.payment_date_info?.start_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} disabled={!searchInputs?.payment_date_info} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'end_date')} value={searchInputs?.payment_date_info?.end_date ? dayjs(searchInputs?.payment_date_info?.end_date) : ''} disabled={!searchInputs?.payment_date_info} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'end_date')} value={searchInputs?.payment_date_info?.end_date ? dayjs(searchInputs?.payment_date_info?.end_date) : ''} disabled={!searchInputs?.payment_date_info} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
@@ -291,9 +354,9 @@ export default function List() {
                                 <label htmlFor="">최초 등록일</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'start_date')} value={searchInputs?.reg_date_info?.start_date ? dayjs(searchInputs?.reg_date_info?.start_date) : ''}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'start_date')} value={searchInputs?.reg_date_info?.start_date ? dayjs(searchInputs?.reg_date_info?.start_date) : ''} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'end_date')} value={searchInputs?.reg_date_info?.end_date ? dayjs(searchInputs?.reg_date_info?.end_date) : ''}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'end_date')} value={searchInputs?.reg_date_info?.end_date ? dayjs(searchInputs?.reg_date_info?.end_date) : ''} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
@@ -362,7 +425,7 @@ export default function List() {
                 >
                     중복고객 삭제
                 </button>
-                { isSearch && 
+                { (isSearch && !!boardList.length) && 
                     <>
                         <button 
                             className='btn-gray-black' 
@@ -500,13 +563,13 @@ export default function List() {
                 </button>
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({customer_id})=>customer_id)} />
-                    <button>No.</button>
-                    <button>휴대폰</button>
-                    <button>이름</button>
-                    <button>담당자</button>
+                    <button onClick={()=>onSort('customer_id')}>No.</button>
+                    <button onClick={()=>onSort('customer_mobile')}>휴대폰</button>
+                    <button onClick={()=>onSort('customer_name')}>이름</button>
+                    <button onClick={()=>onSort('sales_admin_name')}>담당자</button>
                     <button>고객구분</button>
                     <button>상담상태</button>
-                    <button>무료체험<br/>시작일</button>
+                    <button onClick={()=>onSort('experience_start_date')}>무료체험<br/>시작일</button>
                     <button>무료체험<br/>종료일</button>
                     <button>유료<br/>시작일</button>
                     <button>유료<br/>종료일</button>
@@ -584,6 +647,7 @@ function SalesItem({ data }) {
     const [prevInputs, setPrevInputs] = useState()
 
     useEffect(()=>{
+        // console.log(data);
         setInputs({'customer_id': data.customer_id, 'sales_admin_id': data.sales_admin_id})
         setPrevInputs({'customer_id': data.customer_id, 'sales_admin_id': data.sales_admin_id})
     },[data])

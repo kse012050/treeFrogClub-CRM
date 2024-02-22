@@ -272,7 +272,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 
 /* 검색 */
 [type="checkbox"] + label{display: flex; align-items: flex-start; cursor: pointer;}
-[type="checkbox"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-checkbox.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
+[type="checkbox"] + label::before{content: ''; flex-shrink: 0; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-checkbox.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%; margin-right: 6px;}
 [type="checkbox"]:checked + label::before{--styleIdx: 1;}
 [type="radio"] + label{white-space: nowrap; display: flex; align-items: center; cursor: pointer;}
 [type="radio"] + label::before{content: ''; --styleIdx: 0; width: 16px; aspect-ratio: 1; background: url(../images/icon-radio.png) no-repeat center top calc(100% * var(--styleIdx)) / 100%;}
@@ -305,6 +305,8 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .dropBox form fieldset > ul li > label:first-child span::after{content: ')';}
 .dropBox form fieldset > ul li > div:has([type="checkbox"]){display: flex; flex-wrap: wrap; gap: 15px 30px;}
 .dropBox form fieldset > ul li > div:has([type="checkbox"]) [type="checkbox"] + label{width: 145px; /* flex: 1;  */ white-space: nowrap;}
+.dropBox form fieldset > ul li > div:has([type="checkbox"]) > span{display: flex;}
+.dropBox form fieldset > ul li > div:has([type="checkbox"]) > span:has(span){display: flex;}
 .dropBox form fieldset > ul li > div:has([type="radio"]){display: flex; flex-wrap: wrap; gap: 15px 20px;}
 .dropBox form fieldset:has([type="radio"]):has(.ant-picker) > ul li > div:not(:has([type="radio"])) > div{padding-top: 39px;}
 .dropBox form fieldset > ul li > div:has(.btn-gray-black, [class*="selectBox"]){display: flex; gap: 10px;}
