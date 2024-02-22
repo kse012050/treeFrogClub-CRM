@@ -16,6 +16,7 @@ export default function Permissions() {
     const initParam = {'limit': '10', 'page': '1'};
     const [roleList, setRoleList] = useState()
     const [roleActive, setRoleActive] = useState()
+    const [roleTitle, setRoleTitle] = useState()
     // const [tabActive, setTabActive] = useState(1)
     const [inputs, setInputs] = useState(initParam)
     const [searchScreen, setSearchScreen] = useState()
@@ -33,6 +34,10 @@ export default function Permissions() {
                     // console.log(1);
                     setRoleList(list)
                     setRoleActive(list[0].role_id)
+                    setRoleTitle({
+                        'classification': list[0].role_classification,
+                        'explain': list[0].role_explain,
+                    })
                     setInputs((input)=>({...input, 'role_id': list[0].role_id}))
                 }
             })
@@ -91,10 +96,15 @@ export default function Permissions() {
     }
 
 
-    const onRole = (id) =>{
-        setRoleActive(id)
+    const onRole = (data) =>{
+        // console.log(data);
+        setRoleActive(data.role_id)
         setSearchScreen()
-        setInputs((input)=>({'limit': input.limit, 'page': '1', 'role_id': id}))
+        setInputs((input)=>({'limit': input.limit, 'page': '1', 'role_id': data.role_id}))
+        setRoleTitle({
+            'classification': data.role_classification,
+            'explain': data.role_explain,
+        })
     }
         
     return (
@@ -111,14 +121,16 @@ export default function Permissions() {
                     <b>역할명</b>
                     { roleList && 
                         <ul>
-                            { roleList.map((data)=><li key={data.role_id}><button className={roleActive === data.role_id ? 'active' : ''} onClick={()=>onRole(data.role_id)}>{ data.role_name }</button></li>) }
+                            { roleList.map((data)=><li key={data.role_id}><button className={roleActive === data.role_id ? 'active' : ''} onClick={()=>onRole(data)}>{ data.role_name }</button></li>) }
                         </ul>
                     }
                 </div>
 
                 {/* <SearchResults /> */}
                 <div className='boardArea screenArea'>
-                    <strong>관리자 [시스템 관리자]</strong>
+                    { roleTitle &&
+                        <strong>{ roleTitle.classification } [{ roleTitle.explain }]</strong>
+                    }
                     <button className='active'>화면 권한</button>
                     <button>사용자 권한</button>
                     <hr className='case01'/>
@@ -276,7 +288,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, boardList,
             <Popup popup={registrationPopup} setPopup={setRegistrationPopup}>
                 <strong onClick={()=>console.log(choiceList)}>[관리자] 화면 권한 추가</strong>
                 <div className='rolePopup'>
-                    <Select type='moduleCategory' setInputs={setSearchInputs} changeName='module_category'/>
+                    <Select type='moduleCategory' current setInputs={setSearchInputs} changeName='module_category'/>
                     <form className="searchArea">
                         <input type="search" name='screen_name' id='screen_name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                         <button onClick={onSearch}>검색</button>

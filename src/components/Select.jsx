@@ -146,8 +146,8 @@ function Select({type, current, setInputs, changeName, placeholder, disabled}) {
                 .then(({result, list})=>{
                     if(result){
                         // console.log(list);
-                        setName(list.map(({module_category})=>module_category));
-                        setValue(list.map(({module_category})=>module_category));
+                        setName(['전체', ...list.map(({module_category})=>module_category)]);
+                        setValue(['', ...list.map(({module_category})=>module_category)]);
                         // setValue(list.map(({module_id})=>module_id));
                     }
                 })
