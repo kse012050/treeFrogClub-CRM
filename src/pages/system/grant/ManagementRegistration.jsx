@@ -27,7 +27,6 @@ export default function ManagementRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        // console.log(inputs);
         if(inputs?.connect_limit_yn === 'y'){
             if(!connectlimitTime?.connect_limit_start_time_hour || !connectlimitTime?.connect_limit_start_time_minute || !connectlimitTime?.connect_limit_end_time_hour || !connectlimitTime?.connect_limit_end_time_minute){
                 setPopup(()=>({
@@ -55,6 +54,7 @@ export default function ManagementRegistration() {
             delete inputs.allow_ips
         }
         
+        // console.log(inputs);
         api('role', 'insert', inputs)
             .then(({result, error_message})=>{
                 if(error_message.includes('role_classification')){

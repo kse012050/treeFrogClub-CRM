@@ -18,7 +18,7 @@ export default function Connect() {
         api('log', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
-                    console.log(list);
+                    // console.log(list);
                     setPagerInfo(data)
                     setBoardList(list)
                 }
@@ -36,7 +36,7 @@ export default function Connect() {
 
     const onSearch = (e) =>{
         e.preventDefault()
-        console.log(searchInputs);
+        // console.log(searchInputs);
         setInputs((input)=>({...input, ...searchInputs}))
     }
     return (
@@ -60,7 +60,7 @@ export default function Connect() {
                             <li>
                                 <label htmlFor="">로그유형</label>
                                 <div>
-                                    <Select type={'logType'} changeName='log_type' setInputs={setSearchInputs}/>
+                                    <Select type={'logType'} current changeName='log_type' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li>
@@ -102,7 +102,7 @@ export default function Connect() {
                         { boardList.map((data)=>(
                             <li key={ data.log_id }>
                                 <span>{ data.reg_date }</span>
-                                <span>{ data.admin_name }</span>
+                                <span>{ data.admin_name } ({ data.admin_id })</span>
                                 <span>{ data.ip }</span>
                                 <span>{ data.log_type }</span>
                                 <span>{ data.log_value }</span>

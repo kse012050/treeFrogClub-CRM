@@ -265,8 +265,8 @@ function Select({type, current, setInputs, changeName, placeholder, disabled}) {
         // 회원사 관리
         // 회원사 관리 - 사용자접속이력
         if(type === 'logType'){
-            setName(['로그인', '페이지로딩', '버튼클릭', '로그아웃', '엑셀다운로드'])
-            setValue(['로그인', '페이지로딩', '버튼클릭', '로그아웃', '엑셀다운로드'])
+            setName(['전체', '로그인', '페이지로딩', '버튼클릭', '로그아웃', '엑셀다운로드'])
+            setValue(['', '로그인', '페이지로딩', '버튼클릭', '로그아웃', '엑셀다운로드'])
         }
 
         
