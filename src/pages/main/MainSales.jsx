@@ -13,7 +13,9 @@ export default function MainSales() {
     useEffect(()=>{
         api('dashboard', 'month_sales_total_stat')
             .then(({result, data})=>{
+                // console.log(result);
                 if(result){
+                    // console.log(data);
                     setDashboard(data)
                 }
             })
@@ -38,7 +40,7 @@ export default function MainSales() {
     return (
         <div className='salesPage'>
             <div className='salesArea'>
-                <strong>2023년 10월 매출현황</strong>
+                <strong>{ inputs?.year }년 { inputs?.month }월 매출현황</strong>
                 <div>
                     <div className='progressArea' 
                         style={{'--percent': `${dashboard?.achievement_percent}%`}}
@@ -62,7 +64,7 @@ export default function MainSales() {
                         <b>매출 달성 금액</b>
                         <dl>
                             <dt>투자금액</dt>
-                            <dd>{ numberWithCommas(dashboard?.investment_amount) }</dd>
+                            <dd>{ dashboard?.investment_amount ? numberWithCommas(dashboard?.investment_amount) : 0 }</dd>
                         </dl>
                         <dl>
                             <dt>최소할당매출</dt>
@@ -70,7 +72,7 @@ export default function MainSales() {
                         </dl>
                         <dl>
                             <dt>목표매출</dt>
-                            <dd>{ numberWithCommas(dashboard?.goal_amount) }</dd>
+                            <dd>{ dashboard?.goal_amount ? numberWithCommas(dashboard?.goal_amount) : 0 }</dd>
                         </dl>
                         <dl>
                             <dt>현재매출</dt>
@@ -78,8 +80,8 @@ export default function MainSales() {
                         </dl>
                         <mark>
                             {`목표매출까지 
-                            ${ numberWithCommas(dashboard?.goal_amount - dashboard?.total_sales_amount) }
-                            (${ dashboard?.remain_achievement_percent }%) 남음`}
+                            ${ (dashboard?.goal_amount - dashboard?.total_sales_amount) ? numberWithCommas(dashboard?.goal_amount - dashboard?.total_sales_amount) : 0 }
+                            (${ dashboard?.remain_achievement_percent || 0 }%) 남음`}
                         </mark>
                     </div>
                 </div>

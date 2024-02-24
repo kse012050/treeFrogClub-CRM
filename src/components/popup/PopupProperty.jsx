@@ -4,7 +4,10 @@ import { api } from '../../api/api'
 
 function PopupProperty({ popup, close }) {
     const type = popup.type.split('_').at(-1);
-    const [inputs, setInputs] =useState({[`${type === 'registration' ? 'classification' : 'properties'}_id`]: popup.id});
+    const [inputs, setInputs] =useState({
+        [`${type === 'registration' ? 'classification' : 'properties'}_id`]: popup.id,
+        'name': popup.value
+    });
 
     // const inputChange = (e) => {
     //     e.preventDefault();
@@ -17,6 +20,7 @@ function PopupProperty({ popup, close }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        // console.log(inputs);
         if('name' in inputs && inputs['name']){
             let test;
             type === 'registration' && (test = 'insert');
@@ -25,6 +29,7 @@ function PopupProperty({ popup, close }) {
                 .then((result) =>{
                     if(result){
                         close();
+                        popup.func()
                     }
                 })
         }

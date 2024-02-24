@@ -37,8 +37,6 @@ export default function PermissionsList({ data, deleteList, setDeleteList, curre
                 <label htmlFor={`insert_yn_${uuid}`}>등록</label>
             </div>
             <div>
-                <input type="checkbox" />
-                <label htmlFor="role"></label>
                 <SelectBoard type='role' current={data?.modify_type} setInputs={setInputs} changeName='modify_type'/>
             </div>
             <div>
@@ -50,8 +48,6 @@ export default function PermissionsList({ data, deleteList, setDeleteList, curre
                 <label htmlFor={`delete_yn_${uuid}`}></label>
             </div>
             <div>
-                <input type="checkbox" />
-                <label htmlFor=""></label>
                 <SelectBoard type='role' current={data?.select_type} setInputs={setInputs} changeName='select_type'/>
             </div>
             <div>

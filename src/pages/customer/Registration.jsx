@@ -41,7 +41,29 @@ export default function Registration() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(inputs);
+        if(!inputs?.customer_properties_id || !inputs?.counsel_properties_id || !inputs?.sales_admin_id || !inputs?.customer_name || inputs?.customer_mobile?.length !== 11){
+            let errorMessage = ''
+            setPopup(()=>({
+                'type': 'confirm',
+                'title': '실패',
+            }))
+            if(!inputs?.customer_properties_id){
+                errorMessage = '고객구분을 선택해주세요.'
+            }else if(!inputs?.counsel_properties_id){
+                errorMessage = '상담상태를 선택해주세요.'
+            }else if(!inputs?.sales_admin_id){
+                errorMessage = '영업담당자를 선택해주세요.'
+            }else if(!inputs?.customer_name){
+                errorMessage = '고객명을 입력해주세요.'
+            }else if(!inputs?.customer_mobile || inputs?.customer_mobile?.length !== 11){
+                errorMessage = '휴대폰 번호를 입력해주세요.'
+            }
+            setPopup((popup)=>({
+                ...popup,
+                'description': errorMessage
+            }))
+            return
+        }
         api('customer', 'insert', inputs)
             .then(({result, error_message, data})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -111,7 +133,7 @@ export default function Registration() {
                             <li>
                                 <label htmlFor="customer_mobile" className='required'>휴대폰</label>
                                 <div>
-                                    <input type="text" name='customer_mobile' id='customer_mobile' data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name='customer_mobile' id='customer_mobile' data-formet="numb" onChange={(e)=>inputChange(e, setInputs)} maxLength='11'/>
                                 </div>
                             </li>
                             <li>

@@ -28,7 +28,7 @@ export default function AnUser() {
                     setBoardList(list)
                 }
             })
-    },[inputs, setBoardList])
+    },[inputs])
 
     useEffect(()=>{
         currentData()
@@ -37,17 +37,12 @@ export default function AnUser() {
     const onSearch = (e) =>{
         e.preventDefault();
         // console.log(searchInputs);
-        api('user', 'list', searchInputs)
-            .then(({result, list})=>{
-                if(result){
-                    setBoardList(list)
-                }
-            })
+        setInputs((input)=>({...input, ...searchInputs}))
     }
 
     const onReset = ()=>{
         setBureau()
-        setSearchInputs({'limit': '10', 'page': '1'})
+        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         currentData()
     }
 

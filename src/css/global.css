@@ -76,11 +76,11 @@ input[disabled]{background-color: white; color: inherit;}
 [class*='selectBox-time'] div::-webkit-scrollbar{width: 6px;}
 [class*='selectBox-time'] div::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
 [class*="selectBoard"]{width: 100%; position: relative;}
-[class*="selectBoard"] button{height: 32px; text-align: left; width: 100%; padding-inline: 10px; border-radius: 4px; box-sizing: border-box;}
-[class*="selectBoard"] > button{font-weight: 400; position: relative;}
+[class*="selectBoard"] > button{height: 32px; text-align: left; width: 100%; padding-inline: 10px; border-radius: 4px; box-sizing: border-box;}
+[class*="selectBoard"] > button{ position: relative;}
 [class*="selectBoard"] > button::before{content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center bottom / 100%; }
 [class*="selectBoard"] div{position: absolute; left: 0; top: calc(100% + 3px); width: 100%; padding: 5px; background-color: white; border-radius: 4px; box-sizing: border-box; box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.15); z-index: 1;}
-[class*="selectBoard"] div button{width: 100%; }
+[class*="selectBoard"] div button{width: 100%; height: 32px; font-weight: 400;}
 [class*="selectBoard"] div button:hover{background-color: var(--color-point02); font-weight: 700;}
 
 
@@ -207,13 +207,13 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox :is(.board-top, .board-center li, .board-bottom) > div[title]{flex-wrap: wrap;}
 .boardBox :is(.board-top, .board-center li, .board-bottom) > div[title]::before{content: attr(title); width: 100%; font-size: 12px; line-height: 14px; color: var(--color-font03); text-align: center; margin-bottom: 6px;}
 .boardBox :is(.board-top, .board-bottom){background-color: var(--color-face);}
-.boardBox :is(.board-top, .board-bottom) *{font-weight: 700;}
+.boardBox :is(.board-top, .board-bottom) > *{font-weight: 700;}
 .boardBox .board-top{margin-top: 15px;}
 .boardBox .board-top > *:not(:last-child){display: flex; justify-content: space-between; align-items: center; position: relative;}
 .boardBox .board-top > *:not(:last-child)::after{content: ''; width: 1px; height: 16px; background-color: var(--color-line); position: absolute; right: 0; top: 50%; translate: 0 -50%;}
 .boardBox .board-top:has([title]) > *:not(:last-child)::after{height: 32px;}
-.boardBox .board-top button{text-align: left; position: relative;}
-.boardBox .board-top button::before{content: ''; width: 10px; aspect-ratio: 10 / 18; background: url(../images/icon-sort.png) no-repeat center / cover; position: absolute; right: 10px; top: 50%; translate: 0 -50%;}
+.boardBox .board-top > button{text-align: left; position: relative;}
+.boardBox .board-top > button::before{content: ''; width: 10px; aspect-ratio: 10 / 18; background: url(../images/icon-sort.png) no-repeat center / cover; position: absolute; right: 10px; top: 50%; translate: 0 -50%;}
 .boardBox .board-center li{border-bottom: 1px solid var(--color-division); white-space: pre-line}
 .boardBox .board-center li.active{background-color: #FFF9F9;}
 .boardBox .board-center li > *{text-align: left; font-weight: 400;}

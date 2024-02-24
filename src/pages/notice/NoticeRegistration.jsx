@@ -17,6 +17,25 @@ export default function NoticeRegistration() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        
+        if(
+            !inputs?.title ||
+            !inputs?.comment
+        ){
+            let errorMessage = '';
+            if(!inputs?.title){
+                errorMessage = '제목을 입력해주세요.'
+            }else if(!inputs?.comment){
+                errorMessage = '내용를 입력해주세요.'
+            }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
+        }
+
         api('board', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

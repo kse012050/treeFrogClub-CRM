@@ -22,6 +22,29 @@ export default function CommonUpdate() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
+        if(
+            !inputs?.classification_id ||
+            !inputs?.code ||
+            !inputs?.name ||
+            !inputs?.order_number
+        ){
+            let errorMessage = '';
+            if(!inputs?.classification_id){
+                errorMessage = '분류 유형명을 입력해주세요.'
+            }else if(!inputs?.code){
+                errorMessage = '코드(숫자)를 입력해주세요.'
+            }else if(!inputs?.name){
+                errorMessage = '코드명을 입력해주세요.'
+            }else if(!inputs?.order_number){
+                errorMessage = '정렬 순서를 입력해주세요.'
+            }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
+        }
         api('commoncode', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

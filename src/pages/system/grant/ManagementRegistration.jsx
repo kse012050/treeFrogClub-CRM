@@ -27,6 +27,23 @@ export default function ManagementRegistration() {
 
     const onSubmit = (e) =>{
         e.preventDefault();
+        if(
+            !inputs?.role_classification ||
+            !inputs?.role_name
+        ){
+            let errorMessage = '';
+            if(!inputs?.role_classification){
+                errorMessage = '구분을 선택해주세요.'
+            }else if(!inputs?.role_name){
+                errorMessage = '역할명을 입력해주세요.'
+            }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
+        }
         if(inputs?.connect_limit_yn === 'y'){
             if(!connectlimitTime?.connect_limit_start_time_hour || !connectlimitTime?.connect_limit_start_time_minute || !connectlimitTime?.connect_limit_end_time_hour || !connectlimitTime?.connect_limit_end_time_minute){
                 setPopup(()=>({
@@ -57,11 +74,11 @@ export default function ManagementRegistration() {
         // console.log(inputs);
         api('role', 'insert', inputs)
             .then(({result, error_message})=>{
-                if(error_message.includes('role_classification')){
-                    error_message = '구분을 선택해주세요.'
-                }else if(error_message.includes('role_name')){
-                    error_message = '역할명을 입력해주세요.'
-                }
+                // if(error_message.includes('role_classification')){
+                //     error_message = '구분을 선택해주세요.'
+                // }else if(error_message.includes('role_name')){
+                //     error_message = '역할명을 입력해주세요.'
+                // }
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
                     setPopup((popup)=>({

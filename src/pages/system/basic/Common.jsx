@@ -19,6 +19,7 @@ export default function Common() {
     const [boardList, setBoardList] = useState()
 
     const currentData = useCallback(()=>{
+        // console.log(inputs);
         api('commoncode', 'properties_list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
@@ -26,7 +27,7 @@ export default function Common() {
                         setBoardList(list)
                     }
                 })
-    },[inputs, setBoardList])
+    },[inputs])
 
     useEffect(()=>{
         currentData()
@@ -39,20 +40,14 @@ export default function Common() {
     
     const onReset = () => {
         // console.log('reset');
-        setSearchInputs({'limit': '10', 'page': '1'})
+        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         currentData()
     }
 
-    const onSearch = (e) => {
-        e.preventDefault()
+    const onSearch = (e) =>{
+        e.preventDefault();
         // console.log(searchInputs);
-        api('commoncode', 'properties_list', searchInputs)
-            .then(({result, data, list})=>{
-                if(result){
-                    setPagerInfo(data)
-                    setBoardList(list)
-                }
-            })
+        setInputs((input)=>({...input, ...searchInputs}))
     }
 
     return (
@@ -101,7 +96,7 @@ export default function Common() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
+                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />

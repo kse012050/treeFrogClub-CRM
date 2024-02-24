@@ -10,6 +10,7 @@ import PagerButton from '../../../components/PagerButton';
 import { inputChange } from '../../../api/validation';
 import Pager from '../../../components/Pager';
 import SelectPage from '../../../components/SelectPage';
+import SelectBoard from '../../../components/SelectBoard';
 // import { Link } from 'react-router-dom';
 
 export default function Permissions() {
@@ -22,7 +23,7 @@ export default function Permissions() {
     const [searchScreen, setSearchScreen] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
-    const [allCheck, setChecked] = useState()
+    const [allCheck, setAllCheck] = useState()
     const [deleteList, setDeleteList] = useState('')
     const [registrationPopup, setRegistrationPopup] = useState()
 
@@ -52,10 +53,11 @@ export default function Permissions() {
                     // console.log(list);
                     // console.log(list.every((data2)=>data2.insert_yn === 'y'))
                     // console.log(2);
-                    setChecked({
+                    setAllCheck({
                         'insert_yn': list.length && list.every((data2)=>data2.insert_yn === 'y'),
                         'update_yn': list.length && list.every((data2)=>data2.update_yn === 'y'),
                         'select_yn': list.length && list.every((data2)=>data2.select_yn === 'y'),
+                        'delete_yn': list.length && list.every((data2)=>data2.delete_yn === 'y'),
                         'excel_yn': list.length && list.every((data2)=>data2.excel_yn === 'y')
                     })
                     setPagerInfo(data)
@@ -86,6 +88,7 @@ export default function Permissions() {
         const { checked } = e.target
         const data = boardList.map((data)=>data.role_with_module_id);
         const yn = checked ? 'y' : 'n';
+        // console.log(inputs);
         Promise.all(data.map((id)=>api('module', 'update', {'role_with_module_id' : id, [name]: yn})))
             .then((result)=> {
                 if(result.every((data)=>data.result)){
@@ -93,6 +96,20 @@ export default function Permissions() {
                 }
             })
             .catch(error => console.log('error', error));
+    }
+
+    const onAllChangeRole = (e, name) =>{
+        const { checked } = e.target
+        const data = boardList.map((data)=>data.role_with_module_id);
+        if(checked){
+            Promise.all(data.map((id)=>api('module', 'update', {'role_with_module_id' : id, [name]: allCheck[name]})))
+                .then((result)=> {
+                    if(result.every((data)=>data.result)){
+                        currentData()
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
     }
 
 
@@ -155,20 +172,22 @@ export default function Permissions() {
                                 <label htmlFor="allInsert">등록</label>
                             </div>
                             <div>
-                                <input type="checkbox" />
-                                <label htmlFor="">전체</label>
+                                <input type="checkbox" id='allModifyType' checked={false} onChange={(e)=>onAllChangeRole(e, 'modify_type')}/>
+                                <label htmlFor="allModifyType"></label>
+                                <SelectBoard type='role' current setInputs={setAllCheck} changeName='modify_type'/>
                             </div>
                             <div>
                                 <input type="checkbox" id='allUpdate' checked={allCheck?.update_yn || false} onChange={(e)=>onAllChange(e, 'update_yn')}/>
                                 <label htmlFor="allUpdate">수정</label>
                             </div>
                             <div>
-                                <input type="checkbox" />
-                                <label htmlFor="">삭제</label>
+                                <input type="checkbox" id='allDeletea' checked={allCheck?.delete_yn || false} onChange={(e)=>onAllChange(e, 'delete_yn')}/>
+                                <label htmlFor="allDeletea">삭제</label>
                             </div>
                             <div>
-                                <input type="checkbox" />
-                                <label htmlFor="">전체</label>
+                                <input type="checkbox" id='allSelectType' checked={false} onChange={(e)=>onAllChangeRole(e, 'select_type')}/>
+                                <label htmlFor="allSelectType"></label>
+                                <SelectBoard type='role' current setInputs={setAllCheck} changeName='select_type'/>
                             </div>
                             <div>
                                 <input type="checkbox" id='allSelect' checked={allCheck?.select_yn || false} onChange={(e)=>onAllChange(e, 'select_yn')}/>

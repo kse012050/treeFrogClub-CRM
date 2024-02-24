@@ -56,6 +56,32 @@ export default function ClientRegistration() {
     const onSubmit = (e) =>{
         e.preventDefault()
         // console.log(inputs);
+        if(
+            !inputs?.classification_id ||
+            !inputs?.grade ||
+            !inputs?.code ||
+            !inputs?.name ||
+            !inputs?.order_number
+        ){
+            let errorMessage = '';
+            if(!inputs?.classification_id){
+                errorMessage = '분류 유형명을 선택해주세요.'
+            }else if(!inputs?.grade){
+                errorMessage = '고객등록을 선택해주세요.'
+            }else if(!inputs?.code){
+                errorMessage = '코드(숫자)을 선택해주세요.'
+            }else if(!inputs?.name){
+                errorMessage = '코드명을 입력해주세요.'
+            }else if(!inputs?.order_number){
+                errorMessage = '정렬 순서를 입력해주세요..'
+            }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
+        }
         api('clientcode', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

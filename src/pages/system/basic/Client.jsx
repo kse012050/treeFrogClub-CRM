@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { api } from '../../../api/api';
 import { Link } from 'react-router-dom';
 import SubTitle from '../../../components/SubTitle';
@@ -14,25 +14,19 @@ export default function Client() {
     const [boardList, setBoardList] = useState()
     const [deleteList, setDeleteList] = useState([])
 
-    useEffect(()=>{
-        setDeleteList('');
+    const currentData = useCallback(()=>{
+        api('clientcode', 'properties_list', inputs)
+            .then(({result, data, list})=>{
+                if(result){
+                    setPagerInfo(data)
+                    setBoardList(list)
+                }
+            })
     },[inputs])
 
     useEffect(()=>{
-        setInputs((input)=>({...input, 'page': '1'}))
-    },[inputs.limit])
-
-    useEffect(()=>{
-        if(!deleteList.length){
-            api('clientcode', 'properties_list', inputs)
-                .then(({result, data, list})=>{
-                    if(result){
-                        setPagerInfo(data)
-                        setBoardList(list)
-                    }
-                })
-        }
-    },[inputs, deleteList, setBoardList])
+        currentData()
+    },[currentData])
 
     return (
         <>
@@ -44,7 +38,7 @@ export default function Client() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList}/>
+                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
             
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />

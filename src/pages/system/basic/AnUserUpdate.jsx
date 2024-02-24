@@ -3,7 +3,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from '../../../components/Select';
 import { Link, useParams } from 'react-router-dom';
-import { onChange, inputChange } from '../../../api/validation';
+import { inputChange, isFormet } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
 import { UserContext } from '../../../context/UserContext';
@@ -22,6 +22,7 @@ export default function AnUserUpdate() {
             .then(({result, data})=>{
                 if(result){
                     setInputs(data)
+                    setUserId(data.id)
                     setBureau(data.department_name)
                 }
             })
@@ -58,9 +59,51 @@ export default function AnUserUpdate() {
         setInputs((input)=>({...input, 'employment_date': dateString}))
     };
 
+    const onChange = (e, setChange) => {
+        const { value, dataset: { formet } } = e.target;
+        
+        if(formet && !!value && !isFormet(formet, value)['is']){
+            const cur = e.target.selectionStart - 1;
+            e.target.value = isFormet(formet, value)['value'];
+            e.target.setSelectionRange(cur, cur);
+        }
+    
+        setChange(e.target.value)
+        setInputs((input)=>({...input, 'id': ''}))
+    }
+
     const onSubmit = (e) =>{
         e.preventDefault();
         // console.log(inputs);
+        if(
+            !userId ||
+            !inputs?.id ||
+            !inputs?.name ||
+            inputs?.mobile?.length !== 11 ||
+            !inputs?.role_id ||
+            !inputs?.email
+        ){
+            let errorMessage = '';
+            if(!userId){
+                errorMessage = '아이디를 입력해주세요.'
+            }else if(!inputs?.id){
+                errorMessage = '아이디 중복 확인을 해주세요.'
+            }else if(!inputs?.name){
+                errorMessage = '사용자명을 입력해주세요.'
+            }else if(inputs?.mobile?.length !== 11){
+                errorMessage = '휴대폰 번호를 입력해주세요.'
+            }else if(!inputs?.role_id){
+                errorMessage = '역할그룹을 선택해주세요.'
+            }else if(!inputs?.email){
+                errorMessage = '이메일을 입력해주세요.'
+            }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
+        }
         api('user', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

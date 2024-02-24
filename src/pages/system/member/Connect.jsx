@@ -31,7 +31,7 @@ export default function Connect() {
 
     const onReset = () => {
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
-        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        // setInputs((input)=>({'limit': input.limit, 'page': '1'}))
     }
 
     const onSearch = (e) =>{

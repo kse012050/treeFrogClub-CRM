@@ -9,12 +9,17 @@ import dayjs from 'dayjs';
 import Popup from '../../components/popup/Popup';
 import Pager from '../../components/Pager';
 import { UserContext } from '../../context/UserContext';
+import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
+import BoardChkAll from '../../components/boardChk/BoardChkAll';
+import BoardChk from '../../components/boardChk/BoardChk';
+import PagerButton from '../../components/PagerButton';
 
 export default function Update() {
     const [popup, setPopup] = useState()
     const { id } = useParams()
     const [paymentInfo, setPaymentInfo] = useState()
     const [historyPayment, setHistoryPayment] = useState()
+    const [counselValue, setCounselValue] = useState()
 
     const historyPaymentFunc = useCallback((inputs)=>{
         api('payment','user_payment_list', inputs)
@@ -34,11 +39,11 @@ export default function Update() {
                 <Link to={'bulk'} className='btn-point'>대량 고객 등록</Link>
             </h2>
 
-            <Basic id={id} popup={popup} setPopup={setPopup}/>
+            <Basic id={id} popup={popup} setPopup={setPopup} setCounselValue={setCounselValue}/>
 
             <Payment id={id} popup={popup} setPopup={setPopup} historyPaymentFunc={historyPaymentFunc}/>
           
-            <History id={id} paymentInfo={paymentInfo} historyPayment={historyPayment} historyPaymentFunc={historyPaymentFunc}/>
+            <History id={id} paymentInfo={paymentInfo} counselValue={counselValue} historyPayment={historyPayment} historyPaymentFunc={historyPaymentFunc}/>
 
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
@@ -48,7 +53,7 @@ export default function Update() {
 }
 
 
-function Basic({ id, setPopup }){
+function Basic({ id, setPopup, setCounselValue }){
     const [inputs, setInputs] = useState()
     const [sales, setSales] = useState()
 
@@ -60,10 +65,11 @@ function Basic({ id, setPopup }){
                         setSales(data.sales_admin_name)
                     }
                     // console.log(data);
+                    setCounselValue(data.counsel_properties_id)
                     setInputs(data)
                 }
             })
-    },[id])
+    },[id, setCounselValue])
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
@@ -72,6 +78,29 @@ function Basic({ id, setPopup }){
     const onSubmit = (e) =>{
         e.preventDefault();
         // console.log(inputs);
+        if(!inputs?.customer_properties_id || !inputs?.counsel_properties_id || !inputs?.sales_admin_id || !inputs?.customer_name || inputs?.customer_mobile?.length !== 11){
+            let errorMessage = ''
+            setPopup(()=>({
+                'type': 'confirm',
+                'title': '실패',
+            }))
+            if(!inputs?.customer_properties_id){
+                errorMessage = '고객구분을 선택해주세요.'
+            }else if(!inputs?.counsel_properties_id){
+                errorMessage = '상담상태를 선택해주세요.'
+            }else if(!inputs?.sales_admin_id){
+                errorMessage = '영업담당자를 선택해주세요.'
+            }else if(!inputs?.customer_name){
+                errorMessage = '고객명을 입력해주세요.'
+            }else if(!inputs?.customer_mobile || inputs?.customer_mobile?.length !== 11){
+                errorMessage = '휴대폰 번호를 입력해주세요.'
+            }
+            setPopup((popup)=>({
+                ...popup,
+                'description': errorMessage
+            }))
+            return
+        }
         api('customer', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -165,7 +194,6 @@ function Basic({ id, setPopup }){
     )
 }
 
-
 function Payment({ id, historyPaymentFunc, setPopup }){
     const [inputs, setInputs] = useState({ 'customer_id': id })
     const [paymentList, setPaymentList] = useState()
@@ -197,6 +225,47 @@ function Payment({ id, historyPaymentFunc, setPopup }){
         e.preventDefault()
         // console.log('초기화 어떻게 만들지');
         // setInputs({ 'customer_id': id })
+        // console.log(inputs);
+        if(
+            !inputs?.sales_properties_id || 
+            !inputs?.payment_properties_id || 
+            !inputs?.payment_price || 
+            !inputs?.payment_date || 
+            !inputs?.product_id ||
+            !inputs?.period ||
+            !inputs?.standard_payment_start_date ||
+            !inputs?.standard_payment_end_date ||
+            !inputs?.standard_service_end_date ||
+            !inputs?.standard_service_start_date
+        ){
+            let errorMessage = ''
+            setPopup(()=>({
+                'type': 'confirm',
+                'title': '실패',
+            }))
+            if(!inputs?.sales_properties_id){
+                errorMessage='매출 구분을 선택해주세요.'
+            }else if(!inputs?.payment_properties_id){
+                errorMessage='결제 구분을 선택해주세요.'
+            }else if(!inputs?.payment_price){
+                errorMessage='결제금액을 입력해주세요.'
+            }else if(!inputs?.payment_date){
+                errorMessage='결제일을 선택해주세요.'
+            }else if(!inputs?.period){
+                errorMessage='기간을 선택해주세요.'
+            }else if(!inputs?.standard_payment_start_date || !inputs?.standard_payment_end_date){
+                errorMessage='유료기간(결제 기준)을 선택해주세요.'
+            }else if(!inputs?.standard_service_start_date || !inputs?.standard_service_end_date){
+                errorMessage='유료기간(서비스기간 포함)을 선택해주세요.'
+            }else if(!inputs?.product_id){
+                errorMessage='상품명을 선택해주세요.'
+            }
+            setPopup((popup)=>({
+                ...popup,
+                'description': errorMessage
+            }))
+            return
+        }
         setPopup({
             'type': 'finFunc',
             'title': '결제',
@@ -204,23 +273,23 @@ function Payment({ id, historyPaymentFunc, setPopup }){
             'func': ()=>{
                 api('payment', 'insert', inputs)
                     .then(({result, error_message})=>{
-                        if(error_message.includes('sales_properties_id')){
-                            error_message = '매출 구분을 선택해주세요.'
-                        }else if(error_message.includes('payment_properties_id')){
-                            error_message = '결제 구분을 선택해주세요.'
-                        }else if(error_message.includes('payment_price')){
-                            error_message = '결제금액을 입력해주세요.'
-                        }else if(error_message.includes('payment_date')){
-                            error_message = '결제일을 선택해주세요.'
-                        }else if(error_message.includes('product_id')){
-                            error_message = '상품명을 선택해주세요.'
-                        }else if(error_message.includes('period')){
-                            error_message = '기간을 선택해주세요.'
-                        }else if(error_message.includes('standard_payment')){
-                            error_message = '유료기간(결제 기준)을 선택해주세요.'
-                        }else if(error_message.includes('standard_service')){
-                            error_message = '유료기간(서비스기간 포함)을 선택해주세요.'
-                        }
+                        // if(error_message.includes('sales_properties_id')){
+                        //     error_message = '매출 구분을 선택해주세요.'
+                        // }else if(error_message.includes('payment_properties_id')){
+                        //     error_message = '결제 구분을 선택해주세요.'
+                        // }else if(error_message.includes('payment_price')){
+                        //     error_message = '결제금액을 입력해주세요.'
+                        // }else if(error_message.includes('payment_date')){
+                        //     error_message = '결제일을 선택해주세요.'
+                        // }else if(error_message.includes('product_id')){
+                        //     error_message = '상품명을 선택해주세요.'
+                        // }else if(error_message.includes('period')){
+                        //     error_message = '기간을 선택해주세요.'
+                        // }else if(error_message.includes('standard_payment')){
+                        //     error_message = '유료기간(결제 기준)을 선택해주세요.'
+                        // }else if(error_message.includes('standard_service')){
+                        //     error_message = '유료기간(서비스기간 포함)을 선택해주세요.'
+                        // }
                         setPopup({'type': 'confirm', 'description': error_message})
                         if(result){
                             setPopup((popup)=>({
@@ -355,7 +424,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
     )
 }
 
-function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
+function History({ id, historyPaymentFunc, paymentInfo, counselValue, historyPayment }){
     const [relatedActive, setRelatedActive] = useState(0);
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id});
     const [historyUpdata, setHistoryUpdata] = useState()
@@ -390,7 +459,7 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
                     <button data-count="0" className={relatedActive === 3 ? 'active' : ''} onClick={()=>setRelatedActive(3)}>삭제된 결제내역</button>
 
                     {relatedActive === 0 &&
-                        <HistoryConsult id={id} setConsultCount={setConsultCount}/>
+                        <HistoryConsult id={id} setConsultCount={setConsultCount} counselValue={counselValue}/>
                     }
                     {relatedActive === 1 &&
                         <>
@@ -450,6 +519,8 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
                     }
                     {relatedActive === 2 &&
                         <>
+                            <b className='total'>{ updateInfo?.total_count }</b>
+                            <span className='page'>{ updateInfo?.current_page }/{ updateInfo?.total_page }</span>
                             <div className='board-scroll3'>
                                 <div className="board-top">
                                     <button>결제번호</button>
@@ -498,10 +569,11 @@ function History({ id, historyPaymentFunc, paymentInfo, historyPayment }){
     )
 }
 
-function HistoryConsult({ id, setConsultCount }){
-    const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id})
+function HistoryConsult({ id, setConsultCount, counselValue }){
+    const [inputs, setInputs] = useState({'limit': '2', 'page': '1', 'customer_id': id})
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
+    const [deleteList, setDeleteList] = useState([])
 
     const currentData = useCallback(()=>{
         api('counsel', 'list', inputs)
@@ -514,7 +586,7 @@ function HistoryConsult({ id, setConsultCount }){
                     setPagerInfo(data)
                 }
             })
-    },[])
+    },[inputs, setConsultCount])
 
     useEffect(()=>{
         currentData()
@@ -522,9 +594,14 @@ function HistoryConsult({ id, setConsultCount }){
 
     return (
         <>
+            <b className='choice'>{ deleteList.length }</b>
+            <BoardChkDelete url='counsel' idName='counsel_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
+            <b className='total'>{ pagerInfo?.total_count }</b>
+            <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
             <div className='board-scroll1'>
                 <div className="board-top">
-                    <button onClick={()=>console.log(boardList)}>상담상태</button>
+                    <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({counsel_id})=>counsel_id)} />
+                    <button>상담상태</button>
                     <span>상담내용</span>
                     <button>담당자</button>
                     <button>등록일시</button>
@@ -533,6 +610,7 @@ function HistoryConsult({ id, setConsultCount }){
                     <ol className="board-center">
                         { boardList.map((data)=>
                             <li key={ data.counsel_id }>
+                                <BoardChk id={data.counsel_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ data.counsel_properties_name }</span>
                                 <span>
                                     { data.counsel_memo }
@@ -546,20 +624,14 @@ function HistoryConsult({ id, setConsultCount }){
                 }
             </div>
             <div className='board-pagination' data-styleidx='a'>
-                <Link to={''}>첫 페이지</Link>
-                <Link to={''}>이전 페이지</Link>
-                <ol>
-                    <li className='active'><Link to={''}>1</Link></li>
-                </ol>
-                <Link to={''}>다음 페이지</Link>
-                <Link to={''}>마지막 페이지</Link>
+                <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
             </div>
-            <HistoryConsultInput id={id} currentData={currentData}/>
+            <HistoryConsultInput id={id} currentData={currentData} counselValue={counselValue}/>
         </>
     )
 }
 
-function HistoryConsultInput({ id, currentData }){
+function HistoryConsultInput({ id, currentData, counselValue }){
     const { user } = useContext(UserContext)
     const [inputs, setInputs] = useState()
     const [registerDate, setRegisterDate] = useState()
@@ -568,7 +640,7 @@ function HistoryConsultInput({ id, currentData }){
     const [popup, setPopup] = useState()
 
     const currentSettings = useCallback(()=>{
-        setInputs({'customer_id': id, 'manage_admin_id': user?.admin_id})
+        setInputs({'customer_id': id, 'manage_admin_id': user?.admin_id, 'counsel_properties_id': counselValue})
         setSales(user?.name)
 
         const now = new Date();
@@ -586,7 +658,7 @@ function HistoryConsultInput({ id, currentData }){
 
         setExpectDate()
 
-    },[id, user?.admin_id, user?.name])
+    },[id, user?.admin_id, user?.name, counselValue, setInputs])
 
     useEffect(()=>{
         currentSettings()
@@ -616,26 +688,39 @@ function HistoryConsultInput({ id, currentData }){
         e.preventDefault();
         // console.log(inputs);
 
-        if(expectDate?.date || expectDate?.hour || expectDate?.minute){
-            if(!expectDate?.date || !expectDate?.hour || !expectDate?.minute){
-                setPopup({
-                    'type': 'confirm',
-                    'title': '실패',
-                    'description': '재통화 예정일를 입력해주세요.'
-                })
-                return
+        if(
+            !inputs?.counsel_properties_id ||
+            !inputs?.manage_admin_id ||
+            !inputs?.counsel_memo ||
+            (expectDate?.date || expectDate?.hour || expectDate?.minute)
+        ){
+            let errorMessage = '';
+            if(!inputs?.counsel_properties_id){
+                errorMessage = '상담상태를 선택해주세요.'
+            }else if(!inputs?.manage_admin_id){
+                errorMessage = '담당자를 선택해주세요.'
+            }else if(!inputs?.counsel_memo){
+                errorMessage = '상담내용를 작성해주세요.'
+            }else if(!expectDate?.date || !expectDate?.hour || !expectDate?.minute){
+                errorMessage = '재통화 예정일를 입력해주세요.'
             }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
         }
         
         api('counsel', 'insert', inputs)
             .then(({result, error_message})=>{
-                if(error_message.includes('counsel_properties_id')){
-                    error_message = '상담상태를 선택해주세요.'
-                }else if(error_message.includes('manage_admin_id')){
-                    error_message = '담당자를 선택해주세요.'
-                }else if(error_message.includes('counsel_memo')){
-                    error_message = '상담내용를 작성해주세요.'
-                }
+                // if(error_message.includes('counsel_properties_id')){
+                //     error_message = '상담상태를 선택해주세요.'
+                // }else if(error_message.includes('manage_admin_id')){
+                //     error_message = '담당자를 선택해주세요.'
+                // }else if(error_message.includes('counsel_memo')){
+                //     error_message = '상담내용를 작성해주세요.'
+                // }
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
                     setPopup((popup)=>({
@@ -645,7 +730,7 @@ function HistoryConsultInput({ id, currentData }){
                             // 상담이력 게시판 초기화
                             currentData()
                             // 상담 입력 초기화
-                            currentSettings()
+                            // currentSettings()
                         }
                     }))
                 }else{
@@ -817,7 +902,7 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
                     }
                 })
         }
-    },[refundPopupActive.id])
+    },[refundPopupActive.id, refundPopupActive.is, setRefundPopupActive])
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
@@ -826,16 +911,36 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
     const onSubmit = (e) =>{
         e.preventDefault()
         // console.log(inputs);
+        if(
+            !inputs?.refund_date ||
+            !inputs?.refund_properties_id ||
+            !inputs?.refund_price 
+        ){
+            let errorMessage = '';
+            if(!inputs?.refund_date){
+                errorMessage = '환불일를 선택해주세요.'
+            }else if(!inputs?.refund_properties_id){
+                errorMessage = '환불 구분을 선택해주세요.'
+            }else if(!inputs?.refund_price){
+                errorMessage = '환불금액을 입력해주세요.'
+            }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
+        }
         api('payment', 'refund', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
-                if(error_message.includes('refund_date')){
-                    error_message = '환불일를 선택해주세요.'
-                }else if(error_message.includes('refund_properties_id')){
-                    error_message = '환불 구분을 선택해주세요.'
-                }else if(error_message.includes('refund_price')){
-                    error_message = '환불금액을 입력해주세요.'
-                }
+                // if(error_message.includes('refund_date')){
+                //     error_message = '환불일를 선택해주세요.'
+                // }else if(error_message.includes('refund_properties_id')){
+                //     error_message = '환불 구분을 선택해주세요.'
+                // }else if(error_message.includes('refund_price')){
+                //     error_message = '환불금액을 입력해주세요.'
+                // }
                 if(result){
                     setPopup((popup)=>({
                         ...popup,
@@ -995,7 +1100,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                 }
             })
 
-        api('payment', 'detail', inputs)
+        api('payment', 'detail', {'payment_id': updatePopupActive.id})
             .then(({result, data})=>{
                 if(result){
                     // console.log(data);
@@ -1011,7 +1116,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                     setProductList(list)
                 }
             })
-    },[setInputs])
+    },[setInputs, updatePopupActive.id])
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
@@ -1020,6 +1125,15 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
     const onSubmit = (e) =>{
         e.preventDefault()
         // console.log(inputs);
+        // console.log(inputs?.payment_price);
+        // console.log(!inputs?.payment_price);
+        if(!inputs?.payment_price){
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': '결제금액을 입력해주세요.'
+            })
+        }
         api('payment', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

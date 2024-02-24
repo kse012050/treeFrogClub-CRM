@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { api } from '../../../api/api'
 import { isFormet } from '../../../api/validation'
 import Popup from '../../../components/popup/Popup';
@@ -31,29 +31,61 @@ function PropertyDivision() {
     const [propertiesList, setPropertiesist] = useState()
     const [deleteList, setDeleteList] = useState('')
     const [popup, setPopup] = useState('')
-    
-    useEffect(()=>{
-        if(!deleteList || !popup){
-            api('properties', 'classification_list')
+
+    const currentData = useCallback(()=>{
+        // console.log(inputs);
+        api('properties', 'classification_list')
             .then(({result, list}) => {
                 if(result){
                     setClassificationList(list);
                     setClassificationctive((value)=> value || list[0].classification_id)
                 }
             })
-        }
-    },[setClassificationctive, popup, deleteList])
+    },[])
 
-    useEffect(()=>{
-        if(classificationActive || !deleteList || !popup){
-            api('properties', 'properties_list', {classification_id: classificationActive})
+    const boardData = useCallback(()=>{
+        // console.log(inputs);
+        if(classificationActive){
+            api('properties', 'properties_list', {'classification_id': classificationActive})
                 .then(({result, list})=>{
                     if(result){
                         setPropertiesist(list)
                     }
                 })
         }
-    },[classificationActive, deleteList, popup])
+    },[classificationActive])
+
+    useEffect(()=>{
+        currentData()
+    },[currentData])
+
+    useEffect(()=>{
+        boardData()
+    },[boardData])
+    
+    
+    // useEffect(()=>{
+    //     if(!deleteList || !popup){
+    //         api('properties', 'classification_list')
+    //         .then(({result, list}) => {
+    //             if(result){
+    //                 setClassificationList(list);
+    //                 setClassificationctive((value)=> value || list[0].classification_id)
+    //             }
+    //         })
+    //     }
+    // },[setClassificationctive, popup, deleteList])
+
+    // useEffect(()=>{
+    //     if(classificationActive || !deleteList || !popup){
+    //         api('properties', 'properties_list', {classification_id: classificationActive})
+    //             .then(({result, list})=>{
+    //                 if(result){
+    //                     setPropertiesist(list)
+    //                 }
+    //             })
+    //     }
+    // },[classificationActive, deleteList, popup])
 
     return (
         <div className='divisionArea horizontalTwo'>
@@ -68,8 +100,15 @@ function PropertyDivision() {
             {propertiesList && (
                 <div className='boardBox'>
                     <b>결제 구분 ({ propertiesList.length })</b>
-                    <button className='btn-gray-black' onClick={()=>setPopup({'type': `properties_registration`, 'id': classificationActive})}>추가</button>
-                    <BoardChkDelete url='properties' idName='properties_id' deleteList={deleteList} setDeleteList={setDeleteList} isAwait/>
+                    <button 
+                        className='btn-gray-black'
+                        onClick={()=>setPopup({
+                                'type': `properties_registration`, 
+                                'id': classificationActive, 
+                                'func': ()=>{currentData();boardData();}
+                        })}>추가
+                    </button>
+                    <BoardChkDelete url='properties' idName='properties_id' deleteList={deleteList} setDeleteList={setDeleteList} isAwait currentData={()=>{currentData();boardData();}}/>
 
                     <div className='board-top'>
                         <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={propertiesList.map(({properties_id})=>properties_id)} />
@@ -81,7 +120,12 @@ function PropertyDivision() {
                             <li key={properties_id}>
                                 <BoardChk id={properties_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ name }</span>
-                                <button className="popup" onClick={()=>setPopup({'type': `properties_update`, 'value': name, 'id': properties_id})}>수정</button>
+                                <button 
+                                    className="popup" 
+                                    onClick={()=>setPopup({'type': `properties_update`, 'value': name, 'id': properties_id, 'func': ()=>{currentData();boardData();}})}
+                                >
+                                    수정
+                                </button>
                             </li>
                         ))}
                     </ol>

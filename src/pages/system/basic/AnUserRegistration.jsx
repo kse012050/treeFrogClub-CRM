@@ -41,6 +41,35 @@ export default function AnUserRegistration() {
     const onSubmit = (e) =>{
         e.preventDefault();
         // console.log(inputs);
+        if(
+            !userId ||
+            !inputs?.id ||
+            !inputs?.name ||
+            inputs?.mobile?.length !== 11 ||
+            !inputs?.role_id ||
+            !inputs?.email
+        ){
+            let errorMessage = '';
+            if(!userId){
+                errorMessage = '아이디를 입력해주세요.'
+            }else if(!inputs?.id){
+                errorMessage = '아이디 중복 확인을 해주세요.'
+            }else if(!inputs?.name){
+                errorMessage = '사용자명을 입력해주세요.'
+            }else if(inputs?.mobile?.length !== 11){
+                errorMessage = '휴대폰 번호를 입력해주세요.'
+            }else if(!inputs?.role_id){
+                errorMessage = '역할그룹을 선택해주세요.'
+            }else if(!inputs?.email){
+                errorMessage = '이메일을 입력해주세요.'
+            }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
+        }
         api('user', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

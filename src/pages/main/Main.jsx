@@ -8,7 +8,7 @@ import { UserContext } from '../../context/UserContext';
 export default function Main() {
     const { user } = useContext(UserContext)
     const [dashboardAlarm, setDashboardAlarm] = useState()
-    
+    // console.log(user);
     useEffect(()=>{
         api('board', 'dashboard_alarm')
             .then(({result, data})=>{
@@ -27,8 +27,7 @@ export default function Main() {
                 </Link>
             }
             { user && 
-                user?.useable_yn === 'n' ? <MainBasic /> :
-                ( user?.useable_yn === 'y' && <MainSales />)
+                user?.useable_yn === 'n' ? <MainBasic /> : <MainSales />
             }
             {/* <MainBasic /> */}
             {/* <MainSales /> */}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Select from '../../components/Select';
-import { onChange, inputChange } from '../../api/validation';
+import { inputChange, isFormet } from '../../api/validation';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../api/api';
 import Popup from '../../components/popup/Popup';
@@ -17,11 +17,24 @@ export default function ProductUpdate() {
             .then(({result, data})=>{
                 if(result){
                     setInputs(data)
+                    setProductCode(data.product_code)
                     setAnalyst(data.analyst_admin_name)
                 }
             })
-
     },[id])
+
+    const onChange = (e, setChange) => {
+        const { value, dataset: { formet } } = e.target;
+        
+        if(formet && !!value && !isFormet(formet, value)['is']){
+            const cur = e.target.selectionStart - 1;
+            e.target.value = isFormet(formet, value)['value'];
+            e.target.setSelectionRange(cur, cur);
+        }
+    
+        setChange(e.target.value)
+        setInputs((input)=>({...input, 'product_code': ''}))
+    }
 
     const codeCheck = () => {
         api('product', 'duplicate', {'product_code': productCode})
@@ -41,6 +54,29 @@ export default function ProductUpdate() {
     const onSubmit = (e) =>{
         e.preventDefault();
         // console.log(inputs);
+        if(
+            !productCode ||
+            !inputs?.product_code ||
+            !inputs?.product_name ||
+            !inputs?.analyst_admin_id
+        ){
+            let errorMessage = '';
+            if(!productCode){
+                errorMessage = '상품코드를 입력해주세요.'
+            }else if(!inputs?.product_code){
+                errorMessage = '상품코드 중복 확인을 해주세요.'
+            }else if(!inputs?.product_name){
+                errorMessage = '상품명을 입력해주세요.'
+            }else if(!inputs?.analyst_admin_id){
+                errorMessage = '애널리스트를 선택해주세요.'
+            }
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': errorMessage
+            })
+            return
+        }
         api('product', 'update', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
