@@ -59,7 +59,7 @@ export default function List() {
                 .then(({result, data, list})=>{
                     if(result){
                         // console.log(data);
-                        // console.log(list);
+                        console.log(list);
                         setPagerInfo(data)
                         setBoardList(list)
                     }
@@ -596,7 +596,7 @@ export default function List() {
                                 <span>{ data.customer_id }</span>
                                 <span 
                                     onClick={()=>console.log(inputs)}
-                                    className={(duplicateMobile === 'y' && data.duplicate_count) ? 'point': ''}
+                                    className={(duplicateMobile === 'y' && data.duplicate_count > 1) ? 'point': ''}
                                 >
                                     { data.customer_mobile }
                                 </span>

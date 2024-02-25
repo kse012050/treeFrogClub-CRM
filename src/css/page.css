@@ -429,6 +429,7 @@
 /* .systemPage.permissionsPage .horizontalTwo .boardArea.screenArea .boardBox :is(.board-top *, .board-center li > *, .board-bottom *)::before{right: 20px;} */
 .systemPage.permissionsPage .horizontalTwo .boardArea.screenArea .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(n + 5):nth-child(-n + 7){background-color: #FFF4E6;}
 .systemPage.permissionsPage .horizontalTwo .boardArea.screenArea .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(n +8):nth-child(-n + 10){background-color: #F7FFE6;}
+.systemPage.permissionsPage .horizontalTwo .boardArea.screenArea .boardBox .board-center li:has( > *:first-child input[type="checkbox"]:checked) > *:nth-child(n + 5){background-color: #FFF9F9;}
 .systemPage.permissionsPage .horizontalTwo .boardArea.screenArea .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(1){flex: 16;}
 .systemPage.permissionsPage .horizontalTwo .boardArea.screenArea .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(2){flex: 84;}
 .systemPage.permissionsPage .horizontalTwo .boardArea.screenArea .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(3){flex: 109;}

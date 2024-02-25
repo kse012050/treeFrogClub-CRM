@@ -229,7 +229,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox .board-center li div .ant-color-picker-trigger{border: none; justify-content: flex-start;}
 .boardBox .board-center li div .ant-color-picker-trigger .ant-color-picker-color-block{padding: 2px; border: 1px solid var(--color-line); background-image: none;}
 .boardBox .board-center li div .ant-color-picker-trigger .ant-color-picker-trigger-text{margin-inline-start: 6px;}
-.boardBox .board-center li:has(input[type="checkbox"]:checked){background-color: #FFF9F9;}
+.boardBox .board-center li:has( > *:first-child input[type="checkbox"]:checked){background-color: #FFF9F9;}
 .boardBox .board-pagination{width: 100%; display: flex; justify-content: center; gap: 10px; margin-top: 20px;}
 /* .boardBox .board-pagination > a{width: 24px; aspect-ratio: 24 / 32; background: url(../images/icon-pagination.png) no-repeat center top calc(100% / (var(--styleTotal) - 1) * var(--styleIdx)) / 100%; text-indent: -9999px;} */
 .boardBox .board-pagination > :is(a, button){width: 24px; aspect-ratio: 24 / 32; background: url(../images/icon-pagination.png) no-repeat center top calc(100% / 3 * var(--styleIdx)) / 100%; text-indent: -9999px;}
