@@ -1,12 +1,12 @@
 import React, { memo, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+// import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../api/api';
 
 function Select({type, current, setInputs, changeName, placeholder, disabled}) {
     // console.log('셀릭트 박스');
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { pathname, search } = location;
+    // const navigate = useNavigate();
+    // const location = useLocation();
+    // const { pathname, search } = location;
     const [active, setActive] = useState(false)
     const [name, setName] = useState([])
     const [value, setValue] = useState([])
@@ -85,6 +85,16 @@ function Select({type, current, setInputs, changeName, placeholder, disabled}) {
         // 고객DB 관리 - 고객 등록
         if(type === 'salesProperties'){
             api('properties', 'properties_list', {'classification_id': '3'})
+                .then(({result, list})=>{
+                    if(result){
+                        setName(list.map(({name})=>name));
+                        setValue(list.map(({properties_id})=>properties_id));
+                    }
+                })
+        }
+
+        if(type === 'paymentProperties'){
+            api('properties', 'properties_list', {'classification_id': '4'})
                 .then(({result, list})=>{
                     if(result){
                         setName(list.map(({name})=>name));
@@ -312,7 +322,7 @@ function Select({type, current, setInputs, changeName, placeholder, disabled}) {
     }
 
     const listClick = (name, i) =>{
-        search && navigate(pathname)
+        // search && navigate(pathname)
         setSelect(name)
         setActive((active)=>!active)
         setIsPlaceholder(false)

@@ -15,7 +15,6 @@ export default function Root({ children }) {
     const [company, setCompany] = useState()
     const [popup, setPopup] = useState()
     const { id } = useParams();
-
     
     useEffect(() => {
         window.scrollTo(0, 0);

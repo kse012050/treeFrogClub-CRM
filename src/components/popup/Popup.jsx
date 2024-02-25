@@ -9,6 +9,7 @@ import PopupSales from './PopupSales';
 import { useNavigate } from 'react-router-dom';
 import PopupSalesArray from './PopupSalesArray';
 import PopupExcelDownload from './PopupExcelDownload';
+import PopupPayHistory from './PopupPayHistory';
 
 function Popup({ popup, setPopup, confirmFunc, func, children }) {
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ function Popup({ popup, setPopup, confirmFunc, func, children }) {
                 { popup.type === 'salesArray' && <PopupSalesArray close={close} popup={popup}/>}
                 { popup.type.includes('analyst') && <PopupAnalyst close={close} func={popup['func']}/>}
                 { popup.type.includes('excelDownload') && <PopupExcelDownload close={close} popup={popup}/>}
+                { popup.type.includes('payHistory') && <PopupPayHistory close={close} popup={popup}/>}
                 { popup.type.includes('children') && children}
             </div>
         </div>

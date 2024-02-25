@@ -31,6 +31,25 @@ export default function List() {
     const [customerList, setCustomerList] = useState('영업담당자')
     const [customerListInputs, setCustomerListInputs] = useState()
 
+    const currentSettings = useCallback(()=>{
+        api('constant', 'combine_customer_setting_info')
+            .then(({result, data})=>{
+                if(result){
+                    const obj = {}
+                    // console.log(data);
+                    obj.limit = data.combine_customer_list_number
+                    obj.page = '1'
+                    // console.log(obj);
+                    setInputs(obj)
+                }
+            })
+    },[])
+
+    useEffect(()=>{
+        currentSettings()
+    },[currentSettings])
+
+
     const currentData = useCallback(()=>{
         // console.log(inputs);
         if(inputs){
@@ -67,21 +86,6 @@ export default function List() {
         currentData()
     },[currentData])
 
-    useEffect(()=>{
-        api('constant', 'combine_customer_setting_info')
-            .then(({result, data})=>{
-                if(result){
-                    const obj = {}
-                    // console.log(data);
-                    obj.limit = data.combine_customer_list_number
-                    obj.page = '1'
-                    // console.log(obj);
-                    setInputs(obj)
-                }
-            })
-    },[])
-
-  
 
     const onDate = (dateString, parents, name) => {
         // console.log(dateString);
@@ -115,7 +119,7 @@ export default function List() {
     const onSearch = (e) => {
         e.preventDefault()
         // console.log(searchInputs);
-        setInputs((input)=>({...input, ...searchInputs}))
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
         setIsSearch(true)
        /*  api('customer', 'list', searchInputs)
             .then(({result, data, list})=>{
@@ -132,16 +136,22 @@ export default function List() {
     const onReset = ()=>{
         setSales()
         setBureau()
-        setSearchInputs({'limit': '10', 'page': '1'})
+        setSearchInputs()
         currentData()
+        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        // navigate('/customer/list')
         setSearchId()
     }
-
+    
     useEffect(()=>{
         setCustomerListInputs()
     },[customerList])
 
     const onSort = (name) =>{
+        setBoardList((prevData)=> {
+            const newData = [...prevData].sort();
+            return prevData[name].toString() === newData[name].toString() ? newData.reverse() : newData; // 정렬 상태 확인 후 역정렬 여부 결정
+          })
         // setBoardList((board)=>{
         //     let copy = [...board]
         //         if(copy.length > 1){
@@ -153,30 +163,30 @@ export default function List() {
         //         }
         //     return copy
         // })
-        setBoardList((board)=>{
-            let copy = [...board]
-            // console.log(copy[0][name]);
-            // console.log(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, ''));
-            if(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > copy[1][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '')){
-                copy = copy.sort((data1, data2)=> {
-                        const valueA = data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
-                        const valueB = data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
-                        // data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? 1 : -1
-                        return valueB.localeCompare(valueA);
-                    })
-                // console.log(1);
-            }else if(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') <= copy[1][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '')){
-                // copy = copy.sort((data1, data2)=> data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') >= data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? -1 : 1)
-                // console.log(2);
-                copy = copy.sort((data1, data2)=> {
-                    const valueA = data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
-                    const valueB = data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
-                    // data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? 1 : -1
-                    return valueA.localeCompare(valueB);
-                })
-            }
-            return copy
-        })
+        // setBoardList((board)=>{
+        //     let copy = [...board]
+        //     // console.log(copy[0][name]);
+        //     // console.log(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, ''));
+        //     if(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > copy[1][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '')){
+        //         copy = copy.sort((data1, data2)=> {
+        //                 const valueA = data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
+        //                 const valueB = data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
+        //                 // data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? 1 : -1
+        //                 return valueB.localeCompare(valueA);
+        //             })
+        //         // console.log(1);
+        //     }else if(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') <= copy[1][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '')){
+        //         // copy = copy.sort((data1, data2)=> data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') >= data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? -1 : 1)
+        //         // console.log(2);
+        //         copy = copy.sort((data1, data2)=> {
+        //             const valueA = data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
+        //             const valueB = data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
+        //             // data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? 1 : -1
+        //             return valueA.localeCompare(valueB);
+        //         })
+        //     }
+        //     return copy
+        // })
     }
 
     return (

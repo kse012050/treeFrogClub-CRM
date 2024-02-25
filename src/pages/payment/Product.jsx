@@ -81,7 +81,7 @@ export default function Product() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="analyst_admin_id" className='required'>애널리스트</label>
+                                <label htmlFor="analyst_admin_id">애널리스트</label>
                                 <div>
                                     <input 
                                         type="search" 

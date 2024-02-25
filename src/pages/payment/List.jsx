@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
 import { api } from '../../api/api';
 import Pager from '../../components/Pager';
-import { inputChange } from '../../api/validation';
+import { arrayChange, inputChange, numberWithCommas, parentsChange } from '../../api/validation';
 import Popup from '../../components/popup/Popup';
 import SelectPage from '../../components/SelectPage';
 
@@ -17,16 +18,34 @@ export default function List() {
     const [sales, setSales] = useState()
     const [bureau, setBureau] = useState()
     const [summary, setSummary] = useState()
+    const [analyst, setAnalyst] = useState()
+    const [salesList, setSalesList] = useState()
+    const [refundList, setRefundList] = useState()
     const [excelDownloadLink, setExcelDownloadLink] = useState()
     const [popup, setPopup] = useState()
 
+    const currentSettings = useCallback(() =>{
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
+        const day = currentDate.getDate();
+        setSearchInputs({'payment_date_info': {'start_date': `${year}-${month}-${1}`, 'end_date': `${year}-${month}-${day}`}})
+    },[])
+
     const currentData = useCallback(()=>{
+        // console.log(inputs);
         api('payment', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
+                    // console.log(data);
                     setPagerInfo(data)
                     setSummary(data)
-                    setBoardList(list)
+                    // setBoardList(list)
+                    setBoardList(()=>{
+                        return list.map((listData, i )=>{
+                            return {...listData, 'no': inputs.limit * (data.current_page - 1) + i + 1}
+                        })
+                    })
                     // console.log(list);
                 }
             })
@@ -36,24 +55,62 @@ export default function List() {
         currentData()
     },[currentData])
 
+    useEffect(()=>{
+        currentSettings()
+    },[currentSettings])
+
 
 
     useEffect(()=>{
         api('payment', 'list', {'excel_info': {'download_yn': 'y'}})
             .then(({result, data: {download_url}})=>{
-                setExcelDownloadLink(download_url)
+                if(result){
+                    setExcelDownloadLink(download_url)
+                }
+            })
+
+        
+        api('properties', 'properties_list', {'classification_id': '3'})
+                .then(({result, list})=>{
+                    if(result){
+                        // console.log('매출', list);
+                        setSalesList(list)
+                    }
+                })
+                
+                
+        api('properties', 'properties_list', {'classification_id': '5'})
+            .then(({result, list})=>{
+                if(result){
+                    // console.log('환불', list);
+                    setRefundList(list)
+                }
             })
         
     },[])
 
-    const onChange = (date, dateString) => {
-        console.log(date, dateString);
+    const onDate = (dateString, parents, name) => {
+        // console.log(dateString);
+        // console.log(parents);
+        // console.log(name);
+        setSearchInputs((input)=>({...input, [parents]: {...input[parents], [name]: dateString}}))
     };
+
+    const onReset = () => {
+        setAnalyst()
+        setSales()
+        setBureau()
+        currentSettings()
+        currentData()
+    }
 
     const onSearch = (e) => {
         e.preventDefault();
-        console.log(searchInputs);
+        // console.log(searchInputs);
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
+
+  
 
 
     return (
@@ -85,9 +142,21 @@ export default function List() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">신청 애널리스트</label>
+                                <label htmlFor="analyst_admin_id">애널리스트</label>
                                 <div>
-                                    <input type="search" />
+                                    <input 
+                                        type="search" 
+                                        value={analyst || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'analyst',
+                                            'func': (data)=>{
+                                                setSearchInputs((input)=>({...input, 'analyst_admin_id': data.admin_id}))
+                                                setAnalyst(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>
@@ -129,13 +198,13 @@ export default function List() {
                             <li>
                                 <label htmlFor="">결제상품</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select type='product' current={searchInputs?.product_id || false} changeName='product_id' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">결제방식</label>
                                 <div>
-                                    <Select name={''} />
+                                    <Select type={'paymentProperties'} current={searchInputs?.payment_properties_id || false} changeName='payment_properties_id' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                         </ul>
@@ -146,37 +215,37 @@ export default function List() {
                                 <label htmlFor="">결제일</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} value={searchInputs?.payment_date_info?.start_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'end_date')} value={searchInputs?.payment_date_info?.end_date ? dayjs(searchInputs?.payment_date_info?.end_date) : ''} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">결제 기준 검색</label>
                                 <div>
-                                    <input type="radio" />
-                                    <label htmlFor="">시작일 검색</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">종료일 검색</label>
+                                    <input type="radio" name='service_date_info_by_payment' id='service_date_info_by_payment_start' data-parents='service_date_info_by_payment' data-name='search_type' value='start' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <label htmlFor="service_date_info_by_payment_start">시작일 검색</label>
+                                    <input type="radio" name='service_date_info_by_payment' id='service_date_info_by_payment_end' data-parents='service_date_info_by_payment' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <label htmlFor="service_date_info_by_payment_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'service_date_info_by_payment', 'start_date')} value={searchInputs?.service_date_info_by_payment?.start_date ? dayjs(searchInputs?.service_date_info_by_payment?.start_date) : ''} disabled={!searchInputs?.service_date_info_by_payment} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'service_date_info_by_payment', 'end_date')} value={searchInputs?.service_date_info_by_payment?.end_date ? dayjs(searchInputs?.service_date_info_by_payment?.end_date) : ''} disabled={!searchInputs?.service_date_info_by_payment} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">서비스기간 포함 검색</label>
                                 <div>
-                                    <input type="radio" />
-                                    <label htmlFor="">시작일 검색</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">종료일 검색</label>
+                                    <input type="radio" name='service_date_info' id='service_date_info_start' data-parents='service_date_info' data-name='search_type' value='start' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <label htmlFor="service_date_info_start">시작일 검색</label>
+                                    <input type="radio" name='service_date_info' id='service_date_info_end' data-parents='service_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <label htmlFor="service_date_info_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'service_date_info', 'start_date')} value={searchInputs?.service_date_info?.start_date ? dayjs(searchInputs?.service_date_info?.start_date) : ''} disabled={!searchInputs?.service_date_info} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={onChange} />
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'service_date_info', 'end_date')} value={searchInputs?.service_date_info?.end_date ? dayjs(searchInputs?.service_date_info?.end_date) : ''} disabled={!searchInputs?.service_date_info} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
@@ -186,40 +255,16 @@ export default function List() {
                         <ul>
                             <li className='fill-three'>
                                 <label htmlFor="">매출구분 <span>복수 선택 가능</span></label>
-                                <div>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">신규결제</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">추가결제</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">재결제</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">오결제</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">상품변경</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">잔금</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">민원재결제</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">특별반</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">렌탈</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">실전렌탈</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">초급렌탈</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">평생회원</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">목표수익반</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">목표수익반</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">청투TV</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">JL투자그룹</label>
-                                </div>
+                                { salesList && 
+                                    <div>
+                                        { salesList.map((data)=>
+                                            <span key={data.properties_id}>
+                                                <input type="checkbox" name='sales_properties_id_list' id={`sales_properties_id_list_${data.properties_id}`} value={data.properties_id} onChange={(e)=>arrayChange(e, setSearchInputs)}/>
+                                                <label htmlFor={`sales_properties_id_list_${data.properties_id}`}>{ data.name }</label>
+                                            </span>
+                                        )}
+                                    </div>
+                                }
                             </li>
                         </ul>
                     </fieldset>
@@ -227,71 +272,16 @@ export default function List() {
                         <ul>
                             <li className='fill-three'>
                                 <label htmlFor="">환불구분 <span>복수 선택 가능</span></label>
-                                <div>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">재결제</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">오결제</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">민원</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">상품변경</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">금액할인</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">수수료</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">서비스불만</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">운용손실</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">개인사정</label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -재결제
-                                    </label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -오결제
-                                    </label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -민원
-                                    </label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -상품변경
-                                    </label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -금액할인
-                                    </label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -수수료
-                                    </label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -수수료
-                                    </label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -운용손실
-                                    </label>
-                                    <input type="checkbox" />
-                                    <label htmlFor="">
-                                        환불대기<br/>
-                                        -개인사정
-                                    </label>
-                                </div>
+                                { refundList && 
+                                    <div>
+                                        { refundList.map((data)=>
+                                            <span key={data.properties_id}>
+                                                <input type="checkbox" name='refund_properties_id_list' id={`refund_properties_id_list_${data.properties_id}`} value={data.properties_id} onChange={(e)=>arrayChange(e, setSearchInputs)}/>
+                                                <label htmlFor={`refund_properties_id_list_${data.properties_id}`}>{ data.name }</label>
+                                            </span>
+                                        )}
+                                    </div>
+                                }
                             </li>
                         </ul>
                     </fieldset>
@@ -300,16 +290,16 @@ export default function List() {
                             <li className='fill-three'>
                                 <label htmlFor="">매출구분</label>
                                 <div>
-                                    <input type="radio" />
-                                    <label htmlFor="">환불일 기준</label>
-                                    <input type="radio" />
-                                    <label htmlFor="">초기결제일 기준</label>
+                                    <input type="radio" name='refund_collect_type' id='refund_collect_type_refund' value='refund' onChange={(e)=>inputChange(e, setSearchInputs)}/>
+                                    <label htmlFor="refund_collect_type_refund">환불일 기준</label>
+                                    <input type="radio" name='refund_collect_type' id='refund_collect_type_payment' value='payment' onChange={(e)=>inputChange(e, setSearchInputs)}/>
+                                    <label htmlFor="refund_collect_type_payment">초기결제일 기준</label>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
-                        <input type="reset" value="초기화" className='btn-gray-white'/>
+                        <input type="reset" value="초기화" className='btn-gray-white' onClick={onReset}/>
                         <input type="submit" value="검색" className='btn-point' onClick={onSearch}/>
                     </div>
                 </form>
@@ -337,10 +327,10 @@ export default function List() {
                         <tr>
                             <td><b>2023년 10월</b></td>
                             <td>{ summary?.total_payment_count }</td>
-                            <td>{ summary?.total_payment_price }원</td>
+                            <td>{ numberWithCommas(summary?.total_payment_price) }원</td>
                             <td>{ summary?.total_refund_count }</td>
-                            <td>{ summary?.total_refund_price }원</td>
-                            <td><mark>{ summary?.total_sales_price }원</mark></td>
+                            <td>{ numberWithCommas(summary?.total_refund_price) }원</td>
+                            <td><mark>{ numberWithCommas(summary?.total_sales_price) }원</mark></td>
                         </tr>
                     </tbody>
                 </table>
@@ -378,7 +368,7 @@ export default function List() {
                         <ol className="board-center">
                             { boardList.map((data, i)=>(
                                 <li key={i}>
-                                    <span>{ data.payment_id }</span>
+                                    <span>{ data.no }</span>
                                     <span>{ data.payment_id }</span>
                                     <span>{ data.customer_mobile }</span>
                                     <span>{ data.customer_name }</span>
@@ -388,10 +378,19 @@ export default function List() {
                                     <time>{ data.payment_date }</time>
                                     <span>{ data.product_name }</span>
                                     <span>{ data.payment_properties_name}</span>
-                                    <span>{ data.payment_price }</span>
+                                    <span>{ data.payment_price ? numberWithCommas(data.payment_price) : '0' }</span>
                                     <time>{ data.refund_date }</time>
-                                    <span>{ data.refund_price }</span>
-                                    <button className='popup'>{ data.payment_chasu }회차 결제</button>
+                                    <span>{ data.refund_price ? numberWithCommas(data.refund_price) : '0' }</span>
+                                    <button 
+                                        className='popup'
+                                        onClick={()=>setPopup({
+                                            'type': 'payHistory',
+                                            'id': data.customer_id
+                                        })}
+                                    >
+                                        { data.payment_chasu }
+                                            회차 결제
+                                    </button>
                                     <div>
                                         <span>{ data.standard_payment_start_date }</span>
                                         <span>{ data.standard_payment_end_date }</span>
