@@ -23,6 +23,7 @@ export default function Bureau() {
         api('department', 'list')
             .then(({result, list, data: { company_name }})=>{
                 if(result){
+                    // console.log(list);
                     setBureau(()=>({'company_name': company_name, 'list': list}))
                     // console.log(firstBureau);
                     setFirstBureau(list[0])

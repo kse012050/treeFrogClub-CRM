@@ -221,6 +221,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox .board-center li button.select{display: flex; align-items: center;}
 .boardBox .board-center li button.select::after{content: ''; width: 12px; aspect-ratio: 12 / 6; background: url(../images/icon-fill-arrow-gray.png) no-repeat center top / 100%; margin-left: 6px;}
 .boardBox .board-center li :is(a, .popup, .board-center button.point){color: var(--color-point01); text-decoration: underline; text-underline-offset: 2px;}
+.boardBox .board-center li .point{color: var(--color-point01);}
 .boardBox .board-center li div:has(.popup){display: flex; gap: 10px;}
 .boardBox .board-center li > div[style]{display: flex; align-items: center; padding-left: 4px; position: relative;}
 .boardBox .board-center li > div[style]::before{content: ''; width: 18px; aspect-ratio: 1; background-color: var(--color); border-radius: 4px; box-sizing: border-box;}
@@ -228,6 +229,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox .board-center li div .ant-color-picker-trigger{border: none; justify-content: flex-start;}
 .boardBox .board-center li div .ant-color-picker-trigger .ant-color-picker-color-block{padding: 2px; border: 1px solid var(--color-line); background-image: none;}
 .boardBox .board-center li div .ant-color-picker-trigger .ant-color-picker-trigger-text{margin-inline-start: 6px;}
+.boardBox .board-center li:has(input[type="checkbox"]:checked){background-color: #FFF9F9;}
 .boardBox .board-pagination{width: 100%; display: flex; justify-content: center; gap: 10px; margin-top: 20px;}
 /* .boardBox .board-pagination > a{width: 24px; aspect-ratio: 24 / 32; background: url(../images/icon-pagination.png) no-repeat center top calc(100% / (var(--styleTotal) - 1) * var(--styleIdx)) / 100%; text-indent: -9999px;} */
 .boardBox .board-pagination > :is(a, button){width: 24px; aspect-ratio: 24 / 32; background: url(../images/icon-pagination.png) no-repeat center top calc(100% / 3 * var(--styleIdx)) / 100%; text-indent: -9999px;}

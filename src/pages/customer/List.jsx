@@ -30,6 +30,7 @@ export default function List() {
     const [bureau, setBureau] = useState()
     const [customerList, setCustomerList] = useState('영업담당자')
     const [customerListInputs, setCustomerListInputs] = useState()
+    const [duplicateMobile, setDuplicateMobile] = useState()
 
     const currentSettings = useCallback(()=>{
         api('constant', 'combine_customer_setting_info')
@@ -40,6 +41,7 @@ export default function List() {
                     obj.limit = data.combine_customer_list_number
                     obj.page = '1'
                     // console.log(obj);
+                    setDuplicateMobile(data.combine_customer_duplicate_mobile_color_mark_yn)
                     setInputs(obj)
                 }
             })
@@ -592,7 +594,12 @@ export default function List() {
                             <li key={ data.customer_id }>
                                 <BoardChk id={data.customer_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ data.customer_id }</span>
-                                <span>{ data.customer_mobile }</span>
+                                <span 
+                                    onClick={()=>console.log(inputs)}
+                                    className={(duplicateMobile === 'y' && data.duplicate_count) ? 'point': ''}
+                                >
+                                    { data.customer_mobile }
+                                </span>
                                 <span>{ data.customer_name }</span>
                                 <SalesItem data={data} />
                                 <span>{ data.customer_properties_name }</span>

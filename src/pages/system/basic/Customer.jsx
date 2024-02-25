@@ -111,6 +111,8 @@ export default function Customer() {
                             <li>
                                 <label htmlFor="">무료체험 기간</label>
                                 <div>
+                                    <input type="radio" id='free_all' name='combine_customer_free_experience_period' value='all' checked={inputs?.combine_customer_free_experience_period === 'all'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <label htmlFor="free_all">전체</label>
                                     <input type="radio" id='free_year' name='combine_customer_free_experience_period' value='year' checked={inputs?.combine_customer_free_experience_period === 'year'} onChange={(e)=>inputChange(e, setInputs)}/>
                                     <label htmlFor="free_year">금년</label>
                                     <input type="radio" id='free_month' name='combine_customer_free_experience_period' value='month' checked={inputs?.combine_customer_free_experience_period === 'month'} onChange={(e)=>inputChange(e, setInputs)}/>
@@ -122,6 +124,8 @@ export default function Customer() {
                             <li>
                                 <label htmlFor="">유료 기간</label>
                                 <div>
+                                    <input type="radio" id='fre_all' name='combine_customer_fee_period' value='all' checked={inputs?.combine_customer_fee_period === 'all'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <label htmlFor="fre_all">전체</label>
                                     <input type="radio" id='fee_year' name='combine_customer_fee_period' value='year' checked={inputs?.combine_customer_fee_period === 'year'} onChange={(e)=>inputChange(e, setInputs)}/>
                                     <label htmlFor="fee_year">금년</label>
                                     <input type="radio" id='fee_month' name='combine_customer_fee_period' value='month' checked={inputs?.combine_customer_fee_period === 'month'} onChange={(e)=>inputChange(e, setInputs)}/>
