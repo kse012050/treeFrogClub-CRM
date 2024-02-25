@@ -12,13 +12,13 @@ export default function PopupPayHistory({ close, popup}) {
                 if(result){
                     setBoardList(()=>{
                         return list.map((listData, i )=>{
-                            return {...listData, 'no': i + 1}
+                            return {...listData, 'no': list.length - i}
                         })
                     })
                     // console.log(list);
                 }
             })
-    },[])
+    },[popup.id])
 
     return (
         <>
