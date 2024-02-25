@@ -31,9 +31,10 @@
 /* 메인 페이지 - 기본 페이지 - 정보 */
 .mainPage .basicPage .infoArea{display: flex; gap: 13px;}
 .mainPage .basicPage .infoArea .graphArea{flex: 1; padding-block: 20px;}
-.mainPage .basicPage .infoArea .graphArea div{width: 280px; aspect-ratio: 1; 
+.mainPage .basicPage .infoArea .graphArea div.test{width: 280px; aspect-ratio: 1; 
     border: 2px solid var(--color-point01); box-sizing: border-box; border-radius: 100%; margin-inline: auto;
 }
+.mainPage .basicPage .infoArea .graphArea div.data-none{width: 320px; aspect-ratio: 1; background: url(../images/data-none-graph.png) no-repeat center / cover; margin: 40px auto 0; display: flex; justify-content: center; align-items: center;}
 .mainPage .basicPage .infoArea .graphArea ul{max-width: 287px; margin-inline: auto; margin-top: 40px; display: flex; flex-wrap: wrap; row-gap: 12px;}
 .mainPage .basicPage .infoArea .graphArea ul li{display: flex; align-items: center; font-size: 12px; font-weight: 400;}
 .mainPage .basicPage .infoArea .graphArea ul li::before{content: ''; width: 16px; aspect-ratio: 1; margin-right: 4px; border-radius: 100%;}
@@ -69,6 +70,7 @@
     border-radius: 5px;
     /* 드래스할 수 있는 스크롤 손잡이 (scrollbar) */
 }
+.mainPage .basicPage .infoArea .boardBox .data-none{width: 100%; height: 336px; display: flex; justify-content: center; align-items: center;}
 
 /* 메인 페이지 - 영업사원 - 매출 */
 .mainPage .salesPage > div strong{font-size: 20px; line-height: 24px; font-weight: 700; display: block;}
