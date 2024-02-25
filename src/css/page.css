@@ -154,16 +154,17 @@
 .customerPage.updatePage .boardBox .consultInputArea fieldset ul li div:has(.selectBox-time-hour){align-items: center;}
 .customerPage.updatePage .boardBox .consultInputArea fieldset ul li div:has(.selectBox-time-hour) .ant-picker{flex: 2;}
 .customerPage.updatePage .boardBox .consultInputArea fieldset ul li div:has(.selectBox-time-hour) [class*="selectBox-time"]{flex: 1;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 80;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 90;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 70;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 90;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 16;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 80;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 90;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 70;}
 .customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 90;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 80;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 90;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 80;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 120;}
-.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 60;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 90;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 80;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 90;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 80;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 120;}
+.customerPage.updatePage .boardBox .board-scroll2 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 60;}
 .customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 120;}
 .customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 180;}
 .customerPage.updatePage .boardBox .board-scroll3 :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 160;}
