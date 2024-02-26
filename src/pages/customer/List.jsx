@@ -9,10 +9,10 @@ import SelectBoard from '../../components/SelectBoard';
 import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChk from '../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
-import Pager from '../../components/Pager';
 import Popup from '../../components/popup/Popup';
 import { inputChange, arrayChange, parentsChange } from '../../api/validation';
 import SelectPage from '../../components/SelectPage';
+import PagerButton from '../../components/PagerButton';
 
 
 export default function List() {
@@ -59,7 +59,7 @@ export default function List() {
                 .then(({result, data, list})=>{
                     if(result){
                         // console.log(data);
-                        console.log(list);
+                        // console.log(list);
                         setPagerInfo(data)
                         setBoardList(list)
                     }
@@ -617,7 +617,7 @@ export default function List() {
                 { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
                 }
             </div>

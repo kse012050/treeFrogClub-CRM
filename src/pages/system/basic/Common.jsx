@@ -6,9 +6,9 @@ import { api } from '../../../api/api';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
-import Pager from '../../../components/Pager';
 import { inputChange } from '../../../api/validation';
 import SelectPage from '../../../components/SelectPage';
+import PagerButton from '../../../components/PagerButton';
 
 export default function Common() {
     // console.log('common 랜더링');
@@ -47,7 +47,7 @@ export default function Common() {
     const onSearch = (e) =>{
         e.preventDefault();
         // console.log(searchInputs);
-        setInputs((input)=>({...input, ...searchInputs}))
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
 
     return (
@@ -129,7 +129,7 @@ export default function Common() {
                 { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
                 }
             </div>

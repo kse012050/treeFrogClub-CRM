@@ -6,10 +6,10 @@ import { api } from '../../../api/api';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
-import Pager from '../../../components/Pager';
 import { inputChange } from '../../../api/validation';
 import Popup from '../../../components/popup/Popup';
 import SelectPage from '../../../components/SelectPage';
+import PagerButton from '../../../components/PagerButton';
 
 export default function AnUser() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
@@ -37,7 +37,7 @@ export default function AnUser() {
     const onSearch = (e) =>{
         e.preventDefault();
         // console.log(searchInputs);
-        setInputs((input)=>({...input, ...searchInputs}))
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
 
     const onReset = ()=>{
@@ -156,7 +156,7 @@ export default function AnUser() {
                 { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
                 }
             </div>

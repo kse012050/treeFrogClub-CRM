@@ -6,9 +6,9 @@ import DropBox from '../../../components/DropBox';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
-import Pager from '../../../components/Pager';
 import SelectPage from '../../../components/SelectPage';
 import { inputChange } from '../../../api/validation';
+import PagerButton from '../../../components/PagerButton';
 
 export default function Management() {
     const initParam = {'limit': '10', 'page': '1'};
@@ -40,7 +40,7 @@ export default function Management() {
 
     const onSearch = (e) =>{
         e.preventDefault();
-        setInputs((input)=>({...input, ...searchInputs}))
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
 
     return (
@@ -111,7 +111,7 @@ export default function Management() {
                 { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
                 }
             </div>

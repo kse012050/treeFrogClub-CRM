@@ -5,13 +5,13 @@ import dayjs from 'dayjs';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
 import { api } from '../../api/api';
-import Pager from '../../components/Pager';
 import { arrayChange, inputChange, numberWithCommas, parentsChange } from '../../api/validation';
 import Popup from '../../components/popup/Popup';
 import SelectPage from '../../components/SelectPage';
+import PagerButton from '../../components/PagerButton';
 
 export default function List() {
-    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [inputs, setInputs] = useState();
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
     const [searchInputs, setSearchInputs] = useState()
@@ -25,6 +25,7 @@ export default function List() {
     const [popup, setPopup] = useState()
 
     const currentSettings = useCallback(() =>{
+        setInputs({'limit': '10', 'page': '1'})
         const currentDate = new Date();
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth() + 1;
@@ -52,8 +53,10 @@ export default function List() {
     },[inputs])
 
     useEffect(()=>{
-        currentData()
-    },[currentData])
+        if(inputs){
+            currentData()
+        }
+    },[currentData, inputs])
 
     useEffect(()=>{
         currentSettings()
@@ -408,7 +411,7 @@ export default function List() {
                 { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
                 }
             </div>

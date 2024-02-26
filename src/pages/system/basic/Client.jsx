@@ -5,17 +5,17 @@ import SubTitle from '../../../components/SubTitle';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
-import Pager from '../../../components/Pager';
 import SelectPage from '../../../components/SelectPage';
+import PagerButton from '../../../components/PagerButton';
 
 export default function Client() {
-    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [inputs, setInputs] = useState({'limit': '10'});
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
     const [deleteList, setDeleteList] = useState([])
 
     const currentData = useCallback(()=>{
-        api('clientcode', 'properties_list', inputs)
+        api('clientcode', 'properties_list', {...inputs, 'page': '1'})
             .then(({result, data, list})=>{
                 if(result){
                     setPagerInfo(data)
@@ -75,7 +75,7 @@ export default function Client() {
                 { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
                 }
             </div>

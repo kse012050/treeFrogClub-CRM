@@ -7,7 +7,6 @@ import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
 import dayjs from 'dayjs';
 import Popup from '../../components/popup/Popup';
-import Pager from '../../components/Pager';
 import { UserContext } from '../../context/UserContext';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 import BoardChkAll from '../../components/boardChk/BoardChkAll';
@@ -532,7 +531,7 @@ function History({ id, historyPaymentFunc, paymentInfo, counselValue, historyPay
                                 }
                             </div>
                             <div className='board-pagination' data-styleidx='a'>
-                                <Pager pagerInfo={paymentInfo} setInputs={setInputs}/>
+                                <PagerButton pagerInfo={paymentInfo} setInputs={setInputs}/>
                             </div>
                         </>
                     }
@@ -567,7 +566,7 @@ function History({ id, historyPaymentFunc, paymentInfo, counselValue, historyPay
                                 }
                             </div>
                             <div className='board-pagination' data-styleidx='a'>
-                                <Pager pagerInfo={updateInfo} setInputs={setInputs}/>
+                                <PagerButton pagerInfo={updateInfo} setInputs={setInputs}/>
                             </div>
                         </>
                     }
@@ -623,7 +622,7 @@ function History({ id, historyPaymentFunc, paymentInfo, counselValue, historyPay
                                 }
                             </div>
                             <div className='board-pagination' data-styleidx='a'>
-                                <Pager pagerInfo={historyPaymentDeleteInfo} setInputs={setInputs}/>
+                                <PagerButton pagerInfo={historyPaymentDeleteInfo} setInputs={setInputs}/>
                             </div>
                         </>
                     }
