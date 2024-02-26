@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { api, apiAwait } from '../../api/api'
 import Popup from '../popup/Popup';
 
-export default function BoardChkDelete({ url, idName, deleteList, setDeleteList, isAwait, className, currentData }) {
+export default function BoardChkDelete({ url, funcName, idName, deleteList, setDeleteList, isAwait, className, currentData }) {
     const [popup, setPopup] = useState('')
     const popupFunc = () =>{
         if(deleteList.length){
@@ -12,8 +12,9 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
                 'title': '완료',
                 'description': `항목이 삭제되었습니다.`,
             }
+            const funcType = funcName ? funcName : 'delete'
             if(!isAwait){
-                api(url, 'delete', {[idName]: deleteList})
+                api(url, funcType, {[idName]: deleteList})
                     .then(({result})=>{
                         if(result){
                             setPopup(confirmPopupMessage)
@@ -22,7 +23,7 @@ export default function BoardChkDelete({ url, idName, deleteList, setDeleteList,
                         }
                     })
             }else{
-                apiAwait(url, 'delete', idName, deleteList).then((result)=>{
+                apiAwait(url, funcType, idName, deleteList).then((result)=>{
                     if({result}){
                         setPopup(confirmPopupMessage)
                         setDeleteList([])

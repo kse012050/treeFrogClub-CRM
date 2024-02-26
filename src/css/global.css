@@ -149,16 +149,6 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .popupBox :is(.refundPopup, .updatePopup) fieldset > ul li > div > div span{margin-inline: 5px;}
 .popupBox :is(.refundPopup, .updatePopup) fieldset > ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
 .popupBox :is(.refundPopup, .updatePopup) fieldset > ul li > div [class*="selectBox"] > button{background-color: white;}
-.popupBox .rolePopup{display: flex; justify-content: center; flex-wrap: wrap; column-gap: 10px;}
-.popupBox .rolePopup .selectBox-moduleCategory{width: 140px;}
-.popupBox .rolePopup .searchArea{width: 220px;}
-.popupBox .rolePopup .boardBox{width: 100%;}
-.popupBox .rolePopup .boardBox .board-center{height: 200px;}
-.popupBox .rolePopup .boardBox :is(.board-top, .board-center li, .board-bottom){height: 40px;}
-.popupBox .rolePopup .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 120;}
-.popupBox .rolePopup .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 240;}
-.popupBox .rolePopup .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 60;}
-.popupBox .rolePopup > [class*="choice"]{margin-top: 20px;}
 .popupBox .excelDownloadArea{width: 510px;}
 .popupBox .excelDownloadArea .excelArea{display: flex; flex-wrap: wrap; align-items: center; gap: 12px 10px; margin-top: 20px;}
 .popupBox .excelDownloadArea .excelArea ol{width: 100%; max-height: 400px; padding-block: 15px; border-width: 1px 0; border-style: solid; border-color: #DEDEDE; display: flex; flex-wrap: wrap; gap: 10px; box-sizing: border-box;}

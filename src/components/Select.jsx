@@ -163,6 +163,11 @@ function Select({type, current, setInputs, changeName, placeholder, disabled}) {
                     }
                 })
         }
+
+        if(type === 'permissionsUserType'){
+            setName(['전체', '사용자', '관리자'])
+            setValue(['', 'user', 'admin'])
+        }
         // 시스템 관리 - 권한 설정 - 역할 권한 권리 fin
 
         if(type === 'clientGrade'){
