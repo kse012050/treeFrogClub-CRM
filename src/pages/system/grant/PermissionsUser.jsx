@@ -6,11 +6,12 @@ import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import SelectPage from '../../../components/SelectPage';
-import Pager from '../../../components/Pager';
+// import Pager from '../../../components/Pager';
 import Popup from '../../../components/popup/Popup';
 import PagerButton from '../../../components/PagerButton';
 
-export default function PermissionsUser({ inputs, setInputs }) {
+export default function PermissionsUser({id}) {
+    const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
@@ -19,7 +20,7 @@ export default function PermissionsUser({ inputs, setInputs }) {
 
     const currentData = useCallback(()=>{
         // console.log(inputs);
-        api('user', 'list', {...inputs, 'page': '1'})
+        api('user', 'list', {...inputs})
             .then(({result, data, list})=>{
                 if(result){
                     // console.log(data);
@@ -31,20 +32,31 @@ export default function PermissionsUser({ inputs, setInputs }) {
 
     },[inputs])
 
+    const currentSettings = useCallback(()=>{
+        setSearchInputs()
+        setInputs({'role_id': id, 'limit': '2', 'page': '1'})
+    },[id])
+
     useEffect(()=>{
-        currentData()
-    },[currentData])
+        currentSettings()
+    },[currentSettings])
+    
+    useEffect(()=>{
+        if(inputs){
+            currentData()
+        }
+    },[currentData, inputs])
 
     const onSearch = (e) =>{
         e.preventDefault()
-        setInputs((input)=>({...input, ...searchInputs}))
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
 
     return (
         <div className='userArea'>
-            <Select type='permissionsUserType' current changeName='type' setInputs={setSearchInputs}/>
+            <Select type='permissionsUserType' current={searchInputs?.type || true} changeName='type' setInputs={setSearchInputs}/>
             <form className="searchArea">
-                <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 입력'/>
+                <input type="search" name='name' id='name' value={searchInputs?.name || ''} onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 입력'/>
                 <button onClick={onSearch}>검색</button>
             </form>
 
@@ -52,7 +64,7 @@ export default function PermissionsUser({ inputs, setInputs }) {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='user' funcName='role_delete' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
+                <BoardChkDelete url='user' funcName='role_delete' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentSettings}/>
                 <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id})}>추가</button>
 
                 <div className="board-top">
@@ -79,20 +91,21 @@ export default function PermissionsUser({ inputs, setInputs }) {
                     <div className='board-pagination' data-styleidx='a'>
                         {/* <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/> */}
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        {/* <Pager pagerInfo={pagerInfo} setInputs={setInputs}/> */}
                     </div>
                 }
             </div>
             { registrationPopup &&
-                <RegistrationPopup registrationPopup={registrationPopup} setRegistrationPopup={setRegistrationPopup} boardList={boardList} currentData={currentData}/>
+                <RegistrationPopup registrationPopup={registrationPopup} setRegistrationPopup={setRegistrationPopup} currentSettings={currentSettings}/>
             }
         </div>
     );
 }
 
-function RegistrationPopup({ registrationPopup, setRegistrationPopup, boardList, currentData }){
-    const [searchInputs, setSearchInputs] = useState()
+function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSettings }){
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'})
+    const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [moduleList, setModuleList] = useState()
     const [choiceList, setChoiceList] = useState([]);
@@ -107,24 +120,32 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, boardList,
                     // console.log(boardList);
                     setPagerInfo(data)
                     setModuleList(list)
-                    setChoiceList((choice)=>{
-                        const uniqueObjects = {}
-                        const test = [
-                            ...choice,
-                            ...list.filter(({admin_id})=> 
-                                boardList.some((data)=>admin_id === data.admin_id)
-                        )]
-                        test.forEach(obj => {
-                            uniqueObjects[obj.admin_id] = obj;
+                    const firstList = [...list]
+                    // console.log('1',list);
+                    api('user', 'list', {'role_id': registrationPopup.role_id, 'all_yn': 'y'})
+                    .then(({result, list})=>{
+                            if(result){
+                                // console.log('2',list);
+                                setChoiceList((choice)=>{
+                                    const uniqueObjects = {}
+                                    const test = [
+                                        ...choice,
+                                        ...firstList.filter(({admin_id})=> 
+                                            list.some((data)=>admin_id === data.admin_id)
+                                    )]
+                                    test.forEach(obj => {
+                                        uniqueObjects[obj.admin_id] = obj;
+                                    })
+            
+                                    const uniqueArray = Object.values(uniqueObjects);
+                                    // console.log(uniqueArray);
+                                    return uniqueArray;
+                                })
+                            }
                         })
-
-                        const uniqueArray = Object.values(uniqueObjects);
-                        // console.log(uniqueArray);
-                        return uniqueArray;
-                    })
                 }
             })
-    },[inputs, boardList])
+    },[inputs, registrationPopup.role_id])
 
     const onSearch = (e) =>{
         e.preventDefault()
@@ -134,6 +155,14 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, boardList,
     const onSubmit = () =>{
         // console.log(registrationPopup.role_id);
         // console.log(choiceList);
+        if(!choiceList.length){
+            setPopup({
+                'type': 'confirm',
+                'title': '실패',
+                'description': '사용자를 선택해주세요.'
+            })
+            return
+        }
         api('user', 'role_update', {'role_id': registrationPopup.role_id, 'admin_id_list': choiceList.map((data)=>data.admin_id)})
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
@@ -143,7 +172,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, boardList,
                         'title': '완료',
                         'confirmFunc': ()=>{
                             setRegistrationPopup()
-                            currentData()
+                            currentSettings()
                         }
                     }))
                 }else{

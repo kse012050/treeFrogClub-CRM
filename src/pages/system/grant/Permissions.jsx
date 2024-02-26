@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-// import SearchResults from '../../../components/system/grant/SearchResults';
 import { api } from '../../../api/api';
-import PermissionsList from './PermissionsList';
+import PermissionsScreen from './PermissionsScreen';
 import PermissionsUser from './PermissionsUser';
+import { inputChange } from '../../../api/validation';
 
 // import { Link } from 'react-router-dom';
 
 export default function Permissions() {
-    const initParam = {'limit': '10', 'page': '1'};
-    const [inputs, setInputs] = useState(initParam)
     const [roleList, setRoleList] = useState()
     const [roleActive, setRoleActive] = useState()
     const [roleTitle, setRoleTitle] = useState()
     const [tabActive, setTabActive] = useState('screen')
+    const [searchInputs, setSearchInputs] = useState()
+    const [searchResult, setSearchResult] = useState()
     // const [tabActive, setTabActive] = useState(1)
 
     useEffect(()=>{
@@ -27,7 +27,6 @@ export default function Permissions() {
                         'classification': list[0].role_classification,
                         'explain': list[0].role_explain,
                     })
-                    setInputs((input)=>({...input, 'role_id': list[0].role_id}))
                 }
             })
     },[])
@@ -35,16 +34,29 @@ export default function Permissions() {
     
     const onRole = (data) =>{
         setRoleActive(data.role_id)
-        setInputs((input)=>({'limit': input.limit, 'page': '1', 'role_id': data.role_id}))
         setRoleTitle({
             'classification': data.role_classification,
             'explain': data.role_explain,
         })
+        setSearchInputs()
+        setSearchResult()
     }
 
     const onTab = (value) =>{
         setTabActive(value)
-        setInputs((input)=>({'limit': '10', 'page': '1', 'role_id': input.role_id}))
+    }
+
+    const onSearch = (e) =>{
+        e.preventDefault();
+        // console.log(searchInputs);
+        api('role', 'list', {...searchInputs})
+            .then(({result, list})=>{
+                if(result){
+                    // console.log(list);
+                    setRoleActive()
+                    setSearchResult(list)
+                }
+            })
     }
     
         
@@ -53,8 +65,8 @@ export default function Permissions() {
             <h2>
                 역할 권한 관리
                 <form>
-                    <input type="search" />
-                    <button>검색</button>
+                    <input type="search" name='search' id='search' value={searchInputs?.search || ''} onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='역할명 입력'/>
+                    <button onClick={onSearch}>검색</button>
                 </form>
             </h2>
             <div className="horizontalTwo">
@@ -67,17 +79,41 @@ export default function Permissions() {
                     }
                 </div>
 
-                {/* <SearchResults /> */}
-                <div className='boardArea'>
+                
+                { searchResult ? 
+                    <div className='searchResultArea'>
+                        <b>검색결과</b>
+                        <hr className='case03'/>
+                        <ul>
+                            { searchResult.map((data)=>
+                                <li key={data.role_id}>
+                                    <p>{data.role_classification} {data.role_explain  && `[${data.role_explain}]`}</p>
+                                    <button className='btn-gray-black' onClick={()=>onRole(data)}>권한 확인</button>
+                                </li>
+                            )}
+                        </ul>
+                    </div> :
+                    <div className='boardArea'>
+                        { roleTitle &&
+                            <strong>{ roleTitle.classification } [{ roleTitle.explain }]</strong>
+                        }
+                        <button className={tabActive === 'screen' ? 'active' : ''} onClick={()=>onTab('screen')}>화면 권한</button>
+                        <button className={tabActive === 'user' ? 'active' : ''} onClick={()=>onTab('user')}>사용자 권한</button>
+                        <hr className='case01'/>
+                        { tabActive === 'screen' && <PermissionsScreen id={roleActive}/> }
+                        { tabActive === 'user' && <PermissionsUser id={roleActive}/> }
+                    </div>
+                }
+                {/* <div className='boardArea'>
                     { roleTitle &&
                         <strong>{ roleTitle.classification } [{ roleTitle.explain }]</strong>
                     }
                     <button className={tabActive === 'screen' ? 'active' : ''} onClick={()=>onTab('screen')}>화면 권한</button>
                     <button className={tabActive === 'user' ? 'active' : ''} onClick={()=>onTab('user')}>사용자 권한</button>
                     <hr className='case01'/>
-                    { tabActive === 'screen' && <PermissionsList inputs={inputs} setInputs={setInputs}/> }
-                    { tabActive === 'user' && <PermissionsUser inputs={inputs} setInputs={setInputs}/> }
-                </div>
+                    { tabActive === 'screen' && <PermissionsScreen id={roleActive}/> }
+                    { tabActive === 'user' && <PermissionsUser id={roleActive}/> }
+                </div> */}
             </div>
         </>
     );

@@ -7,12 +7,13 @@ import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import Popup from '../../../components/popup/Popup';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import PagerButton from '../../../components/PagerButton';
-import Pager from '../../../components/Pager';
+// import Pager from '../../../components/Pager';
 import SelectPage from '../../../components/SelectPage';
 import Select from '../../../components/Select';
 
-export default function PermissionsList({ inputs, setInputs }) {
-    const [searchScreen, setSearchScreen] = useState()
+export default function PermissionsScreen({id}) {
+    const [inputs, setInputs] = useState()
+    const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
     const [deleteList, setDeleteList] = useState('')
@@ -25,7 +26,7 @@ export default function PermissionsList({ inputs, setInputs }) {
             .then(({result, data, list})=>{
                 if(result){
                     // console.log(data);
-                    // console.log(list);
+                    // console.log('초기값', list);
                     // console.log(list.every((data2)=>data2.insert_yn === 'y'))
                     // console.log(2);
                     setAllCheck({
@@ -39,18 +40,27 @@ export default function PermissionsList({ inputs, setInputs }) {
                     setBoardList(list)
                 }
             })
-
-        setSearchScreen((input)=>({...input, 'role_id': inputs.role_id}))
     },[inputs])
 
-    useEffect(()=>{
-        currentData()
-    },[currentData])
+    const currentSettings = useCallback(()=>{
+        setSearchInputs()
+        setInputs({'role_id': id, 'limit': '10', 'page': '1'})
+    },[id])
 
-    const onSearchScreen = (e) =>{
+    useEffect(()=>{
+        currentSettings()
+    },[currentSettings])
+    
+    useEffect(()=>{
+        if(inputs){
+            currentData()
+        }
+    },[currentData, inputs])
+
+    const onSearch = (e) =>{
         e.preventDefault();
-        setInputs((input)=>({...input,...searchScreen}))
-        // console.log(searchScreen);
+        setInputs((input)=>({...input,'page': '1', ...searchInputs}))
+        // console.log(searchInputs);
     }
 
     const onAllChange = (e, name) =>{
@@ -84,16 +94,16 @@ export default function PermissionsList({ inputs, setInputs }) {
 
     return (
         <div className='screenArea'>
-            <Select type='moduleCategory' current changeName='module_category' setInputs={setSearchScreen}/>
+            <Select type='moduleCategory' current={searchInputs?.module_category || true} changeName='module_category' setInputs={setSearchInputs}/>
             <form className="searchArea">
-                <input type="search" name='screen_name' id='screen_name' onChange={(e)=>inputChange(e, setSearchScreen)} placeholder='화면명 입력'/>
-                <button onClick={onSearchScreen}>검색</button>
+                <input type="search" name='screen_name' id='screen_name' current={searchInputs?.screen_name || ''} onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='화면명 입력'/>
+                <button onClick={onSearch}>검색</button>
             </form>
             <div className="boardBox">
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='module' idName='role_with_module_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
+                <BoardChkDelete url='module' idName='role_with_module_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentSettings}/>
                 <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id})}>추가</button>
                 
                 <div className="board-top">
@@ -144,14 +154,14 @@ export default function PermissionsList({ inputs, setInputs }) {
 
                 { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
-                        {/* <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/> */}
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        {/* <Pager pagerInfo={pagerInfo} setInputs={setInputs}/> */}
                     </div>
                 }
             </div>
             { registrationPopup &&
-                <RegistrationPopup registrationPopup={registrationPopup} setRegistrationPopup={setRegistrationPopup} boardList={boardList} currentData={currentData}/>
+                <RegistrationPopup registrationPopup={registrationPopup} setRegistrationPopup={setRegistrationPopup} boardList={boardList} currentSettings={currentSettings}/>
             }
         </div>
     )
@@ -216,60 +226,55 @@ function List({ data, deleteList, setDeleteList, currentData }){
     );
 }
 
-function RegistrationPopup({ registrationPopup, setRegistrationPopup, boardList, currentData}){
-    const [inputs, setInputs] = useState({'role_id': registrationPopup.role_id})
-    const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'})
-    const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
+function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSettings}){
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'})
+    const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [moduleList, setModuleList] = useState();
     const [choiceList, setChoiceList] = useState([]);
     const [popup, setPopup] = useState('')
 
     useEffect(()=>{
-        api('module', 'list', listInfo)
+        api('module', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
                     setPagerInfo(data)
                     setModuleList(list)
-                    setChoiceList((choice)=>{
-                        const uniqueObjects = {}
-                        const test = [
-                            ...choice,
-                            ...list.filter(({screen_name})=> 
-                                boardList.some((data)=>screen_name === data.screen_name)
-                        )]
-                        test.forEach(obj => {
-                            uniqueObjects[obj.module_id] = obj;
+                    const firstList = [...list]
+                    api('module', 'role_module_list', {'role_id': registrationPopup.role_id, 'all_yn': 'y'})
+                        .then(({result, list})=>{
+                            if(result){
+                                // console.log('두번쨰', list);
+                                setChoiceList((choice)=>{
+                                    const uniqueObjects = {}
+                                    const test = [
+                                        ...choice,
+                                        ...firstList.filter(({screen_name})=> 
+                                            list.some((data)=>screen_name === data.screen_name)
+                                    )]
+                                    test.forEach(obj => {
+                                        uniqueObjects[obj.module_id] = obj;
+                                    })
+            
+                                    const uniqueArray = Object.values(uniqueObjects);
+                                    // console.log(uniqueArray);
+                                    return uniqueArray;
+                                })
+                            }
                         })
-
-                        const uniqueArray = Object.values(uniqueObjects);
-                        // console.log(uniqueArray);
-                        return uniqueArray;
-                    })
                 }
             })
-    },[listInfo.page, listInfo, boardList])
+    },[inputs, registrationPopup.role_id])
 
-    useEffect(()=>{
-        setInputs((input)=>({...input, 'module_id_list': choiceList.map((data)=>data.module_id)}))
-    },[choiceList])
 
     const onSearch = (e) =>{
         e.preventDefault();
-        // console.log(searchInputs);
-        api('module', 'list', searchInputs)
-            .then(({result, data, list})=>{
-                if(result){
-                    // console.log(list);
-                    setPagerInfo(data)
-                    setModuleList(list)
-                }
-            })
-
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
 
     const onSubmit = () =>{
-        api('module', 'insert', inputs)
+        // console.log(choiceList);
+        api('module', 'insert', {'role_id': registrationPopup.role_id, 'module_id_list': choiceList.map((data)=>data.module_id)})
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
@@ -278,7 +283,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, boardList,
                         'title': '완료',
                         'confirmFunc': ()=>{
                             setRegistrationPopup()
-                            currentData()
+                            currentSettings()
                         }
                     }))
                 }else{
@@ -329,7 +334,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, boardList,
                             </ol>
                         }
                         <div className='board-pagination' data-styleidx='a'>
-                            <PagerButton pagerInfo={pagerInfo} setInputs={setListInfo}/>
+                            <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                         </div>
                     </div>
 

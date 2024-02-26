@@ -4,8 +4,9 @@ import { DatePicker } from 'antd';
 import { inputChange } from '../../../api/validation';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
-import Pager from '../../../components/Pager';
+// import Pager from '../../../components/Pager';
 import SelectPage from '../../../components/SelectPage';
+import PagerButton from '../../../components/PagerButton';
 
 export default function Connect() {
     const initParam = {'limit': '10', 'page': '1'};
@@ -19,6 +20,7 @@ export default function Connect() {
             .then(({result, data, list})=>{
                 if(result){
                     // console.log(list);
+                    // console.log(data);
                     setPagerInfo(data)
                     setBoardList(list)
                 }
@@ -37,7 +39,7 @@ export default function Connect() {
     const onSearch = (e) =>{
         e.preventDefault()
         // console.log(searchInputs);
-        setInputs((input)=>({...input, ...searchInputs}))
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
     return (
         <>
@@ -115,7 +117,8 @@ export default function Connect() {
                     <div className='board-pagination' data-styleidx='a'>
                         {/* <Select type="pagerCount" current={inputs.limit} setInputs={setInputs} changeName='limit'/> */}
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        {/* <Pager pagerInfo={pagerInfo} setInputs={setInputs}/> */}
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
                 }
             </div>
