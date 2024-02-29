@@ -24,7 +24,7 @@ export default function Permissions() {
                     setRoleList(list)
                     setRoleActive(list[0].role_id)
                     setRoleTitle({
-                        'classification': list[0].role_classification,
+                        'name': list[0].role_name,
                         'explain': list[0].role_explain,
                     })
                 }
@@ -34,8 +34,9 @@ export default function Permissions() {
     
     const onRole = (data) =>{
         setRoleActive(data.role_id)
+        // console.log(data);
         setRoleTitle({
-            'classification': data.role_classification,
+            'name': data.role_name,
             'explain': data.role_explain,
         })
         setSearchInputs()
@@ -87,7 +88,7 @@ export default function Permissions() {
                         <ul>
                             { searchResult.map((data)=>
                                 <li key={data.role_id}>
-                                    <p>{data.role_classification} {data.role_explain  && `[${data.role_explain}]`}</p>
+                                    <p>{data.name} {data.role_explain  && `[${data.role_explain}]`}</p>
                                     <button className='btn-gray-black' onClick={()=>onRole(data)}>권한 확인</button>
                                 </li>
                             )}
@@ -95,13 +96,13 @@ export default function Permissions() {
                     </div> :
                     <div className='boardArea'>
                         { roleTitle &&
-                            <strong>{ roleTitle.classification } [{ roleTitle.explain }]</strong>
+                            <strong>{ roleTitle.name } {roleTitle.explain  && `[${roleTitle.explain}]`}</strong>
                         }
                         <button className={tabActive === 'screen' ? 'active' : ''} onClick={()=>onTab('screen')}>화면 권한</button>
                         <button className={tabActive === 'user' ? 'active' : ''} onClick={()=>onTab('user')}>사용자 권한</button>
                         <hr className='case01'/>
-                        { tabActive === 'screen' && <PermissionsScreen id={roleActive}/> }
-                        { tabActive === 'user' && <PermissionsUser id={roleActive}/> }
+                        { tabActive === 'screen' && <PermissionsScreen id={roleActive} roleTitle={roleTitle}/> }
+                        { tabActive === 'user' && <PermissionsUser id={roleActive} roleTitle={roleTitle}/>}
                     </div>
                 }
                 {/* <div className='boardArea'>

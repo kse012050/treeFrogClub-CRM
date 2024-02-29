@@ -34,16 +34,18 @@ export default function AnUser() {
         currentData()
     },[currentData])
 
+    const onReset = ()=>{
+        setBureau()
+        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        setSearchInputs()
+        setDeleteList([])
+    }
+
     const onSearch = (e) =>{
         e.preventDefault();
         // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
-    }
-
-    const onReset = ()=>{
-        setBureau()
-        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
-        currentData()
+        setDeleteList([])
     }
 
     return (

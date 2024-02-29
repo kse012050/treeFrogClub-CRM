@@ -142,7 +142,7 @@ function Select({type, current, setInputs, changeName, placeholder, disabled}) {
             api('commoncode', 'classification_list')
                 .then(({result, list})=>{
                     if(result){
-                        console.log(list);
+                        // console.log(list);
                         setName(list.map(({name})=>name));
                         setValue(list.map(({classification_id})=>classification_id));
                     }

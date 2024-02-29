@@ -6,7 +6,7 @@ import { inputChange } from '../../api/validation';
 
 export default function PopupSalesArray({ close, popup }) {
     // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
-    const [listInfo, setListInfo] = useState({'limit': '20', 'page': '1'})
+    const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
     const [salesList, setSalesList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [searchInputs, setSearchInputs] = useState()
@@ -19,6 +19,7 @@ export default function PopupSalesArray({ close, popup }) {
         api('user', 'list', listInfo)
             .then(({result, data, list})=>{
                 if(result){
+                    // console.log(list);
                     setPagerInfo(data)
                     // setSalesList(list.filter((listData)=> listData.role_name.includes('영업')))
                     setSalesList(list)

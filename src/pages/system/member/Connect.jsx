@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DropBox from '../../../components/DropBox';
 import { DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import { inputChange } from '../../../api/validation';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
@@ -33,6 +34,7 @@ export default function Connect() {
 
     const onReset = () => {
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        setSearchInputs()
         // setInputs((input)=>({'limit': input.limit, 'page': '1'}))
     }
 
@@ -53,16 +55,16 @@ export default function Connect() {
                                 <label htmlFor="">접속일자</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'start_date')} placeholder='시작일 입력'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'start_date')} value={searchInputs?.start_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} placeholder='시작일 입력'/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'end_date')} placeholder='종료일 입력'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'end_date')} value={searchInputs?.end_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} placeholder='종료일 입력'/>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">로그유형</label>
                                 <div>
-                                    <Select type={'logType'} current changeName='log_type' setInputs={setSearchInputs}/>
+                                    <Select type={'logType'} current={searchInputs?.log_type || false} changeName='log_type' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li>

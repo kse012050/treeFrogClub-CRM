@@ -35,14 +35,13 @@ export default function Update() {
         <>
             <h2>
                 고객 수정
-                <Link to={'bulk'} className='btn-point'>대량 고객 등록</Link>
             </h2>
 
-            <Basic id={id} popup={popup} setPopup={setPopup} setCounselValue={setCounselValue}/>
+            <Basic id={id} popup={popup} setPopup={setPopup} counselValue={counselValue} setCounselValue={setCounselValue}/>
 
             <Payment id={id} popup={popup} setPopup={setPopup} historyPaymentFunc={historyPaymentFunc}/>
           
-            <History id={id} paymentInfo={paymentInfo} counselValue={counselValue} historyPayment={historyPayment} historyPaymentFunc={historyPaymentFunc}/>
+            <History id={id} paymentInfo={paymentInfo} counselValue={counselValue} setCounselValue={setCounselValue} historyPayment={historyPayment} historyPaymentFunc={historyPaymentFunc}/>
 
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
@@ -52,7 +51,7 @@ export default function Update() {
 }
 
 
-function Basic({ id, setPopup, setCounselValue }){
+function Basic({ id, setPopup, counselValue, setCounselValue }){
     const [inputs, setInputs] = useState()
     const [sales, setSales] = useState()
 
@@ -69,6 +68,11 @@ function Basic({ id, setPopup, setCounselValue }){
                 }
             })
     },[id, setCounselValue])
+
+    useEffect(()=>{
+        // console.log(counselValue);
+        setInputs((input)=>({...input, 'counsel_properties_id': counselValue}))
+    },[counselValue])
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
@@ -100,13 +104,16 @@ function Basic({ id, setPopup, setCounselValue }){
             }))
             return
         }
-        api('customer', 'update', inputs)
+        api('customer', 'update', {'customer_id': inputs.customer_id, 'counsel_properties_id': inputs.counsel_properties_id})
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
                     setPopup((popup)=>({
                         ...popup,
                         'title': '완료',
+                        'confirmFunc': () =>{
+                            setCounselValue(inputs.counsel_properties_id)
+                        }
                     }))
                 }else{
                     setPopup((popup)=>({
@@ -154,15 +161,15 @@ function Basic({ id, setPopup, setCounselValue }){
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">고객명</label>
+                                <label htmlFor="" onClick={()=>console.log(inputs)}>고객명</label>
                                 <div>
-                                    <input type="text" name='customer_name' id='customer_name' defaultValue={inputs?.customer_name} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name='customer_name' id='customer_name' value={inputs?.customer_name || ''} onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">휴대폰</label>
                                 <div>
-                                    <input type="text" name='customer_mobile' id='customer_mobile' defaultValue={inputs?.customer_mobile} data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name='customer_mobile' id='customer_mobile' value={inputs?.customer_mobile || ''} data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li>
@@ -423,7 +430,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
     )
 }
 
-function History({ id, historyPaymentFunc, paymentInfo, counselValue, historyPayment }){
+function History({ id, paymentInfo, counselValue, setCounselValue, historyPayment, historyPaymentFunc }){
     const [relatedActive, setRelatedActive] = useState(0);
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id});
     const [historyUpdata, setHistoryUpdata] = useState()
@@ -473,7 +480,7 @@ function History({ id, historyPaymentFunc, paymentInfo, counselValue, historyPay
                     <button data-count={historyPaymentDeleteInfo?.total_count} className={relatedActive === 3 ? 'active' : ''} onClick={()=>setRelatedActive(3)}>삭제된 결제내역</button>
 
                     {relatedActive === 0 &&
-                        <HistoryConsult id={id} setConsultCount={setConsultCount} counselValue={counselValue}/>
+                        <HistoryConsult id={id} setConsultCount={setConsultCount} counselValue={counselValue} setCounselValue={setCounselValue}/>
                     }
                     {relatedActive === 1 &&
                         <>
@@ -556,8 +563,16 @@ function History({ id, historyPaymentFunc, paymentInfo, counselValue, historyPay
                                             <li key={ i }>
                                                 <span>{ data.payment_id }</span>
                                                 <span>{ data.item }</span>
-                                                <time>{ data.modify_before_info ? numberWithCommas(data.modify_before_info) : '' }</time>
-                                                <time>{ data.modify_after_info ? numberWithCommas(data.modify_after_info) : '' }</time>
+                                                { data.item === '결제금액' ?
+                                                    <>
+                                                        <span>{ data.modify_before_info ? numberWithCommas(data.modify_before_info) : '' }</span>
+                                                        <span>{ data.modify_after_info ? numberWithCommas(data.modify_after_info) : '' }</span>
+                                                    </> :
+                                                    <>
+                                                        <span>{ data.modify_before_info ? data.modify_before_info : '' }</span>
+                                                        <span>{ data.modify_after_info ? data.modify_after_info : '' }</span>
+                                                    </>
+                                                }
                                                 <time>{ data.reg_date.split(' ')[0].replaceAll('-','/') }</time>
                                                 <span>{ data.modify_admin_name }</span>
                                             </li>
@@ -640,7 +655,7 @@ function History({ id, historyPaymentFunc, paymentInfo, counselValue, historyPay
     )
 }
 
-function HistoryConsult({ id, setConsultCount, counselValue }){
+function HistoryConsult({ id, setConsultCount, counselValue, setCounselValue }){
     const [inputs, setInputs] = useState({'limit': '2', 'page': '1', 'customer_id': id})
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -697,12 +712,12 @@ function HistoryConsult({ id, setConsultCount, counselValue }){
             <div className='board-pagination' data-styleidx='a'>
                 <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
             </div>
-            <HistoryConsultInput id={id} currentData={currentData} counselValue={counselValue}/>
+            <HistoryConsultInput id={id} currentData={currentData} counselValue={counselValue} setCounselValue={setCounselValue}/>
         </>
     )
 }
 
-function HistoryConsultInput({ id, currentData, counselValue }){
+function HistoryConsultInput({ id, currentData, counselValue, setCounselValue }){
     const { user } = useContext(UserContext)
     const [inputs, setInputs] = useState()
     const [registerDate, setRegisterDate] = useState()
@@ -802,6 +817,7 @@ function HistoryConsultInput({ id, currentData, counselValue }){
                             currentData()
                             // 상담 입력 초기화
                             // currentSettings()
+                            setCounselValue(inputs.counsel_properties_id)
                         }
                     }))
                 }else{

@@ -11,7 +11,7 @@ import SelectPage from '../../components/SelectPage';
 import PagerButton from '../../components/PagerButton';
 
 export default function List() {
-    const [inputs, setInputs] = useState();
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
     const [searchInputs, setSearchInputs] = useState()
@@ -25,7 +25,6 @@ export default function List() {
     const [popup, setPopup] = useState()
 
     const currentSettings = useCallback(() =>{
-        setInputs({'limit': '10', 'page': '1'})
         const currentDate = new Date();
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth() + 1;
@@ -104,7 +103,8 @@ export default function List() {
         setSales()
         setBureau()
         currentSettings()
-        currentData()
+        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        setSearchInputs()
     }
 
     const onSearch = (e) => {

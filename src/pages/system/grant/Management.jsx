@@ -15,7 +15,7 @@ export default function Management() {
     const [inputs, setInputs] = useState(initParam);
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
-    const [deleteList, setDeleteList] = useState('')
+    const [deleteList, setDeleteList] = useState([])
     const [boardList, setBoardList] = useState()
 
     const currentData = useCallback(()=>{
@@ -36,11 +36,14 @@ export default function Management() {
 
     const onReset = () =>{
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        setSearchInputs()
+        setDeleteList([])
     }
 
     const onSearch = (e) =>{
         e.preventDefault();
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
+        setDeleteList([])
     }
 
     return (

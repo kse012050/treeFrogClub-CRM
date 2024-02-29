@@ -10,7 +10,7 @@ import SelectPage from '../../../components/SelectPage';
 import Popup from '../../../components/popup/Popup';
 import PagerButton from '../../../components/PagerButton';
 
-export default function PermissionsUser({id}) {
+export default function PermissionsUser({id, roleTitle}) {
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -34,7 +34,7 @@ export default function PermissionsUser({id}) {
 
     const currentSettings = useCallback(()=>{
         setSearchInputs()
-        setInputs({'role_id': id, 'limit': '2', 'page': '1'})
+        setInputs({'role_id': id, 'limit': '10', 'page': '1'})
     },[id])
 
     useEffect(()=>{
@@ -49,8 +49,15 @@ export default function PermissionsUser({id}) {
 
     const onSearch = (e) =>{
         e.preventDefault()
+        // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
+
+    useEffect(()=>{
+        // if(searchInputs && Object.keys(searchInputs).includes('type')){
+            setInputs((input)=>({...input, 'type': searchInputs?.type}))
+        // }
+    },[searchInputs?.type])
 
     return (
         <div className='userArea'>
@@ -65,7 +72,7 @@ export default function PermissionsUser({id}) {
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
                 <BoardChkDelete url='user' funcName='role_delete' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentSettings}/>
-                <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id})}>추가</button>
+                <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id, 'roleTitle': roleTitle})}>추가</button>
 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({admin_id})=>admin_id)} />
@@ -152,6 +159,13 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
 
+    
+    useEffect(()=>{
+        // if(searchInputs && Object.keys(searchInputs).includes('type')){
+            setInputs((input)=>({...input, 'type': searchInputs?.type}))
+        // }
+    },[searchInputs?.type])
+
     const onSubmit = () =>{
         // console.log(registrationPopup.role_id);
         // console.log(choiceList);
@@ -188,7 +202,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
     return (
         <>
             <Popup popup={registrationPopup} setPopup={setRegistrationPopup}>
-                <strong>[관리자] 화면 권한 추가</strong>
+                <strong>[{registrationPopup.roleTitle.name}] 화면 권한 추가</strong>
 
                 <div className='rolePopup'>
                     <Select type='permissionsUserType' current changeName='type' setInputs={setSearchInputs}/>

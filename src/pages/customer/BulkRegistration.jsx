@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, apiFile } from '../../api/api';
+import Popup from '../../components/popup/Popup';
 
 export default function BulkRegistration() {
-    // const [inputs, setInputs] = useState()
     const [formetUrl, setFormetUrl] = useState()
     const [fileName, setFileName] = useState()
     const [finMessage, setFinMessage] = useState()
+    const [popup, setPopup] = useState()
 
     useEffect(()=>{
         api('customer', 'format_download')
@@ -18,15 +19,21 @@ export default function BulkRegistration() {
     },[])
 
     const onFileChange = (e) =>{
-        setFileName(e.target.files[0].name)
+        // console.log(e.target.files[0]);
         // console.log(e);
         // setInputs({'upload_file': e.target.files[0]})
-        apiFile('excel', 'customer_excel_upload', {'upload_file': e.target.files[0]})
-            .then(({result, error_message})=>{
-                if(result){
-                    setFinMessage(error_message.match(/(\d+건 완료)\/(총 \d+건)/))
-                }
-            })
+        if(e.target.files[0]?.name){
+            apiFile('excel', 'customer_excel_upload', {'upload_file': e.target.files[0]})
+                .then(({result, error_message})=>{
+                    // console.log(error_message);
+                    if(result){
+                        setFileName(e.target.files[0]?.name)
+                        setFinMessage(error_message.match(/(\d+건 완료)\/(총 \d+건)/))
+                    }else{
+                        setPopup({'type': 'confirm', 'description': error_message})
+                    }
+                })
+        }
     }
 
     return (
@@ -64,7 +71,7 @@ export default function BulkRegistration() {
                 </li>
                 { finMessage && 
                     <li>
-                        <b onClick={()=>console.log(finMessage)}>결과</b>
+                        <b>결과</b>
                         <div>
                             <p>등록이 완료되었습니다.</p>
                             <mark data-total={finMessage[2]}>{ finMessage[1] }</mark>
@@ -72,6 +79,9 @@ export default function BulkRegistration() {
                     </li>
                 }
             </ol>
+            {popup && (
+                <Popup popup={popup} setPopup={setPopup} />
+            )}
         </>
     );
 }

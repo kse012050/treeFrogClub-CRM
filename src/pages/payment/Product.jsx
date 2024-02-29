@@ -17,7 +17,7 @@ export default function Product() {
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState([])
     const [boardList, setBoardList] = useState()
-    const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'});
+    const [searchInputs, setSearchInputs] = useState();
     const [analyst, setAnalyst] = useState()
     const [popup, setPopup] = useState()
 
@@ -35,25 +35,17 @@ export default function Product() {
         currentData()
     },[currentData])
 
-    useEffect(()=>{
-        setInputs((input)=>({...input, 'page': '1'}))
-    },[inputs.limit])
-
     const onReset = () => {
         setAnalyst()
-        setSearchInputs({'limit': '10', 'page': '1'})
-        currentData()
+        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        setSearchInputs()
+        setDeleteList([])
     }
     
     const onSearch = (e) =>{
         e.preventDefault();
-        // console.log(searchInputs);
-        api('product', 'list', searchInputs)
-            .then(({result, list})=>{
-                if(result){
-                    setBoardList(list)
-                }
-            })
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
+        setDeleteList([])
     }
 
     return (

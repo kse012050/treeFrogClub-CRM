@@ -41,13 +41,15 @@ export default function Common() {
     const onReset = () => {
         // console.log('reset');
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
-        currentData()
+        setSearchInputs()
+        setDeleteList([])
     }
 
     const onSearch = (e) =>{
         e.preventDefault();
         // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
+        setDeleteList([])
     }
 
     return (
@@ -64,7 +66,7 @@ export default function Common() {
                             <li>
                                 <label htmlFor="">분류유형명</label>
                                 <div>
-                                    <Select type='commonClassification' current={searchInputs?.classification_code || false} changeName='classification_code' setInputs={setSearchInputs}/>
+                                    <Select type='commonClassification' current={searchInputs?.classification_id || false} changeName='classification_id' setInputs={setSearchInputs}/>
                                 </div>
                             </li>
                             <li>

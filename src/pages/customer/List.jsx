@@ -98,24 +98,24 @@ export default function List() {
     
     const onCustomerDetail = (e) =>{
         const { /* name, */ value, checked } = e.target
-        // if(checked){
-        //     setSearchInputs((input)=>{
-        //         let arr = []
-        //         if(input.customer_properties_id_list){
-        //             arr = [...input.customer_properties_id_list]
-        //         }
-        //         arr.push(value)
-        //         return {...input, 'customer_properties_id_list': arr}
-        //     })
-        // }else{
-        //     setSearchInputs((input)=>{
-        //         let arr = [...input.customer_properties_id_list].filter((data)=> data !== value)
-        //         return {...input, 'customer_properties_id_list': arr}
-        //     })
-        // }
+        if(checked){
+            setSearchInputs((input)=>{
+                let arr = []
+                if(input.customer_properties_id_list){
+                    arr = [...input.customer_properties_id_list]
+                }
+                arr.push(value)
+                return {...input, 'customer_properties_id_list': arr}
+            })
+        }else{
+            setSearchInputs((input)=>{
+                let arr = [...input.customer_properties_id_list].filter((data)=> data !== value)
+                return {...input, 'customer_properties_id_list': arr}
+            })
+        }
         // console.log(name);
-        console.log(value);
-        console.log(checked);
+        // console.log(value);
+        // console.log(checked);
     }
 
     const onSearch = (e) => {
@@ -123,6 +123,7 @@ export default function List() {
         // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
         setIsSearch(true)
+        setDeleteList([])
        /*  api('customer', 'list', searchInputs)
             .then(({result, data, list})=>{
                 if(result){
@@ -143,6 +144,7 @@ export default function List() {
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         // navigate('/customer/list')
         setSearchId()
+        setDeleteList([])
     }
     
     useEffect(()=>{
@@ -289,7 +291,6 @@ export default function List() {
                                                     />
                                                     <label htmlFor={`customer_properties_id_list_${data.properties_id}_y`}>
                                                         { data.name }(이용중)
-                                                        { searchInputs?.properties_id }
                                                     </label>
                                                {/*  </span>
                                                 <span> */}
@@ -304,7 +305,6 @@ export default function List() {
                                                     />
                                                     <label htmlFor={`customer_properties_id_list_${data.properties_id}_n`}>
                                                         { data.name }
-                                                        { searchInputs?.customer_properties_id }
                                                         (이용완료)
                                                     </label>
                                                 {/* </span> */}
@@ -607,7 +607,7 @@ export default function List() {
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_start_date : ''}</time>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
                                 <time>{ data.standard_payment_start_date }</time>
-                                <time>{ data.standard_service_end_date }</time>
+                                <time>{ data.standard_payment_end_date }</time>
                                 <Link to={`/customer/registration/update/${data.customer_id}`}>보기</Link>
                             </li>
                         ))}
