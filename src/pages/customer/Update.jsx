@@ -21,9 +21,11 @@ export default function Update() {
     const [counselValue, setCounselValue] = useState()
 
     const historyPaymentFunc = useCallback((inputs)=>{
+        // console.log(inputs);
         api('payment','user_payment_list', inputs)
             .then(({result, data, list})=>{
                 if(result){
+                    // console.log(list);
                     setPaymentInfo(data)
                     setHistoryPayment(list)
                     // console.log(list);
@@ -646,10 +648,10 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                 </div>
             </DropBox>
             { refundPopupActive &&
-                <RefundPopup refundPopupActive={refundPopupActive} setRefundPopupActive={setRefundPopupActive}/>
+                <RefundPopup refundPopupActive={refundPopupActive} setRefundPopupActive={setRefundPopupActive} id={id} historyPaymentFunc={historyPaymentFunc}/>
             }
             { updatePopupActive &&
-                <UpdatePopup updatePopupActive={updatePopupActive} setUpdatePopupActive={setUpdatePopupActive} historyUpdateFunc={historyUpdateFunc}/>
+                <UpdatePopup updatePopupActive={updatePopupActive} setUpdatePopupActive={setUpdatePopupActive}/>
             }
         </>
     )
@@ -964,7 +966,7 @@ function HistoryConsultInput({ id, currentData, counselValue, setCounselValue })
 // }
 
 
-function RefundPopup({ refundPopupActive, setRefundPopupActive }){
+function RefundPopup({ refundPopupActive, setRefundPopupActive, historyPaymentFunc, id }){
     const [inputs, setInputs] = useState({'payment_id': refundPopupActive.id})
     const [info, setInfo] = useState()
     const [popup, setPopup] = useState()
@@ -989,7 +991,7 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
                     }
                 })
         }
-    },[refundPopupActive.id, refundPopupActive.is, setRefundPopupActive])
+    },[refundPopupActive, setRefundPopupActive])
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
@@ -1033,6 +1035,7 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive }){
                         ...popup,
                         'title': '완료',
                         'confirmFunc': ()=>{
+                            historyPaymentFunc({'limit': '10', 'page': '1', 'customer_id': id})
                             setRefundPopupActive('')
                         }
                     }))

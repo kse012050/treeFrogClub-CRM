@@ -1,10 +1,40 @@
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DropBox from '../../../components/DropBox';
+import { api } from '../../../api/api';
+import SelectPage from '../../../components/SelectPage';
+import PagerButton from '../../../components/PagerButton';
+import { arrayChange, inputChange } from '../../../api/validation';
 
 export default function Delete() {
+    const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'delete_select_yn': 'y'})
     const [searchInputs, setSearchInputs] = useState()
+    const [pagerInfo, setPagerInfo] = useState()
+    const [boardList, setBoardList] = useState()
+    const [searchCounsel, setSearchCounsel] = useState()
+
+    useEffect(()=>{
+        api('commoncode', 'properties_list', {'all_yn': 'y'})
+                .then(({result, list})=>{
+                    if(result){
+                        // console.log(list);
+                        setSearchCounsel(list)
+                    }
+                })
+    },[])
+
+    useEffect(()=>{
+        api('customer', 'list', inputs)
+            .then(({result, data, list})=>{
+                if(result){
+                    // console.log(data);
+                    // console.log(list);
+                    setPagerInfo(data)
+                    setBoardList(list)
+                }
+            })
+    },[inputs])
 
     const onDate = (dateString, parents, name) => {
         // console.log(dateString);
@@ -14,11 +44,13 @@ export default function Delete() {
     };
 
     const onReset = ()=>{
-
+        setInputs((input)=>({'limit': input.limit, 'page': '1', 'delete_select_yn': 'y'}))
     }
 
     const onSearch = (e) => {
-
+        e.preventDefault()
+        // console.log(searchInputs);
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
     }
 
     return (
@@ -30,26 +62,26 @@ export default function Delete() {
                     <fieldset>
                         <ul>
                             <li>
-                                <label htmlFor="">이름</label>
+                                <label htmlFor="customer_name">이름</label>
                                 <div>
                                     <div>
-                                        <input type="text" />
+                                    <input type="text" name='customer_name' id='customer_name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">휴대폰</label>
+                                <label htmlFor="customer_mobile">휴대폰</label>
                                 <div>
                                     <div>
-                                        <input type="text" />
+                                    <input type="text" name='customer_mobile' id='customer_mobile' data-formet="numb" onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                     </div>
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">출처</label>
+                                <label htmlFor="source">출처</label>
                                 <div>
                                     <div>
-                                        <input type="text" />
+                                        <input type="text" name='source' id='source' onChange={(e)=>inputChange(e, setSearchInputs)}/>
                                     </div>
                                 </div>
                             </li>
@@ -83,11 +115,16 @@ export default function Delete() {
                             </li>
                             <li className='fill-three'>
                                 <label htmlFor="">상담상태</label>
-                                <div>
+                                { searchCounsel && 
                                     <div>
-                                        <input type="text" />
+                                        { searchCounsel.map((data)=>
+                                            <span key={data.properties_id}>
+                                                <input type="checkbox" name='counsel_properties_id_list' id={`counsel_properties_id_list_${data.properties_id}`} value={data.properties_id} onChange={(e)=>arrayChange(e, setSearchInputs)}/>
+                                                <label htmlFor={`counsel_properties_id_list_${data.properties_id}`}>{ data.name }</label>
+                                            </span>
+                                        )}
                                     </div>
-                                </div>
+                                }
                             </li>
                         </ul>
                     </fieldset>
@@ -117,29 +154,30 @@ export default function Delete() {
                     <button>등록일시</button>
                 </div>
                 
-               {/*  { boardList && 
+                { boardList && 
                     <ol className="board-center">
                         { boardList.map((data)=>(
-                            <li key={ data.admin_id }>
-                                <span>{ data.company_name }</span>
-                                <span>{ data.id }</span>
-                                <span>{ data.name }</span>
-                                <span>{ data.type === 'admin' ? '관리자' : '사용자' }</span>
-                                <span>{ data.role_name }</span>
-                                <span>{ data.department_name }</span>
-                                <span>{ data.useable_yn }</span>
-                                <Link to={`update/${data.admin_id}`}>수정</Link>
+                            <li key={ data.customer_id }>
+                                <span>{ data.del_date.split(' ')[0].replaceAll('-','/') }</span>
+                                <span>{/* { data.customer_name } */} api 필요</span>
+                                <span>{ data.customer_name }</span>
+                                <span>{ data.customer_mobile }</span>
+                                <span>{ data.customer_properties_name }</span>
+                                <span>{ data.sales_admin_name }</span>
+                                <span>{ data.experience_start_date }</span>
+                                <span>{ data.experience_end_date }</span>
+                                <span>{ data.reg_date.split(' ')[0].replaceAll('-','/') }</span>
                             </li>
                         ))}
                     </ol>
-                } */}
+                }
           
-              {/*   { !!pagerInfo?.total_count &&
+                { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
                         <SelectPage current={inputs.limit} setInputs={setInputs}/>
-                        <Pager pagerInfo={pagerInfo} setInputs={setInputs}/>
+                        <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
-                } */}
+                }
             </div>
 
             
