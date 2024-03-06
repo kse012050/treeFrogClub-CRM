@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useId, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../api/api';
-import { inputChange, numberWithCommas } from '../../api/validation';
+import { inputChange, numberWithCommas, onSort } from '../../api/validation';
 import { DatePicker } from 'antd';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
@@ -43,7 +43,7 @@ export default function Update() {
 
             <Payment id={id} popup={popup} setPopup={setPopup} historyPaymentFunc={historyPaymentFunc}/>
           
-            <History id={id} paymentInfo={paymentInfo} counselValue={counselValue} setCounselValue={setCounselValue} historyPayment={historyPayment} historyPaymentFunc={historyPaymentFunc}/>
+            <History id={id} paymentInfo={paymentInfo} counselValue={counselValue} setCounselValue={setCounselValue} historyPayment={historyPayment} setHistoryPayment={setHistoryPayment} historyPaymentFunc={historyPaymentFunc}/>
 
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
@@ -432,7 +432,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
     )
 }
 
-function History({ id, paymentInfo, counselValue, setCounselValue, historyPayment, historyPaymentFunc }){
+function History({ id, paymentInfo, counselValue, setCounselValue, historyPayment, setHistoryPayment, historyPaymentFunc }){
     const [relatedActive, setRelatedActive] = useState(0);
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id});
     const [historyUpdata, setHistoryUpdata] = useState()
@@ -493,21 +493,21 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                             <div className='board-scroll2'>
                                 <div className="board-top">
                                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={historyPayment?.map(({payment_id})=>payment_id)} />
-                                    <button>결제번호</button>
-                                    <button>결제구분</button>
-                                    <button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'payment_id')}>결제번호</button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'payment_properties_name')}>결제구분</button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'payment_person_in_charge_name')}>
                                         결제<br/>
                                         담당자
                                     </button>
-                                    <button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'product_name')}>
                                         신청<br/>
                                         애널리스트
                                     </button>
-                                    <button>결제일</button>
-                                    <button>결제금액</button>
-                                    <button>환불일</button>
-                                    <button>환불금액</button>
-                                    <button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'payment_date')}>결제일</button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'payment_price')}>결제금액</button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'refund_date')}>환불일</button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'refund_price')}>환불금액</button>
+                                    <button onClick={()=>onSort(setHistoryPayment, 'standard_service_start_date')}>
                                         유료기간<br/>
                                         (서비스기간포함)
                                     </button>
@@ -550,12 +550,12 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                             <span className='page'>{ updateInfo?.current_page }/{ updateInfo?.total_page }</span>
                             <div className='board-scroll3'>
                                 <div className="board-top">
-                                    <button>결제번호</button>
-                                    <button>항목</button>
-                                    <button>수정 전</button>
-                                    <button>수정 후</button>
-                                    <button>수정일</button>
-                                    <button>수정자</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'payment_id')}>결제번호</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'item')}>항목</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'modify_before_info')}>수정 전</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'modify_after_info')}>수정 후</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'reg_date')}>수정일</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'modify_admin_name')}>수정자</button>
                                 </div>
                 
                                 
@@ -591,26 +591,26 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                         <>
                             <div className='board-scroll4'>
                                 <div className="board-top">
-                                    <button>결제번호</button>
-                                    <button>결제구분</button>
-                                    <button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'payment_id')}>결제번호</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'payment_properties_name')}>결제구분</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'product_name')}>
                                         신청<br/>
                                         애널리스트
                                     </button>
-                                    <button>결제일</button>
-                                    <button>결제금액</button>
-                                    <button>환불일</button>
-                                    <button>환불금액</button>
-                                    <button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'payment_date')}>결제일</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'payment_price')}>결제금액</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'refund_date')}>환불일</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'refund_price')}>환불금액</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'standard_payment_start_date')}>
                                         유료기간<br/>
                                         (결제기준)
                                     </button>
-                                    <button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'standard_service_start_date')}>
                                         유료기간<br/>
                                         (서비스기간포함)
                                     </button>
-                                    <button>삭제일</button>
-                                    <button>삭제자</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'del_date')}>삭제일</button>
+                                    <button onClick={()=>onSort(setHistoryUpdata, 'del_admin_name')}>삭제자</button>
                                 </div>
                                 { historyPaymentDelete && 
                                     <ol className="board-center">
@@ -689,10 +689,10 @@ function HistoryConsult({ id, setConsultCount, counselValue, setCounselValue }){
             <div className='board-scroll1'>
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({counsel_id})=>counsel_id)} />
-                    <button>상담상태</button>
+                    <button onClick={()=>onSort(setBoardList, 'counsel_properties_name')}>상담상태</button>
                     <span>상담내용</span>
-                    <button>담당자</button>
-                    <button>등록일시</button>
+                    <button onClick={()=>onSort(setBoardList, 'manage_admin_name')}>담당자</button>
+                    <button onClick={()=>onSort(setBoardList, 'register_date')}>등록일시</button>
                 </div>
                 { boardList && 
                     <ol className="board-center">

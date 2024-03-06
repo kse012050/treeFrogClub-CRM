@@ -10,7 +10,7 @@ import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChk from '../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 import Popup from '../../components/popup/Popup';
-import { inputChange, arrayChange, parentsChange } from '../../api/validation';
+import { inputChange, arrayChange, parentsChange, onSort } from '../../api/validation';
 import SelectPage from '../../components/SelectPage';
 import PagerButton from '../../components/PagerButton';
 
@@ -151,47 +151,57 @@ export default function List() {
         setCustomerListInputs()
     },[customerList])
 
-    const onSort = (name) =>{
-        setBoardList((prevData)=> {
-            const newData = [...prevData].sort();
-            return prevData[name].toString() === newData[name].toString() ? newData.reverse() : newData; // 정렬 상태 확인 후 역정렬 여부 결정
-          })
-        // setBoardList((board)=>{
-        //     let copy = [...board]
-        //         if(copy.length > 1){
-        //             if(copy[0][name] > copy[1][name]){
-        //                 copy = copy.sort((data1, data2)=> data1[name] - data2[name])
-        //             }else{
-        //                 copy = copy.sort((data1, data2)=> data2[name] - data1[name])
-        //             }
-        //         }
-        //     return copy
-        // })
-        // setBoardList((board)=>{
-        //     let copy = [...board]
-        //     // console.log(copy[0][name]);
-        //     // console.log(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, ''));
-        //     if(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > copy[1][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '')){
-        //         copy = copy.sort((data1, data2)=> {
-        //                 const valueA = data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
-        //                 const valueB = data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
-        //                 // data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? 1 : -1
-        //                 return valueB.localeCompare(valueA);
-        //             })
-        //         // console.log(1);
-        //     }else if(copy[0][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') <= copy[1][name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '')){
-        //         // copy = copy.sort((data1, data2)=> data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') >= data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? -1 : 1)
-        //         // console.log(2);
-        //         copy = copy.sort((data1, data2)=> {
-        //             const valueA = data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
-        //             const valueB = data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '');
-        //             // data1[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') > data2[name].replace(/[^\w\sㄱ-ㅎ가-힣]/g, '') ? 1 : -1
-        //             return valueA.localeCompare(valueB);
-        //         })
-        //     }
-        //     return copy
-        // })
-    }
+    // const onSort = (name, is) =>{
+    //     const formatPhoneNumber = (str) => {
+    //         const regex = /^(\d{3})(\d{3,4})(\d{4})$/;
+    //         if (str.match(regex)) {
+    //             return str.replace(regex, '$1-$2-$3');
+    //         }
+    //         return str;
+    //     };
+    //     setBoardList((data)=>{
+    //         let copy = [...data]
+    //         const except = copy.filter((data2) =>{
+    //             let bool;
+    //             bool = data2[name] === null || data2[name] === undefined
+    //             if(is){
+    //                 bool = data2[is] === 'n'
+    //             }
+    //             return bool
+    //         })
+    //         copy = copy.filter((data2) => {
+    //             let bool = data2[name] !== null && data2[name] !== undefined
+    //             if(is){
+    //                 bool = data2[is] === 'y'
+    //             }
+    //             return bool
+    //         })
+
+    //         if(copy[0][name] > copy.at(-1)[name]){
+    //             copy = copy.sort((a, b) => {
+    //                 const isANumberA = !isNaN(Number(a));
+    //                 const isANumberB = !isNaN(Number(b));
+    //                 if (isANumberA && isANumberB) {
+    //                     return formatPhoneNumber(a[name]).localeCompare(formatPhoneNumber(b[name]));
+    //                 } else {
+    //                     return a[name].toString().localeCompare(b[name].toString());
+    //                 }
+    //             })
+    //         }else{
+    //             copy = copy.sort((a, b) => {
+    //                 const isANumberA = !isNaN(Number(a));
+    //                 const isANumberB = !isNaN(Number(b));
+    //                 if (isANumberA && isANumberB) {
+    //                     return formatPhoneNumber(b[name]).localeCompare(formatPhoneNumber(a[name]));
+    //                 } else {
+    //                     return b[name].toString().localeCompare(a[name].toString());
+    //                 }
+    //             })
+    //         }
+
+    //         return [...copy, ...except];
+    //     })
+    // }
 
     return (
         <>
@@ -575,16 +585,16 @@ export default function List() {
                 </button>
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({customer_id})=>customer_id)} />
-                    <button onClick={()=>onSort('customer_id')}>No.</button>
-                    <button onClick={()=>onSort('customer_mobile')}>휴대폰</button>
-                    <button onClick={()=>onSort('customer_name')}>이름</button>
-                    <button onClick={()=>onSort('sales_admin_name')}>담당자</button>
-                    <button>고객구분</button>
-                    <button>상담상태</button>
-                    <button onClick={()=>onSort('experience_start_date')}>무료체험<br/>시작일</button>
-                    <button>무료체험<br/>종료일</button>
-                    <button>유료<br/>시작일</button>
-                    <button>유료<br/>종료일</button>
+                    <button onClick={()=>onSort(setBoardList, 'customer_id')}>No.</button>
+                    <button onClick={()=>onSort(setBoardList, 'customer_mobile')}>휴대폰</button>
+                    <button onClick={()=>onSort(setBoardList, 'customer_name')}>이름</button>
+                    <button onClick={()=>onSort(setBoardList, 'sales_admin_name')}>담당자</button>
+                    <button onClick={()=>onSort(setBoardList, 'customer_properties_name')}>고객구분</button>
+                    <button onClick={()=>onSort(setBoardList, 'counsel_properties_name')}>상담상태</button>
+                    <button onClick={()=>onSort(setBoardList, 'experience_start_date', 'experience_ing_yn')}>무료체험<br/>시작일</button>
+                    <button onClick={()=>onSort(setBoardList, 'experience_end_date', 'experience_ing_yn')}>무료체험<br/>종료일</button>
+                    <button onClick={()=>onSort(setBoardList, 'standard_payment_start_date')}>유료<br/>시작일</button>
+                    <button onClick={()=>onSort(setBoardList, 'standard_payment_end_date')}>유료<br/>종료일</button>
                     <span>보기</span>
                 </div>
                 

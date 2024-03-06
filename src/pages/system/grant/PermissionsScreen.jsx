@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useId, useState } from 'react';
 import BoardChk from '../../../components/boardChk/BoardChk';
-import { inputChange } from '../../../api/validation';
+import { inputChange, onSort } from '../../../api/validation';
 import SelectBoard from '../../../components/SelectBoard';
 import { api } from '../../../api/api';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
@@ -115,8 +115,8 @@ export default function PermissionsScreen({id, roleTitle}) {
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({role_with_module_id})=>role_with_module_id)} />
-                    <button>모듈유형</button>
-                    <button>화면명</button>
+                    <button onClick={()=>onSort(setBoardList, 'module_category')}>모듈유형</button>
+                    <button onClick={()=>onSort(setBoardList, 'screen_name')}>화면명</button>
                     <div>
                         <input type="checkbox" id='allInsert' checked={allCheck?.insert_yn || false} onChange={(e)=>onAllChange(e, 'insert_yn')}/>
                         <label htmlFor="allInsert">등록</label>

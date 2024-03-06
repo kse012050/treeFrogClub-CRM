@@ -37,6 +37,7 @@ import SystemMemberDelete from '../pages/system/member/Delete';
 import Notice from '../pages/notice/Notice';
 import NoticeRegistration from '../pages/notice/NoticeRegistration';
 import NoticeUpdate from '../pages/notice/NoticeUpdate';
+import Test from '../pages/Test';
 import { api } from '../api/api';
 
 export const routers = [
@@ -213,6 +214,10 @@ export const routers = [
                 path: 'update/:id', element: <NoticeUpdate />
             },
         ]
+    },
+    {
+        path: '/test',
+        element: <Test />,
     }
 ];
 

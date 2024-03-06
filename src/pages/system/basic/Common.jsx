@@ -6,7 +6,7 @@ import { api } from '../../../api/api';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
-import { inputChange } from '../../../api/validation';
+import { inputChange, onSort } from '../../../api/validation';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
 
@@ -102,12 +102,12 @@ export default function Common() {
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
-                    <button>분류유형코드</button>
-                    <button>분류유형명</button>
-                    <button>코드</button>
-                    <button>코드명</button>
-                    <button>정렬순서</button>
-                    <button>사용여부</button>
+                    <button onClick={()=>onSort(setBoardList, 'classification_code')}>분류유형코드</button>
+                    <button onClick={()=>onSort(setBoardList, 'classification_name')}>분류유형명</button>
+                    <button onClick={()=>onSort(setBoardList, 'code')}>코드</button>
+                    <button onClick={()=>onSort(setBoardList, 'name')}>코드명</button>
+                    <button onClick={()=>onSort(setBoardList, 'order_number')}>정렬순서</button>
+                    <button onClick={()=>onSort(setBoardList, 'useable_yn')}>사용여부</button>
                     <span>수정</span>
                 </div>
                 

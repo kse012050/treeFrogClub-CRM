@@ -6,7 +6,7 @@ import { api } from '../../../api/api';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
-import { inputChange } from '../../../api/validation';
+import { inputChange, onSort, onSortReverse } from '../../../api/validation';
 import Popup from '../../../components/popup/Popup';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
@@ -127,13 +127,13 @@ export default function AnUser() {
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({admin_id})=>admin_id)} />
-                    <button>회원사명</button>
-                    <button>아이디</button>
-                    <button>사용자명</button>
-                    <button>사용자 구분</button>
-                    <button>역할구분</button>
-                    <button>부서</button>
-                    <button>사용여부</button>
+                    <button onClick={()=>onSort(setBoardList, 'company_name')}>회원사명</button>
+                    <button onClick={()=>onSort(setBoardList, 'id')}>아이디</button>
+                    <button onClick={()=>onSort(setBoardList, 'name')}>사용자명</button>
+                    <button onClick={()=>onSortReverse(setBoardList, 'type')}>사용자 구분</button>
+                    <button onClick={()=>onSort(setBoardList, 'role_name')}>역할구분</button>
+                    <button onClick={()=>onSort(setBoardList, 'department_name')}>부서</button>
+                    <button onClick={()=>onSort(setBoardList, 'useable_yn')}>사용여부</button>
                     <span>수정</span>
                 </div>
                 

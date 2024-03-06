@@ -93,3 +93,100 @@ export const numberWithCommas = (number) => {
     number = number + ''
     return number.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+
+export const onSort = (setBoardList, name, is) =>{
+    setBoardList((data)=>{
+        let copy = [...data]
+        const except = copy.filter((data2) =>{
+            let bool;
+            bool = data2[name] === null || data2[name] === undefined
+            if(is){
+                bool = data2[is] === 'n'
+            }
+            return bool
+        })
+        copy = copy.filter((data2) => {
+            let bool = data2[name] !== null && data2[name] !== undefined
+            if(is){
+                bool = data2[is] === 'y'
+            }
+            return bool
+        })
+        if(copy.length){  
+            if(copy[0][name].split('').map(char => char.charCodeAt(0)).join('') > copy.at(-1)[name].split('').map(char => char.charCodeAt(0)).join('')){
+                copy = copy.sort((a, b) => {
+                    const isANumberA = !isNaN(Number(a[name]));
+                    const isANumberB = !isNaN(Number(b[name]));
+                    if (isANumberA && isANumberB) {
+                        // return formatPhoneNumber(a[name]).localeCompare(formatPhoneNumber(b[name]));
+                        return a[name] - b[name];
+                    } else {
+                        // console.log(2);
+                        return a[name].toString().localeCompare(b[name].toString());
+                        // return a[name].localeCompare(b[name]);
+                    }
+                })
+            }else{
+                copy = copy.sort((a, b) => {
+                    const isANumberA = !isNaN(Number(a[name]));
+                    const isANumberB = !isNaN(Number(b[name]));
+                    if (isANumberA && isANumberB) {
+                        // return formatPhoneNumber(b[name]).localeCompare(formatPhoneNumber(a[name]));
+                        return b[name] - a[name];
+                    } else {
+                        return b[name].toString().localeCompare(a[name].toString());
+                    }
+                })
+            }
+        }
+
+        return [...copy, ...except];
+    })
+}
+
+export const onSortReverse = (setBoardList, name, is) =>{
+    setBoardList((data)=>{
+        let copy = [...data]
+        const except = copy.filter((data2) =>{
+            let bool;
+            bool = data2[name] === null || data2[name] === undefined
+            if(is){
+                bool = data2[is] === 'n'
+            }
+            return bool
+        })
+        copy = copy.filter((data2) => {
+            let bool = data2[name] !== null && data2[name] !== undefined
+            if(is){
+                bool = data2[is] === 'y'
+            }
+            return bool
+        })
+        if(copy.length){  
+            if(copy[0][name].split('').map(char => char.charCodeAt(0)).join('') < copy.at(-1)[name].split('').map(char => char.charCodeAt(0)).join('')){
+                copy = copy.sort((a, b) => {
+                    const isANumberA = !isNaN(Number(a[name]));
+                    const isANumberB = !isNaN(Number(b[name]));
+                    if (isANumberA && isANumberB) {
+                        return a[name] - b[name];
+                    } else {
+                        return a[name].toString().localeCompare(b[name].toString());
+                    }
+                })
+            }else{
+                copy = copy.sort((a, b) => {
+                    const isANumberA = !isNaN(Number(a[name]));
+                    const isANumberB = !isNaN(Number(b[name]));
+                    if (isANumberA && isANumberB) {
+                        return b[name] - a[name];
+                    } else {
+                        return b[name].toString().localeCompare(a[name].toString());
+                    }
+                })
+            }
+        }
+
+        return [...copy, ...except];
+    })
+}

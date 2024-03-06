@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DropBox from '../../../components/DropBox';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { inputChange } from '../../../api/validation';
+import { inputChange, onSort } from '../../../api/validation';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
 // import Pager from '../../../components/Pager';
@@ -95,11 +95,11 @@ export default function Connect() {
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 
                 <div className="board-top">
-                    <button>접속일자</button>
-                    <button>아이디</button>
-                    <button>IP</button>
-                    <button>로그유형</button>
-                    <button>상세이력</button>
+                    <button onClick={()=>onSort(setBoardList, 'reg_date')}>접속일자</button>
+                    <button onClick={()=>onSort(setBoardList, 'admin_name')}>아이디</button>
+                    <button onClick={()=>onSort(setBoardList, 'ip')}>IP</button>
+                    <button onClick={()=>onSort(setBoardList, 'log_type')}>로그유형</button>
+                    <button onClick={()=>onSort(setBoardList, 'log_value')}>상세이력</button>
                 </div>
                 { boardList && 
                     <ol className="board-center">

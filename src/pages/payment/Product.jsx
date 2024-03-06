@@ -7,7 +7,7 @@ import { api } from '../../api/api';
 import BoardChk from '../../components/boardChk/BoardChk';
 import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
-import { inputChange } from '../../api/validation';
+import { inputChange, onSort } from '../../api/validation';
 import Popup from '../../components/popup/Popup';
 import SelectPage from '../../components/SelectPage';
 
@@ -125,11 +125,11 @@ export default function Product() {
             
             <div className="board-top">
                 <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({product_id})=>product_id)} />
-                <button>상품코드</button>
-                <button>상품명</button>
-                <button>애널리스트</button>
-                <button>결제시 고객구분</button>
-                <button>비고</button>
+                <button onClick={()=>onSort(setBoardList, 'product_code')}>상품코드</button>
+                <button onClick={()=>onSort(setBoardList, 'product_name')}>상품명</button>
+                <button onClick={()=>onSort(setBoardList, 'analyst_admin_name')}>애널리스트</button>
+                <button onClick={()=>onSort(setBoardList, 'customer_properties_name')}>결제시 고객구분</button>
+                <button onClick={()=>onSort(setBoardList, 'memo')}>비고</button>
                 <span>수정</span>
             </div>
 

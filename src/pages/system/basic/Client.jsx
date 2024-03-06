@@ -7,6 +7,7 @@ import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
+import { onSort, onSortReverse } from '../../../api/validation';
 
 export default function Client() {
     const [inputs, setInputs] = useState({'limit': '10'});
@@ -42,14 +43,14 @@ export default function Client() {
             
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
-                    <button>분류유형</button>
-                    <button>고객등급</button>
-                    <button>코드</button>
-                    <button>코드명</button>
-                    <button>배경색상</button>
-                    <button>폰트색상</button>
-                    <button>정렬순서</button>
-                    <button>사용여부</button>
+                    <button onClick={()=>onSort(setBoardList, 'classification_name')}>분류유형</button>
+                    <button onClick={()=>onSort(setBoardList, 'grade')}>고객등급</button>
+                    <button onClick={()=>onSort(setBoardList, 'code')}>코드</button>
+                    <button onClick={()=>onSort(setBoardList, 'name')}>코드명</button>
+                    <button onClick={()=>onSortReverse(setBoardList, 'bg_color')}>배경색상</button>
+                    <button onClick={()=>onSortReverse(setBoardList, 'font_color')}>폰트색상</button>
+                    <button onClick={()=>onSort(setBoardList, 'order_number')}>정렬순서</button>
+                    <button onClick={()=>onSort(setBoardList, 'useable_yn')}>사용여부</button>
                     <span>수정</span>
                 </div>
 

@@ -5,7 +5,7 @@ import DropBox from '../../../components/DropBox';
 import { api } from '../../../api/api';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
-import { arrayChange, inputChange } from '../../../api/validation';
+import { arrayChange, inputChange, onSort } from '../../../api/validation';
 
 export default function Delete() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'delete_select_yn': 'y'})
@@ -143,15 +143,15 @@ export default function Delete() {
                 <b className='choice'>{ deleteList.length }</b> */}
                 
                 <div className="board-top">
-                    <button>삭제일시</button>
+                    <button onClick={()=>onSort(setBoardList, 'del_date')}>삭제일시</button>
                     <button>삭제자</button>
-                    <button>이름</button>
-                    <button>휴대폰</button>
-                    <button>고객구분</button>
-                    <button>담당자</button>
-                    <button>무료체험 시작일</button>
-                    <button>무료체험 종료일</button>
-                    <button>등록일시</button>
+                    <button onClick={()=>onSort(setBoardList, 'customer_name')}>이름</button>
+                    <button onClick={()=>onSort(setBoardList, 'customer_mobile')}>휴대폰</button>
+                    <button onClick={()=>onSort(setBoardList, 'customer_properties_name')}>고객구분</button>
+                    <button onClick={()=>onSort(setBoardList, 'sales_admin_name')}>담당자</button>
+                    <button onClick={()=>onSort(setBoardList, 'experience_start_date')}>무료체험 시작일</button>
+                    <button onClick={()=>onSort(setBoardList, 'experience_end_date')}>무료체험 종료일</button>
+                    <button onClick={()=>onSort(setBoardList, 'reg_date')}>등록일시</button>
                 </div>
                 
                 { boardList && 
@@ -159,7 +159,7 @@ export default function Delete() {
                         { boardList.map((data)=>(
                             <li key={ data.customer_id }>
                                 <span>{ data.del_date.split(' ')[0].replaceAll('-','/') }</span>
-                                <span>{/* { data.customer_name } */} api 필요</span>
+                                <span>{/* { data.customer_name } */} api 필요{/* 정렬도 해야한다 */}</span>
                                 <span>{ data.customer_name }</span>
                                 <span>{ data.customer_mobile }</span>
                                 <span>{ data.customer_properties_name }</span>

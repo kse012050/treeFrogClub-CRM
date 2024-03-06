@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
 import { api } from '../../api/api';
-import { arrayChange, inputChange, numberWithCommas, parentsChange } from '../../api/validation';
+import { arrayChange, inputChange, numberWithCommas, onSort, parentsChange } from '../../api/validation';
 import Popup from '../../components/popup/Popup';
 import SelectPage from '../../components/SelectPage';
 import PagerButton from '../../components/PagerButton';
@@ -344,19 +344,19 @@ export default function List() {
 
                 <div className="board-scroll">
                     <div className="board-top">
-                        <button>No.</button>
-                        <button>결제번호</button>
-                        <button>휴대폰</button>
-                        <button>이름</button>
-                        <button>출처</button>
-                        <button>담당자</button>
-                        <button>부서</button>
-                        <button>결제일</button>
-                        <button>결제상품</button>
-                        <button>결제방식</button>
-                        <button>결제금액</button>
-                        <button>환불일</button>
-                        <button>환불금액</button>
+                        <button onClick={()=>onSort(setBoardList, 'no')}>No.</button>
+                        <button onClick={()=>onSort(setBoardList, 'payment_id')}>결제번호</button>
+                        <button onClick={()=>onSort(setBoardList, 'customer_mobile')}>휴대폰</button>
+                        <button onClick={()=>onSort(setBoardList, 'customer_name')}>이름</button>
+                        <button onClick={()=>onSort(setBoardList, 'source')}>출처</button>
+                        <button onClick={()=>onSort(setBoardList, 'payment_person_in_charge_name')}>담당자</button>
+                        <button onClick={()=>onSort(setBoardList, 'department_name')}>부서</button>
+                        <button onClick={()=>onSort(setBoardList, 'payment_date')}>결제일</button>
+                        <button onClick={()=>onSort(setBoardList, 'product_name')}>결제상품</button>
+                        <button onClick={()=>onSort(setBoardList, 'payment_properties_name')}>결제방식</button>
+                        <button onClick={()=>onSort(setBoardList, 'payment_price')}>결제금액</button>
+                        <button onClick={()=>onSort(setBoardList, 'refund_date')}>환불일</button>
+                        <button onClick={()=>onSort(setBoardList, 'refund_price')}>환불금액</button>
                         <span>결제기록</span>
                         <div title='결제기준'>
                             <button>시작일</button>

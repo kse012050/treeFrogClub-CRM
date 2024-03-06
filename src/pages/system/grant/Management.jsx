@@ -7,7 +7,7 @@ import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import SelectPage from '../../../components/SelectPage';
-import { inputChange } from '../../../api/validation';
+import { inputChange, onSort } from '../../../api/validation';
 import PagerButton from '../../../components/PagerButton';
 
 export default function Management() {
@@ -81,10 +81,10 @@ export default function Management() {
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({role_id})=>role_id)} />
-                    <button>구분</button>
-                    <button>역할</button>
-                    <button>허용IP 설정</button>
-                    <button>사용시간 설정</button>
+                    <button onClick={()=>onSort(setBoardList, 'role_classification')}>구분</button>
+                    <button onClick={()=>onSort(setBoardList, 'role_name')}>역할</button>
+                    <button onClick={()=>onSort(setBoardList, 'ip_limit_yn')}>허용IP 설정</button>
+                    <button onClick={()=>onSort(setBoardList, 'connect_limit_yn')}>사용시간 설정</button>
                     <span>설명</span>
                     <span>수정</span>
                 </div>
