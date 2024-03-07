@@ -3,6 +3,7 @@ import { inputChange } from '../../../api/validation'
 import { api } from '../../../api/api'
 import Select from '../../../components/Select';
 import Popup from '../../../components/popup/Popup';
+import { logButton } from '../../../api/common';
 
 export default function Customer() {
     const [inputs, setInputs] = useState()
@@ -64,6 +65,7 @@ export default function Customer() {
                         'confirmFunc': ()=>{
                             setInputs()
                             firstInputs()
+                            logButton('고객 목록 설정(저장)')
                         }
                     }))
                 }else{

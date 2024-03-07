@@ -8,6 +8,7 @@ import BureauUpdate from './BureauUpdate';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BureauList from './BureauList';
+import { logButton } from '../../../api/common';
 
 export default function Bureau() {
     const [inputs, setInputs] = useState()
@@ -162,6 +163,7 @@ export default function Bureau() {
                                                     'title': '완료',
                                                 }))
                                                 bureauFunc()
+                                                logButton('부서 관리(부서 삭제)')
                                             }else{
                                                 setPopup((popup)=>({
                                                     ...popup,
@@ -227,6 +229,7 @@ function Board({ data, onSearch, boardListFunc, onRefresh }){
                                             'title': '완료',
                                             'confirmFunc': ()=>{
                                                 onRefresh(data.department_id)
+                                                logButton('부서 관리(사용자 추가)')
                                             }
                                         }))
                                     }else{
@@ -259,6 +262,7 @@ function Board({ data, onSearch, boardListFunc, onRefresh }){
                                             'title': '완료',
                                             'confirmFunc': ()=>{
                                                 onRefresh()
+                                                logButton('부서 관리(선택 삭제)')
                                             }
                                         }))
                                     }else{
@@ -290,6 +294,7 @@ function Board({ data, onSearch, boardListFunc, onRefresh }){
                                         'title': '완료',
                                         'confirmFunc': ()=>{
                                             onRefresh()
+                                            logButton('부서 관리(선택 이동)')
                                         }
                                     }))
                                 }else{

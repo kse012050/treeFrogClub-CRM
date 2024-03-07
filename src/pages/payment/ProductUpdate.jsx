@@ -4,6 +4,7 @@ import { inputChange, isFormet } from '../../api/validation';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../../api/api';
 import Popup from '../../components/popup/Popup';
+import { logButton } from '../../api/common';
 
 export default function ProductUpdate() {
     const [inputs, setInputs] = useState()
@@ -86,6 +87,7 @@ export default function ProductUpdate() {
                         'title': '완료',
                         'link': '/payment/product'
                     }))
+                    logButton('상품 수정(수정)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

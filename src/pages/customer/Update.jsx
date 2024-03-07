@@ -12,6 +12,7 @@ import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 import BoardChkAll from '../../components/boardChk/BoardChkAll';
 import BoardChk from '../../components/boardChk/BoardChk';
 import PagerButton from '../../components/PagerButton';
+import { logButton } from '../../api/common';
 
 export default function Update() {
     const [popup, setPopup] = useState()
@@ -117,6 +118,7 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                             setCounselValue(inputs.counsel_properties_id)
                         }
                     }))
+                    logButton('고객 수정(수정)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,
@@ -307,6 +309,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                                     historyPaymentFunc({'limit': '10', 'page': '1', 'customer_id': id})
                                 }
                             }))
+                            logButton('고객 수정(결제)')
                         }else{
                             setPopup((popup)=>({
                                 ...popup,
@@ -487,7 +490,7 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                     {relatedActive === 1 &&
                         <>
                             <b className='choice'>{ deleteList.length }</b>
-                            <BoardChkDelete url='payment' idName='payment_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={()=>{historyPaymentFunc(inputs); historyPaymentDeleteFunc(inputs);}}/>
+                            <BoardChkDelete url='payment' idName='payment_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={()=>{historyPaymentFunc(inputs); historyPaymentDeleteFunc(inputs);}} logValue='고객 수정(결제 내역 선택 삭제)'/>
                             <b className='total'>{ paymentInfo?.total_count }</b>
                             <span className='page'>{ paymentInfo?.current_page }/{ paymentInfo?.total_page }</span>
                             <div className='board-scroll2'>
@@ -683,7 +686,7 @@ function HistoryConsult({ id, setConsultCount, counselValue, setCounselValue }){
     return (
         <>
             <b className='choice'>{ deleteList.length }</b>
-            <BoardChkDelete url='counsel' idName='counsel_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
+            <BoardChkDelete url='counsel' idName='counsel_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='고객 수정(상담 이력 선택 삭제)'/>
             <b className='total'>{ pagerInfo?.total_count }</b>
             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
             <div className='board-scroll1'>
@@ -822,6 +825,7 @@ function HistoryConsultInput({ id, currentData, counselValue, setCounselValue })
                             setCounselValue(inputs.counsel_properties_id)
                         }
                     }))
+                    logButton('고객 수정(상담 저장)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

@@ -7,6 +7,7 @@ import { UserContext } from '../../context/UserContext';
 import dayjs from 'dayjs';
 import Popup from '../../components/popup/Popup';
 import { api } from '../../api/api';
+import { logButton } from '../../api/common';
 
 
 export default function Registration() {
@@ -73,6 +74,7 @@ export default function Registration() {
                         'title': '완료',
                         'link': `update/${data.customer_id}`
                     }))
+                    logButton('고객 등록(저장)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

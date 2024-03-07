@@ -13,6 +13,7 @@ import Popup from '../../components/popup/Popup';
 import { inputChange, arrayChange, parentsChange, onSort } from '../../api/validation';
 import SelectPage from '../../components/SelectPage';
 import PagerButton from '../../components/PagerButton';
+import { logButton } from '../../api/common';
 
 
 export default function List() {
@@ -124,6 +125,7 @@ export default function List() {
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
         setIsSearch(true)
         setDeleteList([])
+        logButton('통합 고객 목록(검색)')
        /*  api('customer', 'list', searchInputs)
             .then(({result, data, list})=>{
                 if(result){
@@ -145,6 +147,7 @@ export default function List() {
         // navigate('/customer/list')
         setSearchId()
         setDeleteList([])
+        logButton('통합 고객 목록(검색 초기화)')
     }
     
     useEffect(()=>{
@@ -424,26 +427,28 @@ export default function List() {
                 </button>
                 <button 
                     className='btn-gray-black'
-                    onClick={()=>setPopup({
-                        'type': 'finFunc',
-                        'title': '중복고객 삭제',
-                        'description': '중복고객을 삭제하시겠습니까?',
-                        'func': ()=>{
-                            api('customer', 'duplicate_customer_delete')
-                                .then(({result, error_message})=>{
-                                    if(result){
-                                        setPopup({
-                                            'type': 'confirm',
-                                            'title': '완료',
-                                            'description': error_message,
-                                            'confirmFunc': () =>{
-                                                currentData()
-                                            }
-                                        })
-                                    }
-                                })
-                        }
-                    })}
+                    onClick={()=>{setPopup({
+                            'type': 'finFunc',
+                            'title': '중복고객 삭제',
+                            'description': '중복고객을 삭제하시겠습니까?',
+                            'func': ()=>{
+                                api('customer', 'duplicate_customer_delete')
+                                    .then(({result, error_message})=>{
+                                        if(result){
+                                            setPopup({
+                                                'type': 'confirm',
+                                                'title': '완료',
+                                                'description': error_message,
+                                                'confirmFunc': () =>{
+                                                    currentData()
+                                                }
+                                            })
+                                        }
+                                    })
+                            }
+                        });
+                        logButton('통합 고객 목록(중복고객 삭제)')
+                    }}
                 >
                     중복고객 삭제
                 </button>
@@ -451,46 +456,50 @@ export default function List() {
                     <>
                         <button 
                             className='btn-gray-black' 
-                            onClick={()=>setPopup({
-                                'type': 'finFunc',
-                                'title': '검색고객 삭제',
-                                'description': '검색된 고객을 삭제하시겠습니까?',
-                                'func': ()=>{
-                                    api('customer', 'delete', {'customer_id_list': searchId})
-                                        .then(({result, error_message})=>{
-                                            if(result){
-                                                setPopup({
-                                                    'type': 'confirm',
-                                                    'title': '완료',
-                                                    'description': error_message,
-                                                })
-                                                currentData()
-                                            }
-                                        })
-                                }
-                            })}
+                            onClick={()=>{setPopup({
+                                    'type': 'finFunc',
+                                    'title': '검색고객 삭제',
+                                    'description': '검색된 고객을 삭제하시겠습니까?',
+                                    'func': ()=>{
+                                        api('customer', 'delete', {'customer_id_list': searchId})
+                                            .then(({result, error_message})=>{
+                                                if(result){
+                                                    setPopup({
+                                                        'type': 'confirm',
+                                                        'title': '완료',
+                                                        'description': error_message,
+                                                    })
+                                                    currentData()
+                                                }
+                                            })
+                                    }
+                                });
+                                logButton('통합 고객 목록(검색고객 삭제)')
+                            }}
                         >
                             검색고객 삭제
                         </button>
                         <button 
                             className='btn-gray-black'
-                            onClick={()=>setPopup({
-                                'type': 'finFunc',
-                                'title': '검색고객 수신거부',
-                                'description': '검색된 고객을 수신거부하시겠습니까?',
-                                'func': ()=>{
-                                    api('customer', 'receive_reject', {'customer_id_list': searchId})
-                                        .then(({result, error_message})=>{
-                                            if(result){
-                                                setPopup({
-                                                    'type': 'confirm',
-                                                    'title': '완료',
-                                                    'description': error_message,
-                                                })
-                                            }
-                                        })
-                                }
-                            })}
+                            onClick={()=>{setPopup({
+                                    'type': 'finFunc',
+                                    'title': '검색고객 수신거부',
+                                    'description': '검색된 고객을 수신거부하시겠습니까?',
+                                    'func': ()=>{
+                                        api('customer', 'receive_reject', {'customer_id_list': searchId})
+                                            .then(({result, error_message})=>{
+                                                if(result){
+                                                    setPopup({
+                                                        'type': 'confirm',
+                                                        'title': '완료',
+                                                        'description': error_message,
+                                                    })
+                                                }
+                                            })
+                                    }
+                                });
+                                logButton('통합 고객 목록(검색고객 수신거부)')
+                            }}
                         >
                             검색고객 수신거부
                         </button>
@@ -531,26 +540,28 @@ export default function List() {
                         }
                         <button 
                             className='btn-gray-black'
-                            onClick={()=>setPopup({
-                                'type': 'finFunc',
-                                'title': '선택 변경',
-                                'description': '선택 항목을 변경하시겠습니까?',
-                                'func': ()=>{
-                                    // console.log({...customerListInputs, 'customer_id_list': deleteList});
-                                    api('customer', 'select_properties', {...customerListInputs, 'customer_id_list': deleteList})
-                                        .then(({result, error_message})=>{
-                                            if(result){
-                                                setPopup({
-                                                    'type': 'confirm',
-                                                    'title': '완료',
-                                                    'description': error_message,
-                                                })
-                                                setCustomerListInputs()
-                                                currentData()
-                                            }
-                                        })
-                                }
-                            })}
+                            onClick={()=>{setPopup({
+                                    'type': 'finFunc',
+                                    'title': '선택 변경',
+                                    'description': '선택 항목을 변경하시겠습니까?',
+                                    'func': ()=>{
+                                        // console.log({...customerListInputs, 'customer_id_list': deleteList});
+                                        api('customer', 'select_properties', {...customerListInputs, 'customer_id_list': deleteList})
+                                            .then(({result, error_message})=>{
+                                                if(result){
+                                                    setPopup({
+                                                        'type': 'confirm',
+                                                        'title': '완료',
+                                                        'description': error_message,
+                                                    })
+                                                    setCustomerListInputs()
+                                                    currentData()
+                                                }
+                                            })
+                                    }
+                                });
+                                logButton('통합 고객 목록(선택 변경)')
+                            }}
                             disabled={!customerListInputs}
                         >
                             선택 변경
@@ -561,24 +572,26 @@ export default function List() {
                 <BoardChkDelete url='customer' idName='customer_id_list' deleteList={deleteList} setDeleteList={setDeleteList} className='boundary' currentData={currentData}/>
                 <button 
                     className='btn-gray-black' 
-                    onClick={()=>setPopup({
-                        'type': 'finFunc',
-                        'title': '선택고객 수신거부',
-                        'description': '선택된 고객을 수신거부하시겠습니까?',
-                        'func': ()=>{
-                            api('customer', 'receive_reject', {'customer_id_list': deleteList})
-                                .then(({result, error_message})=>{
-                                    if(result){
-                                        setPopup({
-                                            'type': 'confirm',
-                                            'title': '완료',
-                                            'description': error_message,
-                                        })
-                                        setDeleteList([])
-                                    }
-                                })
-                        }
-                    })}
+                    onClick={()=>{setPopup({
+                            'type': 'finFunc',
+                            'title': '선택고객 수신거부',
+                            'description': '선택된 고객을 수신거부하시겠습니까?',
+                            'func': ()=>{
+                                api('customer', 'receive_reject', {'customer_id_list': deleteList})
+                                    .then(({result, error_message})=>{
+                                        if(result){
+                                            setPopup({
+                                                'type': 'confirm',
+                                                'title': '완료',
+                                                'description': error_message,
+                                            })
+                                            setDeleteList([])
+                                        }
+                                    })
+                            }
+                        })
+                        logButton('통합 고객 목록(선택 수신거부)')
+                    }}
                     disabled={!deleteList?.length}
                 >
                     선택 수신거부

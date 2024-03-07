@@ -4,6 +4,7 @@ import { api } from '../../../api/api';
 import { inputChange } from '../../../api/validation'
 import { Link, useParams } from 'react-router-dom';
 import Popup from '../../../components/popup/Popup';
+import { logButton } from '../../../api/common';
 
 export default function ManagementUpdate() {
     const { id } = useParams();
@@ -88,6 +89,7 @@ export default function ManagementUpdate() {
                         'title': '완료',
                         'link': '/system/grant/management'
                     }))
+                    logButton('역할 수정(수정)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

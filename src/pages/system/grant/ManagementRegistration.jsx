@@ -4,6 +4,7 @@ import { api } from '../../../api/api';
 import { inputChange } from '../../../api/validation'
 import { Link } from 'react-router-dom';
 import Popup from '../../../components/popup/Popup';
+import { logButton } from '../../../api/common';
 
 export default function ManagementRegistration() {
     const [inputs, setInputs] = useState({});
@@ -86,6 +87,7 @@ export default function ManagementRegistration() {
                         'title': '완료',
                         'link': '/system/grant/management'
                     }))
+                    logButton('역할 등록(저장)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

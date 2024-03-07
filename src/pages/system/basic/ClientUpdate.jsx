@@ -6,6 +6,7 @@ import { Button, ColorPicker } from 'antd';
 import SubTitle from '../../../components/SubTitle';
 import Popup from '../../../components/popup/Popup';
 import Select from '../../../components/Select';
+import { logButton } from '../../../api/common';
 
 export default function ClientUpdate() {
     const [inputs, setInputs] = useState()
@@ -93,6 +94,7 @@ export default function ClientUpdate() {
                         'title': '완료',
                         'link': '/system/basic/client'
                     }))
+                    logButton('고객 구분 등록(수정)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

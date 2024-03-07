@@ -4,6 +4,7 @@ import { inputChange } from '../../api/validation';
 import BureauBox from '../../components/BureauBox';
 import Popup from '../../components/popup/Popup';
 import { api } from '../../api/api';
+import { logButton } from '../../api/common';
 
 export default function NoticeRegistration() {
     const [inputs, setInputs] = useState({ 'department_id_list': '' })
@@ -45,6 +46,7 @@ export default function NoticeRegistration() {
                         'title': '완료',
                         'link': '/notice'
                     }))
+                    logButton('공지사항 등록(저장)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

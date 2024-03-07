@@ -3,6 +3,7 @@ import { inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
 import BureauBox from '../../../components/bureau/BureauBox';
+import { logButton } from '../../../api/common';
 // import BureauBox from '../../../components//BureauBox';
 
 export default function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, onRefresh }) {
@@ -33,6 +34,7 @@ export default function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, 
                         'confirmFunc': ()=>{
                             setBureauUpdatePopup('')
                             onRefresh(inputs.department_id)
+                            logButton('부서 관리(부서 수정)')
                         }
                     }))
                 }else{

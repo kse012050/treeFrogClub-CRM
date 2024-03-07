@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, apiFile } from '../../api/api';
 import Popup from '../../components/popup/Popup';
+import { logExcel } from '../../api/common';
 
 export default function BulkRegistration() {
     const [formetUrl, setFormetUrl] = useState()
@@ -48,7 +49,13 @@ export default function BulkRegistration() {
                             양식을 변경하시면 안되며, 데이터는 3행부터 입력해주세요.<br/>
                             필수값이 입력되지 않으면 데이터는 수집되지 않습니다.
                         </p>
-                        <Link to={formetUrl} className='btn-point'>양식 다운로드</Link>
+                        <Link 
+                            to={formetUrl}
+                            className='btn-point'
+                            onClick={()=>logExcel(`대량 고객 등록 - 양식 다운로드`)}
+                        >
+                            양식 다운로드
+                        </Link>
                     </div>
                 </li>
                 <li>

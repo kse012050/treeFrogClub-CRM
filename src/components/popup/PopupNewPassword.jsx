@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { inputChange } from '../../api/validation';
 import { api, logout } from '../../api/api';
 import Popup from './Popup.jsx';
+import { logButton } from '../../api/common.js';
 
 export default function PopupNewPassword({ close }) {
     const [inputs, setInputs] = useState()
@@ -20,6 +21,7 @@ export default function PopupNewPassword({ close }) {
                             'description': '비밀번호가 변경되었습니다.\n새 비밀번호로 로그인해주세요.',
                             'confirmFunc': ()=>{
                                 logout()
+                                logButton('정보변경(변경)') 
                             }
                         })
                     }

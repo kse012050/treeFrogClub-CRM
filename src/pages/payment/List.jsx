@@ -9,6 +9,7 @@ import { arrayChange, inputChange, numberWithCommas, onSort, parentsChange } fro
 import Popup from '../../components/popup/Popup';
 import SelectPage from '../../components/SelectPage';
 import PagerButton from '../../components/PagerButton';
+import { logButton, logExcel } from '../../api/common';
 
 export default function List() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
@@ -105,12 +106,14 @@ export default function List() {
         currentSettings()
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         setSearchInputs()
+        logButton('결제 목록(검색)')
     }
 
     const onSearch = (e) => {
         e.preventDefault();
         // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
+        logButton('결제 목록(검색 초기화)')
     }
 
   
@@ -312,7 +315,13 @@ export default function List() {
 
             <div className='boardBox'>
                 <strong>목록</strong>
-                <Link to={excelDownloadLink} className='btn-gray-black'>엑셀 다운로드</Link>
+                <Link 
+                    to={excelDownloadLink} 
+                    className='btn-gray-black'
+                    onClick={()=>logExcel(`결제 목록 - 엑셀 다운로드`)}
+                >
+                    엑셀 다운로드
+                </Link>
                 <hr className='case01'/>
 
                 <table className='board-table'>

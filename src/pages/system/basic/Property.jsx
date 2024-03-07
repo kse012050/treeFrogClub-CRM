@@ -5,6 +5,7 @@ import Popup from '../../../components/popup/Popup';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
+import { logButton } from '../../../api/common';
 // import PropertyMoney from '../../../components/system/basic/PropertyMoney';
 
 export default function Property() {
@@ -105,10 +106,14 @@ function PropertyDivision() {
                         onClick={()=>setPopup({
                                 'type': `properties_registration`, 
                                 'id': classificationActive, 
-                                'func': ()=>{currentData();boardData();}
+                                'func': ()=>{
+                                    currentData();
+                                    boardData();
+                                    logButton('속성값 설정(구분값 설정 - 추가)')
+                                }
                         })}>추가
                     </button>
-                    <BoardChkDelete url='properties' idName='properties_id' deleteList={deleteList} setDeleteList={setDeleteList} isAwait currentData={()=>{currentData();boardData();}}/>
+                    <BoardChkDelete url='properties' idName='properties_id' deleteList={deleteList} setDeleteList={setDeleteList} isAwait currentData={()=>{currentData();boardData();}} logValue='속성값 설정(구분값 설정 - 선택 삭제)'/>
 
                     <div className='board-top'>
                         <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={propertiesList.map(({properties_id})=>properties_id)} />
@@ -122,7 +127,7 @@ function PropertyDivision() {
                                 <span>{ name }</span>
                                 <button 
                                     className="popup" 
-                                    onClick={()=>setPopup({'type': `properties_update`, 'value': name, 'id': properties_id, 'func': ()=>{currentData();boardData();}})}
+                                    onClick={()=>setPopup({'type': `properties_update`, 'value': name, 'id': properties_id, 'func': ()=>{currentData();boardData(); logButton('속성값 설정(구분값 설정 - 수정)')}})}
                                 >
                                     수정
                                 </button>

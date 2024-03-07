@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { api, apiAwait } from '../../api/api'
 import Popup from '../popup/Popup';
+import { logButton } from '../../api/common';
 
-export default function BoardChkDelete({ url, funcName, idName, deleteList, setDeleteList, isAwait, className, currentData }) {
+export default function BoardChkDelete({ url, funcName, idName, deleteList, setDeleteList, isAwait, className, currentData, logValue }) {
     const [popup, setPopup] = useState('')
     const popupFunc = () =>{
         if(deleteList.length){
@@ -20,16 +21,19 @@ export default function BoardChkDelete({ url, funcName, idName, deleteList, setD
                             setPopup(confirmPopupMessage)
                             setDeleteList([])
                             currentData()
+                            logButton(logValue)
                         }
                     })
             }else{
-                apiAwait(url, funcType, idName, deleteList).then((result)=>{
-                    if({result}){
-                        setPopup(confirmPopupMessage)
-                        setDeleteList([])
-                        currentData()
-                    }
-                })
+                apiAwait(url, funcType, idName, deleteList)
+                    .then((result)=>{
+                        if({result}){
+                            setPopup(confirmPopupMessage)
+                            setDeleteList([])
+                            currentData()
+                            logButton(logValue)
+                        }
+                    })
             }
         }
     }

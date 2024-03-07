@@ -4,6 +4,7 @@ import { onChange, inputChange } from '../../api/validation';
 import { Link } from 'react-router-dom';
 import { api } from '../../api/api';
 import Popup from '../../components/popup/Popup';
+import { logButton } from '../../api/common';
 
 export default function ProductRegistration() {
     const [inputs, setInputs] = useState()
@@ -61,6 +62,7 @@ export default function ProductRegistration() {
                         'title': '완료',
                         'link': '/payment/product'
                     }))
+                    logButton('상품 등록(저장)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

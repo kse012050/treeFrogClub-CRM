@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Select from '../Select';
 import { api } from '../../api/api';
+import { logExcel } from '../../api/common';
 
 export default function PopupExcelDownload({ close, popup: { total } }) {
     const [unit, setUnit] = useState('1000');
@@ -30,6 +31,7 @@ export default function PopupExcelDownload({ close, popup: { total } }) {
                 if(result){
                     // console.log(download_url);
                     window.location.href = download_url
+                    logExcel(`${start} ~ ${end}`)
                 }
             })
     }

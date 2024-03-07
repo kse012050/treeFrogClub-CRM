@@ -7,6 +7,7 @@ import { inputChange, isFormet } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
 import { UserContext } from '../../../context/UserContext';
+import { logButton } from '../../../api/common';
 
 export default function AnUserUpdate() {
     const { company } = useContext(UserContext)
@@ -113,6 +114,7 @@ export default function AnUserUpdate() {
                         'title': '완료',
                         'link': '/system/basic/anUser'
                     }))
+                    logButton('사용자 수정(수정)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

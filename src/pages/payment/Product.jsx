@@ -10,6 +10,7 @@ import BoardChkDelete from '../../components/boardChk/BoardChkDelete';
 import { inputChange, onSort } from '../../api/validation';
 import Popup from '../../components/popup/Popup';
 import SelectPage from '../../components/SelectPage';
+import { logButton, logExcel } from '../../api/common';
 
 export default function Product() {
     // const [inputs, setInputs] = useState()
@@ -20,32 +21,46 @@ export default function Product() {
     const [searchInputs, setSearchInputs] = useState();
     const [analyst, setAnalyst] = useState()
     const [popup, setPopup] = useState()
+    const [excelDownloadLink, setExcelDownloadLink] = useState()
 
     const currentData = useCallback(()=>{
         api('product', 'list', inputs)
-                .then(({result, data, list})=>{
-                    if(result){
-                        setPagerInfo(data)
-                        setBoardList(list)
-                    }
-                })
+            .then(({result, data, list})=>{
+                if(result){
+                    setPagerInfo(data)
+                    setBoardList(list)
+                }
+            })
     },[inputs, setBoardList])
 
     useEffect(()=>{
         currentData()
     },[currentData])
 
+    useEffect(()=>{ 
+        api('product', 'list', {"excel_info": {"download_yn": "y"}})
+            .then(({result, data: {download_url}})=>{
+                if(result){
+                    // console.log(download_url);
+                    setExcelDownloadLink(download_url)
+                }
+            })
+        
+    },[])
+
     const onReset = () => {
         setAnalyst()
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         setSearchInputs()
         setDeleteList([])
+        logButton('상품 목록(검색)')
     }
     
     const onSearch = (e) =>{
         e.preventDefault();
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
         setDeleteList([])
+        logButton('상품 목록(검색 초기화)')
     }
 
     return (
@@ -115,12 +130,18 @@ export default function Product() {
 
             <div className='boardBox'>
             <strong>목록</strong>
-            <button className='btn-gray-black'>엑셀 다운로드</button>
+            <Link 
+                to={excelDownloadLink} 
+                className='btn-gray-black'
+                onClick={()=>logExcel(`상품 목록`)}
+            >
+                엑셀 다운로드
+            </Link>
             <hr className='case01'/>
             <b className='total'>{ pagerInfo?.total_count }</b>
             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
             <b className='choice'>{ deleteList.length }</b>
-            <BoardChkDelete url='product' idName='product_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
+            <BoardChkDelete url='product' idName='product_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='상품 목록(선택 삭제)'/>
 
             
             <div className="board-top">

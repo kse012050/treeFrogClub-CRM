@@ -5,6 +5,7 @@ import { inputChange } from '../../../api/validation'
 import Select from '../../../components/Select';
 import Popup from '../../../components/popup/Popup';
 import SubTitle from '../../../components/SubTitle';
+import { logButton } from '../../../api/common';
 
 export default function CommonRegistration() {
     const [inputs, setInputs] = useState()
@@ -46,6 +47,7 @@ export default function CommonRegistration() {
                         'title': '완료',
                         'link': '/system/basic/common'
                     }))
+                    logButton('공통 코드 등록(저장)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

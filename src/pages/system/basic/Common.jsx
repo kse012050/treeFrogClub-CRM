@@ -9,6 +9,7 @@ import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import { inputChange, onSort } from '../../../api/validation';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
+import { logButton } from '../../../api/common';
 
 export default function Common() {
     // console.log('common 랜더링');
@@ -43,6 +44,7 @@ export default function Common() {
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         setSearchInputs()
         setDeleteList([])
+        logButton('공통 코드 관리(검색 초기화)')
     }
 
     const onSearch = (e) =>{
@@ -50,6 +52,7 @@ export default function Common() {
         // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
         setDeleteList([])
+        logButton('공통 코드 관리(검색)')
     }
 
     return (
@@ -98,7 +101,7 @@ export default function Common() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
+                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='공통 코드 관리(선택 삭제)'/>
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />

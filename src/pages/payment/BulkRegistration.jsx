@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, apiFile } from '../../api/api';
 import Popup from '../../components/popup/Popup';
+import { logExcel } from '../../api/common';
 
 export default function Registration() {
     const [formetCustomerUrl, setFormetCustomerUrl] = useState()
@@ -56,8 +57,21 @@ export default function Registration() {
                             괄호 선택값이 존재할 경우, 괄호에 없는 값을 입력하면 해당 값은 저장되지 않습니다.<br/>
                             중복데이터가 있는 경우 최신 등록 고객정보와 매칭됩니다.
                         </p>
-                        <Link to={formetMobileUrl} className='btn-point' title='휴대폰'>양식 다운로드</Link>
-                        <Link to={formetCustomerUrl} className='btn-point' title='휴대폰+고객명'>양식 다운로드</Link>
+                        <Link 
+                            to={formetMobileUrl}
+                            className='btn-point'
+                            title='휴대폰'
+                            onClick={()=>logExcel(`대량 결제 등록 - 양식 다운로드 (휴대폰)`)}
+                        >
+                            양식 다운로드</Link>
+                        <Link 
+                            to={formetCustomerUrl} 
+                            className='btn-point' 
+                            title='휴대폰+고객명'
+                            onClick={()=>logExcel(`대량 고객 등록 - 양식 다운로드 (휴대폰 + 고객명)`)}
+                        >
+                            양식 다운로드
+                        </Link>
                     </div>
                 </li>
                 <li>

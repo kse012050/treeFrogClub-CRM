@@ -6,6 +6,7 @@ import { Button, ColorPicker } from 'antd';
 import Select from '../../../components/Select';
 import SubTitle from '../../../components/SubTitle';
 import Popup from '../../../components/popup/Popup';
+import { logButton } from '../../../api/common';
 
 export default function ClientRegistration() {
     // order_number 없어야 하는데 api에 있어서 일단 추가
@@ -91,6 +92,7 @@ export default function ClientRegistration() {
                         'title': '완료',
                         'link': '/system/basic/client'
                     }))
+                    logButton('고객 구분 등록(저장)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

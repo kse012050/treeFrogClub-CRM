@@ -6,6 +6,7 @@ import { api } from '../../../api/api';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
 import { arrayChange, inputChange, onSort } from '../../../api/validation';
+import { logButton } from '../../../api/common';
 
 export default function Delete() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'delete_select_yn': 'y'})
@@ -45,12 +46,14 @@ export default function Delete() {
 
     const onReset = ()=>{
         setInputs((input)=>({'limit': input.limit, 'page': '1', 'delete_select_yn': 'y'}))
+        logButton('고객삭제이력(검색 초기화)')
     }
 
     const onSearch = (e) => {
         e.preventDefault()
         // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
+        logButton('고객삭제이력(검색)')
     }
 
     return (

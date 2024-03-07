@@ -10,6 +10,7 @@ import PagerButton from '../../../components/PagerButton';
 // import Pager from '../../../components/Pager';
 import SelectPage from '../../../components/SelectPage';
 import Select from '../../../components/Select';
+import { logButton } from '../../../api/common';
 
 export default function PermissionsScreen({id, roleTitle}) {
     const [inputs, setInputs] = useState()
@@ -110,7 +111,7 @@ export default function PermissionsScreen({id, roleTitle}) {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='module' idName='role_with_module_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentSettings}/>
+                <BoardChkDelete url='module' idName='role_with_module_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentSettings} logValue='역할 권한 관리(화면 권한 - 선택 삭제)'/>
                 <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id, 'roleTitle': roleTitle})}>추가</button>
                 
                 <div className="board-top">
@@ -298,6 +299,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
                         'confirmFunc': ()=>{
                             setRegistrationPopup()
                             currentSettings()
+                            logButton('역할 권한 관리(화면 권한 - 추가)')
                         }
                     }))
                 }else{

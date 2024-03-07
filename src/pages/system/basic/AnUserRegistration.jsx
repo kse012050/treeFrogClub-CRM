@@ -6,6 +6,7 @@ import { onChange, inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
 import { UserContext } from '../../../context/UserContext';
+import { logButton } from '../../../api/common';
 
 export default function AnUserRegistration() {
     const { company } = useContext(UserContext)
@@ -79,6 +80,7 @@ export default function AnUserRegistration() {
                         'title': '완료',
                         'link': '/system/basic/anUser'
                     }))
+                    logButton('사용자 등록(저장)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

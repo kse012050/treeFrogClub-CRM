@@ -4,6 +4,7 @@ import { inputChange } from '../../api/validation';
 import BureauBox from '../../components/BureauBox';
 import Popup from '../../components/popup/Popup';
 import { api } from '../../api/api';
+import { logButton } from '../../api/common';
 
 export default function NoticeUpdate() {
     const [inputs, setInputs] = useState({ 'department_id_list': '' })
@@ -36,6 +37,7 @@ export default function NoticeUpdate() {
                         'title': '완료',
                         'link': '/notice'
                     }))
+                    logButton('공지사항 보기/수정(삭제)') 
                 }else{
                     setPopup((popup)=>({
                         ...popup,
@@ -75,6 +77,7 @@ export default function NoticeUpdate() {
                         'title': '완료',
                         'link': '/notice'
                     }))
+                    logButton('공지사항 보기/수정(수정)') 
                 }else{
                     setPopup((popup)=>({
                         ...popup,

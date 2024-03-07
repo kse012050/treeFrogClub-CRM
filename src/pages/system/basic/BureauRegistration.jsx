@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
+import { logButton } from '../../../api/common';
 // import BureauBox from '../../../components/bureau/BureauBox';
 // import BureauBox from '../../../components//BureauBox';
 
@@ -51,6 +52,7 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
                         'title': '완료',
                         'confirmFunc': ()=>{
                             setBureauRegistrationPopup('')
+                            logButton('부서 관리(부서 추가)')
                         }
                     }))
                     onRefresh(inputs.parent_department_id || '')

@@ -29,7 +29,7 @@ export default function Graph({ data, color}) {
             draw(){
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
-                ctx.arc(this.x, this.y, circleArea.clientWidth / 2 , Math.PI/180 * (-90 + (360 * (0.01 * this.prevPercent))) , Math.PI / 180 * (-90 + (360 * (0.01 * this.percent)) + (360 * (0.01 * this.prevPercent))));
+                ctx.arc(this.x, this.y, 140 , Math.PI/180 * (-90 + (360 * (0.01 * this.prevPercent))) , Math.PI / 180 * (-90 + (360 * (0.01 * this.percent)) + (360 * (0.01 * this.prevPercent))));
                 ctx.fillStyle = this.color
                 ctx.fill()
                 ctx.closePath();
@@ -37,10 +37,10 @@ export default function Graph({ data, color}) {
                 if(this.percent > 20){
                     ctx.beginPath();
                     ctx.fillStyle = 'black'
-                    ctx.font = "400 13px sans-serif ";
+                    ctx.font = "400 13px sans-serif";
                     if(this.percent < 100){
                         ctx.fillText(`${this.name} ${this.percent}%`,
-                            (circleArea.clientWidth / 2 - 25 - (this.name.length * 4)) + (circleArea.clientWidth / 3 * Math.sin((Math.PI / 180) * ((360 * (this.percent * 0.01) / 2) + (360 * (this.prevPercent * 0.01))))),
+                            (circleArea.clientWidth / 2 - 25 - (this.name.length * 4)) + (140 * Math.sin((Math.PI / 180) * ((360 * (this.percent * 0.01) / 2) + (360 * (this.prevPercent * 0.01))))),
                             (circleArea.clientHeight / 2 + 10) + (-circleArea.clientHeight / 3 * Math.cos((Math.PI / 180) * ((360 * (this.percent * 0.01) / 2) + (360 * (this.prevPercent * 0.01))))),
                             1000
                         );

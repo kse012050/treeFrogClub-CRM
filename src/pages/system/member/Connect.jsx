@@ -8,6 +8,7 @@ import { api } from '../../../api/api';
 // import Pager from '../../../components/Pager';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
+import { logButton } from '../../../api/common';
 
 export default function Connect() {
     const initParam = {'limit': '10', 'page': '1'};
@@ -36,12 +37,14 @@ export default function Connect() {
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         setSearchInputs()
         // setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        logButton('사용자 접속 이력(검색 초기화)')
     }
 
     const onSearch = (e) =>{
         e.preventDefault()
         // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
+        logButton('사용자 접속 이력(검색)')
     }
     return (
         <>

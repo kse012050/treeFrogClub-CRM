@@ -10,6 +10,7 @@ import { inputChange, onSort, onSortReverse } from '../../../api/validation';
 import Popup from '../../../components/popup/Popup';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
+import { logButton } from '../../../api/common';
 
 export default function AnUser() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
@@ -39,6 +40,7 @@ export default function AnUser() {
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         setSearchInputs()
         setDeleteList([])
+        logButton('사용자 목록(검색)')
     }
 
     const onSearch = (e) =>{
@@ -46,6 +48,7 @@ export default function AnUser() {
         // console.log(searchInputs);
         setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
         setDeleteList([])
+        logButton('사용자 목록(검색 초기화)')
     }
 
     return (
@@ -123,7 +126,7 @@ export default function AnUser() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='user' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData}/>
+                <BoardChkDelete url='user' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='사용자 목록(선택 삭제)'/>
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({admin_id})=>admin_id)} />
