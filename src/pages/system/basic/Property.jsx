@@ -176,6 +176,7 @@ function PropertyMoney() {
             api('calculation', 'calculation_setting_info', {'month_value': month})
                 .then(({result, data})=>{
                     if(result){
+                        // console.log(data);
                         if(data){
                             delete data.calculation_id;
                             data.month_value = data.date;
@@ -210,8 +211,11 @@ function PropertyMoney() {
         if(name === 'calculation_way'){
             setInputs((input)=> ({...input, 'investment_amount': ''}))
             if(value === 'day'){
-                setInputs((input)=> ({...input, 'roas_percent': ''}))
-                console.log('?');
+                // setInputs((input)=> ({...input, 'roas_percent': ''}))
+                setInputs((input)=> {
+                    delete input.roas_percent
+                    return {...input}
+                })
             }
         }
     }

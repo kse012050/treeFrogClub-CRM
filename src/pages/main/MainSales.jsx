@@ -9,22 +9,21 @@ export default function MainSales() {
     const [inputs, setInputs] = useState()
     const [boardList, setBoardList] = useState()
     const [boardTotal, setBoardTotal] = useState()
-    
-    useEffect(()=>{
-        api('dashboard', 'month_sales_total_stat')
-            .then(({result, data})=>{
-                // console.log(result);
-                if(result){
-                    // console.log(data);
-                    setDashboard(data)
-                }
-            })
-    },[])
 
     useEffect(()=>{
         if(inputs?.year && inputs?.month){
             // console.log(inputs);
             // console.log(`${inputs.year}-${inputs.month}`);
+
+            api('dashboard', 'month_sales_total_stat', {'stat_date': `${inputs.year}-${inputs.month}`})
+            .then(({result, data})=>{
+                // console.log(result);
+                if(result){
+                    console.log(data);
+                    setDashboard(data)
+                }
+            })
+
             api('dashboard', 'month_sales_stat_list', {'stat_date': `${inputs.year}-${inputs.month}`})
                 .then(({result, data, list})=>{
                     if(result){
@@ -54,10 +53,12 @@ export default function MainSales() {
                             title='최소할당매출'
                             style={{'--percent': `${dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100}%`}}
                         ></span>
-                        <b 
-                            title='현재매출' 
-                            data-percent={ parseInt(dashboard?.total_sales_amount / dashboard?.goal_amount * 100) || 0 }
-                        ></b>
+                        { dashboard?.calculation_way === "month" &&
+                            <b 
+                                title='현재매출' 
+                                data-percent={ parseInt(dashboard?.total_sales_amount / dashboard?.goal_amount * 100) || 0 }
+                            ></b>
+                        }
                         <span title='목표매출'></span>
                     </div>
                     <div className='amountArea'>
@@ -70,19 +71,23 @@ export default function MainSales() {
                             <dt>최소할당매출</dt>
                             <dd>{ dashboard?.minimum_allocation_amount ? numberWithCommas(dashboard?.minimum_allocation_amount) : 0}</dd>
                         </dl>
-                        <dl>
-                            <dt>목표매출</dt>
-                            <dd>{ dashboard?.goal_amount ? numberWithCommas(dashboard?.goal_amount) : 0 }</dd>
-                        </dl>
+                        { dashboard?.calculation_way === "month" &&
+                            <dl>
+                                <dt>목표매출</dt>
+                                <dd>{ dashboard?.goal_amount ? numberWithCommas(dashboard?.goal_amount) : 0 }</dd>
+                            </dl>
+                        }
                         <dl>
                             <dt>현재매출</dt>
                             <dd>{ dashboard?.total_sales_amount ? numberWithCommas(dashboard?.total_sales_amount) : 0}</dd>
                         </dl>
-                        <mark>
-                            {`목표매출까지 
-                            ${ (dashboard?.goal_amount - dashboard?.total_sales_amount) ? numberWithCommas(dashboard?.goal_amount - dashboard?.total_sales_amount) : 0 }
-                            (${ dashboard?.remain_achievement_percent || 0 }%) 남음`}
-                        </mark>
+                        { dashboard?.calculation_way === "month" &&
+                            <mark>
+                                {`목표매출까지 
+                                ${ (dashboard?.goal_amount - dashboard?.total_sales_amount) ? numberWithCommas(dashboard?.goal_amount - dashboard?.total_sales_amount) : 0 }
+                                (${ dashboard?.remain_achievement_percent || 0 }%) 남음`}
+                            </mark>
+                        }
                     </div>
                 </div>
             </div>
