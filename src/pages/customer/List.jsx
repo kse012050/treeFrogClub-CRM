@@ -141,7 +141,7 @@ export default function List() {
     const onReset = ()=>{
         setSales()
         setBureau()
-        setSearchInputs()
+        setSearchInputs({})
         currentData()
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
         // navigate('/customer/list')
@@ -350,9 +350,9 @@ export default function List() {
                             <li>
                                 <label htmlFor="">유료 기간</label>
                                 <div>
-                                    <input type="radio" name='experience_search_type' id='experience_search_type_start' data-parents='experience_date_info' data-name='search_type' value='start' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <input type="radio" name='experience_search_type' id='experience_search_type_start' data-parents='experience_date_info' data-name='search_type' value='start' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="experience_search_type_start">시작일 검색</label>
-                                    <input type="radio" name='experience_search_type' id='experience_search_type_end' data-parents='experience_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <input type="radio" name='experience_search_type' id='experience_search_type_end' data-parents='experience_date_info' data-name='search_type' value='end' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="experience_search_type_end">종료일 검색</label>
                                     <div>
                                         <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'start_date')} value={searchInputs?.experience_date_info?.start_date ? dayjs(searchInputs?.experience_date_info?.start_date) : ''} disabled={!searchInputs?.experience_date_info} placeholder='시작일'/>
@@ -364,9 +364,9 @@ export default function List() {
                             <li>
                                 <label htmlFor="">무료체험 기간</label>
                                 <div>
-                                    <input type="radio" name='payment_search_type' id='payment_search_type_start' data-parents='payment_date_info' data-name='search_type' value='start' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <input type="radio" name='payment_search_type' id='payment_search_type_start' data-parents='payment_date_info' data-name='search_type' value='start' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="payment_search_type_start">시작일 검색</label>
-                                    <input type="radio" name='payment_search_type' id='payment_search_type_end' data-parents='payment_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <input type="radio" name='payment_search_type' id='payment_search_type_end' data-parents='payment_date_info' data-name='search_type' value='end' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="payment_search_type_end">종료일 검색</label>
                                     <div>
                                         <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} value={searchInputs?.payment_date_info?.start_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} disabled={!searchInputs?.payment_date_info} placeholder='시작일'/>

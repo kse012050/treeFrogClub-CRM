@@ -99,6 +99,9 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
             }else if(!inputs?.customer_name){
                 errorMessage = '고객명을 입력해주세요.'
             }else if(!inputs?.customer_mobile || inputs?.customer_mobile?.length !== 11){
+                console.log(inputs?.customer_mobile);
+                console.log(inputs?.customer_mobile?.length);
+                console.log(inputs?.customer_mobile?.length !== 11);
                 errorMessage = '휴대폰 번호를 입력해주세요.'
             }
             setPopup((popup)=>({
@@ -107,7 +110,8 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
             }))
             return
         }
-        api('customer', 'update', {'customer_id': inputs.customer_id, 'counsel_properties_id': inputs.counsel_properties_id})
+        // api('customer', 'update', {'customer_id': inputs.customer_id, 'counsel_properties_id': inputs.counsel_properties_id})
+        api('customer', 'update', {...inputs})
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
                 if(result){
@@ -742,7 +746,7 @@ function HistoryConsultInput({ id, currentData, counselValue, setCounselValue })
         const minute = now.getMinutes(); // 현재 분
 
         setRegisterDate({
-            'date': `${year}-${month < 10 ? '0' + month : month}-${date}`,
+            'date': `${year}-${month < 10 ? '0' + month : month}-${date < 10 ? '0' + date : date}`,
             'hour': `${hour < 10 ? '0' + hour: hour}`,
             'minute': `${minute < 10 ? '0' + minute : minute}`
         })

@@ -105,7 +105,7 @@ export default function List() {
         setBureau()
         currentSettings()
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
-        setSearchInputs()
+        setSearchInputs({})
         logButton('결제 목록(검색)')
     }
 
@@ -230,9 +230,9 @@ export default function List() {
                             <li>
                                 <label htmlFor="">결제 기준 검색</label>
                                 <div>
-                                    <input type="radio" name='service_date_info_by_payment' id='service_date_info_by_payment_start' data-parents='service_date_info_by_payment' data-name='search_type' value='start' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <input type="radio" name='service_date_info_by_payment' id='service_date_info_by_payment_start' data-parents='service_date_info_by_payment' data-name='search_type' value='start' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="service_date_info_by_payment_start">시작일 검색</label>
-                                    <input type="radio" name='service_date_info_by_payment' id='service_date_info_by_payment_end' data-parents='service_date_info_by_payment' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <input type="radio" name='service_date_info_by_payment' id='service_date_info_by_payment_end' data-parents='service_date_info_by_payment' data-name='search_type' value='end' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="service_date_info_by_payment_end">종료일 검색</label>
                                     <div>
                                         <DatePicker onChange={(_, dateString)=>onDate(dateString, 'service_date_info_by_payment', 'start_date')} value={searchInputs?.service_date_info_by_payment?.start_date ? dayjs(searchInputs?.service_date_info_by_payment?.start_date) : ''} disabled={!searchInputs?.service_date_info_by_payment} placeholder='시작일'/>
@@ -244,9 +244,9 @@ export default function List() {
                             <li>
                                 <label htmlFor="">서비스기간 포함 검색</label>
                                 <div>
-                                    <input type="radio" name='service_date_info' id='service_date_info_start' data-parents='service_date_info' data-name='search_type' value='start' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <input type="radio" name='service_date_info' id='service_date_info_start' data-parents='service_date_info' data-name='search_type' value='start' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="service_date_info_start">시작일 검색</label>
-                                    <input type="radio" name='service_date_info' id='service_date_info_end' data-parents='service_date_info' data-name='search_type' value='end' onChange={(e)=>parentsChange(e, setSearchInputs)}/>
+                                    <input type="radio" name='service_date_info' id='service_date_info_end' data-parents='service_date_info' data-name='search_type' value='end' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="service_date_info_end">종료일 검색</label>
                                     <div>
                                         <DatePicker onChange={(_, dateString)=>onDate(dateString, 'service_date_info', 'start_date')} value={searchInputs?.service_date_info?.start_date ? dayjs(searchInputs?.service_date_info?.start_date) : ''} disabled={!searchInputs?.service_date_info} placeholder='시작일'/>

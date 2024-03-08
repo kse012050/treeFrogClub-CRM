@@ -134,6 +134,9 @@ function DashboardFirst({clientcode}){
                     <div className="board-top">
                         <b>순위</b>
                         <b>부서명</b>
+                        { tab === 'ByUser' &&
+                            <b>사용자</b>
+                        }
                         <b>전월 총 매출금액</b>
                         <b>금월 총 매출금액</b>
                         <b>전월대비</b>
@@ -144,6 +147,9 @@ function DashboardFirst({clientcode}){
                                 <li key={data.ranking}>
                                     <span>{ data.ranking }</span>
                                     <span>{ data.department_name }</span>
+                                    { tab === 'ByUser' &&
+                                        <span>{ data.admin_name }</span>
+                                    }
                                     <span>{ data.pre_month_sales_price ? numberWithCommas(data.pre_month_sales_price) : 0 }</span>
                                     <span>{ data.current_month_sales_price ? numberWithCommas(data.current_month_sales_price) : 0 }</span>
                                     <span>{ data.percent && `${data.percent}%`}</span>
@@ -157,6 +163,9 @@ function DashboardFirst({clientcode}){
                     <div className="board-bottom">
                         <b></b>
                         <b>합계</b>
+                        { tab === 'ByUser' &&
+                            <b></b>
+                        }
                         <b>{ dashboardSum?.pre_month_sales_price ? numberWithCommas(dashboardSum.pre_month_sales_price) : '-' }</b>
                         <b>{ dashboardSum?.current_month_sales_price ? numberWithCommas(dashboardSum.current_month_sales_price) : '-' }</b>
                         <b>{ dashboardSum?.percent ? `${dashboardSum.percent}%` : '-' }</b>
@@ -203,9 +212,9 @@ function DashboardSecond({ clientcode }){
                 api('dashboard', funcType, {'stat_date': `${inputs.year}-${inputs.month}`})
                     .then(({result, list})=>{
                         if(result){
-                            // console.log(list);
                             setDashboard(list ? list.filter(({ranking})=>ranking) : [])
                             setDashboardSum(list ? list.filter(({ranking})=>!ranking)[0] : [])
+                            // console.log(list);
                             // console.log(list.filter(({ranking})=>!ranking)[0]);
                         }
                     })
@@ -266,7 +275,15 @@ function DashboardSecond({ clientcode }){
                 <div className='boardBox'>
                     <div className="board-top">
                         <b>순위</b>
-                        <b>상품명</b>
+                        <b>
+                            { tab === 'ByProduct' && '상품명'}
+                            { tab === 'ByAnalyst' && '애널리스트'}
+                        </b>
+                        { tab === 'ByAnalyst' && 
+                            <b>
+                                상품개수
+                            </b>
+                        }
                         <b>매출건수</b>
                         <b>금월 총 매출금액</b>
                         <b>매출점유율</b>
@@ -277,6 +294,11 @@ function DashboardSecond({ clientcode }){
                                 <li key={data.ranking}>
                                     <span>{ data.ranking }</span>
                                     <span>{ data.product_name || data.analyst_admin_name }</span>
+                                    { tab === 'ByAnalyst' && 
+                                        <span>
+                                            { data.total_product_count }
+                                        </span>
+                                    }
                                     <span>{ data.total_count }</span>
                                     <span>{ data.total_price ? numberWithCommas(data.total_price) : 0 }</span>
                                     <span>{ data.percent && `${data.percent}%`}</span>
@@ -291,6 +313,11 @@ function DashboardSecond({ clientcode }){
                     <div className="board-bottom">
                         <b></b>
                         <b>합계</b>
+                        { tab === 'ByAnalyst' && 
+                            <b>
+                                { 'api 필요' }
+                            </b>
+                        }
                         <b>{ dashboardSum?.total_count ? numberWithCommas(dashboardSum.total_count) : '-' }</b>
                         <b>{ dashboardSum?.total_price ? numberWithCommas(dashboardSum.total_price) : '-' }</b>
                         <b>{ dashboardSum?.percent ? `${dashboardSum.percent}%` : '-' }</b>

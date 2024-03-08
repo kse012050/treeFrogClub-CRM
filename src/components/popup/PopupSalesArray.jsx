@@ -6,7 +6,7 @@ import { inputChange } from '../../api/validation';
 
 export default function PopupSalesArray({ close, popup }) {
     // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
-    const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
+    const [listInfo, setListInfo] = useState({'limit': '5', 'page': '1'})
     const [salesList, setSalesList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [searchInputs, setSearchInputs] = useState()
