@@ -46,7 +46,7 @@ export default function Graph({ data, color}) {
                         );
                     }else{
                         ctx.fillText(`${this.name} ${this.percent}%`,
-                            (circleArea.clientWidth / 2 - 25 - (this.name.length * 4)),
+                            (circleArea.clientWidth / 2 - 25 - (this.name.length * 5)),
                             (circleArea.clientHeight / 2 + 10),
                             1000
                         );

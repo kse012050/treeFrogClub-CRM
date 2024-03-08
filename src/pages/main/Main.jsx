@@ -13,6 +13,7 @@ export default function Main() {
         api('board', 'dashboard_alarm')
             .then(({result, data})=>{
                 if(result){
+                    console.log(data);
                     setDashboardAlarm(data)
                 }
             })

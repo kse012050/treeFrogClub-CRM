@@ -85,7 +85,9 @@
 .mainPage .salesPage .salesArea > div .progressArea > *[title="최소할당매출"]{left: var(--percent);}
 .mainPage .salesPage .salesArea > div .progressArea > *[title="현재매출"]{left: var(--percent); font-weight: 700;}
 .mainPage .salesPage .salesArea > div .progressArea > *[title="목표매출"]{left: 100%;}
-.mainPage .salesPage .salesArea > div .progressArea > *::before{content: attr(title); position: absolute; top: 100%; left: -50%; transform: translateX(-50%); white-space: nowrap; padding-top: 16px; background: url(../images/icon-triangle-gray-up.png) no-repeat center top 3px / 12px;}
+.mainPage .salesPage .salesArea > div .progressArea > *::before{content: attr(title); position: absolute; /* top: 100%; */ left: -50%; white-space: nowrap;}
+.mainPage .salesPage .salesArea > div .progressArea > :is(*[title="투자금액"], *[title="최소할당매출"], *[title="목표매출"])::before{top: 0%; padding-bottom: 16px; transform: translateX(-50%) translateY(-100%); background: url(../images/icon-triangle-gray-down.png) no-repeat center bottom 3px / 12px;}
+.mainPage .salesPage .salesArea > div .progressArea > :is(*[title="현재매출"])::before{top: 100%; padding-top: 16px; transform: translateX(-50%); background: url(../images/icon-triangle-gray-up.png) no-repeat center top 3px / 12px;}
 .mainPage .salesPage .salesArea > div .progressArea > *[title="현재매출"]::after{content: attr(data-percent) '% 달성'; position: absolute; top: calc(100% + 40px); transform: translateX(-50%); font-size: 12px; line-height: 14px; color: var(--color-point01); padding: 5px 10px; white-space: nowrap; background-color: var(--color-point02); border-radius: 20px;}
 .mainPage .salesPage .salesArea > div .amountArea{width: 360px; flex-shrink: 0;}
 .mainPage .salesPage .salesArea > div .amountArea b{font-size: 15px; line-height: 18px; font-weight: 700; display: block; margin-bottom: 12px;}

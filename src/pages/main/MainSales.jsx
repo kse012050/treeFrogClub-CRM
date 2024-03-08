@@ -19,7 +19,7 @@ export default function MainSales() {
             .then(({result, data})=>{
                 // console.log(result);
                 if(result){
-                    // console.log(data);
+                    console.log(data);
                     setDashboard(data)
                 }
             })
@@ -49,14 +49,16 @@ export default function MainSales() {
                             title='투자금액'
                             style={{'--percent': `${dashboard?.investment_amount / dashboard?.goal_amount * 100}%`}}
                             ></span>
-                        <span 
-                            title='최소할당매출'
-                            style={{'--percent': `${dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100}%`}}
-                        ></span>
+                        { Math.abs((dashboard?.investment_amount / dashboard?.goal_amount * 100) - (dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100)) >= 5 &&
+                            <span 
+                                title='최소할당매출'
+                                style={{'--percent': `${dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100}%`}}
+                            ></span>
+                        }
                         { dashboard?.calculation_way === "month" &&
                             <b 
                                 title='현재매출' 
-                                data-percent={ parseInt(dashboard?.total_sales_amount / dashboard?.goal_amount * 100) || 0 }
+                                data-percent={(dashboard?.total_sales_amount && dashboard?.goal_amount) ? parseFloat(dashboard?.total_sales_amount / dashboard?.goal_amount * 100).toFixed(2) : 0 }
                             ></b>
                         }
                         <span title='목표매출'></span>

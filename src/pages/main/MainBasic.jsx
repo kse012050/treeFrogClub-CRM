@@ -79,7 +79,7 @@ function DashboardFirst({clientcode}){
                 // console.log(data);
                 return {
                     'percent': data.current_month_sales_price ? (data.current_month_sales_price / dashboardSum.current_month_sales_price * 100).toFixed(1) : '0',
-                    'name': data.department_name
+                    'name': (tab === 'ByDepartment') ? data.department_name : data.admin_name
                  };
             }))
         }
@@ -97,7 +97,7 @@ function DashboardFirst({clientcode}){
                     <SelectMonth year={inputs.year} setInputs={setInputs} changeName='month' tab={tab}/>
                 }
             </div>
-            <div className='infoArea' onClick={()=>console.log(graph)}>
+            <div className='infoArea'>
                 <div className='graphArea'>
                     { (!!dashboard?.length && graph)? 
                         <>
@@ -116,7 +116,8 @@ function DashboardFirst({clientcode}){
                                 <ul>
                                     {dashboard.map((data)=>(
                                         <li key={data.ranking}>
-                                            { data.department_name }
+                                            { tab === 'ByDepartment' && data.department_name }
+                                            { tab === 'ByUser' && data.admin_name }
                                         </li>
                                     ))}
                                 </ul> :
@@ -230,7 +231,7 @@ function DashboardSecond({ clientcode }){
                 // console.log(data.total_price ? (data.total_price / dashboardSum.total_price * 100).toFixed(1) : '0');
                 return {
                    'percent': data.total_price ? (data.total_price / dashboardSum.total_price * 100).toFixed(1) : '0',
-                   'name': data.product_name
+                   'name':  (tab === 'ByProduct') ? data.product_name : data.analyst_admin_name
                 };
             }))
         }
@@ -258,7 +259,8 @@ function DashboardSecond({ clientcode }){
                                 <ul>
                                     {dashboard.map((data)=>(
                                         <li key={data.ranking}>
-                                            { data.product_name }
+                                            { tab === 'ByProduct' && data.product_name}
+                                            { tab === 'ByAnalyst' && data.analyst_admin_name}
                                         </li>
                                     ))}
                                 </ul> :
