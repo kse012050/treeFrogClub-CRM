@@ -25,6 +25,7 @@ export default function AnUser() {
         api('user', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
+                    // console.log(list);
                     setPagerInfo(data)
                     setBoardList(list)
                 }

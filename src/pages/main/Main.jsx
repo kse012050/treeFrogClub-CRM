@@ -13,7 +13,7 @@ export default function Main() {
         api('board', 'dashboard_alarm')
             .then(({result, data})=>{
                 if(result){
-                    console.log(data);
+                    // console.log(data);
                     setDashboardAlarm(data)
                 }
             })
@@ -28,7 +28,10 @@ export default function Main() {
                 </Link>
             }
             { user && 
-                user?.useable_yn === 'n' ? <MainBasic /> : <MainSales />
+                ( user?.role_info.role_classification === '애널리스트' && <MainBasic /> )
+            }
+            { user && 
+                ( user?.role_info.role_classification === '영업' && <MainSales /> )
             }
             {/* <MainBasic /> */}
             {/* <MainSales /> */}

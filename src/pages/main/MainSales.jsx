@@ -19,7 +19,7 @@ export default function MainSales() {
             .then(({result, data})=>{
                 // console.log(result);
                 if(result){
-                    console.log(data);
+                    // console.log(data);
                     setDashboard(data)
                 }
             })

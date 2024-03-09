@@ -22,6 +22,7 @@ export default function AnUserUpdate() {
         api('user', 'detail', {'admin_id': id})
             .then(({result, data})=>{
                 if(result){
+                    // console.log(data);
                     setInputs(data)
                     setUserId(data.id)
                     setBureau(data.department_name)
@@ -51,9 +52,9 @@ export default function AnUserUpdate() {
             })
     }
 
-    useEffect(()=>{
-        setInputs((input)=>({...input, 'id': ''}))
-    },[userId])
+    // useEffect(()=>{
+    //     setInputs((input)=>({...input, 'id': ''}))
+    // },[userId])
 
     const onDate = (date, dateString) => {
         console.log(date, dateString);

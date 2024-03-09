@@ -7,6 +7,17 @@ import Graph from '../../components/Graph';
 
 export default function MainBasic() {
     const [clientcode, setClientcode] = useState()
+    const color = [
+        '#FEA89B',
+        '#FDBF6C',
+        '#FCD665',
+        '#7DDB83',
+        '#74CBCA',
+        '#79C0FC',
+        '#BF9DFC',
+        '#FFA6D7',
+        '#B78F8F'
+    ]
 
     useEffect(()=>{
         api('clientcode', 'properties_list', {'all_yn': 'y'})
@@ -20,30 +31,19 @@ export default function MainBasic() {
   
     return (
         <div className='basicPage'>
-             <DashboardFirst clientcode={clientcode}/>
-             <DashboardSecond clientcode={clientcode}/>
+             <DashboardFirst color={color}/>
+             <DashboardSecond color={color}/>
         </div>
     );
 }
 
 
-function DashboardFirst({clientcode}){
+function DashboardFirst({color}){
     const [inputs, setInputs] = useState()
     const [dashboard, setDashboard] = useState()
     const [dashboardSum, setDashboardSum] = useState()
     const [tab, setTab] = useState('ByDepartment');
     const [graph, setGraph] = useState()
-    const color = [
-        '#FEA89B',
-        '#FDBF6C',
-        '#FCD665',
-        '#7DDB83',
-        '#74CBCA',
-        '#79C0FC',
-        '#BF9DFC',
-        '#FFA6D7',
-        '#B78F8F'
-    ]
 
     useEffect(()=>{
         if(inputs?.year && inputs?.month){
@@ -83,7 +83,7 @@ function DashboardFirst({clientcode}){
                  };
             }))
         }
-    },[dashboard, dashboardSum])
+    },[dashboard, dashboardSum, tab])
 
     return (
         <div>
@@ -97,106 +97,86 @@ function DashboardFirst({clientcode}){
                     <SelectMonth year={inputs.year} setInputs={setInputs} changeName='month' tab={tab}/>
                 }
             </div>
-            <div className='infoArea'>
-                <div className='graphArea'>
-                    { (!!dashboard?.length && graph)? 
-                        <>
-                            <Graph data={graph} color={color}/>
-                            {/* { clientcode &&
-                                <ul>
-                                    { clientcode.map((data)=>
-                                        <li key={data.properties_id} style={{'--bgColor': data.bg_color}}>
-                                            { data.name }
-                                        </li>
-                                    )}
-                                </ul>
-                            } */}
-                            
-                            { !!dashboard?.length ?
-                                <ul>
-                                    {dashboard.map((data)=>(
-                                        <li key={data.ranking}>
-                                            { tab === 'ByDepartment' && data.department_name }
-                                            { tab === 'ByUser' && data.admin_name }
-                                        </li>
-                                    ))}
-                                </ul> :
-                                <div className='data-none'>
-                                    표시할 데이터가 없습니다.
-                                </div>
+            { dashboard && 
+                <div className='infoArea'>
+                    <div className='graphArea'>
+                        {(!!dashboard?.length && graph)?
+                            <>
+                                <Graph data={graph} color={color}/>
+                                
+                                { !!dashboard?.length ?
+                                    <ul>
+                                        {dashboard.map((data)=>(
+                                            <li key={data.ranking}>
+                                                { tab === 'ByDepartment' && data.department_name }
+                                                { tab === 'ByUser' && data.admin_name }
+                                            </li>
+                                        ))}
+                                    </ul> :
+                                    <div className='data-none'>
+                                        표시할 데이터가 없습니다.
+                                    </div>
+                                }
+                            </> :
+                            <div className='data-none'>
+                                표시할 데이터가 없습니다.
+                            </div>
+                        }
+                    </div>
+                    <div className='boardBox'>
+                        <div className="board-top">
+                            <b>순위</b>
+                            <b>부서명</b>
+                            { tab === 'ByUser' &&
+                                <b>사용자</b>
                             }
-                        </> :
-                        <div className='data-none'>
-                            표시할 데이터가 없습니다.
+                            <b>전월 총 매출금액</b>
+                            <b>금월 총 매출금액</b>
+                            <b>전월대비</b>
                         </div>
-                    }
-                </div>
-                <div className='boardBox'>
-                    <div className="board-top">
-                        <b>순위</b>
-                        <b>부서명</b>
-                        { tab === 'ByUser' &&
-                            <b>사용자</b>
+                        { !!dashboard?.length ?
+                            <ol className="board-center">
+                                {dashboard.map((data)=>(
+                                    <li key={data.ranking}>
+                                        <span>{ data.ranking }</span>
+                                        <span>{ data.department_name }</span>
+                                        { tab === 'ByUser' &&
+                                            <span>{ data.admin_name }</span>
+                                        }
+                                        <span>{ data.pre_month_sales_price ? numberWithCommas(data.pre_month_sales_price) : 0 }</span>
+                                        <span>{ data.current_month_sales_price ? numberWithCommas(data.current_month_sales_price) : 0 }</span>
+                                        <span>{ data.percent && `${data.percent}%`}</span>
+                                    </li>
+                                ))}
+                            </ol> :
+                            <div className='data-none'>
+                                표시할 데이터가 없습니다.
+                            </div>
                         }
-                        <b>전월 총 매출금액</b>
-                        <b>금월 총 매출금액</b>
-                        <b>전월대비</b>
-                    </div>
-                    { !!dashboard?.length ?
-                        <ol className="board-center">
-                            {dashboard.map((data)=>(
-                                <li key={data.ranking}>
-                                    <span>{ data.ranking }</span>
-                                    <span>{ data.department_name }</span>
-                                    { tab === 'ByUser' &&
-                                        <span>{ data.admin_name }</span>
-                                    }
-                                    <span>{ data.pre_month_sales_price ? numberWithCommas(data.pre_month_sales_price) : 0 }</span>
-                                    <span>{ data.current_month_sales_price ? numberWithCommas(data.current_month_sales_price) : 0 }</span>
-                                    <span>{ data.percent && `${data.percent}%`}</span>
-                                </li>
-                            ))}
-                        </ol> :
-                        <div className='data-none'>
-                            표시할 데이터가 없습니다.
-                        </div>
-                    }
-                    <div className="board-bottom">
-                        <b></b>
-                        <b>합계</b>
-                        { tab === 'ByUser' &&
+                        <div className="board-bottom">
                             <b></b>
-                        }
-                        <b>{ dashboardSum?.pre_month_sales_price ? numberWithCommas(dashboardSum.pre_month_sales_price) : '-' }</b>
-                        <b>{ dashboardSum?.current_month_sales_price ? numberWithCommas(dashboardSum.current_month_sales_price) : '-' }</b>
-                        <b>{ dashboardSum?.percent ? `${dashboardSum.percent}%` : '-' }</b>
+                            <b>합계</b>
+                            { tab === 'ByUser' &&
+                                <b></b>
+                            }
+                            <b>{ dashboardSum?.pre_month_sales_price ? numberWithCommas(dashboardSum.pre_month_sales_price) : '-' }</b>
+                            <b>{ dashboardSum?.current_month_sales_price ? numberWithCommas(dashboardSum.current_month_sales_price) : '-' }</b>
+                            <b>{ dashboardSum?.percent ? `${dashboardSum.percent}%` : '-' }</b>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {/* <div>
-                표시할 데이터 없음
-            </div> */}
+            }
+          
         </div>
     )
 }
 
-function DashboardSecond({ clientcode }){
+function DashboardSecond({ color }){
     const [inputs, setInputs] = useState()
     const [dashboard, setDashboard] = useState()
     const [dashboardSum, setDashboardSum] = useState()
     const [tab, setTab] = useState('ByProduct');
     const [graph, setGraph] = useState()
-    const color = [
-        '#FEA89B',
-        '#FDBF6C',
-        '#FCD665',
-        '#7DDB83',
-        '#74CBCA',
-        '#79C0FC',
-        '#BF9DFC',
-        '#FFA6D7',
-        '#B78F8F'
-    ]
 
     useEffect(()=>{
         if(inputs?.year && inputs?.month){
@@ -235,7 +215,7 @@ function DashboardSecond({ clientcode }){
                 };
             }))
         }
-    },[dashboard, dashboardSum])
+    },[dashboard, dashboardSum, tab])
 
     return (
         <div>
@@ -250,82 +230,85 @@ function DashboardSecond({ clientcode }){
                     <SelectMonth year={inputs.year} setInputs={setInputs} changeName='month' tab={tab}/>
                 }
             </div>
-            <div className='infoArea'>
-                <div className='graphArea'>
-                    {(!!dashboard?.length && graph)? 
-                        <>
-                            <Graph data={graph} color={color}/>
-                            { !!dashboard?.length ?
-                                <ul>
-                                    {dashboard.map((data)=>(
-                                        <li key={data.ranking}>
-                                            { tab === 'ByProduct' && data.product_name}
-                                            { tab === 'ByAnalyst' && data.analyst_admin_name}
-                                        </li>
-                                    ))}
-                                </ul> :
-                                <div className='data-none'>
-                                    표시할 데이터가 없습니다.
-                                </div>
+            
+            { dashboard && 
+                <div className='infoArea'>
+                    <div className='graphArea'>
+                        {(!!dashboard?.length && graph)? 
+                            <>
+                                <Graph data={graph} color={color}/>
+                                { !!dashboard?.length ?
+                                    <ul>
+                                        {dashboard.map((data)=>(
+                                            <li key={data.ranking}>
+                                                { tab === 'ByProduct' && data.product_name}
+                                                { tab === 'ByAnalyst' && data.analyst_admin_name}
+                                            </li>
+                                        ))}
+                                    </ul> :
+                                    <div className='data-none'>
+                                        표시할 데이터가 없습니다.
+                                    </div>
+                                }
+                            </> :
+                            <div className='data-none'>
+                                표시할 데이터가 없습니다.
+                            </div>
+                        }
+                    </div>
+                    <div className='boardBox'>
+                        <div className="board-top">
+                            <b>순위</b>
+                            <b>
+                                { tab === 'ByProduct' && '상품명'}
+                                { tab === 'ByAnalyst' && '애널리스트'}
+                            </b>
+                            { tab === 'ByAnalyst' && 
+                                <b>
+                                    상품개수
+                                </b>
                             }
-                        </> :
-                        <div className='data-none'>
-                            표시할 데이터가 없습니다.
+                            <b>매출건수</b>
+                            <b>금월 총 매출금액</b>
+                            <b>매출점유율</b>
                         </div>
-                    }
-                </div>
-                <div className='boardBox'>
-                    <div className="board-top">
-                        <b>순위</b>
-                        <b>
-                            { tab === 'ByProduct' && '상품명'}
-                            { tab === 'ByAnalyst' && '애널리스트'}
-                        </b>
-                        { tab === 'ByAnalyst' && 
-                            <b>
-                                상품개수
-                            </b>
+                        { !!dashboard?.length ?
+                            <ol className="board-center">
+                                {dashboard.map((data)=>(
+                                    <li key={data.ranking}>
+                                        <span>{ data.ranking }</span>
+                                        <span>{ data.product_name || data.analyst_admin_name }</span>
+                                        { tab === 'ByAnalyst' && 
+                                            <span>
+                                                { data.total_product_count }
+                                            </span>
+                                        }
+                                        <span>{ data.total_count }</span>
+                                        <span>{ data.total_price ? numberWithCommas(data.total_price) : 0 }</span>
+                                        <span>{ data.percent && `${data.percent}%`}</span>
+                                    </li>
+                                ))}
+                            </ol> :
+                            <div className='data-none'>
+                                표시할 데이터가 없습니다.
+                            </div>
                         }
-                        <b>매출건수</b>
-                        <b>금월 총 매출금액</b>
-                        <b>매출점유율</b>
-                    </div>
-                    { !!dashboard?.length ?
-                        <ol className="board-center">
-                            {dashboard.map((data)=>(
-                                <li key={data.ranking}>
-                                    <span>{ data.ranking }</span>
-                                    <span>{ data.product_name || data.analyst_admin_name }</span>
-                                    { tab === 'ByAnalyst' && 
-                                        <span>
-                                            { data.total_product_count }
-                                        </span>
-                                    }
-                                    <span>{ data.total_count }</span>
-                                    <span>{ data.total_price ? numberWithCommas(data.total_price) : 0 }</span>
-                                    <span>{ data.percent && `${data.percent}%`}</span>
-                                </li>
-                            ))}
-                        </ol> :
-                        <div className='data-none'>
-                            표시할 데이터가 없습니다.
+                        
+                        <div className="board-bottom">
+                            <b></b>
+                            <b>합계</b>
+                            { tab === 'ByAnalyst' && 
+                                <b>
+                                    { dashboardSum?.total_product_count }
+                                </b>
+                            }
+                            <b>{ dashboardSum?.total_count ? numberWithCommas(dashboardSum.total_count) : '-' }</b>
+                            <b>{ dashboardSum?.total_price ? numberWithCommas(dashboardSum.total_price) : '-' }</b>
+                            <b>{ dashboardSum?.percent ? `${dashboardSum.percent}%` : '-' }</b>
                         </div>
-                    }
-                    
-                    <div className="board-bottom">
-                        <b></b>
-                        <b>합계</b>
-                        { tab === 'ByAnalyst' && 
-                            <b>
-                                { 'api 필요' }
-                            </b>
-                        }
-                        <b>{ dashboardSum?.total_count ? numberWithCommas(dashboardSum.total_count) : '-' }</b>
-                        <b>{ dashboardSum?.total_price ? numberWithCommas(dashboardSum.total_price) : '-' }</b>
-                        <b>{ dashboardSum?.percent ? `${dashboardSum.percent}%` : '-' }</b>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

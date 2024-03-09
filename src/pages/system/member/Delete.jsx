@@ -7,13 +7,16 @@ import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
 import { arrayChange, inputChange, onSort } from '../../../api/validation';
 import { logButton } from '../../../api/common';
+import Popup from '../../../components/popup/Popup';
 
 export default function Delete() {
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'delete_select_yn': 'y'})
-    const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
+    const [searchInputs, setSearchInputs] = useState({})
     const [searchCounsel, setSearchCounsel] = useState()
+    const [sales, setSales] = useState()
+    const [popup, setPopup] = useState()
 
     useEffect(()=>{
         api('commoncode', 'properties_list', {'all_yn': 'y'})
@@ -46,6 +49,8 @@ export default function Delete() {
 
     const onReset = ()=>{
         setInputs((input)=>({'limit': input.limit, 'page': '1', 'delete_select_yn': 'y'}))
+        setSearchInputs({})
+        setSales()
         logButton('고객삭제이력(검색 초기화)')
     }
 
@@ -89,20 +94,30 @@ export default function Delete() {
                                 </div>
                             </li>
                             <li>
-                                <label htmlFor="">삭제자</label>
+                                <label htmlFor="delete_admin_id">삭제자</label>
                                 <div>
-                                    <div>
-                                        <input type="text" />
-                                    </div>
+                                    <input 
+                                        type="search" 
+                                        value={sales || ''}
+                                        readOnly
+                                        onClick={()=>setPopup({
+                                            'type': 'sales',
+                                            'func': (data)=>{
+                                                setSearchInputs((input)=>({...input, 'delete_admin_id': data.admin_id}))
+                                                setSales(data.name)
+                                            }
+                                        })}
+                                    />
+                                    <button>검색</button>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">삭제일</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'start_date')} value={searchInputs?.reg_date_info?.start_date ? dayjs(searchInputs?.reg_date_info?.start_date) : ''} placeholder='시작일'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'delete_date_info', 'start_date')} value={searchInputs?.delete_date_info?.start_date ? dayjs(searchInputs?.delete_date_info?.start_date) : ''} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'end_date')} value={searchInputs?.reg_date_info?.end_date ? dayjs(searchInputs?.reg_date_info?.end_date) : ''} placeholder='종료일'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'delete_date_info', 'end_date')} value={searchInputs?.delete_date_info?.end_date ? dayjs(searchInputs?.delete_date_info?.end_date) : ''} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
@@ -162,7 +177,7 @@ export default function Delete() {
                         { boardList.map((data)=>(
                             <li key={ data.customer_id }>
                                 <span>{ data.del_date.split(' ')[0].replaceAll('-','/') }</span>
-                                <span>{/* { data.customer_name } */} api 필요{/* 정렬도 해야한다 */}</span>
+                                <span>{ data.del_admin_name }</span>
                                 <span>{ data.customer_name }</span>
                                 <span>{ data.customer_mobile }</span>
                                 <span>{ data.customer_properties_name }</span>
@@ -184,9 +199,9 @@ export default function Delete() {
             </div>
 
             
-            {/* {popup && (
+            {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
-            )} */}
+            )}
         </>
     );
 }
