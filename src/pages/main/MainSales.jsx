@@ -13,16 +13,16 @@ export default function MainSales() {
     useEffect(()=>{
         if(inputs?.year && inputs?.month){
             // console.log(inputs);
-            // console.log(`${inputs.year}-${inputs.month}`);
+            console.log(`${inputs.year}-${inputs.month}`);
 
             api('dashboard', 'month_sales_total_stat', {'stat_date': `${inputs.year}-${inputs.month}`})
-            .then(({result, data})=>{
-                // console.log(result);
-                if(result){
-                    // console.log(data);
-                    setDashboard(data)
-                }
-            })
+                .then(({result, data})=>{
+                    // console.log(result);
+                    if(result){
+                        console.log(data);
+                        setDashboard(data)
+                    }
+                })
 
             api('dashboard', 'month_sales_stat_list', {'stat_date': `${inputs.year}-${inputs.month}`})
                 .then(({result, data, list})=>{
@@ -41,28 +41,49 @@ export default function MainSales() {
             <div className='salesArea'>
                 <strong>{ inputs?.year }년 { inputs?.month }월 매출현황</strong>
                 <div>
-                    <div className='progressArea' 
-                        style={{'--percent': `${dashboard?.achievement_percent}%`}}
-                        // style={{'--percent': `${30}%`}}
-                    >
-                        <span 
-                            title='투자금액'
-                            style={{'--percent': `${dashboard?.investment_amount / dashboard?.goal_amount * 100}%`}}
-                            ></span>
-                        { Math.abs((dashboard?.investment_amount / dashboard?.goal_amount * 100) - (dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100)) >= 5 &&
+                    { dashboard?.calculation_way === 'month' && 
+                        <div className='progressArea month' 
+                            style={{'--percent': `${dashboard?.achievement_percent}%`}}
+                            // style={{'--percent': `${30}%`}}
+                        >
+                            <span 
+                                title='투자금액'
+                                style={{'--percent': `${dashboard?.investment_amount / dashboard?.goal_amount * 100}%`}}
+                                ></span>
+                            { Math.abs((dashboard?.investment_amount / dashboard?.goal_amount * 100) - (dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100)) >= 5 &&
+                                <span 
+                                    title='최소할당매출'
+                                    style={{'--percent': `${dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100}%`}}
+                                ></span>
+                            }
+                            { dashboard?.calculation_way === "month" &&
+                                <b 
+                                    title='현재매출' 
+                                    data-percent={(dashboard?.total_sales_amount && dashboard?.goal_amount) ? parseFloat(dashboard?.total_sales_amount / dashboard?.goal_amount * 100).toFixed(2) : 0 }
+                                ></b>
+                            }
+                            <span title='목표매출'></span>
+                        </div>
+                    }
+                    { dashboard?.calculation_way === 'day' && 
+                        <div className='progressArea day' 
+                            style={{'--percent': `${ parseFloat(dashboard.total_sales_amount / dashboard.investment_amount * 100).toFixed(2) }%`}}
+                            // style={{'--percent': `${30}%`}}
+                        >
+                            <span 
+                                title='투자금액'
+                                style={{'--percent': `${dashboard?.investment_amount / dashboard?.goal_amount * 100}%`}}
+                                ></span>
                             <span 
                                 title='최소할당매출'
-                                style={{'--percent': `${dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100}%`}}
-                            ></span>
-                        }
-                        { dashboard?.calculation_way === "month" &&
+                                style={{'--percent': `${0}%`}}
+                                ></span>
                             <b 
                                 title='현재매출' 
-                                data-percent={(dashboard?.total_sales_amount && dashboard?.goal_amount) ? parseFloat(dashboard?.total_sales_amount / dashboard?.goal_amount * 100).toFixed(2) : 0 }
-                            ></b>
-                        }
-                        <span title='목표매출'></span>
-                    </div>
+                                data-percent={(dashboard?.total_sales_amount && dashboard?.investment_amount) ? parseFloat(dashboard.total_sales_amount / dashboard.investment_amount * 100).toFixed(2) : 0 }
+                                ></b>
+                        </div>
+                    }
                     <div className='amountArea'>
                         <b>매출 달성 금액</b>
                         <dl>

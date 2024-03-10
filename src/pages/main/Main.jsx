@@ -27,12 +27,16 @@ export default function Main() {
                     <p>{ dashboardAlarm.title }</p>
                 </Link>
             }
-            { user && 
-                ( user?.role_info.role_classification === '애널리스트' && <MainBasic /> )
+
+            { (user && user?.role_info) &&
+                user?.role_info?.role_classification === '영업' ? <MainSales /> : <MainBasic /> 
+            }
+            {/* { user && 
+                ( user?.role_info?.role_classification === '애널리스트' && <MainBasic /> )
             }
             { user && 
-                ( user?.role_info.role_classification === '영업' && <MainSales /> )
-            }
+                ( user?.role_info?.role_classification === '영업' && <MainSales /> )
+            } */}
             {/* <MainBasic /> */}
             {/* <MainSales /> */}
         </>
