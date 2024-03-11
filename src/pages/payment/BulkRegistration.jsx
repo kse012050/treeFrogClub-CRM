@@ -78,7 +78,7 @@ export default function Registration() {
                     <b>데이터 투입</b>
                     <div>
                         <div>
-                            <input type="text" placeholder='선택된 파일 없음' value={fileName || ''} readOnly/>
+                            <input type="text" placeholder='선택된 파일 없음' value={fileName || ''} readOnly className={fileName ? 'active' : ''}/>
                             <input type="file" name='upload_file' id='upload_file' onChange={onFileChange}/>
                             <label htmlFor="upload_file" className='btn-gray-black'>파일 선택</label>
                         </div>
@@ -89,7 +89,12 @@ export default function Registration() {
                         </p>
                     </div>
                 </li>
-                { finMessage && 
+                { !finMessage ?
+                    <li>
+                        <div>
+                            <p>데이터를 투입하시면 결과가 표시됩니다.</p>
+                        </div>
+                    </li> : 
                     <li>
                         <b>결과</b>
                         <div>

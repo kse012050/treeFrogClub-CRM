@@ -371,8 +371,8 @@ ol.bulkBox > li:nth-child(2) > div > *:nth-child(n + 3){width: 100%; margin-top:
 ol.bulkBox > li:nth-child(2) > div div:has(input){display: flex; gap: 7px;}
 ol.bulkBox > li:nth-child(2) > div div:has(input) input{width: 400px; height: 32px;}
 ol.bulkBox > li:nth-child(3) > div{text-align: center;}
-ol.bulkBox > li:nth-child(3) > div p{font-size: 20px; line-height: 24px; font-weight: 400; margin-bottom: 10px;}
-ol.bulkBox > li:nth-child(3) > div > mark{font-weight: 700;}
+ol.bulkBox > li:nth-child(3) > div p{font-size: 20px; line-height: 24px; font-weight: 400;}
+ol.bulkBox > li:nth-child(3) > div > mark{display: block; font-weight: 700; margin-top: 10px;}
 ol.bulkBox > li:nth-child(3) > div > mark::before{content: '('; color: var(--color-font03);}
 ol.bulkBox > li:nth-child(3) > div > mark::after{content: '/' attr(data-total) ')'; color: var(--color-font03);}
 ol.bulkBox > li:nth-child(3) > div dl{display: flex; justify-content: center; align-items: center;}

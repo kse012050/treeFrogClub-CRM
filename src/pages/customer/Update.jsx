@@ -311,6 +311,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                                 'title': '완료',
                                 confirmFunc: () => {
                                     historyPaymentFunc({'limit': '10', 'page': '1', 'customer_id': id})
+                                    window.location.reload();
                                 }
                             }))
                             logButton('고객 수정(결제)')

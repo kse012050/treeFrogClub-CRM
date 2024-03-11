@@ -13,13 +13,13 @@ export default function MainSales() {
     useEffect(()=>{
         if(inputs?.year && inputs?.month){
             // console.log(inputs);
-            console.log(`${inputs.year}-${inputs.month}`);
+            // console.log(`${inputs.year}-${inputs.month}`);
 
             api('dashboard', 'month_sales_total_stat', {'stat_date': `${inputs.year}-${inputs.month}`})
                 .then(({result, data})=>{
                     // console.log(result);
                     if(result){
-                        console.log(data);
+                        // console.log(data);
                         setDashboard(data)
                     }
                 })
@@ -43,12 +43,12 @@ export default function MainSales() {
                 <div>
                     { dashboard?.calculation_way === 'month' && 
                         <div className='progressArea month' 
-                            style={{'--percent': `${dashboard?.achievement_percent}%`}}
+                            style={{'--percent': `${dashboard?.goal_amount > dashboard?.total_sales_amount ? dashboard?.achievement_percent : 100}%`}}
                             // style={{'--percent': `${30}%`}}
                         >
                             <span 
                                 title='투자금액'
-                                style={{'--percent': `${dashboard?.investment_amount / dashboard?.goal_amount * 100}%`}}
+                                style={{'--percent': `${dashboard?.goal_amount > dashboard?.total_sales_amount ? dashboard?.investment_amount / dashboard?.goal_amount * 100 : dashboard?.investment_amount / dashboard?.total_sales_amount * 100}%`}}
                                 ></span>
                             { Math.abs((dashboard?.investment_amount / dashboard?.goal_amount * 100) - (dashboard?.minimum_allocation_amount / dashboard?.goal_amount * 100)) >= 5 &&
                                 <span 
@@ -62,17 +62,21 @@ export default function MainSales() {
                                     data-percent={(dashboard?.total_sales_amount && dashboard?.goal_amount) ? parseFloat(dashboard?.total_sales_amount / dashboard?.goal_amount * 100).toFixed(2) : 0 }
                                 ></b>
                             }
-                            <span title='목표매출'></span>
+                            <span 
+                                title='목표매출'
+                                style={{'--percent': `${dashboard?.goal_amount > dashboard?.total_sales_amount ? 100 : parseFloat(dashboard?.goal_amount / dashboard?.total_sales_amount * 100).toFixed(2)}%`}}
+                            ></span>
                         </div>
                     }
                     { dashboard?.calculation_way === 'day' && 
                         <div className='progressArea day' 
-                            style={{'--percent': `${ parseFloat(dashboard.total_sales_amount / dashboard.investment_amount * 100).toFixed(2) }%`}}
+                            style={{'--percent': `${ dashboard.investment_amount >= dashboard.total_sales_amount ? parseFloat(dashboard.total_sales_amount / dashboard.investment_amount * 100).toFixed(2) : 100 }%`}}
+                            // style={{'--percent': `${ parseFloat(100000000 / dashboard.investment_amount * 100).toFixed(2) }%`}}
                             // style={{'--percent': `${30}%`}}
                         >
                             <span 
                                 title='투자금액'
-                                style={{'--percent': `${dashboard?.investment_amount / dashboard?.goal_amount * 100}%`}}
+                                style={{'--percent': `${dashboard.investment_amount >= dashboard.total_sales_amount ? 100 : parseFloat(dashboard.investment_amount / dashboard.total_sales_amount * 100).toFixed(2) }%`}}
                                 ></span>
                             <span 
                                 title='최소할당매출'
@@ -104,7 +108,7 @@ export default function MainSales() {
                             <dt>현재매출</dt>
                             <dd>{ dashboard?.total_sales_amount ? numberWithCommas(dashboard?.total_sales_amount) : 0}</dd>
                         </dl>
-                        { dashboard?.calculation_way === "month" &&
+                        { (dashboard?.calculation_way === "month" && dashboard?.goal_amount > dashboard?.total_sales_amount) &&
                             <mark>
                                 {`목표매출까지 
                                 ${ (dashboard?.goal_amount - dashboard?.total_sales_amount) ? numberWithCommas(dashboard?.goal_amount - dashboard?.total_sales_amount) : 0 }

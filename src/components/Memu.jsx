@@ -23,7 +23,7 @@ export default function Memu() {
                 <li><NavLink to={'/statistics/campaign'}>캠페인별 유효율</NavLink></li>
                 <li><NavLink to={'/statistics/sales'}>매출현황</NavLink></li>
             </ul>
-            {/* { ( user?.type === 'super' || user?.type === "admin") && */}
+            { ( user?.type === 'super' || user?.type === "admin") &&
                 <>
                     <strong>시스템 관리</strong>
                     <b>기본 설정</b>
@@ -46,7 +46,7 @@ export default function Memu() {
                         <li><NavLink to={'/system/member/delete'}>고객삭제이력</NavLink></li>
                     </ul>
                 </>
-            {/* } */}
+            }
             <strong>게시판 관리</strong>
             <ul>
                 <li><NavLink to={'/notice'}>공지사항</NavLink></li>
