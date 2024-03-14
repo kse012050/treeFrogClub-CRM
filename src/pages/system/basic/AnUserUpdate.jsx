@@ -10,7 +10,8 @@ import { UserContext } from '../../../context/UserContext';
 import { logButton } from '../../../api/common';
 
 export default function AnUserUpdate() {
-    const { company } = useContext(UserContext)
+    // const { userSettings } = useContext(UserContext)
+    const { userSettings, company } = useContext(UserContext)
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
     const [userId, setUserId] = useState();
@@ -113,9 +114,12 @@ export default function AnUserUpdate() {
                     setPopup((popup)=>({
                         ...popup,
                         'title': '완료',
-                        'link': '/system/basic/anUser'
+                        'link': '/system/basic/anUser',
+                        'confirmFunc': ()=>{
+                            userSettings()
+                            logButton('사용자 수정(수정)')
+                        }
                     }))
-                    logButton('사용자 수정(수정)')
                 }else{
                     setPopup((popup)=>({
                         ...popup,

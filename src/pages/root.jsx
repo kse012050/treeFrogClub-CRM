@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from "../context/UserContext.js";
 import Memu from '../components/Memu';
@@ -6,6 +6,7 @@ import {styleIdx} from '../js/style.js';
 import { api, logout } from '../api/api.js';
 import Popup from '../components/popup/Popup.jsx';
 import { pageHistory } from '../router/routers.js';
+import { pagePermissionFilter } from '../api/common.js';
 
 export default function Root({ children }) {
     const location = useLocation().pathname;
@@ -15,19 +16,32 @@ export default function Root({ children }) {
     const [company, setCompany] = useState()
     const [popup, setPopup] = useState()
     const { id } = useParams();
-    
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        pageHistory(location)
-      }, [location]);
+    const [pagePermission, setPagePermission] = useState()
 
-    useEffect(()=>{
+    const userSettings = useCallback(()=>{
         api('profile', 'detail')
             .then(({result, data})=>{
                 if(result){
                     setUser(data)
+                    // console.log('정보 변경');
                 }
             })
+    },[])
+    
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        if(user){
+            if(user?.type === 'user' && location.includes('system')){
+                navigate('/main')
+            }else{
+                pageHistory(location)
+                setPagePermission(pagePermissionFilter(user, location))
+            }
+        }
+      }, [location, user, navigate]);
+
+    useEffect(()=>{
+        userSettings()
 
         api('profile', 'company_info')
             .then(({result, data})=>{
@@ -35,7 +49,7 @@ export default function Root({ children }) {
                     setCompany(data)
                 }
             })
-    },[])
+    },[userSettings])
 
     useEffect(()=>{
         sessionStorage.getItem('authorization') || navigate('/');
@@ -45,7 +59,7 @@ export default function Root({ children }) {
     },[pageName, children, navigate])
     return (
         <>
-            <UserContext.Provider value={{user, company}} >
+            <UserContext.Provider value={{user, company, userSettings, pagePermission}}>
                 <header>
                     <h1>
                         <Link to={'/main'}>

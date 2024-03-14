@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useId, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useId, useState } from 'react';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import { inputChange, onSort } from '../../../api/validation';
 import SelectBoard from '../../../components/SelectBoard';
@@ -11,8 +11,10 @@ import PagerButton from '../../../components/PagerButton';
 import SelectPage from '../../../components/SelectPage';
 import Select from '../../../components/Select';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function PermissionsScreen({id, roleTitle}) {
+    const { userSettings } = useContext(UserContext)
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -80,6 +82,7 @@ export default function PermissionsScreen({id, roleTitle}) {
             .then((result)=> {
                 if(result.every((data)=>data.result)){
                     currentData()
+                    userSettings()
                 }
             })
             .catch(error => console.log('error', error));
@@ -93,6 +96,7 @@ export default function PermissionsScreen({id, roleTitle}) {
                 .then((result)=> {
                     if(result.every((data)=>data.result)){
                         currentData()
+                        userSettings()
                     }
                 })
                 .catch(error => console.log('error', error));
@@ -177,6 +181,7 @@ export default function PermissionsScreen({id, roleTitle}) {
 
 
 function List({ data, deleteList, setDeleteList, currentData }){
+    const { userSettings } = useContext(UserContext)
     const uuid = useId()
     const [inputs, setInputs] = useState();
     const [prevInputs, setPrevInputs] = useState();
@@ -192,12 +197,13 @@ function List({ data, deleteList, setDeleteList, currentData }){
                 .then(({result})=>{
                     if(result){
                         setPrevInputs({...inputs})
+                        userSettings()
                         currentData()
                     }
                 })
         }
        
-    },[inputs, prevInputs, currentData])
+    },[inputs, prevInputs, currentData, userSettings])
 
     return (
         <>

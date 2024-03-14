@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DropBox from '../../components/DropBox';
 import Select from '../../components/Select';
@@ -11,9 +11,11 @@ import { inputChange, onSort } from '../../api/validation';
 import Popup from '../../components/popup/Popup';
 import SelectPage from '../../components/SelectPage';
 import { logButton, logExcel } from '../../api/common';
+import { UserContext } from '../../context/UserContext';
 
 export default function Product() {
     // const [inputs, setInputs] = useState()
+    const { pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState([])
@@ -67,7 +69,9 @@ export default function Product() {
         <>
             <h2>
                 상품 목록
-                <Link to="registration" className='btn-point'>추가</Link>
+                { pagePermission?.insert_yn === 'y'  && 
+                    <Link to="registration" className='btn-point'>추가</Link>
+                }
             </h2>
 
             
