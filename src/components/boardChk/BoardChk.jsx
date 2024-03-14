@@ -13,7 +13,7 @@ export default function BoardChk({ deleteList, setDeleteList, id }) {
         })
     }
     return (
-        <div>
+        <div className='delete'>
             <input type="checkbox" id={id} onChange={lisChecked} checked={deleteList?.includes(id)}/>
             <label htmlFor={id}></label>
         </div>

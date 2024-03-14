@@ -241,6 +241,7 @@ function List({ data, deleteList, setDeleteList, currentData }){
 }
 
 function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSettings}){
+    const { userSettings } = useContext(UserContext)
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'})
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -254,11 +255,16 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
                 if(result){
                     setPagerInfo(data)
                     setModuleList(list)
+                }
+            })
+        
+        api('module', 'list', {'all_yn': 'y'})
+            .then(({result, data, list})=>{
+                if(result){
                     const firstList = [...list]
                     api('module', 'role_module_list', {'role_id': registrationPopup.role_id, 'all_yn': 'y'})
                         .then(({result, list})=>{
                             if(result){
-                                // console.log('두번쨰', list);
                                 setChoiceList((choice)=>{
                                     const uniqueObjects = {}
                                     const test = [
@@ -289,7 +295,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
     useEffect(()=>{
         // if(searchInputs && Object.keys(searchInputs).includes('module_category')){
             // console.log(1);
-            setInputs((input)=>({...input, 'module_category': searchInputs?.module_category}))
+            setInputs((input)=>({...input, 'page': '1', 'module_category': searchInputs?.module_category}))
         // }
     },[searchInputs?.module_category])
 
@@ -306,6 +312,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
                             setRegistrationPopup()
                             currentSettings()
                             logButton('역할 권한 관리(화면 권한 - 추가)')
+                            userSettings()
                         }
                     }))
                 }else{
@@ -348,6 +355,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
                                                 if(copy.every((copyData)=>copyData.module_id !== data.module_id)){
                                                     copy = [...copy, data]
                                                 }
+                                                console.log(copy);
                                                 return copy
                                             })
                                         }}>선택</button>

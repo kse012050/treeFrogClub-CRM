@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -14,9 +14,12 @@ import { inputChange, arrayChange, parentsChange, onSort } from '../../api/valid
 import SelectPage from '../../components/SelectPage';
 import PagerButton from '../../components/PagerButton';
 import { logButton } from '../../api/common';
+import { UserContext } from '../../context/UserContext';
 
 
 export default function List() {
+    const { pagePermission } = useContext(UserContext)
+    // console.log(pagePermission);
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [searchCounsel, setSearchCounsel] = useState()
@@ -210,7 +213,9 @@ export default function List() {
         <>
             <h2>
                 통합 고객 목록
-                <Link to={'/customer/registration'} className='btn-point'>추가</Link>
+                { pagePermission?.insert_yn === 'y'  && 
+                    <Link to={'/customer/registration'} className='btn-point'>추가</Link>
+                }
             </h2>
 
             <DropBox title="검색 항목" arrow>
@@ -568,8 +573,10 @@ export default function List() {
                         </button>
                     </>
                 }
-           
-                <BoardChkDelete url='customer' idName='customer_id_list' deleteList={deleteList} setDeleteList={setDeleteList} className='boundary' currentData={currentData}/>
+                
+                { pagePermission?.delete_yn === 'y'  && 
+                    <BoardChkDelete url='customer' idName='customer_id_list' deleteList={deleteList} setDeleteList={setDeleteList} className='boundary' currentData={currentData}/>
+                }
                 <button 
                     className='btn-gray-black' 
                     onClick={()=>{setPopup({

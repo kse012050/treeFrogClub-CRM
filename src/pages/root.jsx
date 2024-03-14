@@ -30,6 +30,7 @@ export default function Root({ children }) {
     
     useEffect(() => {
         window.scrollTo(0, 0);
+        // console.log(user);
         if(user){
             if(user?.type === 'user' && location.includes('system')){
                 navigate('/main')

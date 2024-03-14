@@ -145,7 +145,10 @@ export default function Product() {
             <b className='total'>{ pagerInfo?.total_count }</b>
             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
             <b className='choice'>{ deleteList.length }</b>
-            <BoardChkDelete url='product' idName='product_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='상품 목록(선택 삭제)'/>
+            
+            { pagePermission?.delete_yn === 'y'  && 
+                <BoardChkDelete url='product' idName='product_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='상품 목록(선택 삭제)'/>
+            }
 
             
             <div className="board-top">
@@ -155,7 +158,7 @@ export default function Product() {
                 <button onClick={()=>onSort(setBoardList, 'analyst_admin_name')}>애널리스트</button>
                 <button onClick={()=>onSort(setBoardList, 'customer_properties_name')}>결제시 고객구분</button>
                 <button onClick={()=>onSort(setBoardList, 'memo')}>비고</button>
-                <span>수정</span>
+                <span className='update'>수정</span>
             </div>
 
             { boardList && 
@@ -168,7 +171,11 @@ export default function Product() {
                             <span>{ data.analyst_admin_name }</span>
                             <span>{ data.customer_properties_name }</span>
                             <span>{ data.memo }</span>
-                            <Link to={`update/${data.product_id}`}>수정</Link>
+                            <Link to={`update/${data.product_id}`} className='update'>
+                                { pagePermission?.update_yn === 'y'  && 
+                                    '수정'
+                                }
+                            </Link>
                         </li>
                     ))}
                 </ol>

@@ -23,11 +23,17 @@ export const logButton = (value) =>{
 export const pagePermissionFilter = (user, location) => {
     // console.log(user, location);
     let pageName;
+    let subData = {}
     
     if(location === '/main'){
         pageName = '대시보드'
     }else if(location === '/customer/list'){
-        pageName = '통합 고객 목록'
+        pageName = '통합고객목록'
+        subData = {
+            ...subData, 
+            'bulk_customer_insert': user.role_list.filter((data)=>data.screen_name === "고객_대량고객수정")[0]?.insert_yn ?? 'n',
+            'bulk_customer_modify': user.role_list.filter((data)=>data.screen_name === "고객_대량고객수정")[0]?.insert_yn ?? 'n',
+        }
     }else if(location === '/customer/registration'){
         pageName = '고객 등록'
     }else if(location === '/customer/registration/bulk'){
@@ -100,5 +106,17 @@ export const pagePermissionFilter = (user, location) => {
         pageName = '공지사항 보기/수정'
     }
 
-    return user.role_list.filter((data)=>data.screen_name === pageName)[0]
+    return user.type !== 'super' ?
+        {...user.role_list?.filter((data)=>data?.screen_name === pageName)[0], ...subData} :
+        {
+            'delete_yn': "y",
+            'excel_yn': "y",
+            'insert_yn': "y",
+            'modify_type': "all",
+            'select_type': "all",
+            'select_yn': "y",
+            'update_yn': "y",
+            'bulk_customer_insert': "y",
+            'bulk_customer_modify': "y"
+        }
 }
