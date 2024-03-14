@@ -32,7 +32,7 @@ function Popup({ popup, setPopup, confirmFunc, func, children }) {
                 { popup.type.includes('finFunc') && <PopupFunc close={close} popup={popup} func={func}/> }
                 { popup.type.includes('properties') && <PopupProperty close={close} popup={popup}/> }
                 { popup.type.includes('bureau') && <PopupBureau close={close} func={popup['func']}/>}
-                { popup.type === 'sales' && <PopupSales close={close} func={popup['func']}/>}
+                { popup.type === 'sales' && <PopupSales close={close} func={popup['func']} department_id={popup?.department_id}/>}
                 { popup.type === 'salesArray' && <PopupSalesArray close={close} popup={popup}/>}
                 { popup.type.includes('analyst') && <PopupAnalyst close={close} func={popup['func']}/>}
                 { popup.type.includes('excelDownload') && <PopupExcelDownload close={close} popup={popup}/>}

@@ -11,6 +11,8 @@ import { logButton } from '../../api/common';
 
 
 export default function Registration() {
+    const { pagePermission } = useContext(UserContext)
+    // console.log(pagePermission);
     const [inputs, setInputs] = useState()
     const [sales, setSales] = useState()
     const [popup, setPopup] = useState()
@@ -88,7 +90,9 @@ export default function Registration() {
         <>
             <h2>
                 고객 등록
-                <Link to={'bulk'} className='btn-point'>대량 고객 등록</Link>
+                { pagePermission?.bulk_customer_insert === 'y' &&
+                    <Link to={'bulk'} className='btn-point'>대량 고객 등록</Link>
+                }
             </h2>
 
             <div className='dropBox'>

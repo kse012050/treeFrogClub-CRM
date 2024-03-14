@@ -18,8 +18,9 @@ import { UserContext } from '../../context/UserContext';
 
 
 export default function List() {
-    const { pagePermission } = useContext(UserContext)
-    // console.log(pagePermission);
+    const { user, pagePermission } = useContext(UserContext)
+    // console.log(user?.admin_id);
+    const [currentInputs, setCurrentInputs] = useState()
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [searchCounsel, setSearchCounsel] = useState()
@@ -36,20 +37,41 @@ export default function List() {
     const [customerListInputs, setCustomerListInputs] = useState()
     const [duplicateMobile, setDuplicateMobile] = useState()
 
+    useEffect(()=>{
+        if(user && pagePermission){
+            // console.log(pagePermission);
+            // console.log(user);
+            if(pagePermission?.modify_type === 'me'){
+                setCurrentInputs({'sales_admin_id': user?.admin_id })
+                setSales(user?.name)
+            }else if(pagePermission?.modify_type === 'department'){
+                setCurrentInputs({'department_id': user.department_info.department_id })
+                setBureau(user.department_info.name)
+
+            }else{
+                setCurrentInputs({})
+            }
+        }
+    },[user, pagePermission])
+
     const currentSettings = useCallback(()=>{
-        api('constant', 'combine_customer_setting_info')
-            .then(({result, data})=>{
-                if(result){
-                    const obj = {}
-                    // console.log(data);
-                    obj.limit = data.combine_customer_list_number
-                    obj.page = '1'
-                    // console.log(obj);
-                    setDuplicateMobile(data.combine_customer_duplicate_mobile_color_mark_yn)
-                    setInputs(obj)
-                }
-            })
-    },[])
+        if(currentInputs){
+            api('constant', 'combine_customer_setting_info')
+                .then(({result, data})=>{
+                    if(result){
+                        const obj = {}
+                        // console.log(data);
+                        obj.limit = data.combine_customer_list_number
+                        obj.page = '1'
+                        // console.log(obj);
+                        setDuplicateMobile(data.combine_customer_duplicate_mobile_color_mark_yn)
+                        setInputs({...currentInputs, ...obj})
+                        // setInputs(obj)
+                        // console.log(currentInputs);
+                    }
+                })
+        }
+    },[currentInputs])
 
     useEffect(()=>{
         currentSettings()
@@ -59,6 +81,7 @@ export default function List() {
     const currentData = useCallback(()=>{
         // console.log(inputs);
         if(inputs){
+            // console.log(inputs);
             api('customer', 'list', inputs)
                 .then(({result, data, list})=>{
                     if(result){
@@ -124,8 +147,8 @@ export default function List() {
 
     const onSearch = (e) => {
         e.preventDefault()
-        // console.log(searchInputs);
-        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
+        // console.log(currentInputs);
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs, ...currentInputs}))
         setIsSearch(true)
         setDeleteList([])
         logButton('통합 고객 목록(검색)')
@@ -142,11 +165,15 @@ export default function List() {
     }
 
     const onReset = ()=>{
-        setSales()
-        setBureau()
         setSearchInputs({})
         currentData()
-        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        setInputs((input)=>({...currentInputs, 'limit': input.limit, 'page': '1'}))
+        if(pagePermission?.modify_type !== 'me'){
+            setSales()
+        }
+        if(pagePermission?.modify_type !== 'department'){
+            setBureau()
+        }
         // navigate('/customer/list')
         setSearchId()
         setDeleteList([])
@@ -252,8 +279,10 @@ export default function List() {
                                             'func': (data)=>{
                                                 setSearchInputs((input)=>({...input, 'sales_admin_id': data.admin_id}))
                                                 setSales(data.name)
-                                            }
+                                            },
+                                            'department_id': currentInputs?.department_id
                                         })}
+                                        disabled={pagePermission?.modify_type === 'me'}
                                     />
                                     <button>검색</button>
                                 </div>
@@ -272,6 +301,7 @@ export default function List() {
                                                 setBureau(data.name)
                                             }
                                         })}
+                                        disabled={pagePermission?.modify_type === 'department'}
                                     />
                                     <button>검색</button>
                                 </div>
@@ -421,15 +451,17 @@ export default function List() {
 
             <div className='boardBox'>
                 <strong>{ isSearch ? '검색 결과' : '목록' }</strong>
-                <button 
-                    className='btn-gray-black'
-                    onClick={()=>setPopup({
-                        'type': 'excelDownload',
-                        'total': pagerInfo.total_count
-                    })}
-                >
-                    엑셀 다운로드
-                </button>
+                { pagePermission?.excel_yn === 'y' &&
+                    <button 
+                        className='btn-gray-black'
+                        onClick={()=>setPopup({
+                            'type': 'excelDownload',
+                            'total': pagerInfo.total_count
+                        })}
+                    >
+                        엑셀 다운로드
+                    </button>
+                }
                 <button 
                     className='btn-gray-black'
                     onClick={()=>{setPopup({
@@ -508,7 +540,9 @@ export default function List() {
                         >
                             검색고객 수신거부
                         </button>
-                        <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
+                        { pagePermission?.bulk_customer_modify === 'y'  && 
+                            <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
+                        }
                     </>
                 }
                 { searchClient && 

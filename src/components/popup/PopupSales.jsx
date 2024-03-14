@@ -4,7 +4,7 @@ import PagerButton from '../PagerButton';
 import { inputChange } from '../../api/validation';
 // import Pager from '../Pager';
 
-export default function PopupSales({ close, func }) {
+export default function PopupSales({ close, func, department_id }) {
     // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [listInfo, setListInfo] = useState({'limit': '10', 'page': '1'})
     const [salesList, setSalesList] = useState()
@@ -12,7 +12,8 @@ export default function PopupSales({ close, func }) {
     const [searchInputs, setSearchInputs] = useState()
 
     useEffect(()=>{
-        api('user', 'list', listInfo)
+        // console.log(department_id);
+        api('user', 'list', {...listInfo, 'department_id': department_id})
             .then(({result, data, list})=>{
                 if(result){
                     // console.log(list);
@@ -21,7 +22,7 @@ export default function PopupSales({ close, func }) {
                     setSalesList(list)
                 }
             })
-    },[listInfo])
+    },[listInfo, department_id])
 
     const onSearch = (e) =>{
         e.preventDefault()

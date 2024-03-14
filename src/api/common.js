@@ -31,15 +31,18 @@ export const pagePermissionFilter = (user, location) => {
         pageName = '통합고객목록'
         subData = {
             ...subData, 
-            'bulk_customer_insert': user.role_list.filter((data)=>data.screen_name === "고객_대량고객수정")[0]?.insert_yn ?? 'n',
             'bulk_customer_modify': user.role_list.filter((data)=>data.screen_name === "고객_대량고객수정")[0]?.insert_yn ?? 'n',
         }
     }else if(location === '/customer/registration'){
         pageName = '고객 등록'
+        subData = {
+            ...subData, 
+            'bulk_customer_insert': user.role_list.filter((data)=>data.screen_name === "고객_대량고객등록")[0]?.insert_yn ?? 'n',
+        }
     }else if(location === '/customer/registration/bulk'){
         pageName = '대량 고객 등록'
     }else if(location.includes('/customer/registration/update')){
-        pageName = '고객 수정'
+        pageName = '통합고객목록'
     }else if(location === '/payment/list'){
         pageName = '결제 목록'
     }else if(location === ''){

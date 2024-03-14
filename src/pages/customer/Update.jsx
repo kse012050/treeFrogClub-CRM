@@ -15,6 +15,8 @@ import PagerButton from '../../components/PagerButton';
 import { logButton } from '../../api/common';
 
 export default function Update() {
+    const { pagePermission } = useContext(UserContext)
+
     const [popup, setPopup] = useState()
     const { id } = useParams()
     const [paymentInfo, setPaymentInfo] = useState()
@@ -42,7 +44,9 @@ export default function Update() {
 
             <Basic id={id} popup={popup} setPopup={setPopup} counselValue={counselValue} setCounselValue={setCounselValue}/>
 
-            <Payment id={id} popup={popup} setPopup={setPopup} historyPaymentFunc={historyPaymentFunc}/>
+            { pagePermission?.update_yn === 'y' &&
+                <Payment id={id} popup={popup} setPopup={setPopup} historyPaymentFunc={historyPaymentFunc}/>
+            }
           
             <History id={id} paymentInfo={paymentInfo} counselValue={counselValue} setCounselValue={setCounselValue} historyPayment={historyPayment} setHistoryPayment={setHistoryPayment} historyPaymentFunc={historyPaymentFunc}/>
 
@@ -55,6 +59,8 @@ export default function Update() {
 
 
 function Basic({ id, setPopup, counselValue, setCounselValue }){
+    const { pagePermission } = useContext(UserContext)
+    // console.log(pagePermission);
     const [inputs, setInputs] = useState()
     const [sales, setSales] = useState()
 
@@ -141,13 +147,13 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                             <li>
                                 <label htmlFor="">고객구분</label>
                                 <div>
-                                    <Select type={'customer'} current={inputs?.customer_properties_id} changeName='customer_properties_id' setInputs={setInputs}/>
+                                    <Select type={'customer'} current={inputs?.customer_properties_id} changeName='customer_properties_id' setInputs={setInputs} disabled={pagePermission?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">상담상태</label>
                                 <div>
-                                    <Select type={'counsel'} current={inputs?.counsel_properties_id} changeName='counsel_properties_id' setInputs={setInputs}/>
+                                    <Select type={'counsel'} current={inputs?.counsel_properties_id} changeName='counsel_properties_id' setInputs={setInputs} disabled={pagePermission?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li>
@@ -164,6 +170,7 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                                                 setSales(data.name)
                                             }
                                         })}
+                                        disabled={pagePermission?.update_yn === 'n'}
                                     />
                                     <button>검색</button>
                                 </div>
@@ -171,36 +178,38 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                             <li>
                                 <label htmlFor="" onClick={()=>console.log(inputs)}>고객명</label>
                                 <div>
-                                    <input type="text" name='customer_name' id='customer_name' value={inputs?.customer_name || ''} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name='customer_name' id='customer_name' value={inputs?.customer_name || ''} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">휴대폰</label>
                                 <div>
-                                    <input type="text" name='customer_mobile' id='customer_mobile' value={inputs?.customer_mobile || ''} data-formet="numb" onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name='customer_mobile' id='customer_mobile' value={inputs?.customer_mobile || ''} data-formet="numb" onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">체험 기간</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
                                     </div>
                                 </div>
                             </li>
                             <li className='fill-three'>
                                 <label htmlFor="memo">메모</label>
                                 <div>
-                                    <textarea name="memo" id="memo" defaultValue={inputs?.memo} onChange={(e)=>inputChange(e, setInputs)}></textarea>
+                                    <textarea name="memo" id="memo" defaultValue={inputs?.memo} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn === 'n'}></textarea>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
                         <Link to={'/customer/list'} className='btn-gray-white'>목록</Link>
-                        <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
+                        { pagePermission?.update_yn === 'y' &&
+                            <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
+                        }
                     </div>
                 </form>
             </DropBox>
@@ -441,6 +450,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
 }
 
 function History({ id, paymentInfo, counselValue, setCounselValue, historyPayment, setHistoryPayment, historyPaymentFunc }){
+    const { pagePermission } = useContext(UserContext)
     const [relatedActive, setRelatedActive] = useState(0);
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'customer_id': id});
     const [historyUpdata, setHistoryUpdata] = useState()
@@ -494,8 +504,12 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                     }
                     {relatedActive === 1 &&
                         <>
-                            <b className='choice'>{ deleteList.length }</b>
-                            <BoardChkDelete url='payment' idName='payment_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={()=>{historyPaymentFunc(inputs); historyPaymentDeleteFunc(inputs);}} logValue='고객 수정(결제 내역 선택 삭제)'/>
+                            { pagePermission?.update_yn === 'y' &&
+                                <>
+                                    <b className='choice'>{ deleteList.length }</b>
+                                    <BoardChkDelete url='payment' idName='payment_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={()=>{historyPaymentFunc(inputs); historyPaymentDeleteFunc(inputs);}} logValue='고객 수정(결제 내역 선택 삭제)'/>
+                                </>
+                            }
                             <b className='total'>{ paymentInfo?.total_count }</b>
                             <span className='page'>{ paymentInfo?.current_page }/{ paymentInfo?.total_page }</span>
                             <div className='board-scroll2'>
@@ -666,6 +680,7 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
 }
 
 function HistoryConsult({ id, setConsultCount, counselValue, setCounselValue }){
+    const { pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState({'limit': '2', 'page': '1', 'customer_id': id})
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -690,8 +705,12 @@ function HistoryConsult({ id, setConsultCount, counselValue, setCounselValue }){
 
     return (
         <>
-            <b className='choice'>{ deleteList.length }</b>
-            <BoardChkDelete url='counsel' idName='counsel_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='고객 수정(상담 이력 선택 삭제)'/>
+            { pagePermission?.update_yn === 'y' &&
+                <>
+                    <b className='choice'>{ deleteList.length }</b>
+                    <BoardChkDelete url='counsel' idName='counsel_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='고객 수정(상담 이력 선택 삭제)'/>
+                </>
+            }
             <b className='total'>{ pagerInfo?.total_count }</b>
             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
             <div className='board-scroll1'>
@@ -722,7 +741,9 @@ function HistoryConsult({ id, setConsultCount, counselValue, setCounselValue }){
             <div className='board-pagination' data-styleidx='a'>
                 <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
             </div>
-            <HistoryConsultInput id={id} currentData={currentData} counselValue={counselValue} setCounselValue={setCounselValue}/>
+            { pagePermission?.update_yn === 'y' &&
+                <HistoryConsultInput id={id} currentData={currentData} counselValue={counselValue} setCounselValue={setCounselValue}/>
+            }
         </>
     )
 }
