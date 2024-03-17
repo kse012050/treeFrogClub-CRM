@@ -86,7 +86,7 @@ export default function List() {
                 .then(({result, data, list})=>{
                     if(result){
                         // console.log(data);
-                        // console.log(list);
+                        console.log(list);
                         setPagerInfo(data)
                         setBoardList(list)
                     }
@@ -649,6 +649,7 @@ export default function List() {
                     <button onClick={()=>onSort(setBoardList, 'experience_end_date', 'experience_ing_yn')}>무료체험<br/>종료일</button>
                     <button onClick={()=>onSort(setBoardList, 'standard_payment_start_date')}>유료<br/>시작일</button>
                     <button onClick={()=>onSort(setBoardList, 'standard_payment_end_date')}>유료<br/>종료일</button>
+                    <button onClick={()=>onSort(setBoardList, 'source')}>출처</button>
                     <span>보기</span>
                 </div>
                 
@@ -672,6 +673,7 @@ export default function List() {
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
                                 <time>{ data.standard_payment_start_date }</time>
                                 <time>{ data.standard_payment_end_date }</time>
+                                <span>{ data.source }</span>
                                 <Link to={`/customer/registration/update/${data.customer_id}`}>보기</Link>
                             </li>
                         ))}
