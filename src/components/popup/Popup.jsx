@@ -38,6 +38,8 @@ function Popup({ popup, setPopup, confirmFunc, func, children }) {
                 { popup.type.includes('excelDownload') && <PopupExcelDownload close={close} popup={popup}/>}
                 { popup.type.includes('payHistory') && <PopupPayHistory close={close} popup={popup}/>}
                 { popup.type.includes('children') && children}
+
+                { (popup.type.includes('confirm') || popup.type.includes('finFunc')) || <button onClick={close}>팝업 닫기</button> }
             </div>
         </div>
     );
