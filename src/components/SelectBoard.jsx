@@ -19,11 +19,12 @@ function SelectBoard({type, current, setInputs, changeName, disabled}) {
         }
         
         if(type === 'sales'){
-            api('user', 'list')
+            api('user', 'list', {'all_yn': 'y'})
                 .then(({result, list})=>{
                     if(result){
-                        setName(list.map(({name})=>name));
                         setValue(list.map(({admin_id})=>admin_id));
+                        setName(list.filter(({useable_yn})=> useable_yn === 'y').map(({name})=> name));
+                        setSelect(list.filter(({admin_id})=> admin_id === current)[0]?.name)
                     }
                 })
         }
@@ -42,14 +43,14 @@ function SelectBoard({type, current, setInputs, changeName, disabled}) {
             // console.log('select 바디 클릭 종료');
             document.querySelector('body').removeEventListener('click',bodyClick)
         }
-    },[type])
+    },[type, current])
 
     const bodyClick = () =>{
         setActive(false)
     }
 
     useEffect(()=>{
-        if(current && name && value){
+        if(current && name && value && type !== 'sales'){
             if(typeof(current) === 'string'){
                 setSelect(name[value.indexOf(current)])
                 setInputs && setInputs((input)=>({...input, [changeName]: current}))
@@ -59,7 +60,7 @@ function SelectBoard({type, current, setInputs, changeName, disabled}) {
                 setInputs && setInputs((input)=>({...input, [changeName]: value[0]}))
             }
         }
-    },[current, name, value, changeName, setInputs])
+    },[current, name, value, changeName, setInputs, select, type])
 
     const selectOpen = (e)=>{
         e.preventDefault();

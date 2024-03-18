@@ -86,7 +86,7 @@ export default function List() {
                 .then(({result, data, list})=>{
                     if(result){
                         // console.log(data);
-                        console.log(list);
+                        // console.log(list);
                         setPagerInfo(data)
                         setBoardList(list)
                     }
@@ -724,7 +724,7 @@ function CounselItem({ data, setPopup }) {
                 })
         }
        
-    },[inputs, prevInputs])
+    },[inputs, prevInputs, setPopup])
 
     return (
         <>
@@ -746,6 +746,7 @@ function SalesItem({ data, setPopup }) {
 
     useEffect(()=>{
         if(inputs && prevInputs && !Object.entries(inputs).every(([key, value])=> value === prevInputs[key])){
+            console.log(inputs);
             api('customer', 'sales_admin_change', inputs)
                 .then(({result})=>{
                     if(result){
@@ -759,7 +760,7 @@ function SalesItem({ data, setPopup }) {
                 })
         }
        
-    },[inputs, prevInputs])
+    },[inputs, prevInputs, setPopup])
 
     return (
         <>
