@@ -666,9 +666,13 @@ export default function List() {
                                     { data.customer_mobile }
                                 </span>
                                 <span>{ data.customer_name }</span>
-                                <SalesItem data={data} />
+                                <div>
+                                    <SalesItem data={data} setPopup={setPopup}/>
+                                </div>
                                 <span>{ data.customer_properties_name }</span>
-                                <CounselItem data={data} />
+                                <div>
+                                    <CounselItem data={data} setPopup={setPopup}/>
+                                </div>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_start_date : ''}</time>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
                                 <time>{ data.standard_payment_start_date }</time>
@@ -696,7 +700,7 @@ export default function List() {
 
 
 // 개별 항목
-function CounselItem({ data }) {
+function CounselItem({ data, setPopup }) {
     const [inputs, setInputs] = useState()
     const [prevInputs, setPrevInputs] = useState()
 
@@ -711,6 +715,11 @@ function CounselItem({ data }) {
                 .then(({result})=>{
                     if(result){
                         setPrevInputs({...inputs})
+                        setPopup({
+                            'type': 'confirm',
+                            'title': '상담상태 변경',
+                            'description': '상담상태를 변경헸습니다.'
+                        })
                     }
                 })
         }
@@ -725,7 +734,7 @@ function CounselItem({ data }) {
 }
 
 // 개별 항목
-function SalesItem({ data }) {
+function SalesItem({ data, setPopup }) {
     const [inputs, setInputs] = useState()
     const [prevInputs, setPrevInputs] = useState()
 
@@ -741,6 +750,11 @@ function SalesItem({ data }) {
                 .then(({result})=>{
                     if(result){
                         setPrevInputs({...inputs})
+                        setPopup({
+                            'type': 'confirm',
+                            'title': '담당자 변경',
+                            'description': '담당자를 변경했습니다.'
+                        })
                     }
                 })
         }

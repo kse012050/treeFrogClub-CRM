@@ -133,6 +133,7 @@
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 79;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 56;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 23;}
+.customerPage.listPage > .boardBox .board-center li > *{display: flex; align-items: center; height: 100%; border-right: 1px solid var(--color-division);}
 
 
 /* 통합 DB 관리 - 고객 등록 */
