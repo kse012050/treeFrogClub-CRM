@@ -71,7 +71,7 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                     if(data.sales_admin_id){
                         setSales(data.sales_admin_name)
                     }
-                    console.log(data);
+                    // console.log(data);
                     setCounselValue(data.counsel_properties_id)
                     setInputs(data)
                 }
@@ -679,7 +679,7 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                 <RefundPopup refundPopupActive={refundPopupActive} setRefundPopupActive={setRefundPopupActive} id={id} historyPaymentFunc={historyPaymentFunc}/>
             }
             { updatePopupActive &&
-                <UpdatePopup updatePopupActive={updatePopupActive} setUpdatePopupActive={setUpdatePopupActive}/>
+                <UpdatePopup updatePopupActive={updatePopupActive} setUpdatePopupActive={setUpdatePopupActive} historyUpdateFunc={historyUpdateFunc}/>
             }
         </>
     )
