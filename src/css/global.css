@@ -27,6 +27,9 @@ input[disabled]{background-color: white; color: inherit;}
 :is(div, form):has( > [type="search"]) [type="search"]:read-only{cursor: pointer;}
 :is(div, form):has( > [type="search"]) button{position: absolute; right: 5px; top: 50%; translate: 0 -50%; width: 22px; aspect-ratio: 1; background: url(../images/icon-search.png) no-repeat center / cover; text-indent: -9999px;}
 :is(div, form):has( > [type="search"]:read-only) button{pointer-events: none; cursor: pointer;}
+/* 리셋 버튼 */
+.resetArea:has([type="search"]){display: flex; align-items: center;}
+.resetArea > button{flex-shrink: 0; width: 22px; aspect-ratio: 1; background: url(../images/icon-reset.png) no-repeat center / cover; text-indent: -9999px; margin-left: 5px;}
 .ant-color-picker-trigger + input{padding-left: 35px;}
 [data-unit]{position: relative;}
 [data-unit]::after{content: attr(data-unit); position: absolute; right: 10px; top: 50%; translate: 0 -50%;}
