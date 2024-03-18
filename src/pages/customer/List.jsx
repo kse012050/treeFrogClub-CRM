@@ -269,41 +269,53 @@ export default function List() {
                             </li>
                             <li>
                                 <label htmlFor="">영업담당자</label>
-                                <div>
-                                    <input 
-                                        type="search" 
-                                        value={sales || ''}
-                                        readOnly
-                                        onClick={()=>setPopup({
-                                            'type': 'sales',
-                                            'func': (data)=>{
-                                                setSearchInputs((input)=>({...input, 'sales_admin_id': data.admin_id}))
-                                                setSales(data.name)
-                                            },
-                                            'department_id': currentInputs?.department_id
-                                        })}
-                                        disabled={pagePermission?.modify_type === 'me'}
-                                    />
-                                    <button>검색</button>
+                                <div className='resetArea'>
+                                    <div>
+                                        <input 
+                                            type="search" 
+                                            value={sales || ''}
+                                            readOnly
+                                            onClick={()=>setPopup({
+                                                'type': 'sales',
+                                                'func': (data)=>{
+                                                    setSearchInputs((input)=>({...input, 'sales_admin_id': data.admin_id}))
+                                                    setSales(data.name)
+                                                },
+                                                'department_id': currentInputs?.department_id
+                                            })}
+                                            disabled={pagePermission?.modify_type === 'me'}
+                                        />
+                                        <button>검색</button>
+                                    </div>
+                                    <button type='button' onClick={()=>{
+                                        setSearchInputs((input)=>({...input, 'sales_admin_id': ''}))
+                                        setSales('')
+                                    }}>영업담당자 초기화</button>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">부서</label>
-                                <div>
-                                    <input 
-                                        type="search" 
-                                        value={bureau || ''}
-                                        readOnly
-                                        onClick={()=>setPopup({
-                                            'type': 'bureau',
-                                            'func': (data)=>{
-                                                setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
-                                                setBureau(data.name)
-                                            }
-                                        })}
-                                        disabled={pagePermission?.modify_type === 'department'}
-                                    />
-                                    <button>검색</button>
+                                <div className='resetArea'>
+                                    <div>
+                                        <input 
+                                            type="search" 
+                                            value={bureau || ''}
+                                            readOnly
+                                            onClick={()=>setPopup({
+                                                'type': 'bureau',
+                                                'func': (data)=>{
+                                                    setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
+                                                    setBureau(data.name)
+                                                }
+                                            })}
+                                            disabled={pagePermission?.modify_type === 'department'}
+                                        />
+                                        <button>검색</button>
+                                    </div>
+                                    <button type='button' onClick={()=>{
+                                        setSearchInputs((input)=>({...input, 'department_id': ''}))
+                                        setBureau('')
+                                    }}>부서 초기화</button>
                                 </div>
                             </li>
                             <li>

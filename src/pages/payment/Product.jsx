@@ -93,20 +93,26 @@ export default function Product() {
                             </li>
                             <li>
                                 <label htmlFor="analyst_admin_id">애널리스트</label>
-                                <div>
-                                    <input 
-                                        type="search" 
-                                        value={analyst || ''}
-                                        readOnly
-                                        onClick={()=>setPopup({
-                                            'type': 'analyst',
-                                            'func': (data)=>{
-                                                setSearchInputs((input)=>({...input, 'analyst_admin_id': data.admin_id}))
-                                                setAnalyst(data.name)
-                                            }
-                                        })}
-                                    />
-                                    <button>검색</button>
+                                <div className='resetArea'>
+                                    <div>
+                                        <input 
+                                            type="search" 
+                                            value={analyst || ''}
+                                            readOnly
+                                            onClick={()=>setPopup({
+                                                'type': 'analyst',
+                                                'func': (data)=>{
+                                                    setSearchInputs((input)=>({...input, 'analyst_admin_id': data.admin_id}))
+                                                    setAnalyst(data.name)
+                                                }
+                                            })}
+                                        />
+                                        <button>검색</button>
+                                    </div>
+                                    <button type='button' onClick={()=>{
+                                        setSearchInputs((input)=>({...input, 'analyst_admin_id': ''}))
+                                        setAnalyst('')
+                                    }}>애널리스트 초기화</button>
                                 </div>
                             </li>
                             <li>

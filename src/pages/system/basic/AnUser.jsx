@@ -77,20 +77,26 @@ export default function AnUser() {
                             </li>
                             <li>
                                 <label htmlFor="">부서</label>
-                                <div>
-                                    <input 
-                                        type="search" 
-                                        value={bureau || ''}
-                                        readOnly
-                                        onClick={()=>setPopup({
-                                            'type': 'bureau',
-                                            'func': (data)=>{
-                                                setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
-                                                setBureau(data.name)
-                                            }
-                                        })}
-                                    />
-                                    <button>검색</button>
+                                <div className='resetArea'>
+                                    <div>
+                                        <input 
+                                            type="search" 
+                                            value={bureau || ''}
+                                            readOnly
+                                            onClick={()=>setPopup({
+                                                'type': 'bureau',
+                                                'func': (data)=>{
+                                                    setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
+                                                    setBureau(data.name)
+                                                }
+                                            })}
+                                        />
+                                        <button>검색</button>
+                                    </div>
+                                    <button type='button' onClick={()=>{
+                                        setSearchInputs((input)=>({...input, 'department_id': ''}))
+                                        setBureau('')
+                                    }}>부서 초기화</button>
                                 </div>
                             </li>
                             {/* <li>

@@ -95,20 +95,26 @@ export default function Delete() {
                             </li>
                             <li>
                                 <label htmlFor="delete_admin_id">삭제자</label>
-                                <div>
-                                    <input 
-                                        type="search" 
-                                        value={sales || ''}
-                                        readOnly
-                                        onClick={()=>setPopup({
-                                            'type': 'sales',
-                                            'func': (data)=>{
-                                                setSearchInputs((input)=>({...input, 'delete_admin_id': data.admin_id}))
-                                                setSales(data.name)
-                                            }
-                                        })}
-                                    />
-                                    <button>검색</button>
+                                <div className='resetArea'>
+                                    <div>
+                                        <input 
+                                            type="search" 
+                                            value={sales || ''}
+                                            readOnly
+                                            onClick={()=>setPopup({
+                                                'type': 'sales',
+                                                'func': (data)=>{
+                                                    setSearchInputs((input)=>({...input, 'delete_admin_id': data.admin_id}))
+                                                    setSales(data.name)
+                                                }
+                                            })}
+                                        />
+                                        <button>검색</button>
+                                    </div>
+                                    <button type='button' onClick={()=>{
+                                        setSearchInputs((input)=>({...input, 'delete_admin_id': ''}))
+                                        setSales('')
+                                    }}>삭제자 초기화</button>
                                 </div>
                             </li>
                             <li>
