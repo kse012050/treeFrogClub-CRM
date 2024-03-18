@@ -42,6 +42,32 @@ export default function Registration() {
         setInputs((input)=>({...input, [name]: dateString}))
     };
 
+    const onDateBlur = (e, name) => {
+        let value = e.target.value.replace(/-/g, "");
+        if(/^\d+$/.test(value) && value.length < 9){
+            if((0 < value && value < 13)){
+                value = `2000-${value}-01`
+            }else if(value === '0'){
+                value = `2000-01-01`
+            }else if(value.length === 2){
+                value = `20${value}-01-01`
+            }else if(value.length === 3){
+                value = `2${value}-01-01`
+            }else if(value.length === 4){
+                value = `${value}-01-01`
+            }else{
+                const year = value.substring(0, 4)
+                let month = value.substring(4, 6)
+                month = month ? ( month <= 12 ? ( month >= 10 ? month : '0' + month) : 12) : '01';
+                const maxDay = new Date(year, month, 0).getDate();
+                let day = value.substring(6, 8)
+                day = day ? ( day <= maxDay ? ( day >= 10 ? day : 0 + day) : maxDay) : '01';
+                value = `${year}-${month}-${day}`
+            }
+            onDate(value, name)
+        }
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
         // console.log(inputs);
@@ -147,9 +173,9 @@ export default function Registration() {
                                 <label htmlFor="">체험 기간</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} onBlur={(e)=>onDateBlur(e, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} onBlur={(e)=>onDateBlur(e, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                     </div>
                                 </div>
                             </li>

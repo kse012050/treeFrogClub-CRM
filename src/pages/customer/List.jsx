@@ -122,6 +122,32 @@ export default function List() {
         // console.log(name);
         setSearchInputs((input)=>({...input, [parents]: {...input[parents], [name]: dateString}}))
     };
+
+    const onDateBlur = (e, parents, name) => {
+        let value = e.target.value.replace(/-/g, "");
+        if(/^\d+$/.test(value) && value.length < 9){
+            if((0 < value && value < 13)){
+                value = `2000-${value}-01`
+            }else if(value === '0'){
+                value = `2000-01-01`
+            }else if(value.length === 2){
+                value = `20${value}-01-01`
+            }else if(value.length === 3){
+                value = `2${value}-01-01`
+            }else if(value.length === 4){
+                value = `${value}-01-01`
+            }else{
+                const year = value.substring(0, 4)
+                let month = value.substring(4, 6)
+                month = month ? ( month <= 12 ? ( month >= 10 ? month : '0' + month) : 12) : '01';
+                const maxDay = new Date(year, month, 0).getDate();
+                let day = value.substring(6, 8)
+                day = day ? ( day <= maxDay ? ( day >= 10 ? day : 0 + day) : maxDay) : '01';
+                value = `${year}-${month}-${day}`
+            }
+            onDate(value, parents, name)
+        }
+    };
     
     const onCustomerDetail = (e) =>{
         const { /* name, */ value, checked } = e.target
@@ -402,9 +428,9 @@ export default function List() {
                                     <input type="radio" name='experience_search_type' id='experience_search_type_end' data-parents='experience_date_info' data-name='search_type' value='end' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="experience_search_type_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'start_date')} value={searchInputs?.experience_date_info?.start_date ? dayjs(searchInputs?.experience_date_info?.start_date) : ''} disabled={!searchInputs?.experience_date_info} placeholder='시작일'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'start_date')} onBlur={(e)=>onDateBlur(e, 'experience_date_info', 'start_date')} value={searchInputs?.experience_date_info?.start_date ? dayjs(searchInputs?.experience_date_info?.start_date) : ''} disabled={!searchInputs?.experience_date_info} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'end_date')} value={searchInputs?.experience_date_info?.end_date ? dayjs(searchInputs?.experience_date_info?.end_date) : ''} disabled={!searchInputs?.experience_date_info} placeholder='종료일'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_date_info', 'end_date')} onBlur={(e)=>onDateBlur(e, 'experience_date_info', 'end_date')} value={searchInputs?.experience_date_info?.end_date ? dayjs(searchInputs?.experience_date_info?.end_date) : ''} disabled={!searchInputs?.experience_date_info} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
@@ -416,9 +442,9 @@ export default function List() {
                                     <input type="radio" name='payment_search_type' id='payment_search_type_end' data-parents='payment_date_info' data-name='search_type' value='end' onClick={(e)=>parentsChange(e, setSearchInputs)}/>
                                     <label htmlFor="payment_search_type_end">종료일 검색</label>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} value={searchInputs?.payment_date_info?.start_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} disabled={!searchInputs?.payment_date_info} placeholder='시작일'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'start_date')} onBlur={(e)=>onDateBlur(e, 'payment_date_info', 'start_date')} value={searchInputs?.payment_date_info?.start_date ? dayjs(searchInputs?.payment_date_info?.start_date) : ''} disabled={!searchInputs?.payment_date_info} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'end_date')} value={searchInputs?.payment_date_info?.end_date ? dayjs(searchInputs?.payment_date_info?.end_date) : ''} disabled={!searchInputs?.payment_date_info} placeholder='종료일'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date_info', 'end_date')} onBlur={(e)=>onDateBlur(e, 'payment_date_info', 'end_date')} value={searchInputs?.payment_date_info?.end_date ? dayjs(searchInputs?.payment_date_info?.end_date) : ''} disabled={!searchInputs?.payment_date_info} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>
@@ -426,9 +452,9 @@ export default function List() {
                                 <label htmlFor="">최초 등록일</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'start_date')} value={searchInputs?.reg_date_info?.start_date ? dayjs(searchInputs?.reg_date_info?.start_date) : ''} placeholder='시작일'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'start_date')} onBlur={(e)=>onDateBlur(e, 'reg_date_info', 'start_date')} value={searchInputs?.reg_date_info?.start_date ? dayjs(searchInputs?.reg_date_info?.start_date) : ''} placeholder='시작일'/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'end_date')} value={searchInputs?.reg_date_info?.end_date ? dayjs(searchInputs?.reg_date_info?.end_date) : ''} placeholder='종료일'/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'reg_date_info', 'end_date')} onBlur={(e)=>onDateBlur(e, 'reg_date_info', 'end_date')} value={searchInputs?.reg_date_info?.end_date ? dayjs(searchInputs?.reg_date_info?.end_date) : ''} placeholder='종료일'/>
                                     </div>
                                 </div>
                             </li>

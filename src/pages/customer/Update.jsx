@@ -87,6 +87,32 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
         setInputs((input)=>({...input, [name]: dateString}))
     };
 
+    const onDateBlur = (e, name) => {
+        let value = e.target.value.replace(/-/g, "");
+        if(/^\d+$/.test(value) && value.length < 9){
+            if((0 < value && value < 13)){
+                value = `2000-${value}-01`
+            }else if(value === '0'){
+                value = `2000-01-01`
+            }else if(value.length === 2){
+                value = `20${value}-01-01`
+            }else if(value.length === 3){
+                value = `2${value}-01-01`
+            }else if(value.length === 4){
+                value = `${value}-01-01`
+            }else{
+                const year = value.substring(0, 4)
+                let month = value.substring(4, 6)
+                month = month ? ( month <= 12 ? ( month >= 10 ? month : '0' + month) : 12) : '01';
+                const maxDay = new Date(year, month, 0).getDate();
+                let day = value.substring(6, 8)
+                day = day ? ( day <= maxDay ? ( day >= 10 ? day : 0 + day) : maxDay) : '01';
+                value = `${year}-${month}-${day}`
+            }
+            onDate(value, name)
+        }
+    };
+
     const onSubmit = (e) =>{
         e.preventDefault();
         // console.log(inputs);
@@ -191,9 +217,9 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                                 <label htmlFor="">체험 기간</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} onBlur={(e)=>onDateBlur(e, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} onBlur={(e)=>onDateBlur(e, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
                                     </div>
                                 </div>
                             </li>
@@ -248,6 +274,32 @@ function Payment({ id, historyPaymentFunc, setPopup }){
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
+    };
+
+    const onDateBlur = (e, name) => {
+        let value = e.target.value.replace(/-/g, "");
+        if(/^\d+$/.test(value) && value.length < 9){
+            if((0 < value && value < 13)){
+                value = `2000-${value}-01`
+            }else if(value === '0'){
+                value = `2000-01-01`
+            }else if(value.length === 2){
+                value = `20${value}-01-01`
+            }else if(value.length === 3){
+                value = `2${value}-01-01`
+            }else if(value.length === 4){
+                value = `${value}-01-01`
+            }else{
+                const year = value.substring(0, 4)
+                let month = value.substring(4, 6)
+                month = month ? ( month <= 12 ? ( month >= 10 ? month : '0' + month) : 12) : '01';
+                const maxDay = new Date(year, month, 0).getDate();
+                let day = value.substring(6, 8)
+                day = day ? ( day <= maxDay ? ( day >= 10 ? day : 0 + day) : maxDay) : '01';
+                value = `${year}-${month}-${day}`
+            }
+            onDate(value, name)
+        }
     };
 
     const onSubmit = (e) =>{
@@ -379,7 +431,7 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                             <label htmlFor="" className='required'>결제일</label>
                             <div>
                                 <div>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} format={'YYYY-MM-DD'} placeholder='날짜 선택'/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} onBlur={(e)=>onDateBlur(e, 'payment_date')}  format={'YYYY-MM-DD'} placeholder='날짜 선택'/>
                                 </div>
                             </div>
                         </li>
@@ -397,9 +449,9 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                             <label htmlFor="" className='required'>유료 기간<span>결제기준</span></label>
                             <div>
                                 <div>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} format={'YYYY-MM-DD'} placeholder='시작일'/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} onBlur={(e)=>onDateBlur(e, 'standard_payment_start_date')} format={'YYYY-MM-DD'} placeholder='시작일'/>
                                     <span>-</span>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} format={'YYYY-MM-DD'} placeholder='종료일'/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} onBlur={(e)=>onDateBlur(e, 'standard_payment_end_date')} format={'YYYY-MM-DD'} placeholder='종료일'/>
                                 </div>
                             </div>
                         </li>
@@ -407,9 +459,9 @@ function Payment({ id, historyPaymentFunc, setPopup }){
                             <label htmlFor="" className='required'>유료 기간<span>서비스기간 포함</span></label>
                             <div>
                                 <div>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} format={'YYYY-MM-DD'} placeholder='시작일'/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} onBlur={(e)=>onDateBlur(e, 'standard_service_start_date')} format={'YYYY-MM-DD'} placeholder='시작일'/>
                                     <span>-</span>
-                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} format={'YYYY-MM-DD'} placeholder='종료일'/>
+                                    <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} onBlur={(e)=>onDateBlur(e, 'standard_service_end_date')} format={'YYYY-MM-DD'} placeholder='종료일'/>
                                 </div>
                             </div>
                         </li>
@@ -1033,6 +1085,32 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive, historyPaymentFu
         setInputs((input)=>({...input, [name]: dateString}))
     };
 
+    const onDateBlur = (e, name) => {
+        let value = e.target.value.replace(/-/g, "");
+        if(/^\d+$/.test(value) && value.length < 9){
+            if((0 < value && value < 13)){
+                value = `2000-${value}-01`
+            }else if(value === '0'){
+                value = `2000-01-01`
+            }else if(value.length === 2){
+                value = `20${value}-01-01`
+            }else if(value.length === 3){
+                value = `2${value}-01-01`
+            }else if(value.length === 4){
+                value = `${value}-01-01`
+            }else{
+                const year = value.substring(0, 4)
+                let month = value.substring(4, 6)
+                month = month ? ( month <= 12 ? ( month >= 10 ? month : '0' + month) : 12) : '01';
+                const maxDay = new Date(year, month, 0).getDate();
+                let day = value.substring(6, 8)
+                day = day ? ( day <= maxDay ? ( day >= 10 ? day : 0 + day) : maxDay) : '01';
+                value = `${year}-${month}-${day}`
+            }
+            onDate(value, name)
+        }
+    };
+
     const onSubmit = (e) =>{
         e.preventDefault()
         // console.log(inputs);
@@ -1148,7 +1226,7 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive, historyPaymentFu
                                     <li>
                                         <label htmlFor="" className='required'>환불일</label>
                                         <div>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'refund_date')} format={'YYYY-MM-DD'} placeholder='환불일 입력'/>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'refund_date')} onBlur={(e)=>onDateBlur(e, 'refund_date')} format={'YYYY-MM-DD'} placeholder='환불일 입력'/>
                                         </div>
                                     </li>
                                     <li>
@@ -1169,9 +1247,9 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive, historyPaymentFu
                                         <label htmlFor="">유료 기간<span>결제기준</span></label>
                                         <div>
                                             <div>
-                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} format={'YYYY-MM-DD'}/>
+                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} onBlur={(e)=>onDateBlur(e, 'standard_payment_start_date')} format={'YYYY-MM-DD'}/>
                                                 <span>-</span>
-                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} format={'YYYY-MM-DD'}/>
+                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} onBlur={(e)=>onDateBlur(e, 'standard_payment_end_date')} format={'YYYY-MM-DD'}/>
                                             </div>
                                         </div>
                                     </li>
@@ -1179,9 +1257,9 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive, historyPaymentFu
                                         <label htmlFor="">유료 기간<span>서비스 기간 포함</span></label>
                                         <div>
                                             <div>
-                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} format={'YYYY-MM-DD'}/>
+                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} onBlur={(e)=>onDateBlur(e, 'standard_service_start_date')} format={'YYYY-MM-DD'}/>
                                                 <span>-</span>
-                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} format={'YYYY-MM-DD'}/>
+                                                <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} onBlur={(e)=>onDateBlur(e, 'standard_service_end_date')} format={'YYYY-MM-DD'}/>
                                             </div>
                                         </div>
                                     </li>
@@ -1246,6 +1324,32 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
 
     const onDate = (dateString, name) => {
         setInputs((input)=>({...input, [name]: dateString}))
+    };
+    
+    const onDateBlur = (e, name) => {
+        let value = e.target.value.replace(/-/g, "");
+        if(/^\d+$/.test(value) && value.length < 9){
+            if((0 < value && value < 13)){
+                value = `2000-${value}-01`
+            }else if(value === '0'){
+                value = `2000-01-01`
+            }else if(value.length === 2){
+                value = `20${value}-01-01`
+            }else if(value.length === 3){
+                value = `2${value}-01-01`
+            }else if(value.length === 4){
+                value = `${value}-01-01`
+            }else{
+                const year = value.substring(0, 4)
+                let month = value.substring(4, 6)
+                month = month ? ( month <= 12 ? ( month >= 10 ? month : '0' + month) : 12) : '01';
+                const maxDay = new Date(year, month, 0).getDate();
+                let day = value.substring(6, 8)
+                day = day ? ( day <= maxDay ? ( day >= 10 ? day : 0 + day) : maxDay) : '01';
+                value = `${year}-${month}-${day}`
+            }
+            onDate(value, name)
+        }
     };
 
     const onSubmit = (e) =>{
@@ -1329,7 +1433,7 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                                     <label htmlFor="">결제일</label>
                                     <div>
                                         <div>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} value={dayjs(inputs?.payment_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'payment_date')} onBlur={(e)=>onDateBlur(e, 'payment_date')} value={dayjs(inputs?.payment_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                         </div>
                                     </div>
                                 </li>
@@ -1347,9 +1451,9 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                                     <label htmlFor="">유료 기간<span>결제기준</span></label>
                                     <div>
                                         <div>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} value={dayjs(inputs?.standard_payment_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_start_date')} onBlur={(e)=>onDateBlur(e, 'standard_payment_start_date')} value={dayjs(inputs?.standard_payment_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                             <span>-</span>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} value={dayjs(inputs?.standard_payment_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_payment_end_date')} onBlur={(e)=>onDateBlur(e, 'standard_payment_end_date')} value={dayjs(inputs?.standard_payment_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                         </div>
                                     </div>
                                 </li>
@@ -1357,9 +1461,9 @@ function UpdatePopup({ updatePopupActive, setUpdatePopupActive, historyUpdateFun
                                     <label htmlFor="">유료 기간<span>서비스기간 포함</span></label>
                                     <div>
                                         <div>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} value={dayjs(inputs?.standard_service_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_start_date')} onBlur={(e)=>onDateBlur(e, 'standard_service_start_date')} value={dayjs(inputs?.standard_service_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                             <span>-</span>
-                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} value={dayjs(inputs?.standard_service_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
+                                            <DatePicker onChange={(_, dateString)=>onDate(dateString, 'standard_service_end_date')} onBlur={(e)=>onDateBlur(e, 'standard_service_end_date')} value={dayjs(inputs?.standard_service_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                         </div>
                                     </div>
                                 </li>
