@@ -71,7 +71,7 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                     if(data.sales_admin_id){
                         setSales(data.sales_admin_name)
                     }
-                    // console.log(data);
+                    console.log(data);
                     setCounselValue(data.counsel_properties_id)
                     setInputs(data)
                 }
@@ -195,6 +195,12 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                                         <span>-</span>
                                         <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
                                     </div>
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="source">출처</label>
+                                <div>
+                                    <input type="text" name='source' id='source' defaultValue={inputs?.source} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li className='fill-three'>

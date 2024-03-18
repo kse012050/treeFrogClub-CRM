@@ -44,6 +44,7 @@ export default function Registration() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        // console.log(inputs);
         if(!inputs?.customer_properties_id || !inputs?.counsel_properties_id || !inputs?.sales_admin_id || !inputs?.customer_name || inputs?.customer_mobile?.length !== 11){
             let errorMessage = ''
             setPopup(()=>({
@@ -150,6 +151,12 @@ export default function Registration() {
                                         <span>-</span>
                                         <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'}/>
                                     </div>
+                                </div>
+                            </li>
+                            <li>
+                                <label htmlFor="source">출처</label>
+                                <div>
+                                    <input type="text" name='source' id='source' onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
                             <li className='fill-three'>
