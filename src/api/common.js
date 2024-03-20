@@ -45,7 +45,7 @@ export const pagePermissionFilter = (user, location) => {
     }else if(location.includes('/customer/registration/update')){
         pageName = '통합고객목록'
     }else if(location === '/payment/list'){
-        pageName = '결제 목록'
+        pageName = '결제목록'
     }else if(location === ''){
         pageName = ''
     }else if(location === ''){

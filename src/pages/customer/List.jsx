@@ -38,6 +38,25 @@ export default function List() {
     const [duplicateMobile, setDuplicateMobile] = useState()
 
     useEffect(()=>{
+        api('commoncode', 'properties_list', {'all_yn': 'y'})
+            .then(({result, list})=>{
+                if(result){
+                    // console.log(list);
+                    setSearchCounsel(list)
+                }
+            })
+            
+        api('clientcode', 'properties_list', {"all_yn": "y"})
+            .then(({result, list})=>{
+                if(result){
+                    // console.log(list);
+                    setSearchClient(list)
+                }
+            })
+
+    },[])
+
+    useEffect(()=>{
         if(user && pagePermission){
             // console.log(pagePermission);
             // console.log(user);
@@ -80,9 +99,8 @@ export default function List() {
 
     const currentData = useCallback(()=>{
         // console.log(inputs);
-        if(inputs){
-            // console.log(inputs);
-            api('customer', 'list', inputs)
+        if(inputs && currentInputs){
+            api('customer', 'list', {...inputs, ...currentInputs})
                 .then(({result, data, list})=>{
                     if(result){
                         // console.log(data);
@@ -91,25 +109,8 @@ export default function List() {
                         setBoardList(list)
                     }
                 })
-        
-            api('commoncode', 'properties_list', {'all_yn': 'y'})
-                .then(({result, list})=>{
-                    if(result){
-                        // console.log(list);
-                        setSearchCounsel(list)
-                    }
-                })
-
-                
-            api('clientcode', 'properties_list', {"all_yn": "y"})
-                .then(({result, list})=>{
-                    if(result){
-                        // console.log(list);
-                        setSearchClient(list)
-                    }
-                })
         }
-    },[inputs])
+    },[inputs, currentInputs])
   
     useEffect(()=>{
         currentData()
@@ -313,10 +314,12 @@ export default function List() {
                                         />
                                         <button>검색</button>
                                     </div>
-                                    <button type='button' onClick={()=>{
-                                        setSearchInputs((input)=>({...input, 'sales_admin_id': ''}))
-                                        setSales('')
-                                    }}>영업담당자 초기화</button>
+                                    { pagePermission?.modify_type !== 'me' && 
+                                        <button type='button' onClick={()=>{
+                                            setSearchInputs((input)=>({...input, 'sales_admin_id': ''}))
+                                            setSales('')
+                                        }}>영업담당자 초기화</button>
+                                    }
                                 </div>
                             </li>
                             <li>
@@ -338,10 +341,12 @@ export default function List() {
                                         />
                                         <button>검색</button>
                                     </div>
-                                    <button type='button' onClick={()=>{
-                                        setSearchInputs((input)=>({...input, 'department_id': ''}))
-                                        setBureau('')
-                                    }}>부서 초기화</button>
+                                    { pagePermission?.modify_type !== 'department' &&
+                                        <button type='button' onClick={()=>{
+                                            setSearchInputs((input)=>({...input, 'department_id': ''}))
+                                            setBureau('')
+                                        }}>부서 초기화</button>
+                                    }
                                 </div>
                             </li>
                             <li>

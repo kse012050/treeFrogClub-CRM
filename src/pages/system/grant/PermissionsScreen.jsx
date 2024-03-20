@@ -193,10 +193,10 @@ function List({ data, deleteList, setDeleteList, currentData }){
 
     useEffect(()=>{
         if(inputs && prevInputs && !Object.entries(inputs).every(([key, value])=> value === prevInputs[key])){
+            // console.log(inputs);
             api('module', 'update', inputs)
                 .then(({result})=>{
                     if(result){
-                        setPrevInputs({...inputs})
                         userSettings()
                         currentData()
                     }

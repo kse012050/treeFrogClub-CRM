@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -11,9 +11,13 @@ import SelectPage from '../../components/SelectPage';
 import PagerButton from '../../components/PagerButton';
 import { logButton, logExcel } from '../../api/common';
 import UpdatePopup from './UpdatePopup';
+import { UserContext } from '../../context/UserContext';
 
 export default function List() {
+    const { user, pagePermission } = useContext(UserContext)
+    // console.log(pagePermission);
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [currentInputs, setCurrentInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
     const [searchInputs, setSearchInputs] = useState()
@@ -27,6 +31,23 @@ export default function List() {
     const [popup, setPopup] = useState()
     const [updatePopupActive, setUpdatePopupActive] = useState()
 
+    useEffect(()=>{
+        if(user && pagePermission){
+            // console.log(pagePermission);
+            // console.log(user);
+            if(pagePermission?.modify_type === 'me'){
+                setCurrentInputs({'sales_admin_id': user?.admin_id })
+                setSales(user?.name)
+            }else if(pagePermission?.modify_type === 'department'){
+                setCurrentInputs({'department_id': user.department_info.department_id })
+                setBureau(user.department_info.name)
+
+            }else{
+                setCurrentInputs({})
+            }
+        }
+    },[user, pagePermission])
+
     const currentSettings = useCallback(() =>{
         const currentDate = new Date();
         const year = currentDate.getFullYear();
@@ -37,22 +58,24 @@ export default function List() {
 
     const currentData = useCallback(()=>{
         // console.log(inputs);
-        api('payment', 'list', inputs)
-            .then(({result, data, list})=>{
-                if(result){
-                    // console.log(data);
-                    setPagerInfo(data)
-                    setSummary(data)
-                    // setBoardList(list)
-                    setBoardList(()=>{
-                        return list.map((listData, i )=>{
-                            return {...listData, 'no': inputs.limit * (data.current_page - 1) + i + 1}
+        if(currentInputs){
+            api('payment', 'list', {...inputs, ...currentInputs})
+                .then(({result, data, list})=>{
+                    if(result){
+                        // console.log(data);
+                        setPagerInfo(data)
+                        setSummary(data)
+                        // setBoardList(list)
+                        setBoardList(()=>{
+                            return list.map((listData, i )=>{
+                                return {...listData, 'no': inputs.limit * (data.current_page - 1) + i + 1}
+                            })
                         })
-                    })
-                    // console.log(list);
-                }
-            })
-    },[inputs])
+                        // console.log(list);
+                    }
+                })
+        }
+    },[inputs, currentInputs])
 
     useEffect(()=>{
         if(inputs){
@@ -131,18 +154,22 @@ export default function List() {
 
     const onReset = () => {
         setAnalyst()
-        setSales()
-        setBureau()
         currentSettings()
-        setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        setInputs((input)=>({...currentInputs, 'limit': input.limit, 'page': '1'}))
+        if(pagePermission?.modify_type !== 'me'){
+            setSales()
+        }
+        if(pagePermission?.modify_type !== 'department'){
+            setBureau()
+        }
         setSearchInputs({})
         logButton('결제 목록(검색)')
     }
 
     const onSearch = (e) => {
         e.preventDefault();
-        console.log(searchInputs);
-        // setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
+        // console.log(searchInputs);
+        setInputs((input)=>({...input, 'page': '1', ...searchInputs}))
         // logButton('결제 목록(검색 초기화)')
     }
 
@@ -153,7 +180,9 @@ export default function List() {
         <>
             <h2>
                 결제 목록
-                <Link to="registration" className='btn-point'>대량결제 등록</Link>
+                { pagePermission?.insert_yn === 'y'  && 
+                    <Link to="registration" className='btn-point'>대량결제 등록</Link>
+                }
             </h2>
             <DropBox title="검색 항목" arrow>
                 <form>
@@ -216,13 +245,16 @@ export default function List() {
                                                     setSales(data.name)
                                                 }
                                             })}
+                                            disabled={pagePermission?.modify_type === 'me'}
                                         />
                                         <button>검색</button>
                                     </div>
-                                    <button type='button' onClick={()=>{
-                                        setSearchInputs((input)=>({...input, 'sales_admin_id': ''}))
-                                        setSales('')
-                                    }}>영업담당자 초기화</button>
+                                    { pagePermission?.modify_type !== 'me' && 
+                                        <button type='button' onClick={()=>{
+                                            setSearchInputs((input)=>({...input, 'sales_admin_id': ''}))
+                                            setSales('')
+                                        }}>영업담당자 초기화</button>
+                                    }
                                 </div>
                             </li>
                             <li>
@@ -240,13 +272,16 @@ export default function List() {
                                                     setBureau(data.name)
                                                 }
                                             })}
+                                            disabled={pagePermission?.modify_type === 'department'}
                                         />
                                         <button>검색</button>
                                     </div>
-                                    <button type='button' onClick={()=>{
-                                        setSearchInputs((input)=>({...input, 'department_id': ''}))
-                                        setBureau('')
-                                    }}>부서 초기화</button>
+                                    { pagePermission?.modify_type !== 'department' &&
+                                        <button type='button' onClick={()=>{
+                                            setSearchInputs((input)=>({...input, 'department_id': ''}))
+                                            setBureau('')
+                                        }}>부서 초기화</button>
+                                    }
                                 </div>
                             </li>
                             <li>
@@ -363,13 +398,15 @@ export default function List() {
 
             <div className='boardBox'>
                 <strong>목록</strong>
-                <Link 
-                    to={excelDownloadLink} 
-                    className='btn-gray-black'
-                    onClick={()=>logExcel(`결제 목록 - 엑셀 다운로드`)}
-                >
-                    엑셀 다운로드
-                </Link>
+                { pagePermission?.excel_yn === 'y'  && 
+                    <Link 
+                        to={excelDownloadLink} 
+                        className='btn-gray-black'
+                        onClick={()=>logExcel(`결제 목록 - 엑셀 다운로드`)}
+                    >
+                        엑셀 다운로드
+                    </Link>
+                }
                 <hr className='case01'/>
 
                 <table className='board-table'>
@@ -429,7 +466,10 @@ export default function List() {
                             { boardList.map((data, i)=>(
                                 <li key={i}>
                                     <span>{ data.no }</span>
-                                    <button className='popup' onClick={()=>setUpdatePopupActive({'type': 'children', 'id': data.payment_id})}>{ data.payment_id }</button>
+                                    { pagePermission?.update_yn === 'y' ?
+                                        <button className='popup' onClick={()=>setUpdatePopupActive({'type': 'children', 'id': data.payment_id})}>{ data.payment_id }</button> :
+                                        <span>{ data.payment_id }</span>
+                                    }
                                     <span>{ data.customer_mobile }</span>
                                     <span>{ data.customer_name }</span>
                                     <span>{ data.source }</span>

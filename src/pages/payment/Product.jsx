@@ -140,13 +140,15 @@ export default function Product() {
 
             <div className='boardBox'>
             <strong>목록</strong>
-            <Link 
-                to={excelDownloadLink} 
-                className='btn-gray-black'
-                onClick={()=>logExcel(`상품 목록`)}
-            >
-                엑셀 다운로드
-            </Link>
+            { pagePermission?.excel_yn === 'y'  && 
+                <Link 
+                    to={excelDownloadLink} 
+                    className='btn-gray-black'
+                    onClick={()=>logExcel(`상품 목록`)}
+                >
+                    엑셀 다운로드
+                </Link>
+            }
             <hr className='case01'/>
             <b className='total'>{ pagerInfo?.total_count }</b>
             <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
@@ -177,11 +179,14 @@ export default function Product() {
                             <span>{ data.analyst_admin_name }</span>
                             <span>{ data.customer_properties_name }</span>
                             <span>{ data.memo }</span>
-                            <Link to={`update/${data.product_id}`} className='update'>
-                                { pagePermission?.update_yn === 'y'  && 
-                                    '수정'
-                                }
-                            </Link>
+                            { pagePermission?.update_yn === 'y' ?
+                                <Link to={`update/${data.product_id}`} className='update'>
+                                    { pagePermission?.update_yn === 'y'  && 
+                                        '수정'
+                                    }
+                                </Link> :
+                                <span></span>
+                            }
                         </li>
                     ))}
                 </ol>
