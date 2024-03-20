@@ -3,20 +3,36 @@ import { NavLink } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 export default function Memu() {
-    const { user } = useContext(UserContext)
-    // console.log(user);
+    const { user, menuPermission } = useContext(UserContext)
+    // console.log(menuPermission);
     return (
         <nav>
-            <strong>고객 DB 관리</strong>
-            <ul>
-                <li><NavLink to={'/customer/list'}>통합 고객 목록</NavLink></li>
-                <li><NavLink to={'/customer/registration'}>고객 등록</NavLink></li>
-            </ul>
-            <strong>결제 관리</strong>
-            <ul>
-                <li><NavLink to={'/payment/list'}>결제 목록</NavLink></li>
-                <li><NavLink to={'/payment/product'}>상품 목록</NavLink></li>
-            </ul>
+            { (menuPermission?.['통합고객목록'] || menuPermission?.['고객등록']) && 
+                <>
+                    <strong>고객 DB 관리</strong>
+                    <ul>
+                        { menuPermission?.['통합고객목록'] &&
+                            <li><NavLink to={'/customer/list'}>통합 고객 목록</NavLink></li>
+                        }
+                        { menuPermission?.['고객등록'] &&
+                            <li><NavLink to={'/customer/registration'}>고객 등록</NavLink></li>
+                        }
+                    </ul>
+                </>
+            }
+            { (menuPermission?.['결제목록'] || menuPermission?.['상품목록']) && 
+                <>
+                    <strong>결제 관리</strong>
+                    <ul>
+                        { menuPermission?.['결제목록'] && 
+                            <li><NavLink to={'/payment/list'}>결제 목록</NavLink></li>
+                        }
+                        { menuPermission?.['상품목록'] && 
+                            <li><NavLink to={'/payment/product'}>상품 목록</NavLink></li>
+                        }
+                    </ul>
+                </>
+            }
             <strong>통계</strong>
             <ul>
                 <li><NavLink to={'/statistics/account'}>그룹/계정별 유효율</NavLink></li>

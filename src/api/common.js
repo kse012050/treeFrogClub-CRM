@@ -1,15 +1,16 @@
 import { api } from '../api/api';
 
-
+// 로그 - 엑셀 버튼
 export const logExcel = (value) =>{
     api('log', 'insert', {'log_type': '엑셀다운로드', 'log_value': value})
-        .then(({result})=>{
-            if(result){
-                // console.log(result);
-            }
-        })
+    .then(({result})=>{
+        if(result){
+            // console.log(result);
+        }
+    })
 }
 
+// 로그 - 버튼
 export const logButton = (value) =>{
     api('log', 'insert', {'log_type': '버튼클릭', 'log_value': value})
         .then(({result})=>{

@@ -57,7 +57,7 @@ export const routers = [
         element: <Root />,
         children: [
             { 
-                path: 'list', label: 'test', element: <CustomerList />
+                path: 'list', element: <CustomerList />
             },
             {
                 path: 'list/modify', element: <CustomerBulkModify />

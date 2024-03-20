@@ -17,6 +17,7 @@ export default function Root({ children }) {
     const [popup, setPopup] = useState()
     const { id } = useParams();
     const [pagePermission, setPagePermission] = useState()
+    const [menuPermission, setMenuPermission] = useState()
 
     const userSettings = useCallback(()=>{
         api('profile', 'detail')
@@ -37,6 +38,25 @@ export default function Root({ children }) {
             }else{
                 pageHistory(location)
                 setPagePermission(pagePermissionFilter(user, location))
+                // console.log(user);
+                setMenuPermission(()=>{
+                    let obj = {}
+                    user.role_list?.forEach((data)=>{
+                        obj[data.screen_name] = (data.select_yn === 'y')
+                        if(data.screen_name === '통합고객목록'){
+                            obj['고객등록'] = (data.insert_yn === 'y')
+                        }
+                    })
+                    // console.log(obj);
+                    return user.type !== 'super' ? 
+                        obj : 
+                        {
+                            '통합고객목록': true,
+                            '고객등록': true,
+                            '결제목록': true,
+                            '상품목록': true,
+                        }
+                })
             }
         }
       }, [location, user, navigate]);
@@ -60,7 +80,7 @@ export default function Root({ children }) {
     },[pageName, children, navigate])
     return (
         <>
-            <UserContext.Provider value={{user, company, userSettings, pagePermission}}>
+            <UserContext.Provider value={{user, company, userSettings, pagePermission, menuPermission}}>
                 <header>
                     <h1>
                         <Link to={'/main'}>
