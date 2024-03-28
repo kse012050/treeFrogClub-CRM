@@ -32,7 +32,7 @@ export default function List() {
     const [updatePopupActive, setUpdatePopupActive] = useState()
 
     useEffect(()=>{
-        if(user && pagePermission){
+        if(user && pagePermission?.modify_type){
             // console.log(pagePermission);
             // console.log(user);
             if(pagePermission?.modify_type === 'me'){
@@ -41,7 +41,6 @@ export default function List() {
             }else if(pagePermission?.modify_type === 'department'){
                 setCurrentInputs({'department_id': user.department_info.department_id })
                 setBureau(user.department_info.name)
-
             }else{
                 setCurrentInputs({})
             }
@@ -467,7 +466,8 @@ export default function List() {
                                 <li key={i}>
                                     <span>{ data.no }</span>
                                     { pagePermission?.update_yn === 'y' ?
-                                        <button className='popup' onClick={()=>setUpdatePopupActive({'type': 'children', 'id': data.payment_id})}>{ data.payment_id }</button> :
+                                        // <button className='popup' onClick={()=>setUpdatePopupActive({'type': 'children', 'id': data.payment_id})}>{ data.payment_id }</button> :
+                                        <Link to={`/customer/registration/update/${data.customer_id}`}>{ data.payment_id }</Link> :
                                         <span>{ data.payment_id }</span>
                                     }
                                     <span>{ data.customer_mobile }</span>

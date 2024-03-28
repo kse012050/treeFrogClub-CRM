@@ -67,7 +67,7 @@ export const pagePermissionFilter = (user, location) => {
     }else if(location === '/statistics/sales'){
         pageName = '매출현황'
     }else if(location === '/system/basic/anUser'){
-        pageName = '사용자 목록'
+        pageName = '사용자목록'
     }else if(location === '/system/basic/anUser/registration'){
         pageName = '사용자 등록'
     }else if(location.includes('/system/basic/anUser/update')){
@@ -110,9 +110,9 @@ export const pagePermissionFilter = (user, location) => {
         pageName = '공지사항 보기/수정'
     }
 
-    return user.type !== 'super' ?
-        {...user.role_list?.filter((data)=>data?.screen_name === pageName)[0], ...subData} :
-        {
+    let resultObj;
+    if(user.type === 'super'){
+        resultObj = {
             'delete_yn': "y",
             'excel_yn': "y",
             'insert_yn': "y",
@@ -123,4 +123,26 @@ export const pagePermissionFilter = (user, location) => {
             'bulk_customer_insert': "y",
             'bulk_customer_modify': "y"
         }
+    }else if(user.role_list.length){ 
+        resultObj = {...user.role_list?.filter((data)=>data?.screen_name === pageName)[0], ...subData}
+    }
+    return resultObj
+
+    // if(user){
+    //     console.log(user);
+    //     console.log(user.role_list);
+    //     return user.type !== 'super' ?
+    //         {...user.role_list?.filter((data)=>data?.screen_name === pageName)[0], ...subData} :
+    //         {
+    //             'delete_yn': "y",
+    //             'excel_yn': "y",
+    //             'insert_yn': "y",
+    //             'modify_type': "all",
+    //             'select_type': "all",
+    //             'select_yn': "y",
+    //             'update_yn': "y",
+    //             'bulk_customer_insert': "y",
+    //             'bulk_customer_modify': "y"
+    //         }
+    //     }
 }

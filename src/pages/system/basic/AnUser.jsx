@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DropBox from '../../../components/DropBox';
 import Select from '../../../components/Select';
@@ -11,9 +11,12 @@ import Popup from '../../../components/popup/Popup';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function AnUser() {
+    const { user, pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
+    const [currentInputs, setCurrentInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [deleteList, setDeleteList] = useState('')
     const [boardList, setBoardList] = useState()
@@ -21,24 +24,45 @@ export default function AnUser() {
     const [bureau, setBureau] = useState();
     const [popup, setPopup] = useState()
 
+    useEffect(()=>{
+        if(user && pagePermission?.modify_type){
+            // console.log(pagePermission);
+            // console.log(user);
+            if(pagePermission?.modify_type === 'me'){
+                setCurrentInputs({'name': user.name, 'id': user.id })
+                // setSales(user?.name)
+            }else if(pagePermission?.modify_type === 'department'){
+                setCurrentInputs({'department_id': user.department_info.department_id })
+                setBureau(user.department_info.name)
+            }else{
+                setCurrentInputs({})
+            }
+        }
+    },[user, pagePermission])
+
     const currentData = useCallback(()=>{
-        api('user', 'list', inputs)
-            .then(({result, data, list})=>{
-                if(result){
-                    // console.log(list);
-                    setPagerInfo(data)
-                    setBoardList(list)
-                }
-            })
-    },[inputs])
+        if(currentInputs && inputs){
+            // console.log(currentInputs);
+            api('user', 'list', {...inputs, ...currentInputs})
+                .then(({result, data, list})=>{
+                    if(result){
+                        // console.log(list);
+                        setPagerInfo(data)
+                        setBoardList(list)
+                    }
+                })
+        }
+    },[inputs, currentInputs])
 
     useEffect(()=>{
         currentData()
     },[currentData])
 
     const onReset = ()=>{
-        setBureau()
         setInputs((input)=>({'limit': input.limit, 'page': '1'}))
+        if(pagePermission?.modify_type !== 'department'){
+            setBureau()
+        }
         setSearchInputs()
         setDeleteList([])
         logButton('사용자 목록(검색)')
@@ -56,7 +80,9 @@ export default function AnUser() {
         <>
             <h2>
                 사용자 목록
-                <Link to="registration" className='btn-point'>추가</Link>
+                { pagePermission?.insert_yn === 'y'  && 
+                    <Link to="registration" className='btn-point'>추가</Link>
+                }
             </h2>
 
             <DropBox title="검색 항목" arrow>
@@ -66,13 +92,13 @@ export default function AnUser() {
                             <li>
                                 <label htmlFor="name">사용자명</label>
                                 <div>
-                                    <input type="text" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)}/>
+                                    <input type="text" name='name' id='name' defaultValue={currentInputs?.name} onChange={(e)=>inputChange(e, setSearchInputs)} disabled={pagePermission?.modify_type === 'me'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="id">아이디</label>
                                 <div>
-                                    <input type="text" name='id' id='id' onChange={(e)=>inputChange(e, setSearchInputs)}/>
+                                    <input type="text" name='id' id='id' defaultValue={currentInputs?.id} onChange={(e)=>inputChange(e, setSearchInputs)} disabled={pagePermission?.modify_type === 'me'}/>
                                 </div>
                             </li>
                             <li>
@@ -90,13 +116,16 @@ export default function AnUser() {
                                                     setBureau(data.name)
                                                 }
                                             })}
+                                            disabled={pagePermission?.modify_type === 'department'}
                                         />
                                         <button>검색</button>
                                     </div>
-                                    <button type='button' onClick={()=>{
-                                        setSearchInputs((input)=>({...input, 'department_id': ''}))
-                                        setBureau('')
-                                    }}>부서 초기화</button>
+                                    { pagePermission?.modify_type !== 'department' &&
+                                        <button type='button' onClick={()=>{
+                                            setSearchInputs((input)=>({...input, 'department_id': ''}))
+                                            setBureau('')
+                                        }}>부서 초기화</button>
+                                    }
                                 </div>
                             </li>
                             {/* <li>
@@ -133,7 +162,9 @@ export default function AnUser() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='user' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='사용자 목록(선택 삭제)'/>
+                { pagePermission?.delete_yn === 'y'  && 
+                    <BoardChkDelete url='user' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='사용자 목록(선택 삭제)'/>
+                }
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({admin_id})=>admin_id)} />
@@ -159,7 +190,10 @@ export default function AnUser() {
                                 <span>{ data.role_name }</span>
                                 <span>{ data.department_name }</span>
                                 <span>{ data.useable_yn }</span>
-                                <Link to={`update/${data.admin_id}`}>수정</Link>
+                                { pagePermission?.update_yn === 'y' ?
+                                    <Link to={`update/${data.admin_id}`}>수정</Link> :
+                                    <span></span>
+                                }
                             </li>
                         ))}
                     </ol>

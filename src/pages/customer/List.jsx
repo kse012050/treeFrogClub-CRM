@@ -19,6 +19,7 @@ import { UserContext } from '../../context/UserContext';
 
 export default function List() {
     const { user, pagePermission } = useContext(UserContext)
+    // console.log(pagePermission);
     // console.log(user?.admin_id);
     const [currentInputs, setCurrentInputs] = useState()
     const [inputs, setInputs] = useState()
@@ -57,7 +58,7 @@ export default function List() {
     },[])
 
     useEffect(()=>{
-        if(user && pagePermission){
+        if(user && pagePermission?.modify_type){
             // console.log(pagePermission);
             // console.log(user);
             if(pagePermission?.modify_type === 'me'){
@@ -100,6 +101,7 @@ export default function List() {
     const currentData = useCallback(()=>{
         // console.log(inputs);
         if(inputs && currentInputs){
+            console.log(currentInputs);
             api('customer', 'list', {...inputs, ...currentInputs})
                 .then(({result, data, list})=>{
                     if(result){

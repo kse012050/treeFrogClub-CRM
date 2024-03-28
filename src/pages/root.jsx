@@ -38,7 +38,8 @@ export default function Root({ children }) {
             }else{
                 pageHistory(location)
                 setPagePermission(pagePermissionFilter(user, location))
-                // console.log(user);
+                // setPagePermission(undefined)
+                // console.log(pagePermissionFilter(user, location));
                 setMenuPermission(()=>{
                     let obj = {}
                     user.role_list?.forEach((data)=>{
@@ -55,6 +56,7 @@ export default function Root({ children }) {
                             '고객등록': true,
                             '결제목록': true,
                             '상품목록': true,
+                            '사용자목록': true,
                         }
                 })
             }
