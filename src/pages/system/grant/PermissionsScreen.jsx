@@ -130,11 +130,11 @@ export default function PermissionsScreen({id, roleTitle}) {
                         <input type="checkbox" id='allInsert' checked={allCheck?.insert_yn || false} onChange={(e)=>onAllChange(e, 'insert_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allInsert">등록</label>
                     </div>
-                    <div>
+                    {/* <div>
                         <input type="checkbox" id='allModifyType' checked={false} onChange={(e)=>onAllChangeRole(e, 'modify_type')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allModifyType"></label>
                         <SelectBoard type='role' current={allCheck} setInputs={setAllCheck} changeName='modify_type' disabled={pagePermission?.update_yn !== 'y'}/>
-                    </div>
+                    </div> */}
                     <div>
                         <input type="checkbox" id='allUpdate' checked={allCheck?.update_yn || false} onChange={(e)=>onAllChange(e, 'update_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allUpdate">수정</label>
@@ -143,10 +143,15 @@ export default function PermissionsScreen({id, roleTitle}) {
                         <input type="checkbox" id='allDeletea' checked={allCheck?.delete_yn || false} onChange={(e)=>onAllChange(e, 'delete_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allDeletea">삭제</label>
                     </div>
-                    <div>
+                    {/* <div>
                         <input type="checkbox" id='allSelectType' checked={false} onChange={(e)=>onAllChangeRole(e, 'select_type')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allSelectType"></label>
                         <SelectBoard type='role' current setInputs={setAllCheck} changeName='select_type' disabled={pagePermission?.update_yn !== 'y'}/>
+                    </div> */}
+                    <div>
+                        <input type="checkbox" id='allModifyType' checked={false} onChange={(e)=>onAllChangeRole(e, 'modify_type')} disabled={pagePermission?.update_yn !== 'y'}/>
+                        <label htmlFor="allModifyType"></label>
+                        <SelectBoard type='role' current={allCheck} setInputs={setAllCheck} changeName='modify_type' disabled={pagePermission?.update_yn !== 'y'}/>
                     </div>
                     <div>
                         <input type="checkbox" id='allSelect' checked={allCheck?.select_yn || false} onChange={(e)=>onAllChange(e, 'select_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
@@ -216,11 +221,11 @@ function List({ data, deleteList, setDeleteList, currentData }){
             <span>{ data.screen_name }</span>
             <div>
                 <input type="checkbox" name='insert_yn' id={`insert_yn_${uuid}`} checked={data?.insert_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
-                <label htmlFor={`insert_yn_${uuid}`}>등록</label>
+                <label htmlFor={`insert_yn_${uuid}`}></label>
             </div>
-            <div>
+            {/* <div>
                 <SelectBoard type='role' current={data?.modify_type} setInputs={setInputs} changeName='modify_type' onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
-            </div>
+            </div> */}
             <div>
                 <input type="checkbox" name='update_yn' id={`update_yn_${uuid}`} checked={data?.update_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                 <label htmlFor={`update_yn_${uuid}`}></label>
@@ -229,8 +234,11 @@ function List({ data, deleteList, setDeleteList, currentData }){
                 <input type="checkbox" name='delete_yn' id={`delete_yn_${uuid}`} checked={data?.delete_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                 <label htmlFor={`delete_yn_${uuid}`}></label>
             </div>
-            <div>
+            {/* <div>
                 <SelectBoard type='role' current={data?.select_type} setInputs={setInputs} changeName='select_type' disabled={pagePermission?.update_yn !== 'y'}/>
+            </div> */}
+            <div>
+                <SelectBoard type='role' current={data?.modify_type} setInputs={setInputs} changeName='modify_type' onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
             </div>
             <div>
                 <input type="checkbox" name='select_yn' id={`select_yn_${uuid}`} checked={data?.select_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>

@@ -436,19 +436,19 @@
 .systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *){display: flex; align-items: center;}
 .systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox .board-top > div > label:has(+ .selectBoard-role){flex: none;}
 .systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox .board-top > div > label:has(+ .selectBoard-role)::before{margin-right: 0;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(n + 5):nth-child(-n + 7){background-color: #FFF4E6;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(n +8):nth-child(-n + 10){background-color: #F7FFE6;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(n + 5):nth-child(-n + 6){background-color: #FFF4E6;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(n + 7):nth-child(-n + 10){background-color: #F7FFE6;}
 .systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox .board-center li:has( > *:first-child input[type="checkbox"]:checked) > *:nth-child(n + 5){background-color: #FFF9F9;}
 .systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(1){flex: 16;}
 .systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(2){flex: 84;}
 .systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(3){flex: 109;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(4){flex: 45;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(5){flex: 63;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(6){flex: 45;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(7){flex: 45;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(8){flex: 63;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(9){flex: 45;}
-.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(10){flex: 55;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(4){flex: 25;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(5){flex: 25;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(6){flex: 25;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(7){flex: 35;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(8){flex: 25;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(9){flex: 25;}
+.systemPage.permissionsPage .horizontalTwo .boardArea .screenArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(10){flex: 25;}
 /* 시스템 관리 - 권한 설정 - 역할 권한 관리 - 사용자 권한 */
 .systemPage.permissionsPage .horizontalTwo .boardArea .userArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(1){flex: 16;}
 .systemPage.permissionsPage .horizontalTwo .boardArea .userArea > .boardBox :is(.board-top > *, .board-center li > *, .board-bottom *):nth-child(2){flex: 244;}
