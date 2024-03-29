@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DropBox from '../../../components/DropBox';
 import Select from '../../../components/Select';
@@ -10,8 +10,10 @@ import { inputChange, onSort } from '../../../api/validation';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function Common() {
+    const { pagePermission } = useContext(UserContext)
     // console.log('common 랜더링');
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'});
@@ -59,7 +61,10 @@ export default function Common() {
         <>
             <h2>
                 공통 코드 관리
-                <Link to="registration" className='btn-point'>추가</Link>
+                
+                { pagePermission?.insert_yn === 'y'  && 
+                    <Link to="registration" className='btn-point'>추가</Link>
+                }
             </h2>
 
             <DropBox title="검색 항목" arrow>
@@ -101,7 +106,9 @@ export default function Common() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='공통 코드 관리(선택 삭제)'/>
+                { pagePermission?.delete_yn === 'y'  && 
+                    <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='공통 코드 관리(선택 삭제)'/>
+                }
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
@@ -125,7 +132,11 @@ export default function Common() {
                                 <span>{ data.name }</span>
                                 <span>{ data.order_number }</span>
                                 <span>{ data.useable_yn }</span>
-                                <Link to={`update/${data.properties_id}`}>수정</Link>
+                                
+                                { pagePermission?.update_yn === 'y' ?
+                                    <Link to={`update/${data.properties_id}`}>수정</Link> :
+                                    <span></span>
+                                }
                             </li>
                         ))}
                     </ol>

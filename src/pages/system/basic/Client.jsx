@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { api } from '../../../api/api';
 import { Link } from 'react-router-dom';
 import SubTitle from '../../../components/SubTitle';
@@ -8,8 +8,10 @@ import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
 import { onSort, onSortReverse } from '../../../api/validation';
+import { UserContext } from '../../../context/UserContext';
 
 export default function Client() {
+    const { pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState({'limit': '10'});
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
@@ -31,7 +33,7 @@ export default function Client() {
 
     return (
         <>
-            <SubTitle text="고객 구분 관리" link="registration" />
+            <SubTitle text="고객 구분 관리" link={pagePermission?.insert_yn === 'y' && 'registration'} />
 
             <div className='boardBox'>
                 <strong>목록</strong>
@@ -39,7 +41,9 @@ export default function Client() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='고객 구분 관리(선택 삭제)'/>
+                { pagePermission?.delete_yn === 'y'  && 
+                    <BoardChkDelete url='commoncode' idName='properties_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='고객 구분 관리(선택 삭제)'/>
+                }
             
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({properties_id})=>properties_id)} />
@@ -67,7 +71,10 @@ export default function Client() {
                                 <div style={{'--color': `${data.font_color}`}}>{ data.font_color }</div>
                                 <span>{ data.order_number }</span>
                                 <span>{ data.useable_yn }</span>
-                                <Link to={`update/${data.properties_id}`}>수정</Link>
+                                { pagePermission?.update_yn === 'y' ?
+                                    <Link to={`update/${data.properties_id}`}>수정</Link> :
+                                    <span></span>
+                                }
                             </li>
                         ))}
                     </ol>

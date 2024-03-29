@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { api } from '../../../api/api';
 import { Link } from 'react-router-dom';
 import SubTitle from '../../../components/SubTitle';
@@ -10,8 +10,10 @@ import SelectPage from '../../../components/SelectPage';
 import { inputChange, onSort } from '../../../api/validation';
 import PagerButton from '../../../components/PagerButton';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function Management() {
+    const { pagePermission } = useContext(UserContext)
     const initParam = {'limit': '10', 'page': '1'};
     const [inputs, setInputs] = useState(initParam);
     const [searchInputs, setSearchInputs] = useState()
@@ -51,7 +53,7 @@ export default function Management() {
 
     return (
         <>
-            <SubTitle text="역할 관리" link="registration" />
+            <SubTitle text="역할 관리" link={pagePermission?.insert_yn === 'y' ? 'registration' : ''} />
 
             <DropBox title="검색 항목" arrow>
                 <form>
@@ -80,8 +82,10 @@ export default function Management() {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='role' idName='role_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='역할 관리(선택 삭제)'/>
-                
+                { pagePermission?.delete_yn === 'y'  && 
+                    <BoardChkDelete url='role' idName='role_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='역할 관리(선택 삭제)'/>
+                }
+
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({role_id})=>role_id)} />
                     <button onClick={()=>onSort(setBoardList, 'role_classification')}>구분</button>
@@ -108,7 +112,11 @@ export default function Management() {
                                     <span>{ data.connect_limit_yn.toUpperCase() }</span>
                                 }
                                 <span>{ data.role_explain }</span>
-                                <Link to={`update/${data.role_id}`}>수정</Link>
+                                
+                                { pagePermission?.update_yn === 'y' ?
+                                    <Link to={`update/${data.role_id}`}>수정</Link> :
+                                    <span></span>
+                                }
                             </li>
                         ))}
                     </ol>

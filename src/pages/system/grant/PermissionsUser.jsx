@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Select from '../../../components/Select';
 import { inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
@@ -10,8 +10,10 @@ import SelectPage from '../../../components/SelectPage';
 import Popup from '../../../components/popup/Popup';
 import PagerButton from '../../../components/PagerButton';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function PermissionsUser({id, roleTitle}) {
+    const { pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -72,8 +74,12 @@ export default function PermissionsUser({id, roleTitle}) {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='user' funcName='role_delete' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentSettings} logValue='역할 권한 관리(사용자 권한 - 선택 삭제)'/>
-                <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id, 'roleTitle': roleTitle})}>추가</button>
+                { pagePermission?.delete_yn === 'y'  && 
+                    <BoardChkDelete url='user' funcName='role_delete' idName='admin_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentSettings} logValue='역할 권한 관리(사용자 권한 - 선택 삭제)'/>
+                }
+                { pagePermission?.insert_yn === 'y'  && 
+                    <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id, 'roleTitle': roleTitle})}>추가</button>
+                }
 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({admin_id})=>admin_id)} />

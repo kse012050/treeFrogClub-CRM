@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../api/api';
 import SubTitle from '../../components/SubTitle';
 import Pager from '../../components/Pager';
 import SelectPage from '../../components/SelectPage';
+import { UserContext } from '../../context/UserContext';
 
 export default function Notice() {
+    const { pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -27,7 +29,7 @@ export default function Notice() {
 
     return (
         <>
-            <SubTitle text="공지사항" link="registration" />
+            <SubTitle text="공지사항" link={pagePermission?.insert_yn === 'y' ? 'registration' : ''} />
 
             <div className='boardBox'>
                 <strong>목록</strong>

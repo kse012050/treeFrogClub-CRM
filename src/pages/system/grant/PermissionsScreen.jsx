@@ -14,7 +14,7 @@ import { logButton } from '../../../api/common';
 import { UserContext } from '../../../context/UserContext';
 
 export default function PermissionsScreen({id, roleTitle}) {
-    const { userSettings } = useContext(UserContext)
+    const { userSettings, pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -115,41 +115,45 @@ export default function PermissionsScreen({id, roleTitle}) {
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
-                <BoardChkDelete url='module' idName='role_with_module_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={()=>{currentSettings(); userSettings();}} logValue='역할 권한 관리(화면 권한 - 선택 삭제)'/>
-                <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id, 'roleTitle': roleTitle})}>추가</button>
+                { pagePermission?.delete_yn === 'y'  && 
+                    <BoardChkDelete url='module' idName='role_with_module_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={()=>{currentSettings(); userSettings();}} logValue='역할 권한 관리(화면 권한 - 선택 삭제)'/>
+                }
+                { pagePermission?.insert_yn === 'y' &&
+                    <button className='btn-gray-black boundary' onClick={()=>setRegistrationPopup({'type': 'children', 'role_id': inputs.role_id, 'roleTitle': roleTitle})}>추가</button>
+                }
                 
                 <div className="board-top">
                     <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={boardList?.map(({role_with_module_id})=>role_with_module_id)} />
                     <button onClick={()=>onSort(setBoardList, 'module_category')}>모듈유형</button>
                     <button onClick={()=>onSort(setBoardList, 'screen_name')}>화면명</button>
                     <div>
-                        <input type="checkbox" id='allInsert' checked={allCheck?.insert_yn || false} onChange={(e)=>onAllChange(e, 'insert_yn')}/>
+                        <input type="checkbox" id='allInsert' checked={allCheck?.insert_yn || false} onChange={(e)=>onAllChange(e, 'insert_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allInsert">등록</label>
                     </div>
                     <div>
-                        <input type="checkbox" id='allModifyType' checked={false} onChange={(e)=>onAllChangeRole(e, 'modify_type')}/>
+                        <input type="checkbox" id='allModifyType' checked={false} onChange={(e)=>onAllChangeRole(e, 'modify_type')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allModifyType"></label>
-                        <SelectBoard type='role' current setInputs={setAllCheck} changeName='modify_type'/>
+                        <SelectBoard type='role' current={allCheck} setInputs={setAllCheck} changeName='modify_type' disabled={pagePermission?.update_yn !== 'y'}/>
                     </div>
                     <div>
-                        <input type="checkbox" id='allUpdate' checked={allCheck?.update_yn || false} onChange={(e)=>onAllChange(e, 'update_yn')}/>
+                        <input type="checkbox" id='allUpdate' checked={allCheck?.update_yn || false} onChange={(e)=>onAllChange(e, 'update_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allUpdate">수정</label>
                     </div>
                     <div>
-                        <input type="checkbox" id='allDeletea' checked={allCheck?.delete_yn || false} onChange={(e)=>onAllChange(e, 'delete_yn')}/>
+                        <input type="checkbox" id='allDeletea' checked={allCheck?.delete_yn || false} onChange={(e)=>onAllChange(e, 'delete_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allDeletea">삭제</label>
                     </div>
                     <div>
-                        <input type="checkbox" id='allSelectType' checked={false} onChange={(e)=>onAllChangeRole(e, 'select_type')}/>
+                        <input type="checkbox" id='allSelectType' checked={false} onChange={(e)=>onAllChangeRole(e, 'select_type')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allSelectType"></label>
-                        <SelectBoard type='role' current setInputs={setAllCheck} changeName='select_type'/>
+                        <SelectBoard type='role' current setInputs={setAllCheck} changeName='select_type' disabled={pagePermission?.update_yn !== 'y'}/>
                     </div>
                     <div>
-                        <input type="checkbox" id='allSelect' checked={allCheck?.select_yn || false} onChange={(e)=>onAllChange(e, 'select_yn')}/>
+                        <input type="checkbox" id='allSelect' checked={allCheck?.select_yn || false} onChange={(e)=>onAllChange(e, 'select_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allSelect">조회</label>
                     </div>
                     <div>
-                        <input type="checkbox" id='allExcel' checked={allCheck?.excel_yn || false} onChange={(e)=>onAllChange(e, 'excel_yn')}/>
+                        <input type="checkbox" id='allExcel' checked={allCheck?.excel_yn || false} onChange={(e)=>onAllChange(e, 'excel_yn')} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="allExcel">엑셀</label>
                     </div>
                 </div>
@@ -181,7 +185,7 @@ export default function PermissionsScreen({id, roleTitle}) {
 
 
 function List({ data, deleteList, setDeleteList, currentData }){
-    const { userSettings } = useContext(UserContext)
+    const { userSettings, pagePermission } = useContext(UserContext)
     const uuid = useId()
     const [inputs, setInputs] = useState();
     const [prevInputs, setPrevInputs] = useState();
@@ -211,29 +215,29 @@ function List({ data, deleteList, setDeleteList, currentData }){
             <span>{ data.module_category }</span>
             <span>{ data.screen_name }</span>
             <div>
-                <input type="checkbox" name='insert_yn' id={`insert_yn_${uuid}`} checked={data?.insert_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
+                <input type="checkbox" name='insert_yn' id={`insert_yn_${uuid}`} checked={data?.insert_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                 <label htmlFor={`insert_yn_${uuid}`}>등록</label>
             </div>
             <div>
-                <SelectBoard type='role' current={data?.modify_type} setInputs={setInputs} changeName='modify_type'/>
+                <SelectBoard type='role' current={data?.modify_type} setInputs={setInputs} changeName='modify_type' onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
             </div>
             <div>
-                <input type="checkbox" name='update_yn' id={`update_yn_${uuid}`} checked={data?.update_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
+                <input type="checkbox" name='update_yn' id={`update_yn_${uuid}`} checked={data?.update_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                 <label htmlFor={`update_yn_${uuid}`}></label>
             </div>
             <div>
-                <input type="checkbox" name='delete_yn' id={`delete_yn_${uuid}`} checked={data?.delete_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
+                <input type="checkbox" name='delete_yn' id={`delete_yn_${uuid}`} checked={data?.delete_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                 <label htmlFor={`delete_yn_${uuid}`}></label>
             </div>
             <div>
-                <SelectBoard type='role' current={data?.select_type} setInputs={setInputs} changeName='select_type'/>
+                <SelectBoard type='role' current={data?.select_type} setInputs={setInputs} changeName='select_type' disabled={pagePermission?.update_yn !== 'y'}/>
             </div>
             <div>
-                <input type="checkbox" name='select_yn' id={`select_yn_${uuid}`} checked={data?.select_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
+                <input type="checkbox" name='select_yn' id={`select_yn_${uuid}`} checked={data?.select_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                 <label htmlFor={`select_yn_${uuid}`}></label>
             </div>
             <div>
-                <input type="checkbox" name='excel_yn' id={`excel_yn_${uuid}`} checked={data?.excel_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
+                <input type="checkbox" name='excel_yn' id={`excel_yn_${uuid}`} checked={data?.excel_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                 <label htmlFor={`excel_yn_${uuid}`}></label>
             </div>
         </>
@@ -257,14 +261,19 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
                     setModuleList(list)
                 }
             })
-        
-        api('module', 'list', {'all_yn': 'y'})
+    },[inputs])
+
+    useEffect(()=>{    
+        // all_yn 을 해도 모든 항목이 아니라 50개까지 밖에 나오지 않음
+        api('module', 'list', {/* 'all_yn': 'y', */ 'limit': '100'})
             .then(({result, data, list})=>{
                 if(result){
                     const firstList = [...list]
                     api('module', 'role_module_list', {'role_id': registrationPopup.role_id, 'all_yn': 'y'})
                         .then(({result, list})=>{
+                            // console.log(firstList);
                             if(result){
+                                // console.log(list);
                                 setChoiceList((choice)=>{
                                     const uniqueObjects = {}
                                     const test = [
@@ -272,8 +281,9 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
                                         ...firstList.filter(({screen_name})=> 
                                             list.some((data)=>screen_name === data.screen_name)
                                     )]
+                                    // console.log(test);
                                     test.forEach(obj => {
-                                        uniqueObjects[obj.module_id] = obj;
+                                        uniqueObjects[obj.screen_name] = obj;
                                     })
             
                                     const uniqueArray = Object.values(uniqueObjects);
@@ -284,7 +294,8 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
                         })
                 }
             })
-    },[inputs, registrationPopup.role_id])
+
+    },[registrationPopup.role_id])
 
 
     const onSearch = (e) =>{
@@ -340,7 +351,7 @@ function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSet
                             <span></span>
                         </div>
                         
-                        { moduleList?.length && 
+                        { !!moduleList?.length && 
                             <ol className='board-center scroll-width'>
                                 { moduleList.map((data)=>
                                     <li 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { api } from '../../../api/api'
 import { inputChange } from '../../../api/validation'
 import Popup from '../../../components/popup/Popup';
@@ -9,8 +9,10 @@ import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
 import BureauList from './BureauList';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function Bureau() {
+    const { pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [bureau, setBureau] = useState()
@@ -20,6 +22,8 @@ export default function Bureau() {
     const [boardList, setBoardList] = useState()
     const [popup, setPopup] = useState()
 
+    // console.log(user);
+    // console.log(pagePermission);
     const bureauFunc = useCallback(()=>{
         api('department', 'list')
             .then(({result, list, data: { company_name }})=>{
@@ -133,57 +137,65 @@ export default function Bureau() {
             
             <div className="horizontalTwo">
                 <BureauList bureau={bureau} inputs={inputs} setInputs={setInputs} bureauFunc={bureauFunc}>
-                    <div className='addBtn'>
-                        <button className='btn-gray-black' 
-                            onClick={()=>setBureauRegistrationPopup({type: 'children', list: []})}
-                        >
-                            부서 추가
-                        </button>
-                        <button 
-                            className='btn-gray-black'
-                            disabled={!inputs?.department_id}
-                            onClick={()=>setBureauUpdatePopup({type: 'children', id: inputs.department_id, list: []})}
-                        >
-                            부서 수정
-                        </button>
-                        <button 
-                            className='btn-gray-black'
-                            disabled={!inputs?.department_id}
-                            onClick={()=>setPopup({
-                                type: 'finFunc',
-                                title: '삭제',
-                                description: `[${inputs.name}] 을 삭제하시겠습니까?\n소속된 사용자는 미지정 상태로 변경됩니다.`,
-                                func: () =>{
-                                    api('department', 'delete', inputs)
-                                        .then(({result, error_message})=>{
-                                            setPopup({'type': 'confirm', 'description': error_message})
-                                            if(result){
-                                                setPopup((popup)=>({
-                                                    ...popup,
-                                                    'title': '완료',
-                                                }))
-                                                bureauFunc()
-                                                logButton('부서 관리(부서 삭제)')
-                                            }else{
-                                                setPopup((popup)=>({
-                                                    ...popup,
-                                                    'title': '실패',
-                                                }))
-                                            }
-                                        })
-                                }
-                            })}
-                        >
-                            부서 삭제
-                        </button>
-                    </div>
+                    { (pagePermission?.insert_yn === 'y' || pagePermission?.update_yn === 'y' || pagePermission?.delete_yn === 'y') &&
+                        <div className='addBtn'>
+                            { pagePermission?.insert_yn === 'y'  && 
+                                <button className='btn-gray-black' 
+                                    onClick={()=>setBureauRegistrationPopup({type: 'children', list: []})}
+                                >
+                                    부서 추가
+                                </button>
+                            }
+                            { pagePermission?.update_yn === 'y'  && 
+                                <button 
+                                    className='btn-gray-black'
+                                    disabled={!inputs?.department_id}
+                                    onClick={()=>setBureauUpdatePopup({type: 'children', id: inputs.department_id, list: []})}
+                                >
+                                    부서 수정
+                                </button>
+                            }
+                            { pagePermission?.delete_yn === 'y'  && 
+                                <button 
+                                    className='btn-gray-black'
+                                    disabled={!inputs?.department_id}
+                                    onClick={()=>setPopup({
+                                        type: 'finFunc',
+                                        title: '삭제',
+                                        description: `[${inputs.name}] 을 삭제하시겠습니까?\n소속된 사용자는 미지정 상태로 변경됩니다.`,
+                                        func: () =>{
+                                            api('department', 'delete', inputs)
+                                                .then(({result, error_message})=>{
+                                                    setPopup({'type': 'confirm', 'description': error_message})
+                                                    if(result){
+                                                        setPopup((popup)=>({
+                                                            ...popup,
+                                                            'title': '완료',
+                                                        }))
+                                                        bureauFunc()
+                                                        logButton('부서 관리(부서 삭제)')
+                                                    }else{
+                                                        setPopup((popup)=>({
+                                                            ...popup,
+                                                            'title': '실패',
+                                                        }))
+                                                    }
+                                                })
+                                        }
+                                    })}
+                                >
+                                    부서 삭제
+                                </button>
+                            }
+                        </div>
+                    }
                 </BureauList>
 
                 { boardList && 
                     <div className='boardArea'>
                         { boardList.map((data)=> 
                             <div className='boardBox' key={data.department_id}>
-                                <Board data={data} onRefresh={onRefresh}/>
+                                <Board data={data} onRefresh={onRefresh} pagePermission={pagePermission}/>
                             </div>
                         )}
                     </div>
@@ -201,59 +213,96 @@ export default function Bureau() {
 }
 
 
-function Board({ data, onSearch, boardListFunc, onRefresh }){
+function Board({ data, onSearch, boardListFunc, onRefresh, pagePermission }){
     const [deleteList, setDeleteList] = useState('')
     const [popup, setPopup] = useState()
 
     return (
         <>
             <strong>{ data.name } ({ data.admin_count })</strong>
-            <button 
-                className='btn-gray-black'
-                onClick={()=>
-                    setPopup({
-                        type: 'salesArray',
-                        limit: 'none',
-                        list: data.user_list,
-                        func: (selectData) => {
-                            selectData = selectData.map((test)=>test.admin_id)
-                            // console.log(selectData);
-                            // console.log(data);
-                            // setInputs((input)=>({...input, 'admin_id_list': data}))
-                            api('department', 'add_user', {'department_id': data.department_id,'admin_id_list': selectData})
-                                .then(({result, error_message})=>{
-                                    setPopup({'type': 'confirm', 'description': error_message})
-                                    if(result){
-                                        setPopup((popup)=>({
-                                            ...popup,
-                                            'title': '완료',
-                                            'confirmFunc': ()=>{
-                                                onRefresh(data.department_id)
-                                                logButton('부서 관리(사용자 추가)')
-                                            }
-                                        }))
-                                    }else{
-                                        setPopup((popup)=>({
-                                            ...popup,
-                                            'title': '실패',
-                                        }))
-                                    }
-                                })
+            { pagePermission?.insert_yn === 'y'  && 
+                <button 
+                    className='btn-gray-black'
+                    onClick={()=>
+                        setPopup({
+                            type: 'salesArray',
+                            limit: 'none',
+                            list: data.user_list,
+                            func: (selectData) => {
+                                selectData = selectData.map((test)=>test.admin_id)
+                                // console.log(selectData);
+                                // console.log(data);
+                                // setInputs((input)=>({...input, 'admin_id_list': data}))
+                                api('department', 'add_user', {'department_id': data.department_id,'admin_id_list': selectData})
+                                    .then(({result, error_message})=>{
+                                        setPopup({'type': 'confirm', 'description': error_message})
+                                        if(result){
+                                            setPopup((popup)=>({
+                                                ...popup,
+                                                'title': '완료',
+                                                'confirmFunc': ()=>{
+                                                    onRefresh(data.department_id)
+                                                    logButton('부서 관리(사용자 추가)')
+                                                }
+                                            }))
+                                        }else{
+                                            setPopup((popup)=>({
+                                                ...popup,
+                                                'title': '실패',
+                                            }))
+                                        }
+                                    })
+                            }
+                        })
+                    }
+                >
+                    사용자 추가
+                </button>
+            }
+            { pagePermission?.delete_yn === 'y'  && 
+                <button className={`btn-gray-black`}
+                    onClick={()=>setPopup({
+                        'type': 'finFunc',
+                        'title': '선택 삭제',
+                        'description': `선택 항목을 삭제하시겠습니까?`,
+                        'func': ()=>{
+                            if(deleteList.length){
+                                // console.log(deleteList);
+                                api('department', 'delete_user', { 'department_id': data.department_id, 'admin_id_list': deleteList})
+                                    .then(({result, error_message})=>{
+                                        setPopup({'type': 'confirm', 'description': error_message})
+                                        if(result){
+                                            setPopup((popup)=>({
+                                                ...popup,
+                                                'title': '완료',
+                                                'confirmFunc': ()=>{
+                                                    onRefresh()
+                                                    logButton('부서 관리(선택 삭제)')
+                                                }
+                                            }))
+                                        }else{
+                                            setPopup((popup)=>({
+                                                ...popup,
+                                                'title': '실패',
+                                            }))
+                                        }
+                                    })
+                            }
                         }
-                    })
-                }
-            >
-                사용자 추가
-            </button>
-            <button className={`btn-gray-black`}
-                onClick={()=>setPopup({
-                    'type': 'finFunc',
-                    'title': '선택 삭제',
-                    'description': `선택 항목을 삭제하시겠습니까?`,
-                    'func': ()=>{
-                        if(deleteList.length){
-                            // console.log(deleteList);
-                            api('department', 'delete_user', { 'department_id': data.department_id, 'admin_id_list': deleteList})
+                    })}
+                    disabled={!deleteList?.length}
+                >
+                    선택 삭제
+                </button>
+            }
+            { pagePermission?.update_yn === 'y'  && 
+                <button 
+                    className='btn-gray-black'
+                    onClick={()=>setPopup({
+                        'type': 'bureau',
+                        'func': (data)=>{
+                            // console.log(data);
+                            api('department', 'move_user', {'department_id': data.department_id, 'admin_id_list': deleteList})
                                 .then(({result, error_message})=>{
                                     setPopup({'type': 'confirm', 'description': error_message})
                                     if(result){
@@ -262,7 +311,7 @@ function Board({ data, onSearch, boardListFunc, onRefresh }){
                                             'title': '완료',
                                             'confirmFunc': ()=>{
                                                 onRefresh()
-                                                logButton('부서 관리(선택 삭제)')
+                                                logButton('부서 관리(선택 이동)')
                                             }
                                         }))
                                     }else{
@@ -273,43 +322,12 @@ function Board({ data, onSearch, boardListFunc, onRefresh }){
                                     }
                                 })
                         }
-                    }
-                })}
-                disabled={!deleteList?.length}
-            >
-                선택 삭제
-            </button>
-            <button 
-                className='btn-gray-black'
-                onClick={()=>setPopup({
-                    'type': 'bureau',
-                    'func': (data)=>{
-                        // console.log(data);
-                        api('department', 'move_user', {'department_id': data.department_id, 'admin_id_list': deleteList})
-                            .then(({result, error_message})=>{
-                                setPopup({'type': 'confirm', 'description': error_message})
-                                if(result){
-                                    setPopup((popup)=>({
-                                        ...popup,
-                                        'title': '완료',
-                                        'confirmFunc': ()=>{
-                                            onRefresh()
-                                            logButton('부서 관리(선택 이동)')
-                                        }
-                                    }))
-                                }else{
-                                    setPopup((popup)=>({
-                                        ...popup,
-                                        'title': '실패',
-                                    }))
-                                }
-                            })
-                    }
-                })}
-                disabled={!deleteList?.length}
-            >
-                선택 이동
-            </button>
+                    })}
+                    disabled={!deleteList?.length}
+                >
+                    선택 이동
+                </button>
+            }
 
             <div className="board-top">
                 <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={data.user_list.map(({admin_id})=>admin_id)}/>

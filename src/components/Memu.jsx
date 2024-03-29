@@ -47,28 +47,56 @@ export default function Memu() {
                         { menuPermission?.['사용자목록'] && 
                             <li><NavLink to={'/system/basic/anUser'}>사용자 목록</NavLink></li>
                         }
-                        <li><NavLink to={'/system/basic/bureau'}>부서 관리</NavLink></li>
-                        <li><NavLink to={'/system/basic/client'}>고객 구분 관리</NavLink></li>
-                        <li><NavLink to={'/system/basic/common'}>공통 코드 관리</NavLink></li>
-                        <li><NavLink to={'/system/basic/customer'}>고객목록 설정</NavLink></li>
+                        { menuPermission?.['사용자_부서관리'] && 
+                            <li><NavLink to={'/system/basic/bureau'}>부서 관리</NavLink></li>
+                        }
+                        { menuPermission?.['고객구분관리'] && 
+                            <li><NavLink to={'/system/basic/client'}>고객 구분 관리</NavLink></li>
+                        }
+                        { menuPermission?.['코드관리'] && 
+                            <li><NavLink to={'/system/basic/common'}>공통 코드 관리</NavLink></li>
+                        }
+                        { menuPermission?.['고객목록관리'] && 
+                            <li><NavLink to={'/system/basic/customer'}>고객목록 설정</NavLink></li>
+                        }
                         <li><NavLink to={'/system/basic/property'}>속성값 설정</NavLink></li>
                     </ul>
-                    <b>권한 설정</b>
+                    { (menuPermission?.['역할목록'] || menuPermission?.['역할권한관리']) && 
+                        <>
+                            <b>권한 설정</b>
+                            <ul>
+                                { menuPermission?.['역할목록'] && 
+                                    <li><NavLink to={'/system/grant/management'}>역할 관리</NavLink></li>
+                                }
+                                { menuPermission?.['역할권한관리'] && 
+                                    <li><NavLink to={'/system/grant/permissions'}>역할 권한 관리</NavLink></li>
+                                }
+                            </ul>
+                        </>
+                    }
+                    { (menuPermission?.['사용자_사용자접속이력'] || menuPermission?.['고객삭제이력']) && 
+                        <>
+                            <b>회원사 관리</b>
+                            <ul>
+                                { menuPermission?.['사용자_사용자접속이력'] && 
+                                    <li><NavLink to={'/system/member/connect'}>사용자접속이력</NavLink></li>
+                                }
+                                { menuPermission?.['고객삭제이력'] && 
+                                    <li><NavLink to={'/system/member/delete'}>고객삭제이력</NavLink></li>
+                                }
+                            </ul>
+                        </>
+                    }
+                </>
+            }
+            { menuPermission?.['공지사항관리 목록'] && 
+                <>
+                    <strong>게시판 관리</strong>
                     <ul>
-                        <li><NavLink to={'/system/grant/management'}>역할 관리</NavLink></li>
-                        <li><NavLink to={'/system/grant/permissions'}>역할 권한 관리</NavLink></li>
-                    </ul>
-                    <b>회원사 관리</b>
-                    <ul>
-                        <li><NavLink to={'/system/member/connect'}>사용자접속이력</NavLink></li>
-                        <li><NavLink to={'/system/member/delete'}>고객삭제이력</NavLink></li>
+                        <li><NavLink to={'/notice'}>공지사항</NavLink></li>
                     </ul>
                 </>
             }
-            <strong>게시판 관리</strong>
-            <ul>
-                <li><NavLink to={'/notice'}>공지사항</NavLink></li>
-            </ul>
             <p>© 2023 Team1985</p>
         </nav>
     );

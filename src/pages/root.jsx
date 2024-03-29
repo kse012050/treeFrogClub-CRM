@@ -32,6 +32,7 @@ export default function Root({ children }) {
     useEffect(() => {
         window.scrollTo(0, 0);
         // console.log(user);
+        // console.log(pagePermissionFilter(user, location));
         if(user){
             if(user?.type === 'user' && location.includes('system')){
                 navigate('/main')
@@ -39,7 +40,7 @@ export default function Root({ children }) {
                 pageHistory(location)
                 setPagePermission(pagePermissionFilter(user, location))
                 // setPagePermission(undefined)
-                // console.log(pagePermissionFilter(user, location));
+                console.log(pagePermissionFilter(user, location));
                 setMenuPermission(()=>{
                     let obj = {}
                     user.role_list?.forEach((data)=>{
@@ -57,6 +58,15 @@ export default function Root({ children }) {
                             '결제목록': true,
                             '상품목록': true,
                             '사용자목록': true,
+                            '사용자_부서관리': true,
+                            '고객구분관리': true,
+                            '코드관리': true,
+                            '고객목록관리': true,
+                            '역할목록': true,
+                            '역할권한관리': true,
+                            '사용자_사용자접속이력': true,
+                            '고객삭제이력': true,
+                            '공지사항관리 목록': true,
                         }
                 })
             }
