@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { inputChange } from '../../api/validation';
 import BureauBox from '../../components/BureauBox';
 import Popup from '../../components/popup/Popup';
 import { api } from '../../api/api';
 import { logButton } from '../../api/common';
+import { UserContext } from '../../context/UserContext';
 
 export default function NoticeUpdate() {
+    const { pagePermission } = useContext(UserContext)
     const [inputs, setInputs] = useState({ 'department_id_list': '' })
     const [bureauNoticePopup, setBureauNoticePopup] = useState()
     const [choiceList, setChoiceList] = useState();
@@ -98,22 +100,24 @@ export default function NoticeUpdate() {
                             <li className='fill-three'>
                                 <label htmlFor="" className='required'>열람범위</label>
                                 <div>
-                                    <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList('')}/>
+                                    <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList('')} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="department_id_list_all">전체</label>
                                     <input type="radio" id='' name='' checked={!!inputs.department_id_list && inputs.department_id_list.length} readOnly/>
                                     <label htmlFor=""></label>
-                                    <label htmlFor="" className='btn-gray-black' onClick={()=>setBureauNoticePopup({type: 'children'})}>부서 선택</label>
+                                    <label htmlFor="" className='btn-gray-black' onClick={()=>{pagePermission?.update_yn === 'y' && setBureauNoticePopup({type: 'children'})}}>부서 선택</label>
                                     { !!choiceList?.length && 
                                         <ul className='bureauList'>
                                             { choiceList.map((data)=>
                                                 <li key={data.department_id} className='icon-remove'>
                                                     { data.name }
-                                                    <button 
-                                                        type='button' 
-                                                        onClick={()=>setChoiceList((list)=>list.filter((listData)=>listData.department_id !== data.department_id))}
-                                                    >
-                                                        제거
-                                                    </button>
+                                                    { pagePermission?.update_yn === 'y' &&
+                                                        <button 
+                                                            type='button' 
+                                                            onClick={()=>setChoiceList((list)=>list.filter((listData)=>listData.department_id !== data.department_id))}
+                                                        >
+                                                            제거
+                                                        </button>
+                                                    }
                                                 </li>
                                             )}
                                         </ul>
@@ -123,7 +127,7 @@ export default function NoticeUpdate() {
                             <li className='fill-three'>
                                 <label htmlFor="title" className='required'>제목</label>
                                 <div>
-                                    <input type="text" name="title" id="title" defaultValue={inputs.title} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="text" name="title" id="title" defaultValue={inputs.title} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                 </div>
                             </li>
                             <li>
@@ -135,25 +139,29 @@ export default function NoticeUpdate() {
                             <li className='fill-three'>
                                 <label htmlFor="comment" className='required'>내용</label>
                                 <div>
-                                    <textarea name="comment" id="comment" defaultValue={inputs.comment} onChange={(e)=>inputChange(e, setInputs)}></textarea>
+                                    <textarea name="comment" id="comment" defaultValue={inputs.comment} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}></textarea>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
-                        <button type='button' className='btn-point' 
-                            onClick={()=>
-                                setPopup({
-                                    'type': 'finFunc',
-                                    'title': '삭제',
-                                    'description': `공지사항을 삭제하시겠습니까?`,
-                                    'func': onDelete
-                                })}
-                        >
-                            삭제
-                        </button>
-                        <Link to={'/notice'} className='btn-gray-white'>목록</Link>
-                        <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
+                        { pagePermission?.delete_yn === 'y' &&
+                            <button type='button' className='btn-point' 
+                                onClick={()=>
+                                    setPopup({
+                                        'type': 'finFunc',
+                                        'title': '삭제',
+                                        'description': `공지사항을 삭제하시겠습니까?`,
+                                        'func': onDelete
+                                    })}
+                            >
+                                삭제
+                            </button>
+                        }
+                            <Link to={'/notice'} className='btn-gray-white'>목록</Link>
+                        { pagePermission?.update_yn === 'y' &&
+                            <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
+                        }
                     </div>
                 </form>
             </div>

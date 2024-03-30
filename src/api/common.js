@@ -99,7 +99,7 @@ export const pagePermissionFilter = (user, location) => {
     }else if(location === '/system/grant/permissions'){
         pageName = '역할권한관리'
     }else if(location === '/system/member/connect'){
-        pageName = '사용자접속이력'
+        pageName = '사용자_사용자접속이력'
     }else if(location === '/system/member/delete'){
         pageName = '고객삭제이력'
     }else if(location === '/notice'){
@@ -107,7 +107,7 @@ export const pagePermissionFilter = (user, location) => {
     }else if(location === '/notice/registration'){
         pageName = '공지사항 등록'
     }else if(location.includes('/notice/update')){
-        pageName = '공지사항 보기/수정'
+        pageName = '공지사항관리 목록'
     }
 
     let resultObj;

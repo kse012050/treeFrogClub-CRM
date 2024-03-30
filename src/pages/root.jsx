@@ -34,13 +34,15 @@ export default function Root({ children }) {
         // console.log(user);
         // console.log(pagePermissionFilter(user, location));
         if(user){
+            // console.log(pagePermissionFilter(user, location)?.insert_yn);
             if(user?.type === 'user' && location.includes('system')){
                 navigate('/main')
-            }else{
+            }/* if(pagePermissionFilter(user, location)?.insert_yn !== 'y'){
+                navigate('/main')
+            } */else{
                 pageHistory(location)
                 setPagePermission(pagePermissionFilter(user, location))
                 // setPagePermission(undefined)
-                console.log(pagePermissionFilter(user, location));
                 setMenuPermission(()=>{
                     let obj = {}
                     user.role_list?.forEach((data)=>{
