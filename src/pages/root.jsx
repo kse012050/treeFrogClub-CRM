@@ -37,9 +37,7 @@ export default function Root({ children }) {
             // console.log(pagePermissionFilter(user, location)?.insert_yn);
             if(user?.type === 'user' && location.includes('system')){
                 navigate('/main')
-            }/* if(pagePermissionFilter(user, location)?.insert_yn !== 'y'){
-                navigate('/main')
-            } */else{
+            }else{
                 pageHistory(location)
                 setPagePermission(pagePermissionFilter(user, location))
                 // setPagePermission(undefined)
@@ -71,6 +69,10 @@ export default function Root({ children }) {
                             '공지사항관리 목록': true,
                         }
                 })
+                
+                if(pagePermissionFilter(user, location)?.select_yn !== 'y'){
+                    navigate('/main')
+                }
             }
         }
       }, [location, user, navigate]);
