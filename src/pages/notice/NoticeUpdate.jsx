@@ -14,7 +14,7 @@ export default function NoticeUpdate() {
     const [choiceList, setChoiceList] = useState();
     const [popup, setPopup] = useState('')
     const { id } = useParams();
-    // console.log(id);
+    // console.log(pagePermission);
     useEffect(()=>{
         api('board', 'detail', {'board_id': id})
             .then(({result, data})=>{

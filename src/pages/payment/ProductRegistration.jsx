@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Select from '../../components/Select';
 import { onChange, inputChange } from '../../api/validation';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../api/api';
 import Popup from '../../components/popup/Popup';
 import { logButton } from '../../api/common';
+import { UserContext } from '../../context/UserContext';
 
 export default function ProductRegistration() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
     const [productCode, setProductCode] = useState()
     const [analyst, setAnalyst] = useState()
+
+    useEffect(()=>{
+        if(pagePermission?.insert_yn && pagePermission?.insert_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.insert_yn, navigate])
 
     const codeCheck = () => {
         api('product', 'duplicate', {'product_code': productCode})

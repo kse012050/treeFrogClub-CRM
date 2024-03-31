@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { inputChange } from '../../api/validation';
 import Select from '../../components/Select';
 import { DatePicker } from 'antd';
@@ -12,12 +12,19 @@ import { logButton } from '../../api/common';
 
 export default function Registration() {
     const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     // console.log(pagePermission);
     const [inputs, setInputs] = useState()
     const [sales, setSales] = useState()
     const [popup, setPopup] = useState()
 
     const { user } = useContext(UserContext)
+
+    useEffect(()=>{
+        if(pagePermission?.insert_yn && pagePermission?.insert_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.insert_yn, navigate])
 
     useEffect(()=>{
         if(user && user?.role_info?.role_classification === '영업'){

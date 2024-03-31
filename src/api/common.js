@@ -28,19 +28,13 @@ export const pagePermissionFilter = (user, location) => {
     
     if(location === '/main'){
         pageName = '대시보드'
-    }else if(location === '/customer/list'){
+    }else if(location === '/customer/list' || location === '/customer/list' || location.includes('/customer/registration')){
         pageName = '통합고객목록'
         subData = {
             ...subData, 
             'bulk_customer_modify':  user.role_list?.filter((data)=>data.screen_name === "고객_대량고객수정")[0]?.insert_yn ?? 'n',
         }
-    }else if(location === '/customer/registration'){
-        pageName = '고객 등록'
-        subData = {
-            ...subData, 
-            'bulk_customer_insert': user.role_list?.filter((data)=>data.screen_name === "고객_대량고객등록")[0]?.insert_yn ?? 'n',
-        }
-    }else if(location === '/payment/list'){
+    }else if(location === '/payment/list' || location === '/payment/list/registration'){
         pageName = '결제목록'
     }else if(location === '/payment/product'){
         pageName = '상품목록'
@@ -64,6 +58,8 @@ export const pagePermissionFilter = (user, location) => {
         pageName = '고객삭제이력'
     }else if(location === '/notice'){
         pageName = '공지사항관리 목록'
+    }else if(location.includes('notice/update/')){
+        pageName = '공지사항관리 목록'
     }
 
     let resultObj;
@@ -79,6 +75,8 @@ export const pagePermissionFilter = (user, location) => {
             'bulk_customer_insert': "y",
             'bulk_customer_modify': "y"
         }
+    }else if(location === '/system/basic/property' || location === '/statistics/account' || location === '/statistics/campaign' || location === '/statistics/sales'){
+        resultObj = {'select_yn': "y"}
     }else if(user.role_list.length){ 
         // console.log(user);
         // console.log(pageName);

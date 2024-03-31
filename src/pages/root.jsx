@@ -69,10 +69,10 @@ export default function Root({ children }) {
                             '공지사항관리 목록': true,
                         }
                 })
-                
-                if(pagePermissionFilter(user, location)?.select_yn !== 'y'){
+                console.log(pagePermissionFilter(user, location));
+                /* if(pagePermissionFilter(user, location)?.select_yn !== 'y'){
                     navigate('/main')
-                }
+                } */
             }
         }
       }, [location, user, navigate]);

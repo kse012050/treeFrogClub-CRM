@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { api, apiFile } from '../../api/api';
 import Popup from '../../components/popup/Popup';
 import { logExcel } from '../../api/common';
+import { UserContext } from '../../context/UserContext';
 
 export default function Registration() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [formetCustomerUrl, setFormetCustomerUrl] = useState()
     const [formetMobileUrl, setFormetMobileUrl] = useState()
     const [fileName, setFileName] = useState()
     const [finMessage, setFinMessage] = useState()
     const [popup, setPopup] = useState()
+
+    useEffect(()=>{
+        if(pagePermission?.insert_yn && pagePermission?.insert_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.insert_yn, navigate])
 
     useEffect(()=>{
         api('payment', 'format_download_name')
