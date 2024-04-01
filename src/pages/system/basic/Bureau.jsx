@@ -10,9 +10,11 @@ import BoardChk from '../../../components/boardChk/BoardChk';
 import BureauList from './BureauList';
 import { logButton } from '../../../api/common';
 import { UserContext } from '../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Bureau() {
     const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [bureau, setBureau] = useState()
@@ -22,6 +24,12 @@ export default function Bureau() {
     const [boardList, setBoardList] = useState()
     const [popup, setPopup] = useState()
 
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
+    
     // console.log(user);
     // console.log(pagePermission);
     const bureauFunc = useCallback(()=>{

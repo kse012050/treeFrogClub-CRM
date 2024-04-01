@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { inputChange, isFormet } from '../../../api/validation'
 import { api } from '../../../api/api'
 import { Button, ColorPicker } from 'antd';
@@ -7,8 +7,11 @@ import SubTitle from '../../../components/SubTitle';
 import Popup from '../../../components/popup/Popup';
 import Select from '../../../components/Select';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function ClientUpdate() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState()
     const { id } = useParams();
     const [popup, setPopup] = useState('')
@@ -24,6 +27,12 @@ export default function ClientUpdate() {
         () => (typeof fontColor === 'string' ? fontColor : fontColor.toHexString()),
         [fontColor],
     )
+
+    useEffect(()=>{
+        if(pagePermission?.update_yn && pagePermission?.update_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.update_yn, navigate])
 
     useEffect(()=>{
         setInputs((input)=> ({...input, 'bg_color': bgColorChange}))

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { api } from '../../../api/api';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SubTitle from '../../../components/SubTitle';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import BoardChk from '../../../components/boardChk/BoardChk';
@@ -12,10 +12,17 @@ import { UserContext } from '../../../context/UserContext';
 
 export default function Client() {
     const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({'limit': '10'});
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
     const [deleteList, setDeleteList] = useState([])
+
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
 
     const currentData = useCallback(()=>{
         api('clientcode', 'properties_list', {...inputs, 'page': '1'})

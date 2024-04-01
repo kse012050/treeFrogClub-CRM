@@ -42,7 +42,7 @@ export const pagePermissionFilter = (user, location) => {
         pageName = '사용자목록'
     }else if(location === '/system/basic/bureau'){
         pageName = '사용자_부서관리'
-    }else if(location === '/system/basic/client'){
+    }else if(location === '/system/basic/client' || location === '/system/basic/client/registration' || location.includes('/system/basic/client/update')){
         pageName = '고객구분관리'
     }else if(location === '/system/basic/common'){
         pageName = '코드관리'

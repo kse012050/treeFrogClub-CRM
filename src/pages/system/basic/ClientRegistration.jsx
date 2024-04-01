@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../../api/api'
 import { inputChange, isFormet } from '../../../api/validation'
 import { Button, ColorPicker } from 'antd';
@@ -7,9 +7,12 @@ import Select from '../../../components/Select';
 import SubTitle from '../../../components/SubTitle';
 import Popup from '../../../components/popup/Popup';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function ClientRegistration() {
     // order_number 없어야 하는데 api에 있어서 일단 추가
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState('')
     const [bgColor, setBgColor] = useState('#000000')
@@ -24,6 +27,12 @@ export default function ClientRegistration() {
         () => (typeof fontColor === 'string' ? fontColor : fontColor.toHexString()),
         [fontColor],
     )
+
+    useEffect(()=>{
+        if(pagePermission?.insert_yn && pagePermission?.insert_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.insert_yn, navigate])
 
     useEffect(()=>{
         setInputs((input)=> ({...input, 'bg_color': bgColorChange}))
