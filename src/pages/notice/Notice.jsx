@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../api/api';
 import SubTitle from '../../components/SubTitle';
 import Pager from '../../components/Pager';
@@ -8,9 +8,16 @@ import { UserContext } from '../../context/UserContext';
 
 export default function Notice() {
     const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
+
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
 
     useEffect(()=>{
         api('board', 'list', inputs)

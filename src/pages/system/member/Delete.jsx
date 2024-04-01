@@ -1,6 +1,6 @@
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DropBox from '../../../components/DropBox';
 import { api } from '../../../api/api';
 import SelectPage from '../../../components/SelectPage';
@@ -8,8 +8,12 @@ import PagerButton from '../../../components/PagerButton';
 import { arrayChange, inputChange, onSort } from '../../../api/validation';
 import { logButton } from '../../../api/common';
 import Popup from '../../../components/popup/Popup';
+import { UserContext } from '../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Delete() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1', 'delete_select_yn': 'y'})
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
@@ -17,6 +21,12 @@ export default function Delete() {
     const [searchCounsel, setSearchCounsel] = useState()
     const [sales, setSales] = useState()
     const [popup, setPopup] = useState()
+
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
 
     useEffect(()=>{
         api('commoncode', 'properties_list', {'all_yn': 'y'})

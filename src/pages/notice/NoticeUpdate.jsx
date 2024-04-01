@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { inputChange } from '../../api/validation';
 import BureauBox from '../../components/BureauBox';
 import Popup from '../../components/popup/Popup';
@@ -9,12 +9,20 @@ import { UserContext } from '../../context/UserContext';
 
 export default function NoticeUpdate() {
     const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({ 'department_id_list': '' })
     const [bureauNoticePopup, setBureauNoticePopup] = useState()
     const [choiceList, setChoiceList] = useState();
     const [popup, setPopup] = useState('')
     const { id } = useParams();
     // console.log(pagePermission);
+
+    useEffect(()=>{
+        if(pagePermission?.update_yn && pagePermission?.update_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.update_yn, navigate])
+
     useEffect(()=>{
         api('board', 'detail', {'board_id': id})
             .then(({result, data})=>{

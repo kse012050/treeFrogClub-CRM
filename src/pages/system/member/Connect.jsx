@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DropBox from '../../../components/DropBox';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -9,13 +9,23 @@ import { api } from '../../../api/api';
 import SelectPage from '../../../components/SelectPage';
 import PagerButton from '../../../components/PagerButton';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Connect() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const initParam = {'limit': '10', 'page': '1'};
     const [inputs, setInputs] = useState(initParam)
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [boardList, setBoardList] = useState()
+
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
 
     useEffect(()=>{
         api('log', 'list', inputs)

@@ -56,9 +56,7 @@ export const pagePermissionFilter = (user, location) => {
         pageName = '사용자_사용자접속이력'
     }else if(location === '/system/member/delete'){
         pageName = '고객삭제이력'
-    }else if(location === '/notice'){
-        pageName = '공지사항관리 목록'
-    }else if(location.includes('notice/update/')){
+    }else if(location.includes('/notice')){
         pageName = '공지사항관리 목록'
     }
 

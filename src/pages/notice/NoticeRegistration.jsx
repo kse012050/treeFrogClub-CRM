@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { inputChange } from '../../api/validation';
 import BureauBox from '../../components/BureauBox';
 import Popup from '../../components/popup/Popup';
 import { api } from '../../api/api';
 import { logButton } from '../../api/common';
+import { UserContext } from '../../context/UserContext';
 
 export default function NoticeRegistration() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({ 'department_id_list': '' })
     const [bureauNoticePopup, setBureauNoticePopup] = useState()
     const [choiceList, setChoiceList] = useState();
     const [popup, setPopup] = useState('')
+
+    useEffect(()=>{
+        if(pagePermission?.insert_yn && pagePermission?.insert_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.insert_yn, navigate])
 
     useEffect(()=>{
         setInputs((input)=>({...input, 'department_id_list': choiceList ? choiceList.map((data)=>data.department_id) : ''}))
