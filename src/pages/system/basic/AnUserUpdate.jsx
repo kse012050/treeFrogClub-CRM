@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import Select from '../../../components/Select';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { inputChange, isFormet } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
@@ -11,13 +11,20 @@ import { logButton } from '../../../api/common';
 
 export default function AnUserUpdate() {
     // const { userSettings } = useContext(UserContext)
-    const { userSettings, company } = useContext(UserContext)
+    const { userSettings, company, pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
     const [userId, setUserId] = useState();
     const [roleList, setroleList] = useState();
     const [bureau, setBureau] = useState();
     const { id } = useParams();
+
+    useEffect(()=>{
+        if(pagePermission?.update_yn && pagePermission?.update_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.update_yn, navigate])
 
     useEffect(()=>{
         api('user', 'detail', {'admin_id': id})

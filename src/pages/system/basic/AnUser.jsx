@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DropBox from '../../../components/DropBox';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
@@ -15,6 +15,7 @@ import { UserContext } from '../../../context/UserContext';
 
 export default function AnUser() {
     const { user, pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [currentInputs, setCurrentInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -23,6 +24,12 @@ export default function AnUser() {
     const [searchInputs, setSearchInputs] = useState({'limit': '10', 'page': '1'});
     const [bureau, setBureau] = useState();
     const [popup, setPopup] = useState()
+
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
 
     useEffect(()=>{
         if(user && pagePermission?.modify_type){

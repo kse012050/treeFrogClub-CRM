@@ -36,9 +36,9 @@ export const pagePermissionFilter = (user, location) => {
         }
     }else if(location === '/payment/list' || location === '/payment/list/registration'){
         pageName = '결제목록'
-    }else if(location === '/payment/product'){
+    }else if(location === '/payment/product' || location === '/payment/product/registration' || location.includes('/payment/product/update')){
         pageName = '상품목록'
-    }else if(location === '/system/basic/anUser'){
+    }else if(location === '/system/basic/anUser' || location === '/system/basic/anUser/registration' || location.includes('/system/basic/anUser/update')){
         pageName = '사용자목록'
     }else if(location === '/system/basic/bureau'){
         pageName = '사용자_부서관리'

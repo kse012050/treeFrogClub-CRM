@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DatePicker } from 'antd';
 import Select from '../../../components/Select';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { onChange, inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
@@ -9,11 +9,18 @@ import { UserContext } from '../../../context/UserContext';
 import { logButton } from '../../../api/common';
 
 export default function AnUserRegistration() {
-    const { company } = useContext(UserContext)
+    const { company, pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState()
     const [popup, setPopup] = useState()
     const [userId, setUserId] = useState();
     const [bureau, setBureau] = useState();
+
+    useEffect(()=>{
+        if(pagePermission?.insert_yn && pagePermission?.insert_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.insert_yn, navigate])
 
     const idCheck = () => {
         api('user', 'duplicate', {id: userId})
