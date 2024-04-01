@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { api } from '../../../api/api';
 import PermissionsScreen from './PermissionsScreen';
 import PermissionsUser from './PermissionsUser';
 import { inputChange } from '../../../api/validation';
+import { UserContext } from '../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 // import { Link } from 'react-router-dom';
 
 export default function Permissions() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [roleList, setRoleList] = useState()
     const [roleActive, setRoleActive] = useState()
     const [roleTitle, setRoleTitle] = useState()
@@ -14,6 +18,12 @@ export default function Permissions() {
     const [searchInputs, setSearchInputs] = useState()
     const [searchResult, setSearchResult] = useState()
     // const [tabActive, setTabActive] = useState(1)
+
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
 
     useEffect(()=>{
         api('role', 'list')

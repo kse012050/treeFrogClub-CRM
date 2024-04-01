@@ -44,11 +44,11 @@ export const pagePermissionFilter = (user, location) => {
         pageName = '사용자_부서관리'
     }else if(location === '/system/basic/client' || location === '/system/basic/client/registration' || location.includes('/system/basic/client/update')){
         pageName = '고객구분관리'
-    }else if(location === '/system/basic/common'){
+    }else if(location === '/system/basic/common' || location === '/system/basic/common/registration' || location.includes('/system/basic/common/update')){
         pageName = '코드관리'
     }else if(location === '/system/basic/customer'){
         pageName = '고객목록관리'
-    }else if(location === '/system/grant/management'){
+    }else if(location.includes('/system/grant/management')){
         pageName = '역할목록'
     }else if(location === '/system/grant/permissions'){
         pageName = '역할권한관리'

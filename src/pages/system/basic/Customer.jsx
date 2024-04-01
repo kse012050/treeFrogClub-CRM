@@ -1,14 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { inputChange } from '../../../api/validation'
 import { api } from '../../../api/api'
 import Select from '../../../components/Select';
 import Popup from '../../../components/popup/Popup';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Customer() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState()
     const [sales, setSales] = useState()
     const [popup, setPopup] = useState('')
+
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
 
     const firstInputs = useCallback(()=>{
         api('constant', 'combine_customer_setting_info')
@@ -88,7 +98,7 @@ export default function Customer() {
                             <li>
                                  <label htmlFor="">목록 개수</label>
                                 <div>
-                                    <Select type={'customerCount'} setInputs={setInputs} changeName='combine_customer_list_number' current={inputs?.combine_customer_list_number}/>
+                                    <Select type={'customerCount'} setInputs={setInputs} changeName='combine_customer_list_number' current={inputs?.combine_customer_list_number} disabled={pagePermission?.update_yn !== 'y'}/>
                                 </div>
                             </li>
                             {/* <li>
@@ -101,38 +111,38 @@ export default function Customer() {
                             <li>
                                 <label htmlFor="">중복휴대폰번호 색상표기</label>
                                 <div>
-                                    <Select type={'mobileColor'} setInputs={setInputs} changeName='combine_customer_duplicate_mobile_color_mark_yn' current={inputs?.combine_customer_duplicate_mobile_color_mark_yn}/>
+                                    <Select type={'mobileColor'} setInputs={setInputs} changeName='combine_customer_duplicate_mobile_color_mark_yn' current={inputs?.combine_customer_duplicate_mobile_color_mark_yn} disabled={pagePermission?.update_yn !== 'y'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">정렬 기준</label>
                                 <div>
-                                    <Select type={'orderBy'} setInputs={setInputs} changeName='combine_customer_order_by' current={inputs?.combine_customer_order_by}/>
+                                    <Select type={'orderBy'} setInputs={setInputs} changeName='combine_customer_order_by' current={inputs?.combine_customer_order_by} disabled={pagePermission?.update_yn !== 'y'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">무료체험 기간</label>
                                 <div>
-                                    <input type="radio" id='free_all' name='combine_customer_free_experience_period' value='all' checked={inputs?.combine_customer_free_experience_period === 'all'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='free_all' name='combine_customer_free_experience_period' value='all' checked={inputs?.combine_customer_free_experience_period === 'all'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="free_all">전체</label>
-                                    <input type="radio" id='free_year' name='combine_customer_free_experience_period' value='year' checked={inputs?.combine_customer_free_experience_period === 'year'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='free_year' name='combine_customer_free_experience_period' value='year' checked={inputs?.combine_customer_free_experience_period === 'year'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="free_year">금년</label>
-                                    <input type="radio" id='free_month' name='combine_customer_free_experience_period' value='month' checked={inputs?.combine_customer_free_experience_period === 'month'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='free_month' name='combine_customer_free_experience_period' value='month' checked={inputs?.combine_customer_free_experience_period === 'month'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="free_month">금월</label>
-                                    <input type="radio" id='free_day' name='combine_customer_free_experience_period' value='day' checked={inputs?.combine_customer_free_experience_period === 'day'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='free_day' name='combine_customer_free_experience_period' value='day' checked={inputs?.combine_customer_free_experience_period === 'day'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="free_day">금일</label>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">유료 기간</label>
                                 <div>
-                                    <input type="radio" id='fre_all' name='combine_customer_fee_period' value='all' checked={inputs?.combine_customer_fee_period === 'all'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='fre_all' name='combine_customer_fee_period' value='all' checked={inputs?.combine_customer_fee_period === 'all'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="fre_all">전체</label>
-                                    <input type="radio" id='fee_year' name='combine_customer_fee_period' value='year' checked={inputs?.combine_customer_fee_period === 'year'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='fee_year' name='combine_customer_fee_period' value='year' checked={inputs?.combine_customer_fee_period === 'year'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="fee_year">금년</label>
-                                    <input type="radio" id='fee_month' name='combine_customer_fee_period' value='month' checked={inputs?.combine_customer_fee_period === 'month'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='fee_month' name='combine_customer_fee_period' value='month' checked={inputs?.combine_customer_fee_period === 'month'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="fee_month">금월</label>
-                                    <input type="radio" id='fee_day' name='combine_customer_fee_period' value='day' checked={inputs?.combine_customer_fee_period === 'day'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                    <input type="radio" id='fee_day' name='combine_customer_fee_period' value='day' checked={inputs?.combine_customer_fee_period === 'day'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                                     <label htmlFor="fee_day">금일</label>
                                 </div>
                             </li>
@@ -140,16 +150,16 @@ export default function Customer() {
                     </fieldset>
                     <fieldset className='autoArea'>
                         <b>무료회원 DB회수 자동 설정</b>
-                        <input type="radio" id='auto_y' name='auto_collection_yn' value='y' checked={inputs?.auto_collection_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
+                        <input type="radio" id='auto_y' name='auto_collection_yn' value='y' checked={inputs?.auto_collection_yn === 'y'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="auto_y">자동 설정 ( 회수 담당자 선택 미완 )</label>
                         <div>
                             <ul>
                                 <li>
                                     <label htmlFor="">회수일자</label>
                                     <div>
-                                        <input type="radio" name='auto_collection_date' id='finish' value='free_experience_finish' checked={inputs?.auto_collection_date === 'free_experience_finish'} disabled={inputs?.auto_collection_yn === 'n'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                        <input type="radio" name='auto_collection_date' id='finish' value='free_experience_finish' checked={inputs?.auto_collection_date === 'free_experience_finish'} disabled={inputs?.auto_collection_yn === 'n' || pagePermission?.update_yn !== 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
                                         <label htmlFor="finish">무료체험 종료일</label>
-                                        <input type="radio" name='auto_collection_date' id='30deg' value='db_division_after_30_day' checked={inputs?.auto_collection_date === 'db_division_after_30_day'} disabled={inputs?.auto_collection_yn === 'n'} onChange={(e)=>inputChange(e, setInputs)}/>
+                                        <input type="radio" name='auto_collection_date' id='30deg' value='db_division_after_30_day' checked={inputs?.auto_collection_date === 'db_division_after_30_day'} disabled={inputs?.auto_collection_yn === 'n' || pagePermission?.update_yn !== 'y'} onChange={(e)=>inputChange(e, setInputs)}/>
                                         <label htmlFor="30deg">DB분배일로부터 30일 후</label>
                                     </div>
                                 </li>
@@ -167,19 +177,21 @@ export default function Customer() {
                                                     setSales(data.name)
                                                 }
                                             })}
-                                            disabled={inputs?.auto_collection_yn === 'n'}
+                                            disabled={inputs?.auto_collection_yn === 'n' || pagePermission?.update_yn !== 'y'}
                                         />
                                         <button>검색</button>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        <input type="radio" id='auto_n' name='auto_collection_yn' value='n' checked={inputs?.auto_collection_yn === 'n'} onChange={(e)=>inputChange(e, setInputs)}/>
+                        <input type="radio" id='auto_n' name='auto_collection_yn' value='n' checked={inputs?.auto_collection_yn === 'n'} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}/>
                         <label htmlFor="auto_n">자동 설정 안 함</label>
                     </fieldset>
-                    <div>
-                        <input type="submit" value="저장" className='btn-point' onClick={onSubmit}/>
-                    </div>
+                        <div>
+                        { pagePermission?.update_yn === 'y' &&
+                            <input type="submit" value="저장" className='btn-point' onClick={onSubmit}/>
+                        }
+                        </div>
                 </form>
             </div>
             {popup && (

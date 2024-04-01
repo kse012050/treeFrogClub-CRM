@@ -1,17 +1,26 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
 import { inputChange } from '../../../api/validation'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Popup from '../../../components/popup/Popup';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function ManagementRegistration() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
     const [connectlimitTime, setConnectlimitTime] = useState()
     const [allowIps, setAllowIps] = useState([])
     const [popup, setPopup] = useState('')
     const ipRef = useRef();
+
+    useEffect(()=>{
+        if(pagePermission?.insert_yn && pagePermission?.insert_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.insert_yn, navigate])
 
     const ipAdd = () =>{
         if((ipRef.current.value.match(/\./g) || []).length === 3){

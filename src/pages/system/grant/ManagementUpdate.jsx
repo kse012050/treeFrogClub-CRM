@@ -1,18 +1,27 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Select from '../../../components/Select';
 import { api } from '../../../api/api';
 import { inputChange } from '../../../api/validation'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Popup from '../../../components/popup/Popup';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
 
 export default function ManagementUpdate() {
     const { id } = useParams();
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({'role_id': id})
     const [connectlimitTime, setConnectlimitTime] = useState()
     const [allowIps, setAllowIps] = useState([])
     const [popup, setPopup] = useState('')
     const ipRef = useRef()
+
+    useEffect(()=>{
+        if(pagePermission?.update_yn && pagePermission?.update_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.update_yn, navigate])
 
     useEffect(()=>{
         api('role', 'detail', {'role_id': id})
