@@ -17,11 +17,11 @@ export default function NoticeUpdate() {
     const { id } = useParams();
     // console.log(pagePermission);
 
-    useEffect(()=>{
-        if(pagePermission?.update_yn && pagePermission?.update_yn !== 'y'){
-            navigate('/main')
-        }
-    },[pagePermission?.update_yn, navigate])
+    // useEffect(()=>{
+    //     if(pagePermission?.update_yn && pagePermission?.update_yn !== 'y'){
+    //         navigate('/main')
+    //     }
+    // },[pagePermission?.update_yn, navigate])
 
     useEffect(()=>{
         api('board', 'detail', {'board_id': id})

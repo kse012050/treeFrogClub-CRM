@@ -36,15 +36,15 @@ export const pagePermissionFilter = (user, location) => {
         }
     }else if(location === '/payment/list' || location === '/payment/list/registration'){
         pageName = '결제목록'
-    }else if(location === '/payment/product' || location === '/payment/product/registration' || location.includes('/payment/product/update')){
+    }else if(location.includes('/payment/product')){
         pageName = '상품목록'
-    }else if(location === '/system/basic/anUser' || location === '/system/basic/anUser/registration' || location.includes('/system/basic/anUser/update')){
+    }else if(location.includes('/system/basic/anUser')){
         pageName = '사용자목록'
     }else if(location === '/system/basic/bureau'){
         pageName = '사용자_부서관리'
-    }else if(location === '/system/basic/client' || location === '/system/basic/client/registration' || location.includes('/system/basic/client/update')){
+    }else if(location.includes('/system/basic/client')){
         pageName = '고객구분관리'
-    }else if(location === '/system/basic/common' || location === '/system/basic/common/registration' || location.includes('/system/basic/common/update')){
+    }else if(location.includes('/system/basic/common')){
         pageName = '코드관리'
     }else if(location === '/system/basic/customer'){
         pageName = '고객목록관리'
