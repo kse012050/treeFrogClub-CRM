@@ -101,7 +101,7 @@ export default function List() {
     const currentData = useCallback(()=>{
         // console.log(inputs);
         if(inputs && currentInputs){
-            console.log(currentInputs);
+            // console.log(currentInputs);
             api('customer', 'list', {...inputs, ...currentInputs})
                 .then(({result, data, list})=>{
                     if(result){

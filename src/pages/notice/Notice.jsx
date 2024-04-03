@@ -8,7 +8,7 @@ import { UserContext } from '../../context/UserContext';
 
 export default function Notice() {
     const { pagePermission } = useContext(UserContext)
-    console.log(pagePermission);
+    // console.log(pagePermission);
     // const navigate = useNavigate();
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [boardList, setBoardList] = useState()

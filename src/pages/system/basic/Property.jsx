@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { api } from '../../../api/api'
 import { isFormet } from '../../../api/validation'
 import Popup from '../../../components/popup/Popup';
@@ -6,27 +6,41 @@ import BoardChk from '../../../components/boardChk/BoardChk';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChkDelete from '../../../components/boardChk/BoardChkDelete';
 import { logButton } from '../../../api/common';
+import { UserContext } from '../../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 // import PropertyMoney from '../../../components/system/basic/PropertyMoney';
 
 export default function Property() {
+    const { pagePermission } = useContext(UserContext)
+    const navigate = useNavigate();
+    // console.log(pagePermission);
     const [active, setActive] = useState(1)
+
+    useEffect(()=>{
+        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+            navigate('/main')
+        }
+    },[pagePermission?.select_yn, navigate])
+
     return (
         <>
             <h2>속성값 설정</h2>
 
             <div className="tabBox">
                 <button className={active === 1 ? 'active' : ''} onClick={()=>setActive(1)}>구분값 설정</button>
-                <button className={active === 2 ? 'active' : ''} onClick={()=>setActive(2)}>투자금액/목표량 설정</button>
+                { pagePermission?.insert_yn === 'y'  && 
+                    <button className={active === 2 ? 'active' : ''} onClick={()=>setActive(2)}>투자금액/목표량 설정</button>
+                }
             </div>
             <hr className='case03'/>
-            {active === 1 && <PropertyDivision />}
+            {active === 1 && <PropertyDivision pagePermission={pagePermission}/>}
             {active === 2 && <PropertyMoney />}
         </>
     );
 }
 
 // 구분값 설정
-function PropertyDivision() {
+function PropertyDivision({ pagePermission }) {
     const [classificationActive, setClassificationctive] = useState()
     const [classificationList, setClassificationList] = useState([])
     const [propertiesList, setPropertiesist] = useState()
@@ -101,36 +115,44 @@ function PropertyDivision() {
             {propertiesList && (
                 <div className='boardBox'>
                     <b>결제 구분 ({ propertiesList.length })</b>
-                    <button 
-                        className='btn-gray-black'
-                        onClick={()=>setPopup({
-                                'type': `properties_registration`, 
-                                'id': classificationActive, 
-                                'func': ()=>{
-                                    currentData();
-                                    boardData();
-                                    logButton('속성값 설정(구분값 설정 - 추가)')
-                                }
-                        })}>추가
-                    </button>
-                    <BoardChkDelete url='properties' idName='properties_id' deleteList={deleteList} setDeleteList={setDeleteList} isAwait currentData={()=>{currentData();boardData();}} logValue='속성값 설정(구분값 설정 - 선택 삭제)'/>
+                    { pagePermission?.insert_yn === 'y'  && 
+                        <button 
+                            className='btn-gray-black'
+                            onClick={()=>setPopup({
+                                    'type': `properties_registration`, 
+                                    'id': classificationActive, 
+                                    'func': ()=>{
+                                        currentData();
+                                        boardData();
+                                        logButton('속성값 설정(구분값 설정 - 추가)')
+                                    }
+                            })}>추가
+                        </button>
+                    }
+                    { pagePermission?.delete_yn === 'y'  && 
+                        <BoardChkDelete url='properties' idName='properties_id' deleteList={deleteList} setDeleteList={setDeleteList} isAwait currentData={()=>{currentData();boardData();}} logValue='속성값 설정(구분값 설정 - 선택 삭제)'/>
+                    }
 
                     <div className='board-top'>
                         <BoardChkAll deleteList={deleteList} setDeleteList={setDeleteList} list={propertiesList.map(({properties_id})=>properties_id)} />
                         <span>구분값</span>
-                        <span>수정</span>
+                        { pagePermission?.update_yn === 'y'  && 
+                            <span>수정</span>
+                        }
                     </div>
                     <ol className="board-center">
                         {propertiesList.map(({properties_id, name})=>(
                             <li key={properties_id}>
                                 <BoardChk id={properties_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ name }</span>
-                                <button 
-                                    className="popup" 
-                                    onClick={()=>setPopup({'type': `properties_update`, 'value': name, 'id': properties_id, 'func': ()=>{currentData();boardData(); logButton('속성값 설정(구분값 설정 - 수정)')}})}
-                                >
-                                    수정
-                                </button>
+                                { pagePermission?.update_yn === 'y'  && 
+                                    <button 
+                                        className="popup" 
+                                        onClick={()=>setPopup({'type': `properties_update`, 'value': name, 'id': properties_id, 'func': ()=>{currentData();boardData(); logButton('속성값 설정(구분값 설정 - 수정)')}})}
+                                    >
+                                        수정
+                                    </button>
+                                }
                             </li>
                         ))}
                     </ol>

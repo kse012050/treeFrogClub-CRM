@@ -42,30 +42,41 @@ export default function Memu() {
             { ( user?.type === 'super' || user?.type === "admin") &&
                 <>
                     <strong>시스템 관리</strong>
-                    <b>기본 설정</b>
-                    <ul>
-                        { menuPermission?.['사용자목록'] && 
-                            <li><NavLink to={'/system/basic/anUser'}>사용자 목록</NavLink></li>
-                        }
-                        { menuPermission?.['사용자_부서관리'] && 
-                            <li><NavLink to={'/system/basic/bureau'}>부서 관리</NavLink></li>
-                        }
-                        { menuPermission?.['고객구분관리'] && 
-                            <li><NavLink to={'/system/basic/client'}>고객 구분 관리</NavLink></li>
-                        }
-                        { menuPermission?.['코드관리'] && 
-                            <li><NavLink to={'/system/basic/common'}>공통 코드 관리</NavLink></li>
-                        }
-                        { menuPermission?.['고객목록관리'] && 
-                            <li><NavLink to={'/system/basic/customer'}>고객목록 설정</NavLink></li>
-                        }
-                        <li><NavLink to={'/system/basic/property'}>속성값 설정</NavLink></li>
-                    </ul>
-                    { (menuPermission?.['역할목록'] || menuPermission?.['역할권한관리']) && 
+                    {( menuPermission?.['사용자목록'] || 
+                        menuPermission?.['부서관리'] || 
+                        menuPermission?.['고객구분관리'] || 
+                        menuPermission?.['공통코드관리'] || 
+                        menuPermission?.['고객목록설정'] || 
+                        menuPermission?.['속성값설정']) &&
+                        <>
+                            <b>기본 설정</b>
+                            <ul>
+                                { menuPermission?.['사용자목록'] && 
+                                    <li><NavLink to={'/system/basic/anUser'}>사용자 목록</NavLink></li>
+                                }
+                                { menuPermission?.['부서관리'] && 
+                                    <li><NavLink to={'/system/basic/bureau'}>부서 관리</NavLink></li>
+                                }
+                                { menuPermission?.['고객구분관리'] && 
+                                    <li><NavLink to={'/system/basic/client'}>고객 구분 관리</NavLink></li>
+                                }
+                                { menuPermission?.['공통코드관리'] && 
+                                    <li><NavLink to={'/system/basic/common'}>공통 코드 관리</NavLink></li>
+                                }
+                                { menuPermission?.['고객목록설정'] && 
+                                    <li><NavLink to={'/system/basic/customer'}>고객목록 설정</NavLink></li>
+                                }
+                                { menuPermission?.['속성값설정'] && 
+                                    <li><NavLink to={'/system/basic/property'}>속성값 설정</NavLink></li>
+                                }
+                            </ul>
+                        </>
+                    }
+                    { (menuPermission?.['역할관리'] || menuPermission?.['역할권한관리']) && 
                         <>
                             <b>권한 설정</b>
                             <ul>
-                                { menuPermission?.['역할목록'] && 
+                                { menuPermission?.['역할관리'] && 
                                     <li><NavLink to={'/system/grant/management'}>역할 관리</NavLink></li>
                                 }
                                 { menuPermission?.['역할권한관리'] && 
@@ -74,11 +85,11 @@ export default function Memu() {
                             </ul>
                         </>
                     }
-                    { (menuPermission?.['사용자_사용자접속이력'] || menuPermission?.['고객삭제이력']) && 
+                    { (menuPermission?.['사용자접속이력'] || menuPermission?.['고객삭제이력']) && 
                         <>
                             <b>회원사 관리</b>
                             <ul>
-                                { menuPermission?.['사용자_사용자접속이력'] && 
+                                { menuPermission?.['사용자접속이력'] && 
                                     <li><NavLink to={'/system/member/connect'}>사용자접속이력</NavLink></li>
                                 }
                                 { menuPermission?.['고객삭제이력'] && 
