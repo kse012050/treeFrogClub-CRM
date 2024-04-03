@@ -16,7 +16,7 @@ import { logButton } from '../../api/common';
 
 export default function Update() {
     const { pagePermission } = useContext(UserContext)
-
+    // console.log(pagePermission);
     const [popup, setPopup] = useState()
     const { id } = useParams()
     const [paymentInfo, setPaymentInfo] = useState()
@@ -44,7 +44,7 @@ export default function Update() {
 
             <Basic id={id} popup={popup} setPopup={setPopup} counselValue={counselValue} setCounselValue={setCounselValue}/>
 
-            { pagePermission?.update_yn === 'y' &&
+            { pagePermission?.['결제목록']?.insert_yn === 'y' &&
                 <Payment id={id} popup={popup} setPopup={setPopup} historyPaymentFunc={historyPaymentFunc}/>
             }
           
@@ -131,9 +131,9 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
             }else if(!inputs?.customer_name){
                 errorMessage = '고객명을 입력해주세요.'
             }else if(!inputs?.customer_mobile || inputs?.customer_mobile?.length !== 11){
-                console.log(inputs?.customer_mobile);
-                console.log(inputs?.customer_mobile?.length);
-                console.log(inputs?.customer_mobile?.length !== 11);
+                // console.log(inputs?.customer_mobile);
+                // console.log(inputs?.customer_mobile?.length);
+                // console.log(inputs?.customer_mobile?.length !== 11);
                 errorMessage = '휴대폰 번호를 입력해주세요.'
             }
             setPopup((popup)=>({
@@ -173,13 +173,13 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                             <li>
                                 <label htmlFor="">고객구분</label>
                                 <div>
-                                    <Select type={'customer'} current={inputs?.customer_properties_id} changeName='customer_properties_id' setInputs={setInputs} disabled={pagePermission?.update_yn === 'n'}/>
+                                    <Select type={'customer'} current={inputs?.customer_properties_id} changeName='customer_properties_id' setInputs={setInputs} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">상담상태</label>
                                 <div>
-                                    <Select type={'counsel'} current={inputs?.counsel_properties_id} changeName='counsel_properties_id' setInputs={setInputs} disabled={pagePermission?.update_yn === 'n'}/>
+                                    <Select type={'counsel'} current={inputs?.counsel_properties_id} changeName='counsel_properties_id' setInputs={setInputs} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li>
@@ -196,7 +196,7 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                                                 setSales(data.name)
                                             }
                                         })}
-                                        disabled={pagePermission?.update_yn === 'n'}
+                                        disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}
                                     />
                                     <button>검색</button>
                                 </div>
@@ -204,42 +204,42 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                             <li>
                                 <label htmlFor="" onClick={()=>console.log(inputs)}>고객명</label>
                                 <div>
-                                    <input type="text" name='customer_name' id='customer_name' value={inputs?.customer_name || ''} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn === 'n'}/>
+                                    <input type="text" name='customer_name' id='customer_name' value={inputs?.customer_name || ''} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">휴대폰</label>
                                 <div>
-                                    <input type="text" name='customer_mobile' id='customer_mobile' value={inputs?.customer_mobile || ''} data-formet="numb" onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn === 'n'}/>
+                                    <input type="text" name='customer_mobile' id='customer_mobile' value={inputs?.customer_mobile || ''} data-formet="numb" onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="">체험 기간</label>
                                 <div>
                                     <div>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} onBlur={(e)=>onDateBlur(e, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_start_date')} onBlur={(e)=>onDateBlur(e, 'experience_start_date')} value={dayjs(inputs?.experience_start_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}/>
                                         <span>-</span>
-                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} onBlur={(e)=>onDateBlur(e, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.update_yn === 'n'}/>
+                                        <DatePicker onChange={(_, dateString)=>onDate(dateString, 'experience_end_date')} onBlur={(e)=>onDateBlur(e, 'experience_end_date')} value={dayjs(inputs?.experience_end_date, 'YYYY-MM-DD')} format={'YYYY-MM-DD'} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}/>
                                     </div>
                                 </div>
                             </li>
                             <li>
                                 <label htmlFor="source">출처</label>
                                 <div>
-                                    <input type="text" name='source' id='source' defaultValue={inputs?.source} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn === 'n'}/>
+                                    <input type="text" name='source' id='source' defaultValue={inputs?.source} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}/>
                                 </div>
                             </li>
                             <li className='fill-three'>
                                 <label htmlFor="memo">메모</label>
                                 <div>
-                                    <textarea name="memo" id="memo" defaultValue={inputs?.memo} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn === 'n'}></textarea>
+                                    <textarea name="memo" id="memo" defaultValue={inputs?.memo} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}></textarea>
                                 </div>
                             </li>
                         </ul>
                     </fieldset>
                     <div>
                         <Link to={'/customer/list'} className='btn-gray-white'>목록</Link>
-                        { pagePermission?.update_yn === 'y' &&
+                        { pagePermission?.['통합고객목록']?.update_yn === 'y' &&
                             <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>
                         }
                     </div>
@@ -591,7 +591,9 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                                         유료기간<br/>
                                         (서비스기간포함)
                                     </button>
-                                    <span>환불/수정</span>
+                                    { pagePermission?.['결제목록']?.update_yn === 'y' &&
+                                        <span>환불/수정</span>
+                                    }
                                 </div>
                                 { historyPayment && 
                                     <ol className="board-center">
@@ -610,10 +612,12 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                                                     { data.standard_service_start_date.replaceAll('-','/') }<br/>
                                                     ~ { data.standard_service_end_date.replaceAll('-','/') }
                                                 </time>
-                                                <div>
-                                                    <button className='popup' onClick={()=>setRefundPopupActive({'type': 'children', 'id': data.payment_id, 'is': (!!data?.refund_price || data?.refund_date) || false})}>환불</button>
-                                                    <button className='popup' onClick={()=>setUpdatePopupActive({'type': 'children', 'id': data.payment_id})}>수정</button>
-                                                </div>
+                                                { pagePermission?.['결제목록']?.update_yn === 'y' &&
+                                                    <div>
+                                                        <button className='popup' onClick={()=>setRefundPopupActive({'type': 'children', 'id': data.payment_id, 'is': (!!data?.refund_price || data?.refund_date) || false})}>환불</button>
+                                                        <button className='popup' onClick={()=>setUpdatePopupActive({'type': 'children', 'id': data.payment_id})}>수정</button>
+                                                    </div>
+                                                }
                                             </li>
                                         ))}
                                     </ol>
@@ -763,7 +767,7 @@ function HistoryConsult({ id, setConsultCount, counselValue, setCounselValue }){
 
     return (
         <>
-            { pagePermission?.update_yn === 'y' &&
+            { pagePermission?.['통합고객목록']?.update_yn === 'y' &&
                 <>
                     <b className='choice'>{ deleteList.length }</b>
                     <BoardChkDelete url='counsel' idName='counsel_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={currentData} logValue='고객 수정(상담 이력 선택 삭제)'/>
@@ -799,9 +803,7 @@ function HistoryConsult({ id, setConsultCount, counselValue, setCounselValue }){
             <div className='board-pagination' data-styleidx='a'>
                 <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
             </div>
-            { pagePermission?.update_yn === 'y' &&
-                <HistoryConsultInput id={id} currentData={currentData} counselValue={counselValue} setCounselValue={setCounselValue}/>
-            }
+            <HistoryConsultInput id={id} currentData={currentData} counselValue={counselValue} setCounselValue={setCounselValue}/>
         </>
     )
 }

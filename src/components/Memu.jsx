@@ -89,14 +89,14 @@ export default function Memu() {
                     }
                 </>
             }
-            { menuPermission?.['공지사항관리 목록'] && 
-                <>
+            {/* { menuPermission?.['공지사항관리 목록'] && 
+                <> */}
                     <strong>게시판 관리</strong>
                     <ul>
                         <li><NavLink to={'/notice'}>공지사항</NavLink></li>
                     </ul>
-                </>
-            }
+                {/* </>
+            } */}
             <p>© 2023 Team1985</p>
         </nav>
     );

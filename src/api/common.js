@@ -28,7 +28,7 @@ export const pagePermissionFilter = (user, location) => {
     
     if(location === '/main'){
         pageName = '대시보드'
-    }else if(location === '/customer/list' || location === '/customer/list' || location.includes('/customer/registration')){
+    }else if(location === '/customer/list' || location === '/customer/list'){
         pageName = '통합고객목록'
         subData = {
             ...subData, 
@@ -61,21 +61,37 @@ export const pagePermissionFilter = (user, location) => {
     }
 
     let resultObj;
-    if(user.type === 'super'){
-        resultObj = {
-            'delete_yn': "y",
-            'excel_yn': "y",
-            'insert_yn': "y",
-            'modify_type': "all",
-            'select_type': "all",
-            'select_yn': "y",
-            'update_yn': "y",
-            'bulk_customer_insert': "y",
-            'bulk_customer_modify': "y"
+    console.log(user);
+    // console.log(location);
+    // console.log(pageName);
+    const superObj = {
+        'delete_yn': "y",
+        'excel_yn': "y",
+        'insert_yn': "y",
+        'modify_type': "all",
+        'select_type': "all",
+        'select_yn': "y",
+        'update_yn': "y",
+        'bulk_customer_insert': "y",
+        'bulk_customer_modify': "y"
+    }
+    if(location.includes('/customer/registration/update')){
+        if(user.type === 'super'){
+            resultObj = {
+                '통합고객목록': {...superObj},
+                '결제목록': {...superObj},
+            }
+        }else{
+            resultObj = {
+                '통합고객목록': {...user.role_list?.filter((data)=>data?.screen_name === '통합고객목록')[0]},
+                '결제목록': {...user.role_list?.filter((data)=>data?.screen_name === '결제목록')[0]},
+            }
         }
+    }else if(user.type === 'super'){
+        resultObj = {...superObj}
     }else if(location === '/system/basic/property' || location === '/statistics/account' || location === '/statistics/campaign' || location === '/statistics/sales'){
         resultObj = {'select_yn': "y"}
-    }else if(user.role_list.length){ 
+    }else if(user.role_list?.length){ 
         // console.log(user);
         // console.log(pageName);
         resultObj = {...user.role_list?.filter((data)=>data?.screen_name === pageName)[0], ...subData}

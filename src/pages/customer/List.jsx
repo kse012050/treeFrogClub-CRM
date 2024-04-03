@@ -712,11 +712,11 @@ export default function List() {
                                 </span>
                                 <span>{ data.customer_name }</span>
                                 <div>
-                                    <SalesItem data={data} setPopup={setPopup}/>
+                                    <SalesItem data={data} setPopup={setPopup} disabled={pagePermission?.update_yn !== 'y'}/>
                                 </div>
                                 <span>{ data.customer_properties_name }</span>
                                 <div>
-                                    <CounselItem data={data} setPopup={setPopup}/>
+                                    <CounselItem data={data} setPopup={setPopup} disabled={pagePermission?.update_yn !== 'y'}/>
                                 </div>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_start_date : ''}</time>
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
@@ -745,7 +745,7 @@ export default function List() {
 
 
 // 개별 항목
-function CounselItem({ data, setPopup }) {
+function CounselItem({ data, setPopup, disabled }) {
     const [inputs, setInputs] = useState()
     const [prevInputs, setPrevInputs] = useState()
 
@@ -773,13 +773,13 @@ function CounselItem({ data, setPopup }) {
 
     return (
         <>
-            <SelectBoard type='counsel' current={data?.counsel_properties_id} setInputs={setInputs} changeName='counsel_properties_id'/>
+            <SelectBoard type='counsel' current={data?.counsel_properties_id} setInputs={setInputs} changeName='counsel_properties_id' disabled={disabled}/>
         </>
     )
 }
 
 // 개별 항목
-function SalesItem({ data, setPopup }) {
+function SalesItem({ data, setPopup, disabled }) {
     const [inputs, setInputs] = useState()
     const [prevInputs, setPrevInputs] = useState()
 
@@ -809,7 +809,7 @@ function SalesItem({ data, setPopup }) {
 
     return (
         <>
-            <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setInputs} changeName='sales_admin_id'/>
+            <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setInputs} changeName='sales_admin_id' disabled={disabled}/>
         </>
     )
 }

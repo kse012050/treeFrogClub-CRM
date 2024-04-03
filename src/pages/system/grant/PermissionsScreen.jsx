@@ -254,7 +254,7 @@ function List({ data, deleteList, setDeleteList, currentData }){
 
 function RegistrationPopup({ registrationPopup, setRegistrationPopup, currentSettings}){
     const { userSettings } = useContext(UserContext)
-    const [inputs, setInputs] = useState({'limit': '10', 'page': '1'})
+    const [inputs, setInputs] = useState({'limit': '5', 'page': '1'})
     const [searchInputs, setSearchInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [moduleList, setModuleList] = useState();

@@ -6,7 +6,6 @@ import { numberWithCommas } from '../../api/validation';
 import Graph from '../../components/Graph';
 
 export default function MainBasic() {
-    const [clientcode, setClientcode] = useState()
     const color = [
         '#FEA89B',
         '#FDBF6C',
@@ -18,16 +17,6 @@ export default function MainBasic() {
         '#FFA6D7',
         '#B78F8F'
     ]
-
-    useEffect(()=>{
-        api('clientcode', 'properties_list', {'all_yn': 'y'})
-        .then(({result, list})=>{
-            if(result){
-                // console.log(list);
-                setClientcode(list)
-            }
-        })
-    },[])
   
     return (
         <div className='basicPage'>
@@ -75,13 +64,13 @@ function DashboardFirst({color}){
     useEffect(()=>{
         // console.log(dashboard);
         if(dashboard && dashboardSum){
-            setGraph(dashboard.map((data)=> {
-                // console.log(data);
-                return {
-                    'percent': data.current_month_sales_price ? (data.current_month_sales_price / dashboardSum.current_month_sales_price * 100).toFixed(1) : '0',
-                    'name': (tab === 'ByDepartment') ? data.department_name : data.admin_name
-                 };
-            }))
+            dashboardSum.percent > 0 &&
+                (setGraph(dashboard.map((data)=> {
+                    return {
+                        'percent': data.current_month_sales_price ? (data.current_month_sales_price / dashboardSum.current_month_sales_price * 100).toFixed(1) : '0',
+                        'name': (tab === 'ByDepartment') ? data.department_name : data.admin_name
+                    };
+                })))
         }
     },[dashboard, dashboardSum, tab])
 

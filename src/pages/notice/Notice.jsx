@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link/* , useNavigate */ } from 'react-router-dom';
 import { api } from '../../api/api';
 import SubTitle from '../../components/SubTitle';
 import Pager from '../../components/Pager';
@@ -8,16 +8,17 @@ import { UserContext } from '../../context/UserContext';
 
 export default function Notice() {
     const { pagePermission } = useContext(UserContext)
-    const navigate = useNavigate();
+    console.log(pagePermission);
+    // const navigate = useNavigate();
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [boardList, setBoardList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
 
-    useEffect(()=>{
-        if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
-            navigate('/main')
-        }
-    },[pagePermission?.select_yn, navigate])
+    // useEffect(()=>{
+    //     if(pagePermission?.select_yn && pagePermission?.select_yn !== 'y'){
+    //         navigate('/main')
+    //     }
+    // },[pagePermission?.select_yn, navigate])
 
     useEffect(()=>{
         api('board', 'list', inputs)
@@ -47,7 +48,9 @@ export default function Notice() {
                 <div className="board-top">
                     <span>등록일자</span>
                     <span>제목</span>
-                    <span>열람범위</span>
+                    { pagePermission?.update_yn === 'y' && 
+                        <span>열람범위</span>
+                    }
                     <span>작성자</span>
                     <span>보기</span>
                 </div>
@@ -58,7 +61,9 @@ export default function Notice() {
                             <li key={ data.board_id }>
                                 <span>{ data.reg_date }</span>
                                 <span>{ data.title }</span>
-                                <span>{ data.scope_of_access }</span>
+                                { pagePermission?.update_yn === 'y' && 
+                                    <span>{ data.scope_of_access }</span>
+                                }
                                 <span>{ data.write_name }</span>
                                 <Link to={`update/${data.board_id}`}>보기</Link>
                             </li>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, /* useNavigate, */ useParams } from 'react-router-dom';
 import { inputChange } from '../../api/validation';
 import BureauBox from '../../components/BureauBox';
 import Popup from '../../components/popup/Popup';
@@ -9,7 +9,7 @@ import { UserContext } from '../../context/UserContext';
 
 export default function NoticeUpdate() {
     const { pagePermission } = useContext(UserContext)
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [inputs, setInputs] = useState({ 'department_id_list': '' })
     const [bureauNoticePopup, setBureauNoticePopup] = useState()
     const [choiceList, setChoiceList] = useState();
@@ -105,33 +105,35 @@ export default function NoticeUpdate() {
                 <form>
                     <fieldset>
                         <ul>
-                            <li className='fill-three'>
-                                <label htmlFor="" className='required'>열람범위</label>
-                                <div>
-                                    <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList('')} disabled={pagePermission?.update_yn !== 'y'}/>
-                                    <label htmlFor="department_id_list_all">전체</label>
-                                    <input type="radio" id='' name='' checked={!!inputs.department_id_list && inputs.department_id_list.length} readOnly/>
-                                    <label htmlFor=""></label>
-                                    <label htmlFor="" className='btn-gray-black' onClick={()=>{pagePermission?.update_yn === 'y' && setBureauNoticePopup({type: 'children'})}}>부서 선택</label>
-                                    { !!choiceList?.length && 
-                                        <ul className='bureauList'>
-                                            { choiceList.map((data)=>
-                                                <li key={data.department_id} className='icon-remove'>
-                                                    { data.name }
-                                                    { pagePermission?.update_yn === 'y' &&
-                                                        <button 
-                                                            type='button' 
-                                                            onClick={()=>setChoiceList((list)=>list.filter((listData)=>listData.department_id !== data.department_id))}
-                                                        >
-                                                            제거
-                                                        </button>
-                                                    }
-                                                </li>
-                                            )}
-                                        </ul>
-                                    }
-                                </div>
-                            </li>
+                            { pagePermission?.update_yn === 'y' &&
+                                <li className='fill-three'>
+                                    <label htmlFor="" className='required'>열람범위</label>
+                                    <div>
+                                        <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList('')} disabled={pagePermission?.update_yn !== 'y'}/>
+                                        <label htmlFor="department_id_list_all">전체</label>
+                                        <input type="radio" id='' name='' checked={!!inputs.department_id_list && inputs.department_id_list.length} readOnly/>
+                                        <label htmlFor=""></label>
+                                        <label htmlFor="" className='btn-gray-black' onClick={()=>{pagePermission?.update_yn === 'y' && setBureauNoticePopup({type: 'children'})}}>부서 선택</label>
+                                        { !!choiceList?.length && 
+                                            <ul className='bureauList'>
+                                                { choiceList.map((data)=>
+                                                    <li key={data.department_id} className='icon-remove'>
+                                                        { data.name }
+                                                        { pagePermission?.update_yn === 'y' &&
+                                                            <button 
+                                                                type='button' 
+                                                                onClick={()=>setChoiceList((list)=>list.filter((listData)=>listData.department_id !== data.department_id))}
+                                                            >
+                                                                제거
+                                                            </button>
+                                                        }
+                                                    </li>
+                                                )}
+                                            </ul>
+                                        }
+                                    </div>
+                                </li>
+                            }
                             <li className='fill-three'>
                                 <label htmlFor="title" className='required'>제목</label>
                                 <div>
