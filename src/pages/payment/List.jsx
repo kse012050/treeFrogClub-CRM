@@ -50,18 +50,19 @@ export default function List() {
     const currentSettings = useCallback(() =>{
         const currentDate = new Date();
         const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1;
-        const day = currentDate.getDate();
-        setSearchInputs({'payment_date_info': {'start_date': `${year}-${month}-${1}`, 'end_date': `${year}-${month}-${day}`}})
+        const month = currentDate.getMonth() + 1 >= 10 ? currentDate.getMonth() + 1 : '0' + (currentDate.getMonth() + 1);
+        const day = currentDate.getDate() >= 10 ? currentDate.getDate() : '0' + currentDate.getDate();
+        setSearchInputs({'payment_date_info': {'start_date': `${year}-${month}-${'01'}`, 'end_date': `${year}-${month}-${day}`}})
     },[])
 
     const currentData = useCallback(()=>{
         // console.log(inputs);
         if(currentInputs){
+            // console.log(inputs);
+            // console.log(currentInputs);
             api('payment', 'list', {...inputs, ...currentInputs})
                 .then(({result, data, list})=>{
                     if(result){
-                        // console.log(data);
                         setPagerInfo(data)
                         setSummary(data)
                         // setBoardList(list)
@@ -71,6 +72,7 @@ export default function List() {
                             })
                         })
                         // console.log(list);
+                        console.log(data);
                     }
                 })
         }
@@ -139,12 +141,12 @@ export default function List() {
             }else if(value.length === 4){
                 value = `${value}-01-01`
             }else{
-                const year = value.substring(0, 4)
-                let month = value.substring(4, 6)
+                const year = parseInt(value.substring(0, 4))
+                let month = parseInt(value.substring(4, 6))
                 month = month ? ( month <= 12 ? ( month >= 10 ? month : '0' + month) : 12) : '01';
                 const maxDay = new Date(year, month, 0).getDate();
-                let day = value.substring(6, 8)
-                day = day ? ( day <= maxDay ? ( day >= 10 ? day : 0 + day) : maxDay) : '01';
+                let day = parseInt(value.substring(6, 8))
+                day = day ? ( day <= maxDay ? ( day >= 10 ? day : '0' + day) : maxDay) : '01';
                 value = `${year}-${month}-${day}`
             }
             onDate(value, parents, name)
@@ -421,7 +423,7 @@ export default function List() {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><b>2023년 10월</b></td>
+                            <td><b>{ summary?.current_month }</b></td>
                             <td>{ summary?.total_payment_count }</td>
                             <td>{ numberWithCommas(summary?.total_payment_price) }원</td>
                             <td>{ summary?.total_refund_count }</td>

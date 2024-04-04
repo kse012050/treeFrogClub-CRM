@@ -562,7 +562,7 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                     }
                     {relatedActive === 1 &&
                         <>
-                            { pagePermission?.update_yn === 'y' &&
+                            { pagePermission?.['결제목록']?.delete_yn === 'y' &&
                                 <>
                                     <b className='choice'>{ deleteList.length }</b>
                                     <BoardChkDelete url='payment' idName='payment_id_list' deleteList={deleteList} setDeleteList={setDeleteList} currentData={()=>{historyPaymentFunc(inputs); historyPaymentDeleteFunc(inputs);}} logValue='고객 수정(결제 내역 선택 삭제)'/>
@@ -1101,12 +1101,12 @@ function RefundPopup({ refundPopupActive, setRefundPopupActive, historyPaymentFu
             }else if(value.length === 4){
                 value = `${value}-01-01`
             }else{
-                const year = value.substring(0, 4)
-                let month = value.substring(4, 6)
+                const year = parseInt(value.substring(0, 4))
+                let month = parseInt(value.substring(4, 6))
                 month = month ? ( month <= 12 ? ( month >= 10 ? month : '0' + month) : 12) : '01';
                 const maxDay = new Date(year, month, 0).getDate();
-                let day = value.substring(6, 8)
-                day = day ? ( day <= maxDay ? ( day >= 10 ? day : 0 + day) : maxDay) : '01';
+                let day = parseInt(value.substring(6, 8))
+                day = day ? ( day <= maxDay ? ( day >= 10 ? day : '0' + day) : maxDay) : '01';
                 value = `${year}-${month}-${day}`
             }
             onDate(value, name)

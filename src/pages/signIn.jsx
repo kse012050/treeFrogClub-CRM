@@ -54,7 +54,7 @@ export default function SignIn() {
                                 <input type="text" name='id' data-formet="id" placeholder='아이디 입력' onChange={inputChange}/>
                             </li>
                             <li>
-                                <input type="password" name='password' placeholder='비밀번호 입력' onChange={inputChange}/>
+                                <input type="password" name='password' placeholder='비밀번호 입력' onChange={inputChange} autoComplete="off"/>
                             </li>
                         </ul>
                         <input type="submit" value="로그인" onClick={onSubmit}/>
