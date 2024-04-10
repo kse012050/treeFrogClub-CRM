@@ -108,6 +108,19 @@ export default function AnUserUpdate() {
         setInputs((input)=>({...input, 'id': ''}))
     }
 
+    const tempPassword = () =>{
+        api('user', 'temp_password', {'admin_id': id})
+            .then(({result, error_message})=>{
+                if(result){
+                    setPopup(()=>({
+                        'type': 'confirm',
+                        'title': '완료',
+                        'description': error_message
+                    }))
+                }
+            })
+    }
+
     const onSubmit = (e) =>{
         e.preventDefault();
         // console.log(inputs);
@@ -253,7 +266,7 @@ export default function AnUserUpdate() {
                         </ul>
                     </fieldset>
                     <div>
-                        <button type='button'className='btn-point'>임시 비밀번호 발급</button>
+                        <button type='button'className='btn-point' onClick={tempPassword}>임시 비밀번호 발급</button>
                         {/* <Link to={''} className='btn-point'>임시 비밀번호 발급</Link> */}
                         <Link to={'/system/basic/anUser'} className='btn-gray-white'>목록</Link>
                         <input type="submit" value="수정" className='btn-point' onClick={onSubmit}/>

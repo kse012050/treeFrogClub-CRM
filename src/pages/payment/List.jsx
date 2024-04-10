@@ -72,7 +72,7 @@ export default function List() {
                             })
                         })
                         // console.log(list);
-                        console.log(data);
+                        // console.log(data);
                     }
                 })
         }

@@ -602,7 +602,7 @@ function History({ id, paymentInfo, counselValue, setCounselValue, historyPaymen
                                                 <BoardChk id={data.payment_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                                 <span>{ data.payment_id }</span>
                                                 <span>{ data.payment_properties_name }</span>
-                                                <span>{ data.payment_person_in_charge_name }</span>
+                                                <span>{ data.sales_admin_name }</span>
                                                 <span>{ data.product_name.replaceAll(' ','\n') }</span>
                                                 <time>{ data.payment_date.replaceAll('-','/') }</time>
                                                 <span>{ data.payment_price ? numberWithCommas(data.payment_price) : '' }</span>
