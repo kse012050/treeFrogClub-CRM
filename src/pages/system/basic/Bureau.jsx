@@ -224,6 +224,7 @@ export default function Bureau() {
 function Board({ data, onSearch, boardListFunc, onRefresh, pagePermission }){
     const [deleteList, setDeleteList] = useState('')
     const [popup, setPopup] = useState()
+    // console.log(data);
 
     return (
         <>
@@ -354,7 +355,7 @@ function Board({ data, onSearch, boardListFunc, onRefresh, pagePermission }){
                         <span>{ data.name }</span>
                         <span>{ data.mobile }</span>
                         <span>{ data.email }</span>
-                        <span>{ data.role_name }</span>
+                        <span>{ data.type === 'admin' ? '부서장' : '팀원' }</span>
                     </li>
                 ))}
             </ol>

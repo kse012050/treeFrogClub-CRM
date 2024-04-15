@@ -15,7 +15,7 @@ import { UserContext } from '../../context/UserContext';
 
 export default function List() {
     const { user, pagePermission } = useContext(UserContext)
-    // console.log(pagePermission);
+    // console.log(user);
     const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [currentInputs, setCurrentInputs] = useState()
     const [pagerInfo, setPagerInfo] = useState()
@@ -35,10 +35,10 @@ export default function List() {
         if(user && pagePermission?.modify_type){
             // console.log(pagePermission);
             // console.log(user);
-            if(pagePermission?.modify_type === 'me'){
+            if(pagePermission.modify_type === 'me' || user.type === 'user'){
                 setCurrentInputs({'sales_admin_id': user?.admin_id })
                 setSales(user?.name)
-            }else if(pagePermission?.modify_type === 'department'){
+            }else if(pagePermission?.modify_type === 'department' || user.type === 'admin'){
                 setCurrentInputs({'department_id': user.department_info.department_id })
                 setBureau(user.department_info.name)
             }else{
@@ -157,10 +157,10 @@ export default function List() {
         setAnalyst()
         currentSettings()
         setInputs((input)=>({...currentInputs, 'limit': input.limit, 'page': '1'}))
-        if(pagePermission?.modify_type !== 'me'){
+        if(pagePermission?.modify_type !== 'me' || user?.type !== 'user' ){
             setSales()
         }
-        if(pagePermission?.modify_type !== 'department'){
+        if(pagePermission?.modify_type !== 'department' || user?.type !== 'admin'){
             setBureau()
         }
         setSearchInputs({})
@@ -246,11 +246,11 @@ export default function List() {
                                                     setSales(data.name)
                                                 }
                                             })}
-                                            disabled={pagePermission?.modify_type === 'me'}
+                                            disabled={pagePermission?.modify_type === 'me' || user?.type === 'user'}
                                         />
                                         <button>검색</button>
                                     </div>
-                                    { pagePermission?.modify_type !== 'me' && 
+                                    { (pagePermission?.modify_type !== 'me' && user?.type !== 'user') && 
                                         <button type='button' onClick={()=>{
                                             setSearchInputs((input)=>({...input, 'sales_admin_id': ''}))
                                             setSales('')
@@ -273,11 +273,11 @@ export default function List() {
                                                     setBureau(data.name)
                                                 }
                                             })}
-                                            disabled={pagePermission?.modify_type === 'department'}
+                                            disabled={pagePermission?.modify_type === 'department' || user?.type === 'admin'}
                                         />
                                         <button>검색</button>
                                     </div>
-                                    { pagePermission?.modify_type !== 'department' &&
+                                    { (pagePermission?.modify_type !== 'department' && user?.type !== 'admin') &&
                                         <button type='button' onClick={()=>{
                                             setSearchInputs((input)=>({...input, 'department_id': ''}))
                                             setBureau('')
