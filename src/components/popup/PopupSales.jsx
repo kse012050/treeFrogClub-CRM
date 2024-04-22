@@ -26,14 +26,7 @@ export default function PopupSales({ close, func, department_id }) {
 
     const onSearch = (e) =>{
         e.preventDefault()
-        api('user', 'list', {...listInfo, ...searchInputs})
-            .then(({result, data, list})=>{
-                if(result){
-                    setPagerInfo(data)
-                    // setSalesList(list.filter((listData)=> listData.role_name.includes('영업')))
-                    setSalesList(list)
-                }
-            })
+        setListInfo((data)=>({...data, 'page': '1', ...searchInputs}))
     }
 
     const salesSelect = (data) => {

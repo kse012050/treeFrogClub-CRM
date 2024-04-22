@@ -44,14 +44,15 @@ export default function PopupSalesArray({ close, popup }) {
 
     const onSearch = (e) =>{
         e.preventDefault()
-        api('user', 'list', {...listInfo, ...searchInputs})
-            .then(({result, data, list})=>{
-                if(result){
-                    setPagerInfo(data)
-                    // setSalesList(list.filter((listData)=> listData.role_name.includes('영업')))
-                    setSalesList(list)
-                }
-            })
+        setListInfo((data)=>({...data, 'page': '1', ...searchInputs}))
+        // api('user', 'list', {...listInfo, ...searchInputs})
+        //     .then(({result, data, list})=>{
+        //         if(result){
+        //             setPagerInfo(data)
+        //             // setSalesList(list.filter((listData)=> listData.role_name.includes('영업')))
+        //             setSalesList(list)
+        //         }
+        //     })
     }
 
     const onSubmit = (e) =>{

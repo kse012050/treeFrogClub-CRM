@@ -27,14 +27,15 @@ export default function PopupAnalyst({ close, func }) {
 
     const onSearch = (e) =>{
         e.preventDefault();
+        setListInfo((data)=>({...data, 'page': '1', ...searchInputs}))
         // console.log({'limit': '10', 'page': '1', ...searchInputs});
-        api('user', 'analyst_list', {'limit': '10', 'page': '1', ...searchInputs})
-            .then(({result, data, list})=>{
-                if(result){
-                    setPagerInfo(data)
-                    setAnalystList(list)
-                }
-            })
+        // api('user', 'analyst_list', {'limit': '10', 'page': '1', ...searchInputs})
+        //     .then(({result, data, list})=>{
+        //         if(result){
+        //             setPagerInfo(data)
+        //             setAnalystList(list)
+        //         }
+        //     })
     }
 
     return (
