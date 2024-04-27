@@ -58,8 +58,8 @@ export default function List() {
     const currentData = useCallback(()=>{
         // console.log(inputs);
         if(currentInputs){
-            // console.log(inputs);
-            // console.log(currentInputs);
+            console.log(inputs);
+            console.log(currentInputs);
             api('payment', 'list', {...inputs, ...currentInputs})
                 .then(({result, data, list})=>{
                     if(result){
@@ -71,7 +71,7 @@ export default function List() {
                                 return {...listData, 'no': inputs.limit * (data.current_page - 1) + i + 1}
                             })
                         })
-                        // console.log(list);
+                        console.log(list);
                         // console.log(data);
                     }
                 })
