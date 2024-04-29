@@ -7,7 +7,7 @@ import BureauRegistration from './BureauRegistration';
 import BureauUpdate from './BureauUpdate';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
 import BoardChk from '../../../components/boardChk/BoardChk';
-import BureauList from './BureauList';
+// import BureauList from './BureauList';
 import { logButton } from '../../../api/common';
 import { UserContext } from '../../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ export default function Bureau() {
     const [searchInputs, setSearchInputs] = useState()
     const [bureau, setBureau] = useState()
     const [selectBureau, setSelectBureau] = useState()
+    const [rootBureau, setRootBureau] = useState([])
     const [bureauRegistrationPopup, setBureauRegistrationPopup] = useState();
     const [bureauUpdatePopup, setBureauUpdatePopup] = useState()
     const [boardList, setBoardList] = useState()
@@ -33,33 +34,34 @@ export default function Bureau() {
     
     // console.log(user);
     // console.log(pagePermission);
-    const bureauFunc = useCallback(()=>{
-        console.log('?');
+    const bureauFunc = useCallback((type)=>{
+        // console.log('?');
         api('department', 'list')
             .then(({result, list, data: { company_name }})=>{
                 if(result){
-                    // console.log(list);
-                    // console.log(company_name);
-                    setBureau(()=>({'company_name': company_name, 'list': list}))
-                    // console.log(firstBureau);
-                    setSelectBureau((prev)=> prev || list[0])
+                    setBureau((prev)=>({...prev, 'company_name': company_name, 'list': list}))
+                    if(!type){
+                        setSelectBureau((prev)=> (prev ? {...prev} : list[0]))
+                    }else if(type === 'delete'){
+                        setSelectBureau(list[0])
+                    }
                 }
             })
     },[setSelectBureau])
 
-    const boardFunc = useCallback((data)=>{
-        // console.log(data);
-        // console.log('?');
+    const boardFunc = useCallback(()=>{
         selectBureau && 
             api('user', 'list', {'department_id': selectBureau.department_id})
                 .then(({result, list})=>{
                     if(result){
-                        // 아마도 부서장 판별인 듯
-                        // console.log(selectBureau);
-                        // setBoardList(list)
-                        // list = list.filter((data)=>data.useable_yn === 'n')
-                        setBoardList([{'department_id': selectBureau.department_id, 'name': selectBureau.name, 'admin_count': list.length, 'user_list': list}])
-                        // setInputs(data)
+                        // console.log(list);
+                        // 부서장 정보가 없어서 부서 정보 가져와서 'head' 추가 했다 api 요청해야 한다
+                        api('department', 'detail', {'department_id': selectBureau.department_id})
+                            .then(({result, data})=>{
+                                if(result){
+                                    setBoardList([{'department_id': selectBureau.department_id, 'name': selectBureau.name, 'admin_count': list.length, 'user_list': list.map((listData)=>({...listData, 'head': data.head_list.some((data2)=>data2.admin_id === listData.admin_id)}))}])
+                                }
+                            })
                     }
                 })
     },[selectBureau])
@@ -72,7 +74,7 @@ export default function Bureau() {
 
     useEffect(()=>{
         boardFunc()
-    },[boardFunc, bureauFunc])
+    },[boardFunc, selectBureau])
 
 
     useEffect(()=>{
@@ -113,7 +115,7 @@ export default function Bureau() {
    
     return (
         <>
-            <h2>
+            <h2 onClick={()=>console.log(selectBureau)}>
                 부서 관리
                 <form>
                     <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
@@ -177,7 +179,7 @@ export default function Bureau() {
                     }
                 </BureauList> */}
 
-                <BureauLista key={bureau} bureau={bureau} selectBureau={selectBureau} setSelectBureau={setSelectBureau}>   
+                <BureauLista key={bureau} bureau={bureau} selectBureau={selectBureau} setSelectBureau={setSelectBureau} rootBureau={rootBureau} setRootBureau={setRootBureau}>   
                     <div className='addBtn'>
                         { pagePermission?.insert_yn === 'y'  && 
                             <button className='btn-gray-black' 
@@ -190,7 +192,7 @@ export default function Bureau() {
                             <button 
                                 className='btn-gray-black'
                                 disabled={!selectBureau?.department_id}
-                                onClick={()=>setBureauUpdatePopup({type: 'children', id: selectBureau.department_id, list: []})}
+                                onClick={()=>setBureauUpdatePopup({ type: 'children' })}
                             >
                                 부서 수정
                             </button>
@@ -212,7 +214,7 @@ export default function Bureau() {
                                                         ...popup,
                                                         'title': '완료',
                                                     }))
-                                                    bureauFunc()
+                                                    bureauFunc('delete')
                                                     logButton('부서 관리(부서 삭제)')
                                                 }else{
                                                     setPopup((popup)=>({
@@ -241,7 +243,7 @@ export default function Bureau() {
             </div>
            
             { bureauRegistrationPopup && <BureauRegistration bureau={bureau} setBureauRegistrationPopup={setBureauRegistrationPopup} bureauFunc={bureauFunc}/>}            
-            { bureauUpdatePopup && <BureauUpdate bureau={bureau} selectBureauId={selectBureau.department_id} setBureauUpdatePopup={setBureauUpdatePopup} bureauFunc={bureauFunc}/>}
+            { bureauUpdatePopup && <BureauUpdate bureau={bureau} selectBureauId={selectBureau.department_id} setBureauUpdatePopup={setBureauUpdatePopup} bureauFunc={bureauFunc} setSelectBureau={setSelectBureau}/>}
             
             {popup && (
                 <Popup popup={popup} setPopup={setPopup}/>
@@ -385,7 +387,7 @@ function Board({ data, onSearch, boardListFunc, onRefresh, pagePermission }){
                         <span>{ data.name }</span>
                         <span>{ data.mobile }</span>
                         <span>{ data.email }</span>
-                        <span>{ data.type === 'admin' ? '부서장' : '팀원' }</span>
+                        <span>{ data.head ? '부서장' : '팀원' }</span>
                     </li>
                 ))}
             </ol>

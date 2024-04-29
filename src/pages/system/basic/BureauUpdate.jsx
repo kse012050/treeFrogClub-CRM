@@ -5,7 +5,7 @@ import Popup from '../../../components/popup/Popup';
 import { logButton } from '../../../api/common';
 // import BureauBox from '../../../components//BureauBox';
 
-export default function BureauUpdate({ bureau, selectBureauId, setBureauUpdatePopup, bureauFunc }) {
+export default function BureauUpdate({ bureau, selectBureauId, setBureauUpdatePopup, bureauFunc, setSelectBureau }) {
     const [inputs, setInputs] = useState({'department_id': selectBureauId})
     const [popup, setPopup] = useState()
 
@@ -13,7 +13,7 @@ export default function BureauUpdate({ bureau, selectBureauId, setBureauUpdatePo
         api('department', 'detail', {'department_id': inputs.department_id})
             .then(({result, data})=>{
                 if(result){
-                    console.log(data);
+                    // console.log(data);
                     // setBureauUpdatePopup((dataPopup)=>({...dataPopup, list: data.head_list}))
                     setInputs((prev)=>({'department_id': prev.department_id, 'name': data.name, 'order_number': data.order_number, 'admin_id_list': data.head_list}))
                 }
@@ -34,7 +34,8 @@ export default function BureauUpdate({ bureau, selectBureauId, setBureauUpdatePo
                         'title': '완료',
                         'confirmFunc': ()=>{
                             setBureauUpdatePopup('')
-                            bureauFunc()
+                            setSelectBureau((prev)=>({...prev, 'name': inputs.name}))
+                            bureauFunc('update')
                             logButton('부서 관리(부서 수정)')
                         }
                     }))

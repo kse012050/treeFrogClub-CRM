@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
@@ -52,7 +52,7 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
             })
             return
         }
-        console.log(inputs);
+        // console.log(inputs);
         api('department', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})
