@@ -52,6 +52,7 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
             })
             return
         }
+        console.log(inputs);
         api('department', 'insert', inputs)
             .then(({result, error_message})=>{
                 setPopup({'type': 'confirm', 'description': error_message})

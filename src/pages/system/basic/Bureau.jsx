@@ -72,7 +72,7 @@ export default function Bureau() {
 
     useEffect(()=>{
         boardFunc()
-    },[boardFunc])
+    },[boardFunc, bureauFunc])
 
 
     useEffect(()=>{
@@ -190,7 +190,7 @@ export default function Bureau() {
                             <button 
                                 className='btn-gray-black'
                                 disabled={!selectBureau?.department_id}
-                                onClick={()=>setBureauUpdatePopup({type: 'children', id: inputs.department_id, list: []})}
+                                onClick={()=>setBureauUpdatePopup({type: 'children', id: selectBureau.department_id, list: []})}
                             >
                                 부서 수정
                             </button>
@@ -240,7 +240,8 @@ export default function Bureau() {
                 }
             </div>
            
-            { bureauRegistrationPopup && <BureauRegistration bureau={bureau} setBureauRegistrationPopup={setBureauRegistrationPopup} bureauFunc={bureauFunc}/>}            { bureauUpdatePopup && <BureauUpdate bureauUpdatePopup={bureauUpdatePopup} setBureauUpdatePopup={setBureauUpdatePopup} onRefresh={onRefresh}/>}
+            { bureauRegistrationPopup && <BureauRegistration bureau={bureau} setBureauRegistrationPopup={setBureauRegistrationPopup} bureauFunc={bureauFunc}/>}            
+            { bureauUpdatePopup && <BureauUpdate bureau={bureau} selectBureauId={selectBureau.department_id} setBureauUpdatePopup={setBureauUpdatePopup} bureauFunc={bureauFunc}/>}
             
             {popup && (
                 <Popup popup={popup} setPopup={setPopup}/>
