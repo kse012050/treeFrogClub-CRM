@@ -28,7 +28,7 @@ function Ul({ list, selectBureau, setSelectBureau, rootBureau, setRootBureau }){
 function List({ data, selectBureau, setSelectBureau, rootBureau, setRootBureau }){
     const [lowerBureau, setLowerBureau] = useState()
 
-    const test = useCallback((id)=>{
+    const lowerBureauListFunc = useCallback((id)=>{
         api('department', 'list', {'parent_department_id': id})
             .then(({ result, list })=>{
                 if(result){
@@ -42,17 +42,17 @@ function List({ data, selectBureau, setSelectBureau, rootBureau, setRootBureau }
             setLowerBureau(undefined)
             setRootBureau((prev)=>prev.filter((data)=> data !== id))
         }else{
-            test(id)
+            lowerBureauListFunc(id)
             setRootBureau((prev)=> [...prev, id])
         }
-    },[lowerBureau, setRootBureau, test])
+    },[lowerBureau, setRootBureau, lowerBureauListFunc])
 
 
     useEffect(()=>{
         if(rootBureau.some((data2)=> data2 === data.department_id)){
-            test(data.department_id)
+            lowerBureauListFunc(data.department_id)
         }
-    },[data, rootBureau, test])
+    },[data, rootBureau, lowerBureauListFunc])
     return (
         <li>
             <button

@@ -183,7 +183,7 @@ export default function Bureau() {
                     <div className='addBtn'>
                         { pagePermission?.insert_yn === 'y'  && 
                             <button className='btn-gray-black' 
-                                onClick={()=>setBureauRegistrationPopup({type: 'children', list: []})}
+                                onClick={()=>setBureauRegistrationPopup({type: 'children'})}
                             >
                                 부서 추가
                             </button>
@@ -192,7 +192,7 @@ export default function Bureau() {
                             <button 
                                 className='btn-gray-black'
                                 disabled={!selectBureau?.department_id}
-                                onClick={()=>setBureauUpdatePopup({ type: 'children' })}
+                                onClick={()=>setBureauUpdatePopup({type: 'children'})}
                             >
                                 부서 수정
                             </button>
@@ -253,27 +253,24 @@ export default function Bureau() {
 }
 
 
-function Board({ data, onSearch, boardListFunc, onRefresh, pagePermission }){
+function Board({ data, onRefresh, pagePermission }){
     const [deleteList, setDeleteList] = useState('')
     const [popup, setPopup] = useState()
     // console.log(data);
 
     return (
         <>
-            <strong>{ data.name } ({ data.admin_count })</strong>
+            <strong onClick={()=>console.log(data)}>{ data.name } ({ data.admin_count })</strong>
             { pagePermission?.insert_yn === 'y'  && 
                 <button 
                     className='btn-gray-black'
                     onClick={()=>
                         setPopup({
-                            type: 'salesArray',
+                            type: 'salesArrayAdd',
                             limit: 'none',
                             list: data.user_list,
                             func: (selectData) => {
-                                selectData = selectData.map((test)=>test.admin_id)
-                                // console.log(selectData);
-                                // console.log(data);
-                                // setInputs((input)=>({...input, 'admin_id_list': data}))
+                                selectData = selectData.map((data2)=>data2.admin_id).filter((data2)=> data.user_list.some((data3)=> data3.admin_id !== data2));
                                 api('department', 'add_user', {'department_id': data.department_id,'admin_id_list': selectData})
                                     .then(({result, error_message})=>{
                                         setPopup({'type': 'confirm', 'description': error_message})
@@ -398,78 +395,3 @@ function Board({ data, onSearch, boardListFunc, onRefresh, pagePermission }){
         </>
     )
 }
-
-// function BureauUpdate({ bureauUpdatePopup, setBureauUpdatePopup, parentsInputs, parentsSetInputs }){
-//     const [inputs, setInputs] = useState(/* parentsInputs */)
-//     const [popup, setPopup] = useState()
-
-//     useEffect(()=>{
-//         // setInputs({...parentsInputs, 'order_number': '1'})
-//         // console.log(bureauUpdatePopup);
-//         // console.log(parentsInputs);
-//     },[/* parentsInputs */])
-
-//     const onSubmit = (e) =>{
-//         e.preventDefault();
-//         // console.log(inputs);
-//         api('department', 'update', inputs)
-//             .then(({result, error_message})=>{
-//                 setPopup({'type': 'confirm', 'description': error_message})
-//                 if(result){
-//                     setPopup((popup)=>({
-//                         ...popup,
-//                         'title': '완료',
-//                         'confirmFunc': ()=>{
-//                             setBureauUpdatePopup('')
-//                         }
-//                     }))
-//                     parentsSetInputs('')
-//                 }else{
-//                     setPopup((popup)=>({
-//                         ...popup,
-//                         'title': '실패',
-//                     }))
-//                 }
-//             })
-//     }
-
-//     return (
-//         <>
-//             { bureauUpdatePopup &&
-//                 <Popup popup={bureauUpdatePopup} setPopup={setBureauUpdatePopup}>
-//                     <form className='bureau-update'>
-//                         <fieldset>
-//                             <strong>부서 수정</strong>
-//                             <ul>
-//                                 <li>
-//                                     <label htmlFor="name">부서명</label>
-//                                     <div>
-//                                         <input type="text" id='name' name='name' value={inputs?.name || ''} onChange={(e)=>inputChange(e, setInputs)}/> 
-//                                     </div>
-//                                 </li>
-//                                 <li>
-//                                     <label htmlFor="order_number">정렬순서</label>
-//                                     <div>
-//                                         <input type="text" id='order_number' name='order_number' value={inputs?.order_number || ''} onChange={(e)=>inputChange(e, setInputs)}/>
-//                                     </div>
-//                                 </li>
-//                                 <li>
-//                                     <label htmlFor="">부서 선택</label>
-//                                     <BureauBox type='update' inputs={inputs} setInputs={setInputs} />
-//                                 </li>
-//                             </ul>
-//                         </fieldset>
-//                         <div className='btnArea-end'>
-//                             <button className='btn-gray-white' type='button' onClick={()=>setBureauUpdatePopup('')}>취소</button>
-//                             <input type="submit" className='btn-point' value='저장' onClick={onSubmit}/>
-//                         </div>
-//                     </form>
-//                 </Popup>
-//             }
-            
-//             {popup && (
-//                 <Popup popup={popup} setPopup={setPopup} /* confirmFunc={confirmFunc} *//>
-//             )}
-//         </>
-//     )
-// }

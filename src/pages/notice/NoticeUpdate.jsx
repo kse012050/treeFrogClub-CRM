@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, /* useNavigate, */ useParams } from 'react-router-dom';
 import { inputChange } from '../../api/validation';
-import BureauBox from '../../components/BureauBox';
+// import BureauBox from '../../components/BureauBox';
 import Popup from '../../components/popup/Popup';
 import { api } from '../../api/api';
 import { logButton } from '../../api/common';
@@ -199,7 +199,7 @@ function BureauNotice({ bureauNoticePopup, setBureauNoticePopup, inputs, setInpu
         <>
             <Popup popup={bureauNoticePopup} setPopup={setBureauNoticePopup}>
                 <strong>부서 선택</strong>
-                <BureauBox type='notice' inputs={choiceList} setInputs={setChoiceList} />
+                {/* <BureauBox type='notice' inputs={choiceList} setInputs={setChoiceList} /> */}
                 <b>부서 선택</b>
                 { choiceList && 
                     <ul className='choice-horizontal scroll-width'>

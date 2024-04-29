@@ -4,22 +4,19 @@ import PagerButton from '../PagerButton';
 import { inputChange } from '../../api/validation';
 // import Pager from '../Pager';
 
-export default function PopupSalesArray({ close, popup }) {
+export default function PopupSalesArrayAdd({ close, popup }) {
     // const [inputs, setInputs] = useState({'limit': '10', 'page': '1'});
     const [listInfo, setListInfo] = useState({'limit': '5', 'page': '1', 'useable_yn': 'y'})
     const [salesList, setSalesList] = useState()
     const [pagerInfo, setPagerInfo] = useState()
     const [searchInputs, setSearchInputs] = useState()
-    // console.log(popup);
-    // console.log(popup.list);
-    // console.log(popup.hasOwnProperty('list'));
-    const [selectList, setSelectList] = useState(popup.hasOwnProperty('list') ? popup.list : [])
-
+    const [selectList, setSelectList] = useState(popup.list)
+    
     useEffect(()=>{
         api('user', 'list', listInfo)
             .then(({result, data, list})=>{
                 if(result){
-                    // console.log(list);
+                    console.log(data);
                     setPagerInfo(data)
                     // setSalesList(list.filter((listData)=> listData.role_name.includes('영업')))
                     setSalesList(list)
@@ -28,7 +25,6 @@ export default function PopupSalesArray({ close, popup }) {
     },[listInfo])
 
     const salesSelect = (data) => {
-        // console.log(popup.limit);
         if(selectList.length < 6 || popup.limit === 'none'){
             setSelectList((select)=> {
                 let copy = [...select];
@@ -45,14 +41,6 @@ export default function PopupSalesArray({ close, popup }) {
     const onSearch = (e) =>{
         e.preventDefault()
         setListInfo((data)=>({...data, 'page': '1', ...searchInputs}))
-        // api('user', 'list', {...listInfo, ...searchInputs})
-        //     .then(({result, data, list})=>{
-        //         if(result){
-        //             setPagerInfo(data)
-        //             // setSalesList(list.filter((listData)=> listData.role_name.includes('영업')))
-        //             setSalesList(list)
-        //         }
-        //     })
     }
 
     const onSubmit = (e) =>{
@@ -102,11 +90,13 @@ export default function PopupSalesArray({ close, popup }) {
                     { selectList.map((data)=>(
                         <li key={data.admin_id} className='icon-remove'>
                             { data.name }
-                            <button 
-                                onClick={()=>setSelectList((select)=> select.filter((selectData)=>selectData.admin_id !== data.admin_id))}
-                            >
-                                제거
-                            </button>
+                            { !popup.list.some((data2)=> data2.admin_id === data.admin_id) &&
+                                <button 
+                                    onClick={()=>setSelectList((select)=> select.filter((selectData)=>selectData.admin_id !== data.admin_id))}
+                                >
+                                    제거
+                                </button>
+                            }
                         </li>
                         ))
                     }
