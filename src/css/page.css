@@ -119,7 +119,6 @@
 .customerPage.listPage .boardBox .btn-gray-black:not(.boundary){margin-left: 7px;}
 .customerPage.listPage .boardBox [class*="selectBox"]{max-width: 130px;}
 .customerPage.listPage .boardBox [class*="selectBox"]:has(+ .selectBox){margin-right: 7px;}
-/* .customerPage.listPage .boardBox .board-top{margin-top: 12px;} */
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 56;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 101;}
@@ -196,6 +195,7 @@
 
 
 /* 결제 관리 - 목록 */
+.paymentPage.listPage > .boardBox > .board-table :is(thead, tbody) tr > *:nth-child(1){width: 400px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 70; min-width: 70px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 80; min-width: 80px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 100; min-width: 100px;}
@@ -295,7 +295,7 @@
 .systemPage.bureauPage .addBtn{display: flex;}
 .systemPage.bureauPage .horizontalTwo .bureauBox .addBtn{margin-inline: 20px; padding-block: 15px; gap: 7px; margin-top: 10px; border-top: 1px solid var(--color-line);}
 .systemPage.bureauPage .horizontalTwo .bureauBox .addBtn button{flex: 1;}
-.systemPage.bureauPage .horizontalTwo .bureauBox .listArea ul{max-height: 350px;}
+.systemPage.bureauPage .horizontalTwo .bureauBox .listArea > ul{max-height: 350px;}
 .systemPage.bureauPage [class*="bureau"] fieldset > strong{font-size: 15px; line-height: 18px; font-weight: 700; display: block; margin-bottom: 30px;}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li:not(:last-child){margin-bottom: 20px;}
 .systemPage.bureauPage [class*="bureau"] fieldset > ul > li label{font-weight: 700;}

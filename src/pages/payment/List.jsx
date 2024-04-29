@@ -61,15 +61,21 @@ export default function List() {
             api('payment', 'list', {...inputs, ...currentInputs})
                 .then(({result, data, list})=>{
                     if(result){
+                        let currentMonth = data.current_month.split('~');
+                        if(currentMonth[0] === currentMonth[1]){
+                            currentMonth = currentMonth[0];
+                        }else{
+                            currentMonth = currentMonth.join(' ~ ')
+                        }
                         setPagerInfo(data)
-                        setSummary(data)
+                        setSummary({...data, 'current_month': currentMonth})
                         // setBoardList(list)
                         setBoardList(()=>{
                             return list.map((listData, i )=>{
                                 return {...listData, 'no': inputs.limit * (data.current_page - 1) + i + 1}
                             })
                         })
-                        console.log(list);
+                        // console.log(list);
                         // console.log(data);
                     }
                 })
@@ -267,7 +273,7 @@ export default function List() {
                                             onClick={()=>setPopup({
                                                 'type': 'bureau',
                                                 'func': (data)=>{
-                                                    console.log(data);
+                                                    // console.log(data);
                                                     setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
                                                     setBureau(data.name)
                                                 }
