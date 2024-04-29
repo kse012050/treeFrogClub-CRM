@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
@@ -6,7 +6,7 @@ import { logButton } from '../../../api/common';
 // import BureauBox from '../../../components/bureau/BureauBox';
 // import BureauBox from '../../../components//BureauBox';
 
-export default function BureauRegistration({ bureau, setBureauRegistrationPopup, onRefresh }) {
+export default function BureauRegistration({ bureau, setBureauRegistrationPopup, bureauFunc }) {
     const [inputs, setInputs] = useState()
     const [headList, setHeadList] = useState()
     const [popup, setPopup] = useState()
@@ -20,14 +20,11 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
             return copy
         })
 
-        // setBureauRegistrationPopup((dataPopup)=> ({...dataPopup, list: []}))
 
         setPopup({
             type: 'salesArray',
             list: headList ? headList.list : [],
             func: (data) => {
-                // console.log(data);
-                // setBureauRegistrationPopup((dataPopup)=>({...dataPopup, list: data}))
                 setHeadList({'list': data})
                 setInputs((input)=>({...input, 'admin_id_list': data.map((data)=>data.admin_id)}))
             }
@@ -35,14 +32,12 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
     }
 
     const onSalesDelete = (data) => {
-        // console.log(data);
         setHeadList((dataPopup2)=>({...dataPopup2, 'list': dataPopup2.list.filter((dataPopup3)=>dataPopup3.admin_id !== data.admin_id)}))
         setInputs((input)=>({...input, 'admin_id_list': input.admin_id_list.filter((adminId)=>adminId !== data.admin_id)}))
     }
 
     const onSubmit = (e) =>{
         e.preventDefault();
-        // console.log(inputs);
         if(!inputs?.name || !inputs?.order_number){
             let errorMessage = '';
             if(!inputs?.name){
@@ -66,10 +61,10 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
                         'title': '완료',
                         'confirmFunc': ()=>{
                             setBureauRegistrationPopup('')
+                            bureauFunc()
                             logButton('부서 관리(부서 추가)')
                         }
                     }))
-                    onRefresh(inputs.parent_department_id || '')
                 }else{
                     setPopup((popup)=>({
                         ...popup,
@@ -84,7 +79,7 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
             <Popup popup={{type: 'children'}} setPopup={setBureauRegistrationPopup}>
                 <form className='bureau-add'>
                     <fieldset>
-                        <strong>부서 추가</strong>
+                        <strong onClick={()=>console.log(inputs)} >부서 추가</strong>
                         <ul>
                             <li>
                                 <label htmlFor="name">부서명</label>
@@ -111,16 +106,7 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
                                             { bureau?.company_name }
                                         </button>
                                         { bureau && 
-                                            <ul className='scroll-width'>
-                                                {bureau?.list.map((data)=>
-                                                    <List 
-                                                        key={data.department_id}
-                                                        data={data}
-                                                        inputs={inputs}
-                                                        setInputs={setInputs}
-                                                    />
-                                                )}
-                                            </ul>
+                                            <Ul list={bureau.list} inputs={inputs} setInputs={setInputs}/>
                                         }
 
                                         <div className="addBtn">
@@ -170,55 +156,44 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
     )
 }
 
-function List({ data, inputs, setInputs }){
-    const [lowerList, setLowerList] = useState();
-
-    useEffect(()=>{
-        if(data.lower_department_count !== '0'){
-            api('department', 'list', {'parent_department_id': data.department_id})
-                .then(({result, list})=>{
-                    if(result){
-                        setLowerList(list)
-                    }
-                })
-        }
-    },[data.lower_department_count, data.department_id])
-
-
-    const onListClick = (data) =>{
-        setInputs((input)=>({...input, 'parent_department_id': data?.department_id}))
-    }
-
+function Ul({ list, inputs, setInputs }){
     return (
-        <>
-            <li>
-                { data.lower_department_count === '0' ?
-                    <button 
-                        type='button' 
-                        onClick={()=>onListClick(data)}
-                        className={inputs?.parent_department_id === data.department_id ? 'active' : ''}
-                        >
-                            {data.name} ({data.admin_count})
-                    </button> :
-                    <details>
-                        <summary
-                            onClick={()=>setInputs((input)=>({...input, 'parent_department_id': data.department_id}))}
-                            className={inputs?.parent_department_id  === data.department_id ? 'active' : ''}
-                        >
-                            {data.name} ({data.admin_count})
-                        </summary>
-                        { lowerList && 
-                            lowerList.map((lowerData)=> 
-                                <button 
-                                    type='button'
-                                    key={lowerData.department_id} 
-                                >
-                                    { lowerData.name } ({lowerData.admin_count})
-                                </button> )}
-                    </details> 
-                }
-            </li>
-        </>
-    );
+        <ul className='scroll-width'>
+            {list.map((data)=>
+                <List key={data.department_id} data={data} inputs={inputs} setInputs={setInputs}/>
+            )}
+        </ul>
+    )
 }
 
+function List({ data, inputs, setInputs }){
+    const [lowerBureau, setLowerBureau] = useState()
+
+    const lowerBureauFunc = useCallback((id)=>{
+        lowerBureau ? 
+            setLowerBureau(undefined) :
+            api('department', 'list', {'parent_department_id': id})
+                .then(({ result, list })=>{
+                    if(result){
+                        setLowerBureau(list)
+                    }
+                });
+    },[lowerBureau])
+    return (
+        <li>
+            <button
+                type="button"
+                className={data.department_id === inputs?.parent_department_id ? 'active' : ''}
+                onClick={()=>setInputs((input)=>({...input, 'parent_department_id': data.department_id}))}
+            >
+                { data.name }
+            </button>
+            {data.lower_department_count > 0 && 
+                <button type="button" onClick={()=>lowerBureauFunc(data.department_id)}>하위 목록 보기</button>
+            }
+            {lowerBureau && 
+                <Ul list={lowerBureau} inputs={inputs} setInputs={setInputs}/>
+            }
+        </li>
+    )
+}
