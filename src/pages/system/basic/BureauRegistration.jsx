@@ -78,7 +78,7 @@ export default function BureauRegistration({ bureau, setBureauRegistrationPopup,
             <Popup popup={{type: 'children'}} setPopup={setBureauRegistrationPopup}>
                 <form className='bureau-add'>
                     <fieldset>
-                        <strong onClick={()=>console.log(inputs)} >부서 추가</strong>
+                        <strong>부서 추가</strong>
                         <ul>
                             <li>
                                 <label htmlFor="name">부서명</label>

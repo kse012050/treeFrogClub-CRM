@@ -6,6 +6,7 @@ import Popup from '../../components/popup/Popup';
 import { api } from '../../api/api';
 import { logButton } from '../../api/common';
 import { UserContext } from '../../context/UserContext';
+import BureauNotice from '../../components/BureauNotice';
 
 export default function NoticeUpdate() {
     const { pagePermission } = useContext(UserContext)
@@ -109,7 +110,7 @@ export default function NoticeUpdate() {
                                 <li className='fill-three'>
                                     <label htmlFor="" className='required'>열람범위</label>
                                     <div>
-                                        <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList('')} disabled={pagePermission?.update_yn !== 'y'}/>
+                                        <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList([])} disabled={pagePermission?.update_yn !== 'y'}/>
                                         <label htmlFor="department_id_list_all">전체</label>
                                         <input type="radio" id='' name='' checked={!!inputs.department_id_list && inputs.department_id_list.length} readOnly/>
                                         <label htmlFor=""></label>
@@ -175,7 +176,7 @@ export default function NoticeUpdate() {
                     </div>
                 </form>
             </div>
-            { bureauNoticePopup && <BureauNotice bureauNoticePopup={bureauNoticePopup} setBureauNoticePopup={setBureauNoticePopup} inputs={choiceList} setInputs={setChoiceList}/>}
+            { bureauNoticePopup && <BureauNoticePopup bureauNoticePopup={bureauNoticePopup} setBureauNoticePopup={setBureauNoticePopup} inputs={choiceList} setInputs={setChoiceList}/>}
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
             )}
@@ -183,7 +184,7 @@ export default function NoticeUpdate() {
     );
 }
 
-function BureauNotice({ bureauNoticePopup, setBureauNoticePopup, inputs, setInputs }) {
+function BureauNoticePopup({ bureauNoticePopup, setBureauNoticePopup, inputs, setInputs }) {
     const [choiceList, setChoiceList] = useState();
 
     useEffect(()=>{
@@ -199,7 +200,7 @@ function BureauNotice({ bureauNoticePopup, setBureauNoticePopup, inputs, setInpu
         <>
             <Popup popup={bureauNoticePopup} setPopup={setBureauNoticePopup}>
                 <strong>부서 선택</strong>
-                {/* <BureauBox type='notice' inputs={choiceList} setInputs={setChoiceList} /> */}
+                <BureauNotice inputs={choiceList} setInputs={setChoiceList} />
                 <b>부서 선택</b>
                 { choiceList && 
                     <ul className='choice-horizontal scroll-width'>

@@ -58,8 +58,6 @@ export default function List() {
     const currentData = useCallback(()=>{
         // console.log(inputs);
         if(currentInputs){
-            console.log(inputs);
-            console.log(currentInputs);
             api('payment', 'list', {...inputs, ...currentInputs})
                 .then(({result, data, list})=>{
                     if(result){
@@ -269,6 +267,7 @@ export default function List() {
                                             onClick={()=>setPopup({
                                                 'type': 'bureau',
                                                 'func': (data)=>{
+                                                    console.log(data);
                                                     setSearchInputs((input)=>({...input, 'department_id': data.department_id}))
                                                     setBureau(data.name)
                                                 }

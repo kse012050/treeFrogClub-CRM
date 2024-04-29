@@ -91,7 +91,7 @@ function List({ data, inputs, setInputs }){
             <button
                 type="button"
                 className={data.department_id === inputs?.department_id ? 'active' : ''}
-                onClick={()=>setInputs((input)=>({...input, 'department_id': data.department_id}))}
+                onClick={()=>setInputs((input)=>({...input, 'department_id': data.department_id, 'name': data.name}))}
             >
                 { data.name }
             </button>

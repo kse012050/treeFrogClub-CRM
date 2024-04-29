@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { inputChange } from '../../api/validation';
-// import BureauBox from '../../components/BureauBox';
 import Popup from '../../components/popup/Popup';
 import { api } from '../../api/api';
 import { logButton } from '../../api/common';
 import { UserContext } from '../../context/UserContext';
+import BureauNotice from '../../components/BureauNotice';
 
 export default function NoticeRegistration() {
     const { pagePermission } = useContext(UserContext)
@@ -76,7 +76,7 @@ export default function NoticeRegistration() {
                             <li className='fill-three'>
                                 <label htmlFor="" className='required'>열람범위</label>
                                 <div>
-                                    <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList('')}/>
+                                    <input type="radio" id='department_id_list_all' name='department_id_list' checked={!inputs.department_id_list || !inputs.department_id_list.length} value={''} onChange={()=>setChoiceList([])}/>
                                     <label htmlFor="department_id_list_all">전체</label>
                                     <input type="radio" id='' name='' checked={!!inputs.department_id_list && inputs.department_id_list.length} readOnly/>
                                     <label htmlFor=""></label>
@@ -118,7 +118,7 @@ export default function NoticeRegistration() {
                     </div>
                 </form>
             </div>
-            { bureauNoticePopup && <BureauNotice bureauNoticePopup={bureauNoticePopup} setBureauNoticePopup={setBureauNoticePopup} inputs={choiceList} setInputs={setChoiceList}/>}
+            { bureauNoticePopup && <BureauNoticePopup bureauNoticePopup={bureauNoticePopup} setBureauNoticePopup={setBureauNoticePopup} inputs={choiceList} setInputs={setChoiceList}/>}
             {popup && (
                 <Popup popup={popup} setPopup={setPopup} />
             )}
@@ -126,7 +126,7 @@ export default function NoticeRegistration() {
     );
 }
 
-function BureauNotice({ bureauNoticePopup, setBureauNoticePopup, inputs, setInputs }) {
+function BureauNoticePopup({ bureauNoticePopup, setBureauNoticePopup, inputs, setInputs }) {
     const [choiceList, setChoiceList] = useState();
 
     useEffect(()=>{
@@ -142,7 +142,7 @@ function BureauNotice({ bureauNoticePopup, setBureauNoticePopup, inputs, setInpu
         <>
             <Popup popup={bureauNoticePopup} setPopup={setBureauNoticePopup}>
                 <strong>부서 선택</strong>
-                {/* <BureauBox type='notice' inputs={choiceList} setInputs={setChoiceList} /> */}
+                <BureauNotice inputs={choiceList} setInputs={setChoiceList} />
                 <b>부서 선택</b>
                 { choiceList && 
                     <ul className='choice-horizontal scroll-width'>

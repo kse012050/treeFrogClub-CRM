@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { api } from '../../../api/api'
 import { inputChange } from '../../../api/validation'
 import Popup from '../../../components/popup/Popup';
-import BureauBox from '../../../components/BureauBox';
 import BureauRegistration from './BureauRegistration';
 import BureauUpdate from './BureauUpdate';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
@@ -115,7 +114,7 @@ export default function Bureau() {
    
     return (
         <>
-            <h2 onClick={()=>console.log(selectBureau)}>
+            <h2>
                 부서 관리
                 <form>
                     <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
@@ -260,7 +259,7 @@ function Board({ data, onRefresh, pagePermission }){
 
     return (
         <>
-            <strong onClick={()=>console.log(data)}>{ data.name } ({ data.admin_count })</strong>
+            <strong>{ data.name } ({ data.admin_count })</strong>
             { pagePermission?.insert_yn === 'y'  && 
                 <button 
                     className='btn-gray-black'
