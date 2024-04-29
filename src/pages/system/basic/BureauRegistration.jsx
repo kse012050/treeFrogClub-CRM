@@ -3,8 +3,6 @@ import { inputChange } from '../../../api/validation';
 import { api } from '../../../api/api';
 import Popup from '../../../components/popup/Popup';
 import { logButton } from '../../../api/common';
-// import BureauBox from '../../../components/bureau/BureauBox';
-// import BureauBox from '../../../components//BureauBox';
 
 export default function BureauRegistration({ bureau, setBureauRegistrationPopup, bureauFunc }) {
     const [inputs, setInputs] = useState()

@@ -72,13 +72,9 @@ export default function BureauUpdate({ bureau, selectBureauId, setBureauUpdatePo
                                 <label htmlFor="">부서 선택</label>
                                 <div className='bureauBox'>
                                     <div className='listArea'>
-                                        <button 
-                                            type='button'
-                                            className={!inputs?.department_id ? 'active' : ''}
-                                            onClick={()=>setInputs((input)=>({...input, 'parent_department_id': ''}))}
-                                        >
+                                        <b>
                                             { bureau?.company_name }
-                                        </button>
+                                        </b>
                                         { bureau && 
                                             <Ul list={bureau.list} inputs={inputs} setInputs={setInputs}/>
                                         }

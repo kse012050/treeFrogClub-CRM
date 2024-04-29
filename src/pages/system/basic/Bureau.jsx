@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { api } from '../../../api/api'
 import { inputChange } from '../../../api/validation'
 import Popup from '../../../components/popup/Popup';
-// import BureauBox from '../../../components/BureauBox';
+import BureauBox from '../../../components/BureauBox';
 import BureauRegistration from './BureauRegistration';
 import BureauUpdate from './BureauUpdate';
 import BoardChkAll from '../../../components/boardChk/BoardChkAll';
@@ -339,7 +339,6 @@ function Board({ data, onRefresh, pagePermission }){
                     onClick={()=>setPopup({
                         'type': 'bureau',
                         'func': (data)=>{
-                            // console.log(data);
                             api('department', 'move_user', {'department_id': data.department_id, 'admin_id_list': deleteList})
                                 .then(({result, error_message})=>{
                                     setPopup({'type': 'confirm', 'description': error_message})
