@@ -11,6 +11,7 @@ import BureauList from './BureauList';
 import { logButton } from '../../../api/common';
 import { UserContext } from '../../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import BureauLista from './BureauLista';
 
 export default function Bureau() {
     const { pagePermission } = useContext(UserContext)
@@ -18,7 +19,7 @@ export default function Bureau() {
     const [inputs, setInputs] = useState()
     const [searchInputs, setSearchInputs] = useState()
     const [bureau, setBureau] = useState()
-    const [firstBureau, setFirstBureau] = useState()
+    const [bureauId, setBureauId] = useState()
     const [bureauRegistrationPopup, setBureauRegistrationPopup] = useState();
     const [bureauUpdatePopup, setBureauUpdatePopup] = useState()
     const [boardList, setBoardList] = useState()
@@ -37,13 +38,13 @@ export default function Bureau() {
             .then(({result, list, data: { company_name }})=>{
                 if(result){
                     // console.log(list);
+                    // console.log(company_name);
                     setBureau(()=>({'company_name': company_name, 'list': list}))
                     // console.log(firstBureau);
-                    setFirstBureau(list[0])
+                    setBureauId((prev)=> prev || list[0].department_id)
                 }
             })
-
-    },[])
+    },[setBureauId])
 
     const boardFunc = useCallback((data)=>{
         // console.log(data);
@@ -60,23 +61,6 @@ export default function Bureau() {
             })
     },[])
 
-    const boardIdFunc = useCallback((id)=>{
-        // console.log(id);
-        if(bureau){
-            const data = bureau.list.filter((data)=> data.department_id === id)[0]
-            // console.log(data);
-            api('user', 'list', {'department_id': data.department_id})
-                .then(({result, list})=>{
-                    if(result){
-                        // 아마도 부서장 판별인 듯
-                        // console.log(list);
-                        // list = list.filter((data)=>data.useable_yn === 'n')
-                        setBoardList([{'department_id': data.department_id, 'name': data.name, 'admin_count': list.length, 'user_list': list}])
-                        setInputs(data)
-                    }
-                })
-        }
-    },[bureau])
 
     const firstBureauFunc = useCallback(()=>{
         if(bureau){
@@ -133,10 +117,6 @@ export default function Bureau() {
         <>
             <h2>
                 부서 관리
-                {/* <div>
-                    <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
-                    <button onClick={onSearch}>검색</button>
-                </div> */}
                 <form>
                     <input type="search" name='name' id='name' onChange={(e)=>inputChange(e, setSearchInputs)} placeholder='사용자명 검색'/>
                     <button onClick={onSearch}>검색</button>
@@ -144,7 +124,7 @@ export default function Bureau() {
             </h2>
             
             <div className="horizontalTwo">
-                <BureauList bureau={bureau} inputs={inputs} setInputs={setInputs} bureauFunc={bureauFunc}>
+                {/* <BureauList bureau={bureau} inputs={inputs} setInputs={setInputs} bureauFunc={bureauFunc}>
                     { (pagePermission?.insert_yn === 'y' || pagePermission?.update_yn === 'y' || pagePermission?.delete_yn === 'y') &&
                         <div className='addBtn'>
                             { pagePermission?.insert_yn === 'y'  && 
@@ -197,13 +177,66 @@ export default function Bureau() {
                             }
                         </div>
                     }
-                </BureauList>
+                </BureauList> */}
 
+                <BureauLista bureau={bureau} bureauId={bureauId} setBureauId={setBureauId}>   
+                    <div className='addBtn'>
+                        { pagePermission?.insert_yn === 'y'  && 
+                            <button className='btn-gray-black' 
+                                onClick={()=>setBureauRegistrationPopup({type: 'children', list: []})}
+                            >
+                                부서 추가
+                            </button>
+                        }
+                        { pagePermission?.update_yn === 'y'  && 
+                            <button 
+                                className='btn-gray-black'
+                                disabled={!inputs?.department_id}
+                                onClick={()=>setBureauUpdatePopup({type: 'children', id: inputs.department_id, list: []})}
+                            >
+                                부서 수정
+                            </button>
+                        }
+                        { pagePermission?.delete_yn === 'y'  && 
+                            <button 
+                                className='btn-gray-black'
+                                disabled={!inputs?.department_id}
+                                onClick={()=>setPopup({
+                                    type: 'finFunc',
+                                    title: '삭제',
+                                    description: `[${inputs.name}] 을 삭제하시겠습니까?\n소속된 사용자는 미지정 상태로 변경됩니다.`,
+                                    func: () =>{
+                                        api('department', 'delete', inputs)
+                                            .then(({result, error_message})=>{
+                                                setPopup({'type': 'confirm', 'description': error_message})
+                                                if(result){
+                                                    setPopup((popup)=>({
+                                                        ...popup,
+                                                        'title': '완료',
+                                                    }))
+                                                    bureauFunc()
+                                                    logButton('부서 관리(부서 삭제)')
+                                                }else{
+                                                    setPopup((popup)=>({
+                                                        ...popup,
+                                                        'title': '실패',
+                                                    }))
+                                                }
+                                            })
+                                    }
+                                })}
+                            >
+                                부서 삭제
+                            </button>
+                        }
+                    </div>
+                </BureauLista>
                 { boardList && 
                     <div className='boardArea'>
                         { boardList.map((data)=> 
                             <div className='boardBox' key={data.department_id}>
-                                <Board data={data} onRefresh={onRefresh} pagePermission={pagePermission}/>
+                                <Board data={data} onRefresh={onRefresh} pagePermission={pagePermission}>
+                                </Board>
                             </div>
                         )}
                     </div>

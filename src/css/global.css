@@ -169,10 +169,13 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .bureauBox .listArea > ul{padding-inline: 20px; padding-block: 2.5px; box-sizing: border-box; overflow: auto;}
 .bureauBox .listArea > ul::-webkit-scrollbar{width: 6px;}
 .bureauBox .listArea > ul::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
-.bureauBox .listArea > ul li button{padding-block: 7.5px; width: 100%; text-align: left;}
+.bureauBox .listArea > ul li{position: relative; padding-inline: 20px;}
+.bureauBox .listArea > ul li > button:first-child{padding-block: 7.5px; width: 100%; text-align: left;}
+/* .bureauBox .listArea > ul li > button:first-child{padding-inline: 20px;} */
+.bureauBox .listArea > ul li > button:first-child.active{color: var(--color-point01);}
+.bureauBox .listArea > ul li > button:nth-of-type(2){position: absolute; left: 0; top: 0; width: 8px; aspect-ratio: 8 / 11; padding: 10px 20px 10px 0; background: url(../images/icon-fill-arrow-right-black.png) no-repeat left center / 8px; font-size: 5px; text-indent: -9999px;}
 .bureauBox .listArea :is(button, summary).active{color: var(--color-point01); font-weight: 700; display: flex; align-items: center;}
 .bureauBox .listArea :is(button, summary).active::after{content: ''; width: 16px; aspect-ratio: 1; background: url(../images/icon-check.png) no-repeat center / cover; margin-left: 6px;}
-.bureauBox .listArea > ul li > button{padding-inline: 20px;}
 .bureauBox .listArea > ul li details summary{padding-block: 7.5px; padding-inline: 20px; cursor: pointer; list-style-type: none;}
 .bureauBox .listArea > ul li details summary::before{content: ''; width: 8px; aspect-ratio: 8 / 6; background: url(../images/icon-fill-arrow-black.png) no-repeat center / cover; position: absolute; left: 4px; top: 50%; translate: 0 -50%; rotate: -90deg;}
 .bureauBox .listArea > ul li details :is(summary, button){position: relative;}
