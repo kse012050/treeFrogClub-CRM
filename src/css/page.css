@@ -489,6 +489,7 @@
 
 
 /* 공지사항 */
+.noticePage .bureauBox .listArea > ul{max-height: 400px;}
 .noticePage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 220;}
 .noticePage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 220;}
 .noticePage .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 220;}
