@@ -99,7 +99,6 @@ export default function List() {
 
 
     const currentData = useCallback(()=>{
-        // console.log(inputs);
         if(inputs && currentInputs){
             // console.log(currentInputs);
             api('customer', 'list', {...inputs, ...currentInputs})
@@ -213,57 +212,6 @@ export default function List() {
         setCustomerListInputs()
     },[customerList])
 
-    // const onSort = (name, is) =>{
-    //     const formatPhoneNumber = (str) => {
-    //         const regex = /^(\d{3})(\d{3,4})(\d{4})$/;
-    //         if (str.match(regex)) {
-    //             return str.replace(regex, '$1-$2-$3');
-    //         }
-    //         return str;
-    //     };
-    //     setBoardList((data)=>{
-    //         let copy = [...data]
-    //         const except = copy.filter((data2) =>{
-    //             let bool;
-    //             bool = data2[name] === null || data2[name] === undefined
-    //             if(is){
-    //                 bool = data2[is] === 'n'
-    //             }
-    //             return bool
-    //         })
-    //         copy = copy.filter((data2) => {
-    //             let bool = data2[name] !== null && data2[name] !== undefined
-    //             if(is){
-    //                 bool = data2[is] === 'y'
-    //             }
-    //             return bool
-    //         })
-
-    //         if(copy[0][name] > copy.at(-1)[name]){
-    //             copy = copy.sort((a, b) => {
-    //                 const isANumberA = !isNaN(Number(a));
-    //                 const isANumberB = !isNaN(Number(b));
-    //                 if (isANumberA && isANumberB) {
-    //                     return formatPhoneNumber(a[name]).localeCompare(formatPhoneNumber(b[name]));
-    //                 } else {
-    //                     return a[name].toString().localeCompare(b[name].toString());
-    //                 }
-    //             })
-    //         }else{
-    //             copy = copy.sort((a, b) => {
-    //                 const isANumberA = !isNaN(Number(a));
-    //                 const isANumberB = !isNaN(Number(b));
-    //                 if (isANumberA && isANumberB) {
-    //                     return formatPhoneNumber(b[name]).localeCompare(formatPhoneNumber(a[name]));
-    //                 } else {
-    //                     return b[name].toString().localeCompare(a[name].toString());
-    //                 }
-    //             })
-    //         }
-
-    //         return [...copy, ...except];
-    //     })
-    // }
 
     return (
         <>
@@ -597,15 +545,7 @@ export default function List() {
                         )}
                     </ul>
                 }
-                {/* <ul>
-                    <li>무료회원</li>
-                    <li>VIP회원</li>
-                    <li>VVIP회원</li>
-                    <li>소액투자반</li>
-                    <li>교육</li>
-                    <li>S클럽</li>
-                    <li>환불방어매출</li>
-                </ul> */}
+             
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
                 <b className='choice'>{ deleteList.length }</b>
@@ -722,7 +662,7 @@ export default function List() {
                                 <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
                                 <time>{ data.standard_payment_start_date }</time>
                                 <time>{ data.standard_payment_end_date }</time>
-                                <span>{ data.source }</span>
+                                <p><span>{ data.source }</span></p>
                                 <Link to={`/customer/registration/update/${data.customer_id}`}>보기</Link>
                             </li>
                         ))}

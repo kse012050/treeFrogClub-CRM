@@ -28,12 +28,16 @@ export const pagePermissionFilter = (user, location) => {
     
     if(location === '/main'){
         pageName = '대시보드'
-    }else if(location === '/customer/list' || location === '/customer/list'){
+    }else if(location === '/customer/list' || location === '/customer/registration'){
         pageName = '통합고객목록'
         subData = {
             ...subData, 
-            'bulk_customer_modify':  user.role_list?.filter((data)=>data.screen_name === "고객_대량고객수정")[0]?.insert_yn ?? 'n',
+            // 'bulk_customer_modify':  user.role_list?.filter((data)=>data.screen_name === "고객_대량고객수정")[0]?.insert_yn ?? 'n',
+            'bulk_customer_modify':  user.role_list?.filter((data)=>data.screen_name === "통합고객목록")[0]?.insert_yn ?? 'n',
+            'bulk_customer_insert':  user.role_list?.filter((data)=>data.screen_name === "통합고객목록")[0]?.insert_yn ?? 'n',
         }
+        // console.log(user.role_list);
+        // console.log(user.role_list?.filter((data)=>data.screen_name === "통합고객목록")[0]);
     }else if(location === '/payment/list' || location === '/payment/list/registration'){
         pageName = '결제목록'
     }else if(location.includes('/payment/product')){
@@ -100,6 +104,7 @@ export const pagePermissionFilter = (user, location) => {
         resultObj = {...user.role_list?.filter((data)=>data?.screen_name === pageName)[0], ...subData}
         // console.log(resultObj);
     }
+    // console.log(resultObj);
     return resultObj
 
     // if(user){

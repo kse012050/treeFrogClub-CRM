@@ -21,6 +21,7 @@ export default function Registration() {
     const { user } = useContext(UserContext)
 
     useEffect(()=>{
+        // console.log(pagePermission);
         if(pagePermission?.insert_yn && pagePermission?.insert_yn !== 'y'){
             navigate('/main')
         }
