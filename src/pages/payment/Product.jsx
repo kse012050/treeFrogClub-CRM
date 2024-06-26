@@ -26,6 +26,15 @@ export default function Product() {
     const [excelDownloadLink, setExcelDownloadLink] = useState()
 
     const currentData = useCallback(()=>{
+        // console.log(inputs);
+        api('product', 'list', {...inputs, page: '', limit: '', "excel_info": {"download_yn": "y"}})
+            .then(({result, data: {download_url}})=>{
+                if(result){
+                    // console.log(download_url);
+                    setExcelDownloadLink(download_url)
+                }
+            })
+
         api('product', 'list', inputs)
             .then(({result, data, list})=>{
                 if(result){
@@ -39,16 +48,16 @@ export default function Product() {
         currentData()
     },[currentData])
 
-    useEffect(()=>{ 
-        api('product', 'list', {"excel_info": {"download_yn": "y"}})
-            .then(({result, data: {download_url}})=>{
-                if(result){
-                    // console.log(download_url);
-                    setExcelDownloadLink(download_url)
-                }
-            })
+    // useEffect(()=>{ 
+    //     api('product', 'list', {"excel_info": {"download_yn": "y"}})
+    //         .then(({result, data: {download_url}})=>{
+    //             if(result){
+    //                 // console.log(download_url);
+    //                 setExcelDownloadLink(download_url)
+    //             }
+    //         })
         
-    },[])
+    // },[])
 
     const onReset = () => {
         setAnalyst()

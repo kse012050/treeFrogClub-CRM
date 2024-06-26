@@ -57,6 +57,14 @@ export default function List() {
 
     const currentData = useCallback(()=>{
         // console.log(inputs);
+        // console.log(currentInputs);
+        api('payment', 'list', {...inputs, page: '', limit: '', 'excel_info': {'download_yn': 'y'}})
+            .then(({result, data: {download_url}})=>{
+                if(result){
+                    setExcelDownloadLink(download_url)
+                }
+            })
+
         if(currentInputs){
             api('payment', 'list', {...inputs, ...currentInputs})
                 .then(({result, data, list})=>{
@@ -95,12 +103,12 @@ export default function List() {
 
 
     useEffect(()=>{
-        api('payment', 'list', {'excel_info': {'download_yn': 'y'}})
-            .then(({result, data: {download_url}})=>{
-                if(result){
-                    setExcelDownloadLink(download_url)
-                }
-            })
+        // api('payment', 'list', {'excel_info': {'download_yn': 'y'}})
+        //     .then(({result, data: {download_url}})=>{
+        //         if(result){
+        //             setExcelDownloadLink(download_url)
+        //         }
+        //     })
 
         
         api('properties', 'properties_list', {'classification_id': '3'})

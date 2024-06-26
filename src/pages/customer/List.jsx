@@ -658,8 +658,8 @@ export default function List() {
                                 <div>
                                     <CounselItem data={data} setPopup={setPopup} disabled={pagePermission?.update_yn !== 'y'}/>
                                 </div>
-                                <time>{ data.experience_ing_yn === 'y' ? data.experience_start_date : ''}</time>
-                                <time>{ data.experience_ing_yn === 'y' ? data.experience_end_date : ''}</time>
+                                <time>{ /* data.experience_ing_yn === 'y' ? */ data.experience_start_date /* : '' */}</time>
+                                <time>{ /* data.experience_ing_yn === 'y' ? */ data.experience_end_date /* : '' */}</time>
                                 <time>{ data.standard_payment_start_date }</time>
                                 <time>{ data.standard_payment_end_date }</time>
                                 <p><span>{ data.source }</span></p>
