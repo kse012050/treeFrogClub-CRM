@@ -699,7 +699,7 @@ function CounselItem({ data, setPopup, disabled }) {
 
     useEffect(()=>{
         if(inputs && prevInputs && !Object.entries(inputs).every(([key, value])=> value === prevInputs[key])){
-            console.log(inputs);
+            // console.log(inputs);
             api('customer', 'counsel_properties_change', inputs)
                 .then(({result})=>{
                     if(result){
