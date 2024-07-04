@@ -690,16 +690,20 @@ function CounselItem({ data, setPopup, disabled }) {
     const [prevInputs, setPrevInputs] = useState()
 
     useEffect(()=>{
+        // console.log(inputs);
+        // console.log(prevInputs);
+        // console.log('--------------------------------------------------------');
         setInputs({'customer_id': data.customer_id, 'counsel_properties_id': data.counsel_properties_id})
         setPrevInputs({'customer_id': data.customer_id, 'counsel_properties_id': data.counsel_properties_id})
     },[data])
 
     useEffect(()=>{
         if(inputs && prevInputs && !Object.entries(inputs).every(([key, value])=> value === prevInputs[key])){
+            console.log(inputs);
             api('customer', 'counsel_properties_change', inputs)
                 .then(({result})=>{
                     if(result){
-                        setPrevInputs({...inputs})
+                        // setPrevInputs({...inputs})
                         setPopup({
                             'type': 'confirm',
                             'title': '상담상태 변경',
@@ -724,18 +728,16 @@ function SalesItem({ data, setPopup, disabled }) {
     const [prevInputs, setPrevInputs] = useState()
 
     useEffect(()=>{
-        // console.log(data);
         setInputs({'customer_id': data.customer_id, 'sales_admin_id': data.sales_admin_id})
         setPrevInputs({'customer_id': data.customer_id, 'sales_admin_id': data.sales_admin_id})
     },[data])
 
     useEffect(()=>{
         if(inputs && prevInputs && !Object.entries(inputs).every(([key, value])=> value === prevInputs[key])){
-            console.log(inputs);
             api('customer', 'sales_admin_change', inputs)
                 .then(({result})=>{
                     if(result){
-                        setPrevInputs({...inputs})
+                        // setPrevInputs({...inputs})
                         setPopup({
                             'type': 'confirm',
                             'title': '담당자 변경',

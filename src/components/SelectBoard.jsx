@@ -22,7 +22,7 @@ function SelectBoard({type, current, setInputs, changeName, disabled}) {
             api('user', 'list', {'all_yn': 'y'})
                 .then(({result, list})=>{
                     if(result){
-                        setValue(list.map(({admin_id})=>admin_id));
+                        setValue(list.filter(({useable_yn})=> useable_yn === 'y').map(({admin_id})=>admin_id));
                         setName(list.filter(({useable_yn})=> useable_yn === 'y').map(({name})=> name));
                         setSelect(list.filter(({admin_id})=> admin_id === current)[0]?.name)
                     }
@@ -60,7 +60,7 @@ function SelectBoard({type, current, setInputs, changeName, disabled}) {
                 setInputs && setInputs((input)=>({...input, [changeName]: value[0]}))
             }
         }
-    },[current, name, value, changeName, setInputs, select, type])
+    },[current, name, value, changeName, setInputs, type])
 
     const selectOpen = (e)=>{
         e.preventDefault();
