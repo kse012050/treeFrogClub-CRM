@@ -1,7 +1,9 @@
 
-const apiUrl = 'http://3.36.55.143/api/web/'
+const apiUrl = `${process.env.REACT_APP_API_URL}/api/web/`
 const serviceKey = "0fc708856322c7fda00a341b26bed1741acf967a7f16ecc8d8f9ebc12e745a39";
 const ip = '12.133.12.145'
+
+// console.log(process.env.REACT_APP_API_URL);
 
 function common(type, data){
     const headers = new Headers();

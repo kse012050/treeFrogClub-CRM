@@ -3,11 +3,12 @@ import Select from '../Select';
 import { api } from '../../api/api';
 import { logExcel } from '../../api/common';
 
-export default function PopupExcelDownload({ close, popup: { total } }) {
+export default function PopupExcelDownload({ close, popup: { total, inputs } }) {
     const [unit, setUnit] = useState('1000');
     const [list, setList] = useState()
     // console.log(total);
     // const total = 1002
+    // console.log(inputs);
 
     useEffect(()=>{
         setList(()=>{
@@ -23,10 +24,13 @@ export default function PopupExcelDownload({ close, popup: { total } }) {
     },[unit, total])
 
     const onExcelDownload = (start, end) => {
+        const params = {...inputs}
+        delete params.limit;
+        delete params.page;
         // console.log('start', start);
         // console.log('end', end);
         // console.log({"download_yn":"y", "excel_start_num": start, "excel_end_num": end});
-        api('customer', 'list', {'excel_info': {"download_yn":"y", "excel_start_num": start, "excel_end_num": end}})
+        api('customer', 'list', {params, 'excel_info': {"download_yn":"y", "excel_start_num": start, "excel_end_num": end}})
             .then(({result, data: { download_url }})=>{
                 if(result){
                     // console.log(download_url);

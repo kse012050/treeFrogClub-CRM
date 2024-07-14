@@ -449,7 +449,8 @@ export default function List() {
                         className='btn-gray-black'
                         onClick={()=>setPopup({
                             'type': 'excelDownload',
-                            'total': pagerInfo.total_count
+                            'total': pagerInfo.total_count,
+                            'inputs': inputs
                         })}
                     >
                         엑셀 다운로드
