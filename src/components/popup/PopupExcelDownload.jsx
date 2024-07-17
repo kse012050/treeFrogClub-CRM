@@ -30,7 +30,8 @@ export default function PopupExcelDownload({ close, popup: { total, inputs } }) 
         // console.log('start', start);
         // console.log('end', end);
         // console.log({"download_yn":"y", "excel_start_num": start, "excel_end_num": end});
-        api('customer', 'list', {params, 'excel_info': {"download_yn":"y", "excel_start_num": start, "excel_end_num": end}})
+        // console.log({...params, 'excel_info': {"download_yn":"y", "excel_start_num": start, "excel_end_num": end}});
+        api('customer', 'list', {...params, 'excel_info': {"download_yn":"y", "excel_start_num": start, "excel_end_num": end}})
             .then(({result, data: { download_url }})=>{
                 if(result){
                     // console.log(download_url);
