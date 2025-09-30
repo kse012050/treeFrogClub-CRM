@@ -1,7 +1,7 @@
 
 const apiUrl = `${process.env.REACT_APP_API_URL}/api/web/`
-const serviceKey = "0fc708856322c7fda00a341b26bed1741acf967a7f16ecc8d8f9ebc12e745a39";
-const ip = '12.133.12.145'
+const serviceKey = `${process.env.REACT_APP_SERVICE_KEY}`;
+const ip = `${process.env.REACT_APP_IP}`
 
 // console.log(process.env.REACT_APP_API_URL);
 

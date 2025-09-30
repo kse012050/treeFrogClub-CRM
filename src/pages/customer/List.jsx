@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -633,8 +633,9 @@ export default function List() {
                     <button onClick={()=>onSort(setBoardList, 'counsel_properties_name')}>상담상태</button>
                     <button onClick={()=>onSort(setBoardList, 'experience_start_date', 'experience_ing_yn')}>무료체험<br/>시작일</button>
                     <button onClick={()=>onSort(setBoardList, 'experience_end_date', 'experience_ing_yn')}>무료체험<br/>종료일</button>
-                    <button onClick={()=>onSort(setBoardList, 'standard_payment_start_date')}>유료<br/>시작일</button>
-                    <button onClick={()=>onSort(setBoardList, 'standard_payment_end_date')}>유료<br/>종료일</button>
+                    {/* <button onClick={()=>onSort(setBoardList, 'standard_payment_start_date')}>유료<br/>시작일</button>
+                    <button onClick={()=>onSort(setBoardList, 'standard_payment_end_date')}>유료<br/>종료일</button> */}
+                    <button onClick={()=>onSort(setBoardList, 'memo')}>메모</button>
                     <button onClick={()=>onSort(setBoardList, 'source')}>출처</button>
                     <span>보기</span>
                 </div>
@@ -646,7 +647,7 @@ export default function List() {
                                 <BoardChk id={data.customer_id} deleteList={deleteList} setDeleteList={setDeleteList}/>
                                 <span>{ data.customer_id }</span>
                                 <span 
-                                    onClick={()=>console.log(inputs)}
+                                    // onClick={()=>console.log(inputs)}
                                     className={(duplicateMobile === 'y' && data.duplicate_count > 1) ? 'point': ''}
                                 >
                                     { data.customer_mobile }
@@ -661,8 +662,12 @@ export default function List() {
                                 </div>
                                 <time>{ /* data.experience_ing_yn === 'y' ? */ data.experience_start_date /* : '' */}</time>
                                 <time>{ /* data.experience_ing_yn === 'y' ? */ data.experience_end_date /* : '' */}</time>
-                                <time>{ data.standard_payment_start_date }</time>
-                                <time>{ data.standard_payment_end_date }</time>
+                                {/* <time>{ data.standard_payment_start_date }</time>
+                                <time>{ data.standard_payment_end_date }</time> */}
+                                {/* <span>{data.memo}</span> */}
+                                <div>
+                                    <ListMemo data={data} />
+                                </div>
                                 <p><span>{ data.source }</span></p>
                                 <Link to={`/customer/registration/update/${data.customer_id}`}>보기</Link>
                             </li>
@@ -691,9 +696,6 @@ function CounselItem({ data, setPopup, disabled }) {
     const [prevInputs, setPrevInputs] = useState()
 
     useEffect(()=>{
-        // console.log(inputs);
-        // console.log(prevInputs);
-        // console.log('--------------------------------------------------------');
         setInputs({'customer_id': data.customer_id, 'counsel_properties_id': data.counsel_properties_id})
         setPrevInputs({'customer_id': data.customer_id, 'counsel_properties_id': data.counsel_properties_id})
     },[data])
@@ -755,4 +757,61 @@ function SalesItem({ data, setPopup, disabled }) {
             <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setInputs} changeName='sales_admin_id' disabled={disabled}/>
         </>
     )
+}
+
+
+const ListMemo = ({ data }) => {
+  // 1) 초기값은 props에서, 제어 컴포넌트
+  const [text, setText] = useState(data?.memo ?? "");
+  const debouncedText = useDebounce(text, 1000);
+
+  // 2) 사용자가 한 글자라도 타이핑했는지 표시
+  const hasTypedRef = useRef(false);
+
+  useEffect(() => {
+    // 사용자가 아직 타이핑 안 했으면 실행 막기 → 첫 렌더/초기 세팅 차단
+    if (!hasTypedRef.current) return;
+
+    const inputs = { ...data, memo: debouncedText };
+
+    if (
+      !inputs?.customer_properties_id ||
+      !inputs?.counsel_properties_id ||
+      !inputs?.sales_admin_id ||
+      !inputs?.customer_name ||
+      inputs?.customer_mobile?.length !== 11
+    ) {
+      return;
+    }
+
+    api("customer", "update", inputs).then(({ result, error_message }) => {
+      if (result) {
+        // 성공 처리
+    } else {
+        // 실패 처리
+      }
+    });
+  }, [debouncedText, data]);
+
+  return (
+    <div className="memoBox">
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => {
+          hasTypedRef.current = true;  // ← 최초 타이핑 시점 표시
+          setText(e.target.value);
+        }}
+      />
+    </div>
+  );
+};
+
+function useDebounce(value, delay = 300) {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(id);
+  }, [value, delay]);
+  return debounced;
 }

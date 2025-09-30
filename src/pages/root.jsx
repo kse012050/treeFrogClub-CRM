@@ -31,16 +31,12 @@ export default function Root({ children }) {
     
     useEffect(() => {
         window.scrollTo(0, 0);
-        // console.log(user);
-        // console.log(pagePermissionFilter(user, location));
         if(user){
-            // console.log(pagePermissionFilter(user, location)?.insert_yn);
             if(user?.type === 'user' && location.includes('system')){
                 navigate('/main')
             }else{
                 pageHistory(location)
                 setPagePermission(pagePermissionFilter(user, location))
-                // setPagePermission(undefined)
                 setMenuPermission(()=>{
                     let obj = {}
                     user.role_list?.forEach((data)=>{
@@ -49,7 +45,6 @@ export default function Root({ children }) {
                             obj['고객등록'] = (data.insert_yn === 'y')
                         }
                     })
-                    // console.log(obj);
                     return user.type !== 'super' ? 
                         obj : 
                         {
@@ -70,10 +65,6 @@ export default function Root({ children }) {
                             '공지사항': true,
                         }
                 })
-                // console.log(pagePermissionFilter(user, location));
-                /* if(pagePermissionFilter(user, location)?.select_yn !== 'y'){
-                    navigate('/main')
-                } */
             }
         }
       }, [location, user, navigate]);
