@@ -120,17 +120,17 @@
 .customerPage.listPage .boardBox [class*="selectBox"]{max-width: 130px;}
 .customerPage.listPage .boardBox [class*="selectBox"]:has(+ .selectBox){margin-right: 7px;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 56;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 101;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 40;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 60;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 56;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 80;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 81;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 131;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 79;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 79;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 79;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 79;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 56;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 50;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 35;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 60;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 40;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 40;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 150;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 95;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 15;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 23;}
 .customerPage.listPage > .boardBox .board-center li > *:not(:last-child){display: flex; align-items: center; height: 100%; border-right: 1px solid var(--color-division);}
 .customerPage.listPage > .boardBox .board-center li > p span{text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;}

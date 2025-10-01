@@ -771,8 +771,16 @@ const ListMemo = ({ data }) => {
   useEffect(() => {
     // 사용자가 아직 타이핑 안 했으면 실행 막기 → 첫 렌더/초기 세팅 차단
     if (!hasTypedRef.current) return;
+    console.log('메모 수정');
 
-    const inputs = { ...data, memo: debouncedText };
+    let inputs;
+    if(debouncedText){
+        inputs = { ...data, memo: debouncedText };
+    } else {
+        inputs = { ...data, memo: '', memo_init: 'y' };
+
+    }
+    
 
     if (
       !inputs?.customer_properties_id ||
