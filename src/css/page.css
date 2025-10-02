@@ -128,8 +128,8 @@
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 60;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 40;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 40;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 150;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 95;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 200;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 40;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 15;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 23;}
 .customerPage.listPage > .boardBox .board-center li > *:not(:last-child){display: flex; align-items: center; height: 100%; border-right: 1px solid var(--color-division);}
