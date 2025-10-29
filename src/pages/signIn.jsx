@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../api/api'
+import { api, isCoinHost } from '../api/api'
 import { isFormet } from '../api/validation'
 import { useNavigate } from 'react-router-dom';
 import Popup from '../components/popup/Popup';
@@ -44,7 +44,7 @@ export default function SignIn() {
         <>
             <div className='signInPage'>
                 <h1>
-                    <img src={require('../images/logo-signIn.png')} alt="개인투자자를 위한 주식정보회사 청개구리 투자클럽" />
+                    <img src={isCoinHost ? require('../images/logo-signIn.png') : require('../images/logo-signIn2.png')} alt="개인투자자를 위한 주식정보회사 청개구리 투자클럽" />
                 </h1>
                 <form>
                     <fieldset>

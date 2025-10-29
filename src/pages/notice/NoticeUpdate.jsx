@@ -7,6 +7,7 @@ import { api } from '../../api/api';
 import { logButton } from '../../api/common';
 import { UserContext } from '../../context/UserContext';
 import BureauNotice from '../../components/BureauNotice';
+import Editor from '../../components/Editor';
 
 export default function NoticeUpdate() {
     const { pagePermission } = useContext(UserContext)
@@ -147,10 +148,16 @@ export default function NoticeUpdate() {
                                     <input type="text" name='write_name' id='write_name' defaultValue={inputs.write_name} disabled/>
                                 </div>
                             </li>
-                            <li className='fill-three'>
+                            {/* <li className='fill-three'>
                                 <label htmlFor="comment" className='required'>내용</label>
                                 <div>
                                     <textarea name="comment" id="comment" defaultValue={inputs.comment} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.update_yn !== 'y'}></textarea>
+                                </div>
+                            </li> */}
+                            <li className='fill-three'>
+                                <label htmlFor="comment" className='required'>내용</label>
+                                <div>
+                                    <Editor data={inputs.comment} setInputs={setInputs}/>
                                 </div>
                             </li>
                         </ul>

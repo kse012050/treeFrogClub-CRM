@@ -310,12 +310,13 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .dropBox form fieldset > ul li > div:has([type="radio"]){display: flex; flex-wrap: wrap; gap: 15px 20px;}
 .dropBox form fieldset:has([type="radio"]):has(.ant-picker) > ul li > div:not(:has([type="radio"])) > div{padding-top: 39px;}
 .dropBox form fieldset > ul li > div:has(.btn-gray-black, [class*="selectBox"]){display: flex; gap: 10px;}
-.dropBox form fieldset > ul li > div > div{width: 100%; display: flex; align-items: center;}
-.dropBox form fieldset > ul li > div > div span{margin-inline: 5px;}
+.dropBox form fieldset > ul li > div:not(:has([class*="ck"])) > div{width: 100%; display: flex; align-items: center;}
+.dropBox form fieldset > ul li > div:not(:has([class*="ck"])) > div span{margin-inline: 5px;}
 .dropBox form fieldset > ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
 .dropBox form fieldset > ul li > div:has(.ant-color-picker-trigger){position: relative;}
 .dropBox form fieldset > ul li > div .ant-color-picker-trigger{position: absolute; left: 7px; top: 50%; translate: 0 -50%; width: auto; background-color: transparent; min-width: auto; height: auto; padding: 0;}
 .dropBox form fieldset > ul li > div .ant-color-picker-trigger .ant-color-picker-color-block{width: 18px; height: 18px;}
+.dropBox form fieldset > ul li > div .ck-content{height: 200px; --ck-content-font-family: 'Pretendard', Arial, sans-serif; --ck-content-font-size: 12px;}
 .dropBox form > div{display: flex; justify-content: flex-end; gap: 10px; margin-top: 60px;}
 .dropBox form > div .btn-point:first-child:not(:only-child){margin-right: auto;}
 

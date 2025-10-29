@@ -1,7 +1,14 @@
+export const isCoinHost = window.location.hostname === 'localhost';
+// export const isCoinHost = window.location.hostname === process.env.REACT_APP_IP;
+
+if (!isCoinHost) {
+    const link = document.querySelector('link[rel="icon"]');
+    link.href = link.href.replace(/\.png$/i, '.ico') /* + '?v=' + Date.now() */;
+}
 
 const apiUrl = `${process.env.REACT_APP_API_URL}/api/web/`
-const serviceKey = `${process.env.REACT_APP_SERVICE_KEY}`;
-const ip = `${process.env.REACT_APP_IP}`
+const serviceKey = `${isCoinHost ? process.env.REACT_APP_SERVICE_KEY : process.env.REACT_APP_SERVICE_KEY_TREE_FROG}`;
+const ip = `${isCoinHost ? process.env.REACT_APP_IP : process.env.REACT_APP_IP_TREE_FROG}`;
 
 // console.log(process.env.REACT_APP_API_URL);
 

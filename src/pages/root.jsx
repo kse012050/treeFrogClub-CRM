@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-
 import { UserContext } from "../context/UserContext.js";
 import Memu from '../components/Memu';
 import {styleIdx} from '../js/style.js';
-import { api, logout } from '../api/api.js';
+import { api, isCoinHost, logout } from '../api/api.js';
 import Popup from '../components/popup/Popup.jsx';
 import { pageHistory } from '../router/routers.js';
 import { pagePermissionFilter } from '../api/common.js';
@@ -92,7 +92,7 @@ export default function Root({ children }) {
                 <header>
                     <h1>
                         <Link to={'/main'}>
-                            <img src={require('../images/logo-header.png')} alt="개인투자자를 위한 주식정보회사 청개구리 투자클럽" />
+                            <img src={isCoinHost ? require('../images/logo-header.png') : require('../images/logo-header2.png')} alt="개인투자자를 위한 주식정보회사 청개구리 투자클럽" />
                         </Link>
                         고객 DB 관리 시스템
                     </h1>
