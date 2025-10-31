@@ -1,5 +1,6 @@
-export const isCoinHost = window.location.hostname === 'localhost';
-// export const isCoinHost = window.location.hostname === process.env.REACT_APP_IP;
+// 로컬에서 작업할 때는 'localhost'로 설정
+// export const isCoinHost = window.location.hostname === 'localhost';
+export const isCoinHost = window.location.hostname === process.env.REACT_APP_IP;
 
 if (!isCoinHost) {
     const link = document.querySelector('link[rel="icon"]');

@@ -156,9 +156,14 @@ export default function NoticeUpdate() {
                             </li> */}
                             <li className='fill-three'>
                                 <label htmlFor="comment" className='required'>내용</label>
-                                <div>
-                                    <Editor data={inputs.comment} setInputs={setInputs}/>
-                                </div>
+                                { pagePermission?.update_yn === 'y' ? 
+                                    <div>
+                                        <Editor data={inputs.comment} setInputs={setInputs}/>
+                                    </div> : 
+                                    <div>
+                                        <div className='editor' dangerouslySetInnerHTML={{__html: inputs.comment?.replace(/&quot;/g, '').replace(/\\/g, '')}} />
+                                    </div>
+                                }
                             </li>
                         </ul>
                     </fieldset>
