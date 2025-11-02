@@ -5,6 +5,7 @@ export const isCoinHost = window.location.hostname === process.env.REACT_APP_IP;
 if (!isCoinHost) {
     const link = document.querySelector('link[rel="icon"]');
     link.href = link.href.replace(/\.png$/i, '.ico') /* + '?v=' + Date.now() */;
+    document.title = "CRM - 청개구리";
 }
 
 const apiUrl = `${process.env.REACT_APP_API_URL}/api/web/`
