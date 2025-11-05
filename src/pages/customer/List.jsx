@@ -223,7 +223,7 @@ export default function List() {
             </h2>
 
             <DropBox title="검색 항목" arrow>
-                <form>
+                <form onSubmit={onSearch}>
                     <fieldset>
                         <ul>
                             <li>

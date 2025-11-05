@@ -63,7 +63,7 @@ export default function Management() {
             <SubTitle text="역할 관리" link={pagePermission?.insert_yn === 'y' ? 'registration' : ''} />
 
             <DropBox title="검색 항목" arrow>
-                <form>
+                <form onSubmit={onSearch}>
                     <fieldset>
                         <ul>
                             <li>

@@ -85,7 +85,7 @@ export default function Product() {
 
             
             <DropBox title="검색 항목" arrow>
-                <form>
+                <form onSubmit={onSearch}>
                     <fieldset>
                         <ul>
                             <li>

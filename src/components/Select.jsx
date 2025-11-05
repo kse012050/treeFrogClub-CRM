@@ -342,7 +342,7 @@ function Select({type, current, setInputs, changeName, placeholder, disabled}) {
 
     return (
         <div className={`selectBox${type ? `-${type}`: ''}`}>
-            <button onClick={selectOpen} disabled={disabled} className={isPlaceholder ? 'gray': ''}>
+            <button onClick={selectOpen} disabled={disabled} className={isPlaceholder ? 'gray': ''} type="button">
                 { isPlaceholder ? placeholder :  (select || '선택') }
             </button>
             {

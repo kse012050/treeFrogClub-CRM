@@ -102,7 +102,7 @@ export default function Delete() {
             <h2>고객삭제이력</h2>
 
             <DropBox title="검색 항목" arrow>
-                <form>
+                <form onSubmit={onSearch}>
                     <fieldset>
                         <ul>
                             <li>
