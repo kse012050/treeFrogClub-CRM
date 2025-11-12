@@ -311,6 +311,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .dropBox form fieldset:has([type="radio"]):has(.ant-picker) > ul li > div:not(:has([type="radio"])) > div{padding-top: 39px;}
 .dropBox form fieldset > ul li > div:has(.btn-gray-black, [class*="selectBox"]){display: flex; gap: 10px;}
 .dropBox form fieldset > ul li > div:not(:has([class*="editor"])) > div{width: 100%; display: flex; align-items: center;}
+.dropBox form fieldset > ul li > div:not(:has([class*="editor"])) > div:has(textarea){gap: 10px;}
 .dropBox form fieldset > ul li > div:not(:has([class*="editor"])) > div span{margin-inline: 5px;}
 .dropBox form fieldset > ul li > div > div .ant-picker-suffix{width: 20px; margin: 0; color: black;}
 .dropBox form fieldset > ul li > div:has(.ant-color-picker-trigger){position: relative;}
@@ -319,6 +320,19 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .dropBox form fieldset > ul li > div .ck-content{height: 200px; --ck-content-font-family: 'Pretendard', Arial, sans-serif; --ck-content-font-size: 12px;}
 .dropBox form > div{display: flex; justify-content: flex-end; gap: 10px; margin-top: 60px;}
 .dropBox form > div .btn-point:first-child:not(:only-child){margin-right: auto;}
+/* 고객 수정 메모 리스트 */
+.dropBox :is(.list-memo-top, .list-memo-center){max-width: calc(100% - 92.48px);}
+.dropBox :is(.list-memo-top, .list-memo-center li){display: flex; gap: 10px; box-sizing: border-box;
+    > *{padding-inline: 10px; padding-block: 10px;
+        &:not(:last-child){border-right: 1px solid var(--color-division);}
+    }
+    > *:nth-child(1){flex: 6;}
+    > *:nth-child(2){flex: 2;}
+    > *:nth-child(3){flex: 1;}
+}
+.dropBox .list-memo-top{background-color: var(--color-face); margin-top: 10px; font-weight: 700;}
+.dropBox .list-memo-center li{border-bottom: 1px solid var(--color-division);}
+
 
 
 /* 가로 2단 배치 */

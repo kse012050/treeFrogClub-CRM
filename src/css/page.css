@@ -122,14 +122,14 @@
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(1){flex: 26;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 40;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 60;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 56;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 40;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 50;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 35;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 60;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 40;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(9){flex: 40;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 200;}
-.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 40;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(10){flex: 100;}
+.customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 60;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 15;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 23;}
 .customerPage.listPage > .boardBox .board-center li > *:not(:last-child){display: flex; align-items: center; height: 100%; border-right: 1px solid var(--color-division);}

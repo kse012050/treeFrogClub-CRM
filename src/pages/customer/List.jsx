@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, /* useRef, */ useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
@@ -666,7 +666,8 @@ export default function List() {
                                 <time>{ data.standard_payment_end_date }</time> */}
                                 {/* <span>{data.memo}</span> */}
                                 <div>
-                                    <ListMemo data={data} />
+                                    {/* <ListMemo data={data} /> */}
+                                    { data.last_memo_info?.split(',').at(-1).split('@')[0] }
                                 </div>
                                 <p><span>{ data.source }</span></p>
                                 <Link to={`/customer/registration/update/${data.customer_id}`}>보기</Link>
@@ -760,66 +761,66 @@ function SalesItem({ data, setPopup, disabled }) {
 }
 
 
-const ListMemo = ({ data }) => {
-  // 1) 초기값은 props에서, 제어 컴포넌트
-  const [text, setText] = useState(data?.memo ?? "");
-  const debouncedText = useDebounce(text, 1000);
+// const ListMemo = ({ data }) => {
+//   // 1) 초기값은 props에서, 제어 컴포넌트
+//   const [text, setText] = useState(data?.memo ?? "");
+//   const debouncedText = useDebounce(text, 1000);
 
-  // 2) 사용자가 한 글자라도 타이핑했는지 표시
-  const hasTypedRef = useRef(false);
+//   // 2) 사용자가 한 글자라도 타이핑했는지 표시
+//   const hasTypedRef = useRef(false);
 
-  useEffect(() => {
-    // 사용자가 아직 타이핑 안 했으면 실행 막기 → 첫 렌더/초기 세팅 차단
-    if (!hasTypedRef.current) return;
-    console.log('메모 수정');
+//   useEffect(() => {
+//     // 사용자가 아직 타이핑 안 했으면 실행 막기 → 첫 렌더/초기 세팅 차단
+//     if (!hasTypedRef.current) return;
+//     console.log('메모 수정');
 
-    let inputs;
-    if(debouncedText){
-        inputs = { ...data, memo: debouncedText };
-    } else {
-        inputs = { ...data, memo: '', memo_init: 'y' };
+//     let inputs;
+//     if(debouncedText){
+//         inputs = { ...data, memo: debouncedText };
+//     } else {
+//         inputs = { ...data, memo: '', memo_init: 'y' };
 
-    }
+//     }
     
 
-    if (
-      !inputs?.customer_properties_id ||
-      !inputs?.counsel_properties_id ||
-      !inputs?.sales_admin_id ||
-      !inputs?.customer_name ||
-      inputs?.customer_mobile?.length !== 11
-    ) {
-      return;
-    }
+//     if (
+//       !inputs?.customer_properties_id ||
+//       !inputs?.counsel_properties_id ||
+//       !inputs?.sales_admin_id ||
+//       !inputs?.customer_name ||
+//       inputs?.customer_mobile?.length !== 11
+//     ) {
+//       return;
+//     }
 
-    api("customer", "update", inputs).then(({ result, error_message }) => {
-      if (result) {
-        // 성공 처리
-    } else {
-        // 실패 처리
-      }
-    });
-  }, [debouncedText, data]);
+//     api("customer", "update", inputs).then(({ result, error_message }) => {
+//       if (result) {
+//         // 성공 처리
+//     } else {
+//         // 실패 처리
+//       }
+//     });
+//   }, [debouncedText, data]);
 
-  return (
-    <div className="memoBox">
-      <input
-        type="text"
-        value={text}
-        onChange={(e) => {
-          hasTypedRef.current = true;  // ← 최초 타이핑 시점 표시
-          setText(e.target.value);
-        }}
-      />
-    </div>
-  );
-};
+//   return (
+//     <div className="memoBox">
+//       <input
+//         type="text"
+//         value={text}
+//         onChange={(e) => {
+//           hasTypedRef.current = true;  // ← 최초 타이핑 시점 표시
+//           setText(e.target.value);
+//         }}
+//       />
+//     </div>
+//   );
+// };
 
-function useDebounce(value, delay = 300) {
-  const [debounced, setDebounced] = useState(value);
-  useEffect(() => {
-    const id = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(id);
-  }, [value, delay]);
-  return debounced;
-}
+// function useDebounce(value, delay = 300) {
+//   const [debounced, setDebounced] = useState(value);
+//   useEffect(() => {
+//     const id = setTimeout(() => setDebounced(value), delay);
+//     return () => clearTimeout(id);
+//   }, [value, delay]);
+//   return debounced;
+// }

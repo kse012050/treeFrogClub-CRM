@@ -71,7 +71,9 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                     if(data.sales_admin_id){
                         setSales(data.sales_admin_name)
                     }
-                    // console.log(data);
+                    delete data.memo
+                    // console.log(test);
+                    
                     setCounselValue(data.counsel_properties_id)
                     setInputs(data)
                 }
@@ -231,9 +233,10 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                             </li>
                             <li className='fill-three'>
                                 <label htmlFor="memo">메모</label>
-                                <div>
+                                {/* <div>
                                     <textarea name="memo" id="memo" defaultValue={inputs?.memo} onChange={(e)=>inputChange(e, setInputs)} disabled={pagePermission?.['통합고객목록']?.update_yn === 'n'}></textarea>
-                                </div>
+                                </div> */}
+                                <BasicMemo id={id} setPopup={setPopup}/>
                             </li>
                         </ul>
                     </fieldset>
@@ -245,6 +248,66 @@ function Basic({ id, setPopup, counselValue, setCounselValue }){
                     </div>
                 </form>
             </DropBox>
+        </>
+    )
+}
+
+function BasicMemo({ id, setPopup }){
+    const [memo, setMemo] = useState();
+    const [list, setList] = useState()
+    
+
+    const fetchList = useCallback(async () => {
+        const { result, list } = await api("customer", "select_memo", { customer_id: id });
+        if (result) setList(list ?? []);
+    }, [id]);  
+
+    useEffect(() => {
+        fetchList()
+    }, [fetchList])
+
+    const onMemoSave = () => {
+        if(!memo){
+            setPopup({'type': 'confirm', 'title': '실패', 'description': '메모 내용을 입력해주세요.'})
+            return;
+        }
+        api('customer', 'insert_memo', {'customer_id': id, memo})
+            .then(({ result, error_message })=>{
+                if(result){
+                    setPopup({'type': 'confirm', 'title': '완료', 'description': error_message})
+                    fetchList()
+                }
+            })
+    }
+
+    return (
+        <>
+            <div>
+                <div>
+                    <textarea name="memo" id="memo" onChange={(e)=>setMemo(e.target.value)}></textarea>
+                    <button className='btn-point' type="button"
+                        onClick={onMemoSave}
+                    >저장</button>
+                </div>
+            </div>
+            { list &&
+                <>
+                    <div className='list-memo-top'>
+                        <b>메모내용</b>
+                        <b>등록날짜</b>
+                        <b>등록 담당자 이름</b>
+                    </div>
+                    <ol className='list-memo-center'>
+                        {list.map((data) => 
+                            <li key={data.memo_id} className='fill-three'>
+                                <span>{data.memo}</span>
+                                <span>{data.reg_date}</span>
+                                <span>{data.reg_admin_name}</span>
+                            </li>
+                        )}
+                    </ol>
+                </>
+            }
         </>
     )
 }

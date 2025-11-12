@@ -2,16 +2,32 @@ import React from 'react';
 
 export default function PagerButton({ pagerInfo, setInputs }) {
 
-    const pager = () =>{
-        let arr = []
-        const base = parseInt(pagerInfo?.current_page / 10) * 10;
+    // const pager = () =>{
+    //     let arr = []
+    //     const base = parseInt(pagerInfo?.current_page / 10) * 10;
+    //     const start = base + 1;
+    //     const end = base + 11 > pagerInfo?.total_page ? pagerInfo?.total_page : base + 10;
+    //     for(let i = start; i <= end; i++) {
+    //         arr.push(i);
+    //     }
+    //     return arr;
+    // }
+
+    const pager = () => {
+        const arr = [];
+        const current = pagerInfo?.current_page ?? 1;
+        const total = pagerInfo?.total_page ?? 1;
+
+        const base = Math.floor((current - 1) / 10) * 10;
         const start = base + 1;
-        const end = base + 11 > pagerInfo?.total_page ? pagerInfo?.total_page : base + 10;
-        for(let i = start; i <= end; i++) {
+        const end = Math.min(base + 10, total);
+
+        for (let i = start; i <= end; i++) {
             arr.push(i);
         }
         return arr;
-    }
+    };
+    
     const prev = pagerInfo?.current_page > 1 ? pagerInfo?.current_page - 1 : 1;
     const next = pagerInfo?.current_page < pagerInfo?.total_page ? pagerInfo?.current_page + 1 : pagerInfo?.total_page;
 
