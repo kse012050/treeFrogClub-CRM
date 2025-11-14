@@ -549,6 +549,20 @@ export default function List() {
              
                 <b className='total'>{ pagerInfo?.total_count }</b>
                 <span className='page'>{ pagerInfo?.current_page }/{ pagerInfo?.total_page }</span>
+                <button
+                    className='btn-gray-black'
+                    disabled={!boardList}
+                    onClick={() => {
+                        navigator.clipboard.writeText(boardList.map((data) => data.customer_mobile).join("\n"));
+                        setPopup({
+                            'type': 'confirm',
+                            'title': '완료',
+                            'description': '복사되었습니다.',
+                        })
+                    }}
+                >
+                    전화번호 일괄 복사
+                </button>
                 <b className='choice'>{ deleteList.length }</b>
 
                 { deleteList?.length !== 0 &&

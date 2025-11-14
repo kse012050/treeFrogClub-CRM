@@ -251,6 +251,7 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox .choice::before{content: '선택 ';}
 .boardBox .choice::after{content: '건';}
 .boardBox .page:has(+ .choice){margin-right: auto;}
+.boardBox .page:has(+ button + .choice) + button{margin-right: auto;}
 .boardBox .board-table{width: 100%; margin-bottom: 30px; border-width: 1px 0; border-style: solid; border-color: var(--color-division);}
 .boardBox .board-table :is(th, b, mark){font-weight: 700;}
 .boardBox .board-table tr{height: 40px;}
