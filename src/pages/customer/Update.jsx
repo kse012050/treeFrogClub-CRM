@@ -290,7 +290,7 @@ function BasicMemo({ id, setPopup }){
                     >저장</button>
                 </div>
             </div>
-            { list &&
+            { list && !!list.length &&
                 <>
                     <div className='list-memo-top'>
                         <b>메모내용</b>

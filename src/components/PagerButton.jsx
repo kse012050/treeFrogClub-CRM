@@ -14,14 +14,16 @@ export default function PagerButton({ pagerInfo, setInputs }) {
     // }
 
     const pager = () => {
-        const arr = [];
-        const current = pagerInfo?.current_page ?? 1;
-        const total = pagerInfo?.total_page ?? 1;
+        if (!pagerInfo) return [];
+
+        const current = pagerInfo.current_page;
+        const total = pagerInfo.total_page;
 
         const base = Math.floor((current - 1) / 10) * 10;
         const start = base + 1;
         const end = Math.min(base + 10, total);
 
+        const arr = [];
         for (let i = start; i <= end; i++) {
             arr.push(i);
         }

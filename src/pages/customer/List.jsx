@@ -667,7 +667,7 @@ export default function List() {
                                 {/* <span>{data.memo}</span> */}
                                 <div>
                                     {/* <ListMemo data={data} /> */}
-                                    { data.last_memo_info?.split(',').at(-1).split('@')[0] }
+                                    { data.last_memo_info?.split('@')[0] }
                                 </div>
                                 <p><span>{ data.source }</span></p>
                                 <Link to={`/customer/registration/update/${data.customer_id}`}>보기</Link>

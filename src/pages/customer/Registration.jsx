@@ -193,12 +193,12 @@ export default function Registration() {
                                     <input type="text" name='source' id='source' onChange={(e)=>inputChange(e, setInputs)}/>
                                 </div>
                             </li>
-                            <li className='fill-three'>
+                            {/* <li className='fill-three'>
                                 <label htmlFor="memo">메모</label>
                                 <div>
                                     <textarea name="memo" id="memo" onChange={(e)=>inputChange(e, setInputs)}></textarea>
                                 </div>
-                            </li>
+                            </li> */}
                         </ul>
                     </fieldset>
                     <div>
