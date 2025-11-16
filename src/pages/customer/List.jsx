@@ -553,7 +553,12 @@ export default function List() {
                     className='btn-gray-black'
                     disabled={!boardList}
                     onClick={() => {
-                        navigator.clipboard.writeText(boardList.map((data) => data.customer_mobile).join("\n"));
+                        const textarea = document.createElement("textarea");
+                        textarea.value = boardList.map((data) => data.customer_mobile).join("\n");
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(textarea);
                         setPopup({
                             'type': 'confirm',
                             'title': '완료',
@@ -681,7 +686,8 @@ export default function List() {
                                 {/* <span>{data.memo}</span> */}
                                 <div>
                                     {/* <ListMemo data={data} /> */}
-                                    { data.last_memo_info?.split('@')[0] }
+                                    {/* { data.last_memo_info } */}
+                                    <ListMemo2 data={data.last_memo_info} id={data.customer_id} setPopup={setPopup}/>
                                 </div>
                                 <p><span>{ data.source }</span></p>
                                 <Link to={`/customer/registration/update/${data.customer_id}`}>보기</Link>
@@ -770,6 +776,63 @@ function SalesItem({ data, setPopup, disabled }) {
     return (
         <>
             <SelectBoard type='sales' current={data?.sales_admin_id} setInputs={setInputs} changeName='sales_admin_id' disabled={disabled}/>
+        </>
+    )
+}
+
+const ListMemo2 = ({ data, id, setPopup }) =>{
+    if(data){
+        console.log(data);
+    }
+    
+    const [memo, setMemo] = useState(data?.split('@')[0])
+    const [curruntMemo, setCurruntMemo] = useState(data?.split('@')[0])
+    const [time, setTime] = useState(data?.split('@')[1])
+    // const fetchList = useCallback(async () => {
+        //     const { result, list } = await api("customer", "select_memo", { customer_id: id });
+        //     if (result) setList(list ?? []);
+        // }, [id]);  
+        
+
+    const onMemoSave = () => {
+        if(!memo){
+            setPopup({'type': 'confirm', 'title': '실패', 'description': '메모 내용을 입력해주세요.'})
+            return;
+        }
+        api('customer', 'insert_memo', {'customer_id': id, memo})
+            .then(({ result, data, error_message })=>{
+                if(result){
+                    setPopup({'type': 'confirm', 'title': '완료', 'description': error_message})
+                    setMemo(data.memo)
+                    setTime(data.reg_date)
+                    setCurruntMemo(data.memo)
+                }
+            })
+    }
+    return (
+        <>
+            <div className="memoBox">
+                <button
+                    onClick={()=>setPopup({
+                        'type': 'memo',
+                        'id': id
+                    })}
+                >{ time }</button>
+                <input
+                    type="text"
+                    value={memo}
+                    onChange={(e) => {
+                        setMemo(e.target.value);
+                    }}
+                />
+                <button
+                    className='btn-gray-black'
+                    disabled={curruntMemo === memo || !memo}
+                    onClick={onMemoSave}
+                >
+                    저장
+                </button>
+            </div>
         </>
     )
 }
