@@ -132,11 +132,11 @@
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(11){flex: 60;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(12){flex: 15;}
 .customerPage.listPage > .boardBox :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(13){flex: 23;}
-.customerPage.listPage > .boardBox .board-center li > *:not(:last-child){display: flex; align-items: center; height: 100%; border-right: 1px solid var(--color-division);}
+.customerPage.listPage > .boardBox .board-center li > *:not(:last-child){display: flex; align-items: center; border-right: 1px solid var(--color-division);}
 .customerPage.listPage > .boardBox .board-center li > p span{text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;}
 
 /* 메모 리스트 팝업 */
-.customerPage.listPage .popupBox .memoArea{max-width: 800px;
+.customerPage.listPage .popupBox .memoArea{max-width: 800px; width: 100%;
     .boardBox{
         > div{
             .board-center{max-height: 500px; overflow: auto;}
@@ -213,7 +213,7 @@
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(2){flex: 80; min-width: 80px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(3){flex: 100; min-width: 100px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(4){flex: 80; min-width: 80px;}
-.paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 80; min-width: 80px;}
+.paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(5){flex: 95; min-width: 95px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(6){flex: 80; min-width: 80px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(7){flex: 80; min-width: 80px;}
 .paymentPage.listPage .boardBox .board-scroll :is(.board-top *, .board-center li > *, .board-bottom *):nth-child(8){flex: 90; min-width: 90px;}

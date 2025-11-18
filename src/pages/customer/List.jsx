@@ -781,11 +781,7 @@ function SalesItem({ data, setPopup, disabled }) {
 }
 
 const ListMemo2 = ({ data, id, setPopup }) =>{
-    if(data){
-        console.log(data);
-    }
-    
-    const [memo, setMemo] = useState(data?.split('@')[0])
+    const [memo, setMemo] = useState('')
     const [curruntMemo, setCurruntMemo] = useState(data?.split('@')[0])
     const [time, setTime] = useState(data?.split('@')[1])
     // const fetchList = useCallback(async () => {
@@ -812,26 +808,30 @@ const ListMemo2 = ({ data, id, setPopup }) =>{
     return (
         <>
             <div className="memoBox">
-                <button
-                    onClick={()=>setPopup({
-                        'type': 'memo',
-                        'id': id
-                    })}
-                >{ time }</button>
-                <input
-                    type="text"
-                    value={memo}
-                    onChange={(e) => {
-                        setMemo(e.target.value);
-                    }}
-                />
-                <button
-                    className='btn-gray-black'
-                    disabled={curruntMemo === memo || !memo}
-                    onClick={onMemoSave}
-                >
-                    저장
-                </button>
+                { time && curruntMemo &&
+                    <button
+                        onClick={()=>setPopup({
+                            'type': 'memo',
+                            'id': id
+                        })}
+                    >{ time } - { curruntMemo }</button>
+                }
+                <div>
+                    <input
+                        type="text"
+                        value={memo}
+                        onChange={(e) => {
+                            setMemo(e.target.value);
+                        }}
+                    />
+                    <button
+                        className='btn-gray-black'
+                        disabled={!memo}
+                        onClick={onMemoSave}
+                    >
+                        저장
+                    </button>
+                </div>
             </div>
         </>
     )
