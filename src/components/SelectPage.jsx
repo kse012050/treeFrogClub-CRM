@@ -31,7 +31,7 @@ export default function SelectPage({ current, setInputs }) {
 
     return (
         <div className={`selectBox-pagerCount`}>
-            <button onClick={selectOpen}>{ select || '선택' }</button>
+            <button onClick={selectOpen} type="button">{ select || '선택' }</button>
             {
                 active && 
                     <div>

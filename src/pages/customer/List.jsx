@@ -483,6 +483,7 @@ export default function List() {
                 >
                     중복고객 삭제
                 </button>
+                <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
                 { (isSearch && !!boardList.length) && 
                     <>
                         <button 
@@ -534,9 +535,9 @@ export default function List() {
                         >
                             검색고객 수신거부
                         </button>
-                        { pagePermission?.bulk_customer_modify === 'y'  && 
-                            <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link>
-                        }
+                        {/* { pagePermission?.bulk_customer_modify === 'y'  &&  */}
+                            {/* <Link to={'modify'} className='btn-gray-black'>대량고객수정</Link> */}
+                        {/* } */}
                     </>
                 }
                 { searchClient && 
@@ -568,6 +569,9 @@ export default function List() {
                 >
                     전화번호 일괄 복사
                 </button>
+                { !!pagerInfo?.total_count &&
+                    <SelectPage current={inputs.limit} setInputs={setInputs}/>
+                }
                 <b className='choice'>{ deleteList.length }</b>
 
                 { deleteList?.length !== 0 &&
@@ -698,7 +702,7 @@ export default function List() {
 
                 { !!pagerInfo?.total_count &&
                     <div className='board-pagination' data-styleidx='a'>
-                        <SelectPage current={inputs.limit} setInputs={setInputs}/>
+                        {/* <SelectPage current={inputs.limit} setInputs={setInputs}/> */}
                         <PagerButton pagerInfo={pagerInfo} setInputs={setInputs}/>
                     </div>
                 }

@@ -69,8 +69,9 @@ input[disabled]{background-color: white; color: inherit;}
 /* .selectBox-year button::after{content: '년';} */
 .selectBox-month{max-width: 70px;}
 /* .selectBox-month button::after{content: '월';} */
-.board-pagination:has(.selectBox-pagerCount){position: relative;}
-[class*="selectBox"].selectBox-pagerCount div{bottom: calc(100% + 3px); top: auto;}
+.board-pagination:has(.selectBox-pagerCount){position: relative;
+    [class*="selectBox"].selectBox-pagerCount div{bottom: calc(100% + 3px); top: auto;}
+}
 .selectBox-pagerCount{max-width: 80px; position: absolute; left: 55px; top: 0;}
 .selectBox-pagerCount::before{content: '노출개수'; position: absolute; left: 0; top: 50%; translate: calc(-100% - 10px) -50%;}
 .selectBox-excelCount{max-width: 130px;}
@@ -205,6 +206,9 @@ li.icon-remove button{width: 16px; aspect-ratio: 1; background: url(../images/ic
 .boardBox [class*="board-scroll"]::-webkit-scrollbar{height: 6px;}
 .boardBox [class*="board-scroll"]::-webkit-scrollbar-thumb{background-color: rgba(99, 99, 99, 0.5);border-radius: 5px;}
 .boardBox :is(.board-top, .board-center, .board-bottom){min-width: 100%;}
+.boardBox > .selectBox-pagerCount{position: relative; margin-left: 7px;
+    + *{margin-left: auto;}
+}
 /* .boardBox div:has(:is(.board-top, .board-center, .board-bottom)){width: 100%;} */
 .boardBox :has(:is(.board-top, .board-center, .board-bottom)){width: 100%;}
 .boardBox :is(.board-top, .board-center li, .board-bottom){min-width: 100%; display: inline-flex; gap: 10px; min-height: 56px; padding: 10px; align-items: stretch; box-sizing: border-box;}
